@@ -1,12 +1,11 @@
 import { NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
-import { RouteHandlerContext } from 'next/dist/server/future/route-handlers/route-handler-context';
 
 const prisma = new PrismaClient();
 
-export async function GET(req: Request, context: RouteHandlerContext<{ season: string }>) {
+export async function GET(req: Request, { params }: { params: { season: string } }) {
   try {
-    const { season } = context.params;
+    const { season } = params;
 
     // Fetch contestants sorted by voteOutOrder (nulls last), then by inPlay and name
     const contestants = await prisma.contestant.findMany({

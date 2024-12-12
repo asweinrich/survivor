@@ -1,0 +1,55 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Player {
+  id           Int          @id @default(autoincrement())
+  email        String       @unique
+  name         String
+  tribeName    String
+  color        String
+  passwordHash String
+  createdAt    DateTime     @default(now())
+  playerPicks  PlayerPick[]
+}
+
+model PlayerPick {
+  id           Int      @id @default(autoincrement())
+  playerId     Int
+  nonMerge     Int[]
+  merge        Int[]
+  top3         Int[]
+  soleSurvivor Int?
+  removed      Int?
+  immunityWins Int[]
+  tribalWins   Int[]
+  hiddenIdols  Int[]
+  rewards      Int[]
+  createdAt    DateTime @default(now())
+  player       Player   @relation(fields: [playerId], references: [id], onDelete: Cascade)
+}
+
+model Contestant {
+  id           Int      @id @default(autoincrement())
+  name         String
+  img          String
+  season       String
+  hometown     String
+  profession   String
+  tribes       String[]
+  inPlay       Boolean  @default(true)
+  madeMerge    Boolean  @default(false)
+  top3         Boolean  @default(false)
+  soleSurvivor Boolean  @default(false)
+  immunityWins Int      @default(0)
+  tribalWins   Int      @default(0)
+  hiddenIdols  Int      @default(0)
+  rewards      Int      @default(0)
+  removed      Boolean  @default(false)
+  voteOutOrder Int?
+}

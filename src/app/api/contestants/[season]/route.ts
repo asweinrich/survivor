@@ -3,9 +3,9 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-export async function GET(req: Request, { params }: { params: { season: string } }) {
+export async function GET(req: Request, { params }: { params: Promise<{ season: string }> }) {
   try {
-    const { season } = params;
+    const { season } = await params;
 
     // Fetch contestants sorted by voteOutOrder (nulls last), then by inPlay and name
     const contestants = await prisma.contestant.findMany({

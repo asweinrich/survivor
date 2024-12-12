@@ -2,9 +2,27 @@
 
 import { useState, useEffect } from 'react';
 
+type Contestant = {
+  id: number;
+  name: string;
+  profession: string;
+  tribes: string[];
+  inPlay: boolean;
+  madeMerge: boolean;
+  top3: boolean;
+  soleSurvivor: boolean;
+  removed: boolean;
+  immunityWins: number;
+  hiddenIdols: number;
+  tribalWins: number;
+  rewards: number;
+  img: string; // This should match the field in your database
+};
+
+
 export default function Contestants() {
   const [season, setSeason] = useState('47'); // Default season
-  const [contestants, setContestants] = useState([]);
+  const [contestants, setContestants] = useState<Contestant[]>([]);
 
   // Fetch contestants when the season changes
   useEffect(() => {

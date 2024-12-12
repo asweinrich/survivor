@@ -3,9 +3,10 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-export async function GET(req: Request, context: { params: { season: string } }) {
+export async function GET(req: Request, { params }: { params: { season: string } }) {
   try {
-    const { season } = await context.params;
+    // No need to await context.params
+    const { season } = params;
 
     // Fetch contestants sorted by voteOutOrder (nulls last), then by inPlay and name
     const contestants = await prisma.contestant.findMany({
@@ -19,7 +20,7 @@ export async function GET(req: Request, context: { params: { season: string } })
 
     return NextResponse.json(contestants);
   } catch (error) {
-    console.error(error);
+    console.error('Error fetching contestants:', error);
     return NextResponse.json({ error: 'Failed to fetch contestants' }, { status: 500 });
   }
 }

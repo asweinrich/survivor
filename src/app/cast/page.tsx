@@ -27,7 +27,7 @@ export default function Contestants() {
   // Fetch contestants when the season changes
   useEffect(() => {
     async function fetchContestants() {
-      const res = await fetch(`/api/contestants/${season}`);
+      const res = await fetch(`/api/cast/${season}`);
       const data = await res.json();
       setContestants(data);
     }
@@ -56,9 +56,9 @@ export default function Contestants() {
         </div>
 
         {/* Contestants Table */}
-        <div className="w-fixed table-auto overflow-x-auto max-h-screen rounded-lg">
+        <div className="w-auto table-auto overflow-x-auto max-h-screen rounded-lg">
           <table className="w-full table-auto border-collapse">
-            <thead className="bg-stone-800 text-stone-300 sticky top-0 z-10 text-nowrap text-sm">
+            <thead className="bg-stone-800 text-stone-300 sticky top-0 z-10 text-nowrap text-xs">
               <tr>
                 <th className="sticky -left-12 bg-stone-800 p-2">Survivor</th>
                 <th className="p-2 text-left">Tribes</th>
@@ -81,15 +81,15 @@ export default function Contestants() {
                     contestant.inPlay ? 'opacity-100' : 'opacity-60'
                   } odd:bg-stone-700 even:bg-stone-800 border-b border-stone-600 text-center`}
                 >
-                  <td className="sticky -left-12 p-2 bg-stone-900">
+                  <td className="sticky -left-12 p-1 bg-stone-900">
                     <div className="flex flex-row align-center text-nowrap">
                       <img
                         src={`/imgs/${contestant.img}.png`}
                         alt={contestant.name}
-                        className="h-10 w-10 object-cover rounded-md border border-stone-700 me-2"
+                        className="h-9 w-9 object-cover rounded-lg border border-stone-700 me-2"
                       />
                       <div className="flex flex-col text-start">
-                        <span className="font-bold text-sm">{contestant.name}</span>
+                        <span className="font-bold text-xs">{contestant.name}</span>
                         <span className="text-xs opacity-70"><em>{contestant.profession}</em></span>
                       </div>
                     </div>

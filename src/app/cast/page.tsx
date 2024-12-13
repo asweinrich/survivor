@@ -37,7 +37,7 @@ export default function Contestants() {
   return (
     <div className="min-h-screen bg-stone-900 text-stone-200 p-0">
       <div className="max-w-6xl mx-auto">
-        <h1 className="text-4xl font-bold mb-6 text-stone-100 p-3">Contestants</h1>
+        <h1 className="text-3xl font-bold mb-6 text-stone-100 p-3">Survivor Contestants</h1>
 
         {/* Season Dropdown */}
         <div className="mb-8 px-4">

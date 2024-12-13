@@ -7,11 +7,13 @@ export async function GET(req: Request, { params }: { params: Promise<{ season: 
   try {
     const { season } = await params;
 
+    console.log(`Fetching contestants for season: ${season}`); // Debug log
+
     // Fetch contestants sorted by voteOutOrder (nulls last), then by inPlay and name
     const contestants = await prisma.contestant.findMany({
       where: { season },
       orderBy: [
-        { voteOutOrder: { sort: 'asc', nulls: 'last' } }, // Vote-out order (nulls last)
+        { voteOutOrder: { sort: 'desc', nulls: 'first' } }, // Vote-out order (nulls last)
         { inPlay: 'desc' },                              // In-play contestants first
         { name: 'asc' },                                 // Alphabetical order by name
       ],

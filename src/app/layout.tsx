@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { HomeIcon } from '@heroicons/react/24/solid';
+import { HomeIcon, UserGroupIcon, TrophyIcon, FireIcon } from '@heroicons/react/24/solid';
 
 
 const geistSans = Geist({
@@ -39,14 +39,16 @@ export default function RootLayout({
 function Navbar() {
   return (
     <nav className="bg-stone-700 text-white p-4">
-      <div className="flex justify-start space-x-4 font-lostIsland uppercase tracking-wider text-lg">
+      <div className="flex justify-start space-x-4 font-lostIsland uppercase tracking-widest text-xs">
         <a href="/" className="hover:underline me-auto">
           <HomeIcon className="h-6 w-6 text-white" />
         </a>
-        <a href="/contestants" className="hover:underline">
-          Contestants
+        <a href="/cast" className="flex flex-col hover:opacity-70">
+          <FireIcon className="h-6 w-6 text-white mx-auto mb-1" />
+          Cast
         </a>
-        <a href="/scores" className="hover:underline">
+        <a href="/scores" className="flex flex-col hover:opacity-70">
+          <TrophyIcon className="h-6 w-6 text-white mx-auto mb-1" />
           Scores
         </a>
       </div>

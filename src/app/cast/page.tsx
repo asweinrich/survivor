@@ -60,7 +60,7 @@ export default function Contestants() {
           <table className="w-full table-auto border-collapse">
             <thead className="bg-stone-800 text-stone-300 sticky top-0 z-10 text-nowrap text-xs">
               <tr>
-                <th className="sticky -left-12 bg-stone-800 p-2">Survivor</th>
+                <th className="sticky left-0 bg-stone-800 p-2 min-w-[12rem]">Survivor</th>
                 <th className="p-2 text-left">Tribes</th>
                 <th className="p-2 text-left">In Play</th>
                 <th className="p-2 text-left">Merge</th>
@@ -73,23 +73,23 @@ export default function Contestants() {
                 <th className="p-2 text-left">Rewards</th>
               </tr>
             </thead>
-            <tbody className="text-sm">
+            <tbody className="text-xs">
               {contestants.map((contestant) => (
                 <tr
                   key={contestant.id}
                   className={`${
                     contestant.inPlay ? 'opacity-100' : 'opacity-60'
-                  } odd:bg-stone-700 even:bg-stone-800 border-b border-stone-600 text-center`}
+                  } odd:bg-stone-700 even:bg-stone-800 text-center`}
                 >
-                  <td className="sticky -left-12 p-1 bg-stone-900">
+                  <td className="sticky left-0 p-1.5 bg-stone-900 min-w-[12rem]">
                     <div className="flex flex-row align-center text-nowrap">
                       <img
                         src={`/imgs/${contestant.img}.png`}
                         alt={contestant.name}
-                        className="h-9 w-9 object-cover rounded-lg border border-stone-700 me-2"
+                        className="h-10 w-10 object-cover rounded-lg border border-stone-700 me-2"
                       />
-                      <div className="flex flex-col text-start">
-                        <span className="font-bold text-xs">{contestant.name}</span>
+                      <div className="flex flex-col text-start pt-1.5">
+                        <span className="font-bold">{contestant.name}</span>
                         <span className="text-xs opacity-70"><em>{contestant.profession}</em></span>
                       </div>
                     </div>

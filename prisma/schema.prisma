@@ -11,7 +11,7 @@ model Player {
   id           Int          @id @default(autoincrement())
   email        String       @unique
   name         String
-  tribeName    String
+  tribeName    String       @unique
   color        String
   passwordHash String
   createdAt    DateTime     @default(now())

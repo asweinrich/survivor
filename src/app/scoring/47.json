@@ -1,0 +1,60 @@
+{
+  "categories": {
+    "Survivor Contestants": {
+      "No Merge": {
+        "picksAllowed": 3,
+        "pointsPerCorrectPick": 50
+      },
+      "Merge": {
+        "picksAllowed": 12,
+        "pointsPerCorrectPick": 50
+      },
+      "Final 3": {
+        "picksAllowed": 3,
+        "pointsPerCorrectPick": 200
+      },
+      "Sole Survivor": {
+        "picksAllowed": 1,
+        "pointsPerCorrectPick": 600
+      },
+      "Injury/Removal": {
+        "picksAllowed": 1,
+        "pointsPerCorrectPick": 100
+      }
+    },
+    "Survivor Superlatives": {
+      "Individual Immunity Challenges": {
+        "picksAllowed": [1, 2, 3],
+        "pointsPerEvent": {
+          "1": 300,
+          "2": 75,
+          "3": 30
+        }
+      },
+      "Hidden Immunity Idols": {
+        "picksAllowed": [1, 2, 3],
+        "pointsPerEvent": {
+          "1": 200,
+          "2": 50,
+          "3": 20
+        }
+      },
+      "Tribal Immunity Challenges": {
+        "picksAllowed": [1, 2, 3],
+        "pointsPerEvent": {
+          "1": 100,
+          "2": 25,
+          "3": 10
+        }
+      },
+      "Rewards": {
+        "picksAllowed": [1, 2, 3],
+        "pointsPerEvent": {
+          "1": 100,
+          "2": 25,
+          "3": 10
+        }
+      }
+    }
+  }
+}

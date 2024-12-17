@@ -3,7 +3,7 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-export async function GET(req: Request, { params }: { params: { season: string } }) {
+export async function GET(req: Request, { params }: { params: Promise<{ season: string }> }) {
   try {
     const { season } = await params;
 

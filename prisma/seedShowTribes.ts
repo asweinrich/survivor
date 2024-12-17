@@ -9,10 +9,10 @@ async function main() {
 
   await prisma.showTribe.createMany({
     data: [
-      { name: 'Gata', season: 47, color: '#77c471' },
-      { name: 'Lavo', season: 47, color: '#77c471' },
+      { name: 'Gata', season: 47, color: '#decb4e' },
+      { name: 'Lavo', season: 47, color: '#d43737' },
       { name: 'Tuku', season: 47, color: '#77c471' },
-      { name: 'Beka', season: 47, color: '#77c471' },
+      { name: 'Beka', season: 47, color: '#962feb' },
     ],
   });
 

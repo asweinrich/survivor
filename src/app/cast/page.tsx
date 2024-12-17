@@ -10,6 +10,7 @@ type Contestant = {
   tribes: number[];
   inPlay: boolean;
   img: string; // This should match the field in your database
+  votedOutOrder: number
 };
 
 type Tribe = {

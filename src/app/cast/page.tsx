@@ -20,7 +20,7 @@ type Tribe = {
 
 
 export default function Contestants() {
-  const [season, setSeason] = useState(47); // Default season
+  const [season, setSeason] = useState('47'); // Default season
   const [contestants, setContestants] = useState<Contestant[]>([]);
   const [tribes, setTribes] = useState<Tribe[]>([]);
 
@@ -108,7 +108,7 @@ export default function Contestants() {
             value={season}
             onChange={(e) => setSeason(e.target.value)}
           >
-            <option value={47}>Season 47</option>
+            <option value={'47'}>Season 47</option>
             {/* Add more seasons as needed */}
           </select>
         </div>

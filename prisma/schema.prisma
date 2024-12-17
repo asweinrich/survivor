@@ -37,7 +37,7 @@ model Contestant {
   tribes       Int[]
   inPlay       Boolean  @default(true)
   episodes     Int      @default(0)
-  advantates   Int      @default(0)
+  advantages   Int      @default(0)
   madeMerge    Boolean  @default(false)
   top3         Boolean  @default(false)
   soleSurvivor Boolean  @default(false)

@@ -42,8 +42,6 @@ async function seedPlayers() {
         data: {
           email: player.email,
           name: player.name,
-          color: '#77c471', // Default color
-          name: player.name, // Using tribe name as default name
           passwordHash: '', // Placeholder value for password hash
         },
       });

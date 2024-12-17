@@ -7,7 +7,7 @@ import { TrophyIcon, FireIcon } from '@heroicons/react/24/solid';
 type Contestant = {
   id: number;
   name: string;
-  tribes: Int[];
+  tribes: number[];
   inPlay: boolean;
   img: string; // This should match the field in your database
 };

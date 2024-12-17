@@ -63,7 +63,7 @@ export default function Contestants() {
     return `${getOrdinalSuffix(votedOutOrder)} person voted out`;
   }
 
-  function formatTribeBadges(tribeIds: number[]): JSX.Element[] {
+  function formatTribeBadges(tribeIds: number[]) {
     return tribeIds.map((id) => {
       const tribe = tribes.find((t) => t.id === id);
       if (!tribe) return null;

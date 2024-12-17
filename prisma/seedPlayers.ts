@@ -3,34 +3,34 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 const players = [
-  { email: 'akkia15@gmail.com', tribeName: 'AssUpInTheWell' },
-  { email: 'fishbourneellie@gmail.com', tribeName: 'NoOneCheered4MyCoconut' },
-  { email: 'vvacknitz@gmail.com', tribeName: 'Toriko' },
-  { email: 'joshbrigance@hotmail.com', tribeName: 'Joshiko' },
-  { email: 'catherinermarshall@gmail.com', tribeName: 'Cathemeral Tribe' },
-  { email: 'slunbeck@gmail.com', tribeName: 'LunBecks' },
-  { email: 'cassandrew25@gmail.com', tribeName: 'Cassaka' },
-  { email: 'haileytannenbaum493@gmail.com', tribeName: 'Hailstorm' },
-  { email: 'lindsey.swiatek@gmail.com', tribeName: 'Ling' },
-  { email: 'jessica.homet@gmail.com', tribeName: 'Jesak\'aa' },
-  { email: 'asweinrich@gmail.com', tribeName: 'Werd Na' },
-  { email: 'jjg999@gmail.com', tribeName: 'Jdogarundi' },
-  { email: 'shelbynb94@gmail.com', tribeName: 'Shebalba' },
-  { email: 'enation114@gmail.com', tribeName: 'Bula' },
-  { email: 'axiedompier@yahoo.com', tribeName: 'Ax-ah' },
-  { email: 'kristimichelleking@gmail.com', tribeName: 'Jeffrey Lee Probst' },
-  { email: 'tjfking@gmail.com', tribeName: 'Paku Paku' },
-  { email: 'nickgraham@gmail.com', tribeName: 'Nikuru Tribe' },
-  { email: 'sigotron@gmail.com', tribeName: 'Joel Probst\'s Chosen' },
-  { email: 'lorenamartinez500@gmail.com', tribeName: 'LaLoreChosen' },
-  { email: 'suegupta425@gmail.com', tribeName: 'Suevivor' },
-  { email: 'claudebullock@gmail.com', tribeName: 'Babu' },
-  { email: 'julialeelewis@gmail.com', tribeName: 'JuJu' },
-  { email: 'joel.swiatek@gmail.com', tribeName: 'Jolagu' },
-  { email: 'charquach@gmail.com', tribeName: 'Lordcharquad' },
-  { email: 'kyle.d.heimbach@gmail.com', tribeName: 'Heimheim' },
-  { email: 'natidibbern@gmail.com', tribeName: 'Natika' },
-  { email: 'juanjo.neri@gmail.com', tribeName: 'Kumachikitopitito' },
+  { email: 'akkia15@gmail.com', name: 'AssUpInTheWell' },
+  { email: 'fishbourneellie@gmail.com', name: 'NoOneCheered4MyCoconut' },
+  { email: 'vvacknitz@gmail.com', name: 'Toriko' },
+  { email: 'joshbrigance@hotmail.com', name: 'Joshiko' },
+  { email: 'catherinermarshall@gmail.com', name: 'Cathemeral Tribe' },
+  { email: 'slunbeck@gmail.com', name: 'LunBecks' },
+  { email: 'cassandrew25@gmail.com', name: 'Cassaka' },
+  { email: 'haileytannenbaum493@gmail.com', name: 'Hailstorm' },
+  { email: 'lindsey.swiatek@gmail.com', name: 'Ling' },
+  { email: 'jessica.homet@gmail.com', name: 'Jesak\'aa' },
+  { email: 'asweinrich@gmail.com', name: 'Werd Na' },
+  { email: 'jjg999@gmail.com', name: 'Jdogarundi' },
+  { email: 'shelbynb94@gmail.com', name: 'Shebalba' },
+  { email: 'enation114@gmail.com', name: 'Bula' },
+  { email: 'axiedompier@yahoo.com', name: 'Ax-ah' },
+  { email: 'kristimichelleking@gmail.com', name: 'Jeffrey Lee Probst' },
+  { email: 'tjfking@gmail.com', name: 'Paku Paku' },
+  { email: 'nickgraham@gmail.com', name: 'Nikuru Tribe' },
+  { email: 'sigotron@gmail.com', name: 'Joel Probst\'s Chosen' },
+  { email: 'lorenamartinez500@gmail.com', name: 'LaLoreChosen' },
+  { email: 'suegupta425@gmail.com', name: 'Suevivor' },
+  { email: 'claudebullock@gmail.com', name: 'Babu' },
+  { email: 'julialeelewis@gmail.com', name: 'JuJu' },
+  { email: 'joel.swiatek@gmail.com', name: 'Jolagu' },
+  { email: 'charquach@gmail.com', name: 'Lordcharquad' },
+  { email: 'kyle.d.heimbach@gmail.com', name: 'Heimheim' },
+  { email: 'natidibbern@gmail.com', name: 'Natika' },
+  { email: 'juanjo.neri@gmail.com', name: 'Kumachikitopitito' },
 ];
 
 async function seedPlayers() {
@@ -41,9 +41,9 @@ async function seedPlayers() {
       await prisma.player.create({
         data: {
           email: player.email,
-          tribeName: player.tribeName,
+          name: player.name,
           color: '#77c471', // Default color
-          name: player.tribeName, // Using tribe name as default name
+          name: player.name, // Using tribe name as default name
           passwordHash: '', // Placeholder value for password hash
         },
       });

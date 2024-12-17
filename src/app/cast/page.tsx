@@ -108,7 +108,7 @@ export default function Contestants() {
             value={season}
             onChange={(e) => setSeason(e.target.value)}
           >
-            <option value="47">Season 47</option>
+            <option value={47}>Season 47</option>
             {/* Add more seasons as needed */}
           </select>
         </div>
@@ -118,8 +118,8 @@ export default function Contestants() {
         <div
           key={contestant.id}
           className="flex flex-row w-full items-center py-3 px-1 border-b border-t border-stone-700"
+          style={{ opacity: contestant.inPlay ? 1 : 0.8 }}
         >
-
           {/* Image */}
           <div className="flex items-center justify-center w-24">
             <img

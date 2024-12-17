@@ -3,9 +3,13 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-export async function GET(req: Request, { params }: { params: { season: number } }) {
+export async function GET(req: Request, { params }: { params: { season: string } }) {
   try {
-    const seasonInt = parseInt(params.season, 10);
+
+    const { season } = await params;
+
+
+    const seasonInt = parseInt(season, 10);
 
     if (isNaN(seasonInt)) {
       return NextResponse.json({ error: 'Invalid season parameter' }, { status: 400 });

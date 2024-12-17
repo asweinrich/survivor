@@ -5,7 +5,7 @@ const prisma = new PrismaClient();
 
 export async function GET(req: Request, { params }: { params: { season: string } }) {
   try {
-    const { season } = params;
+    const { season } = await params;
 
     if (!season) {
       return NextResponse.json({ error: 'Season parameter is required' }, { status: 400 });

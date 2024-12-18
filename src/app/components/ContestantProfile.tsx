@@ -129,7 +129,7 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
         {/* Modal Header */}
         <div className="flex justify-between items-start border-b border-stone-600 px-4">
           <div className="flex flex-col pt-4">
-            <h2 className="text-xl tracking-wider uppercase mb-0.5">{contestant?.name || 'Loading...'}</h2>
+            <h2 className="text-xl tracking-wider uppercase">{contestant?.name || 'Loading...'}</h2>
             <p className="text-sm tracking-wider opacity-70 lowercase leading-tight">
               {contestant.profession}
             </p>
@@ -164,6 +164,8 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
           
           
         </div>
+
+       
 
         <div className="flex justify-around items-center border-b border-stone-600 p-3">
           <div className="flex flex-col mx-6 text-center">

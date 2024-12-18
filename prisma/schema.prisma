@@ -8,52 +8,52 @@ datasource db {
 }
 
 model Player {
-  id           Int          @id @default(autoincrement())
-  email        String       @unique
+  id           Int      @id @default(autoincrement())
+  email        String   @unique
   name         String
   passwordHash String
-  createdAt    DateTime     @default(now())
+  createdAt    DateTime @default(now())
   playerTribes Int[]
 }
 
 model PlayerTribe {
-  id           Int      @id @default(autoincrement())
-  playerId     Int
-  tribeName    String
-  tribe        Int[]
-  color        String
-  emoji        String
-  createdAt    DateTime @default(now())
-  season       Int   
+  id        Int      @id @default(autoincrement())
+  playerId  Int
+  tribeName String
+  tribe     Int[]
+  color     String
+  emoji     String
+  createdAt DateTime @default(now())
+  season    Int
 }
 
 model Contestant {
   id           Int      @id @default(autoincrement())
   name         String
   img          String
-  season       Int
   hometown     String
   profession   String
-  tribes       Int[]
   inPlay       Boolean  @default(true)
-  episodes     Int      @default(0)
-  advantages   Int      @default(0)
-  madeMerge    Boolean  @default(false)
-  top3         Boolean  @default(false)
-  soleSurvivor Boolean  @default(false)
+  madeMerge    Boolean? @default(false)
+  top3         Boolean? @default(false)
+  soleSurvivor Boolean? @default(false)
   immunityWins Int      @default(0)
   tribalWins   Int      @default(0)
   hiddenIdols  Int      @default(0)
   rewards      Int      @default(0)
-  madeFire     Boolean  @default(false)
   voteOutOrder Int?
-  createdAt    DateTime     @default(now())
+  createdAt    DateTime @default(now())
+  episodes     Int      @default(0)
+  madeFire     Boolean? @default(false)
+  tribes       Int[]
+  season       Int
+  advantages   Int      @default(0)
 }
 
 model ShowTribe {
-  id           Int      @id @default(autoincrement())
-  name         String
-  season       Int
-  color        String
-  created_at   DateTime @default(now())
+  id         Int      @id @default(autoincrement())
+  name       String
+  season     Int
+  color      String
+  created_at DateTime @default(now())
 }

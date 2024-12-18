@@ -31,12 +31,33 @@ type Tribe = {
   color: string;
 };
 
+type ScoringCategory = {
+  name: string;
+  points: number;
+  schemaKey: string;
+};
+
+const scoringCategories: ScoringCategory[] = [
+  { name: "Sole Survivor", points: 500, schemaKey: "soleSurvivor" },
+  { name: "Final Three", points: 150, schemaKey: "top3" },
+  { name: "Win Fire Making", points: 80, schemaKey: "madeFire" },
+  { name: "Make the Merge", points: 100, schemaKey: "madeMerge" },
+  { name: "Individual Immunities", points: 80, schemaKey: "immunityWins" },
+  { name: "Reward Challenges", points: 50, schemaKey: "rewards" },
+  { name: "Hidden Immunity Idols", points: 70, schemaKey: "hiddenIdols" },
+  { name: "Survive Tribal Council", points: 40, schemaKey: "tribalWins" },
+  { name: "Survive an Episode", points: 30, schemaKey: "episodes" },
+  { name: "Advantages", points: 20, schemaKey: "advantages" },
+];
+
 
 export default function ContestantProfile({ contestantId }: { contestantId: number | null }) {
   
   const [contestant, setContestant] = useState<Contestant | null>(null);
   const [tribes, setTribes] = useState<Tribe[]>([]);
   const [loading, setLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState("overview");
+
 
 
 
@@ -120,6 +141,36 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
     return `${getOrdinalSuffix(votedOutOrder)} person voted out`;
   }
 
+  function calculateTotalScore(): number {
+    if (!contestant) return 0;
+
+    return scoringCategories.reduce((total, category) => {
+      const value = contestant[category.schemaKey as keyof Contestant];
+
+      // Handle boolean values
+      if (typeof value === "boolean") {
+        return total + (value ? category.points : 0);
+      }
+
+      // Handle numeric values
+      if (typeof value === "number") {
+        return total + value * category.points;
+      }
+
+      return total; // Default case
+    }, 0);
+  }
+
+  function renderBooleanBadge(value: boolean | null) {
+    if (value === true) {
+      return <span className="inline-block uppercase px-2 py-1 w-10 text-center text-sm text-green-400 bg-green-900 rounded-lg">Yes</span>;
+    }
+    if (value === false) {
+      return <span className="inline-block uppercase px-2 py-1 w-10 text-center text-sm text-red-400 bg-red-900 rounded-lg">No</span>;
+    }
+    return <span className="inline-block uppercase px-2 py-1 w-10 text-center text-sm text-gray-400 bg-gray-800 rounded-lg">??</span>;
+  }
+
 
 
   return (
@@ -169,7 +220,7 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
 
         <div className="flex justify-around items-center border-b border-stone-600 p-3">
           <div className="flex flex-col mx-6 text-center">
-            <span className="text-xl tracking-wider">155</span>
+            <span className="text-xl tracking-wider">{calculateTotalScore()}</span>
             <span className="lowercase opacity-70 text-sm">score</span>
           </div>
           <div className="flex flex-col mx-6 text-center">
@@ -187,18 +238,57 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
 
         {/* Modal Content */}
         
-        <div className="flex">
+        
           
-          <p className="mt-4 text-sm">
-            <strong>Profession:</strong> {contestant.profession}
-          </p>
-          <p className="text-sm">
-            <strong>Hometown:</strong> {contestant.hometown}
-          </p>
-          <p className="text-sm">
-            <strong>Season:</strong> {contestant.season}
-          </p>
+        {/* Menu Row */}
+        <div className="flex justify-around items-center border-b border-stone-600 p-0 lowercase">
+          <button
+            onClick={() => setActiveTab("overview")}
+            className={`text-xl tracking-wider py-2 w-full ${
+              activeTab === "overview" ? "text-orange-400 border-b-4 border-orange-400" : "text-stone-300 border-b-4 border-stone-800"
+            }`}
+          >
+            Overview
+          </button>
+          <button
+            onClick={() => setActiveTab("stats")}
+            className={`text-xl tracking-wider py-2 w-full ${
+              activeTab === "stats" ? "text-orange-400 border-b-4 border-orange-400" : "text-stone-300 border-b-4 border-stone-800"
+            }`}
+          >
+            Stats
+          </button>
         </div>
+        
+        {/* Content */}
+        <div className="px-0 py-4">
+          {activeTab === "overview" && <div>Overview Content Goes Here</div>}
+          {activeTab === "stats" && (
+            <div>
+              {scoringCategories.map((category) => (
+
+                <div key={category.schemaKey} className="flex justify-between items-center p-3 border-b border-stone-600">
+                  <span className="text-stone-300 me-auto">{category.name}</span>
+                  <span className="text-center w-12">
+                    {contestant[category.schemaKey as keyof Contestant] === null ? (
+                      renderBooleanBadge(null) // Handle null explicitly
+                    ) : typeof contestant[category.schemaKey as keyof Contestant] === "boolean" ? (
+                      renderBooleanBadge(contestant[category.schemaKey as keyof Contestant] as boolean)
+                    ) : (
+                      <span>
+                        {contestant[category.schemaKey as keyof Contestant] || 0}
+                      </span>
+                    )}
+                  </span>
+                  <span className="text-orange-400 text-lg w-16 text-end">
+                    {((contestant[category.schemaKey as keyof Contestant] || 0) as number) * category.points}
+                  </span>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
       </div>
       ) : (
         <p className="mt-4 text-center text-stone-400">Loading...</p>

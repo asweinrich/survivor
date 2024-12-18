@@ -185,7 +185,7 @@ export default function Contestants() {
             onClick={closeModal}
           >
             <div
-              className="w-full max-w-3xl h-[92%] bg-stone-800 rounded-t-xl shadow-lg animate-slide-up relative font-lostIsland"
+              className="w-full max-w-3xl h-[92%] overflow-y-scroll bg-stone-800 rounded-t-xl shadow-lg animate-slide-up relative font-lostIsland"
               onClick={(e) => e.stopPropagation()} // Prevent modal close on click inside
             >
               <button

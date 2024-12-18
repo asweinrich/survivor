@@ -1,0 +1,76 @@
+{
+  "scoringCategories": [
+    {
+      "name": "Sole Survivor Bonus",
+      "description": "Winning the game is the ultimate goal. The 'Sole Survivor' is the most vital category.",
+      "points": 500,
+      "schemaKey": "soleSurvivor"
+    },
+    {
+      "name": "Final Three Bonus",
+      "description": "Reaching the Final Three shows strategic success, endurance, and jury management.",
+      "points": 150,
+      "schemaKey": "top3"
+    },
+    {
+      "name": "Make the Merge",
+      "description": "Making the merge is a critical milestone; it demonstrates social and tribal gameplay up to that point.",
+      "points": 100,
+      "schemaKey": "madeMerge"
+    },
+    {
+      "name": "Successful Fire Making",
+      "description": "The fire-making challenge directly determines the Final Three contestants in modern Survivor.",
+      "points": 80,
+      "schemaKey": "madeFire"
+    },
+    {
+      "name": "Individual Immunity",
+      "description": "Winning individual immunity shows physical prowess and helps players avoid elimination in key moments.",
+      "points": 80,
+      "schemaKey": "immunityWins"
+    },
+    {
+      "name": "Reward Challenge",
+      "description": "Reward wins provide resources, morale boosts, and bonding opportunities, though not directly related to survival.",
+      "points": 50,
+      "schemaKey": "rewards"
+    },
+    {
+      "name": "Hidden Immunity Idol",
+      "description": "Playing a hidden immunity idol successfully can change the course of the game, offering massive strategic value.",
+      "points": 70,
+      "schemaKey": "hiddenIdols"
+    },
+    {
+      "name": "Survive Tribal Council",
+      "description": "Avoiding elimination at tribal councils is fundamental. Surviving one tribal contributes to long-term success.",
+      "points": 40,
+      "schemaKey": "tribalWins"
+    },
+    {
+      "name": "Survive an Episode",
+      "description": "Progressing through episodes gradually earns points, though it’s less impactful than major game milestones.",
+      "points": 30,
+      "schemaKey": "episodes"
+    },
+    {
+      "name": "Tribal Immunity",
+      "description": "Tribal immunity prevents a player’s tribe from facing elimination. It’s critical pre-merge but less impactful after.",
+      "points": 30,
+      "schemaKey": "tribalWins"
+    },
+    {
+      "name": "Advantage",
+      "description": "Finding or using an advantage can help, but it doesn't always guarantee safety or success.",
+      "points": 20,
+      "schemaKey": "advantages"
+    },
+    {
+      "name": "Removal Penalty",
+      "description": "Being voted out pre-merge or at any stage signifies a failure to progress. Penalties discourage poor performance.",
+      "points": -100,
+      "schemaKey": "removedPenalty"
+    }
+  ]
+}

@@ -163,12 +163,12 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
 
   function renderBooleanBadge(value: boolean | null) {
     if (value === true) {
-      return <span className="inline-block uppercase px-2 py-1 w-10 text-center text-sm text-green-400 bg-green-900 rounded-lg">Yes</span>;
+      return <span className="inline-block uppercase px-2 py-1 w-10 text-center text-sm text-green-400 bg-green-900 rounded-lg tracking-widest">Yes</span>;
     }
     if (value === false) {
-      return <span className="inline-block uppercase px-2 py-1 w-10 text-center text-sm text-red-400 bg-red-900 rounded-lg">No</span>;
+      return <span className="inline-block uppercase px-2 py-1 w-10 text-center text-sm text-red-400 bg-red-900 rounded-lg tracking-widest">No</span>;
     }
-    return <span className="inline-block uppercase px-2 py-1 w-10 text-center text-sm text-gray-400 bg-gray-800 rounded-lg">??</span>;
+    return <span className="inline-block uppercase px-2 py-1 w-10 text-center text-sm text-gray-400 bg-gray-700 rounded-lg tracking-widest">??</span>;
   }
 
 
@@ -271,18 +271,15 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
                   <span className="text-stone-300 me-auto">{category.name}</span>
                   <span className="text-center w-12">
                     {contestant[category.schemaKey as keyof Contestant] === null ? (
-                      renderBooleanBadge(null) // Handle null explicitly
+                      renderBooleanBadge(null) // Null explicitly renders as --
                     ) : typeof contestant[category.schemaKey as keyof Contestant] === "boolean" ? (
                       renderBooleanBadge(contestant[category.schemaKey as keyof Contestant] as boolean)
                     ) : (
                       <span>
-                        {Array.isArray(contestant[category.schemaKey as keyof Contestant])
-                          ? (contestant[category.schemaKey as keyof Contestant] as number[]).join(', ') // Handle arrays
-                          : contestant[category.schemaKey as keyof Contestant] instanceof Date
-                          ? (contestant[category.schemaKey as keyof Contestant] as Date).toLocaleDateString() // Handle Date
-                          : contestant[category.schemaKey as keyof Contestant] || 0} {/* Default for numbers */}
+                        {String(contestant[category.schemaKey as keyof Contestant] || 0)}
                       </span>
                     )}
+
                   </span>
                   <span className="text-orange-400 text-lg w-16 text-end">
                     {((contestant[category.schemaKey as keyof Contestant] || 0) as number) * category.points}

@@ -139,7 +139,7 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
             <p className="text-sm -ms-0.5 my-1">
               {formatTribeBadges(contestant.tribes)}
             </p>
-            <div className="flex pb-1">
+            <div className="flex pb-1 text-sm">
             {contestant.inPlay ? (<>
               <FireIcon className="h-5 w-5 text-orange-400 me-0.5" />
               <div className="text-stone-300 lowercase font-lostIsland tracking-wider">In Play</div>

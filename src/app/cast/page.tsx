@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { TrophyIcon, FireIcon } from '@heroicons/react/24/solid';
+import ContestantProfile from '../components/ContestantProfile';
 
 
 type Contestant = {
@@ -24,6 +25,8 @@ export default function Contestants() {
   const [season, setSeason] = useState('47'); // Default season
   const [contestants, setContestants] = useState<Contestant[]>([]);
   const [tribes, setTribes] = useState<Tribe[]>([]);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [focusContestant, setFocusContestant] = useState(0);
 
   // Fetch contestants when the season changes
   useEffect(() => {
@@ -95,6 +98,18 @@ export default function Contestants() {
     return `rgba(${r}, ${g}, ${b}, ${alpha})`;
   }
 
+  // Function to close the modal
+  const closeModal = () => {
+    setModalVisible(false);
+    setFocusContestant(0);
+  };
+
+  // Function to close the modal
+  const activateModal = (id: number) => {
+    setFocusContestant(id);
+    setModalVisible(true);
+  };
+
 
   return (
     <div className="min-h-screen bg-stone-900 text-stone-200 p-0">
@@ -120,6 +135,7 @@ export default function Contestants() {
           key={contestant.id}
           className="flex flex-row w-full items-center py-3 px-1 border-b border-t border-stone-700"
           style={{ opacity: contestant.inPlay ? 1 : 0.8 }}
+          onClick={() => activateModal(contestant.id)}
         >
           {/* Image */}
           <div className="flex items-center justify-center w-24">
@@ -140,10 +156,10 @@ export default function Contestants() {
             </div>
             <div className="flex items-center">
               {contestant.inPlay ? (<>
-                <FireIcon className="h-5 w-5 text-orange-400 me-0.5 mb-0.5" />
+                <FireIcon className="h-5 w-5 text-orange-400 me-0.5" />
                 <div className="text-stone-300 lowercase font-lostIsland tracking-wider">In Play</div>
               </>) : (<>
-                <FireIcon className="h-5 w-5 text-white opacity-60 me-0.5 mb-0.5" />
+                <FireIcon className="h-5 w-5 text-white opacity-60 me-0.5" />
                 <div className="text-stone-400 lowercase font-lostIsland tracking-wider">
                   {formatVotedOutOrder(contestant.voteOutOrder)}
                 </div>
@@ -158,19 +174,31 @@ export default function Contestants() {
             <span className="text-4xl font-lostIsland tracking-widest">1134</span>
           </div>
         </div>
-
-
-
-
-
-
-
-
-
-
-      
         ))}
-            
+
+
+
+        {/* Modal */}
+        {modalVisible && (
+          <div
+            className="fixed inset-0 z-50 flex items-end justify-center bg-black bg-opacity-50"
+            onClick={closeModal}
+          >
+            <div
+              className="w-full max-w-3xl h-5/6 bg-stone-800 rounded-t-xl shadow-lg animate-slide-up relative font-lostIsland"
+              onClick={(e) => e.stopPropagation()} // Prevent modal close on click inside
+            >
+              <button
+                className="text-stone-400 hover:text-stone-200 absolute top-3 right-4"
+                onClick={closeModal}
+              >
+                ✕
+              </button>
+              <ContestantProfile contestantId={focusContestant} />  
+            </div>
+          </div>
+        )}
+
       </div>
     </div>
   );

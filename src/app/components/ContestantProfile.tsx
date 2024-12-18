@@ -129,17 +129,17 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
         {/* Modal Header */}
         <div className="flex justify-between items-start border-b border-stone-600 px-4">
           <div className="flex flex-col pt-4">
-            <h2 className="text-xl tracking-wider uppercase">{contestant?.name || 'Loading...'}</h2>
+            <h2 className="text-xl tracking-wider uppercase mb-0.5">{contestant?.name || 'Loading...'}</h2>
             <p className="text-sm tracking-wider opacity-70 lowercase leading-tight">
               {contestant.profession}
             </p>
             <p className="text-sm tracking-wider opacity-70 lowercase leading-tight">
               {contestant.hometown}
             </p>
-            <p className="text-sm -ms-0.5 my-1">
+            <p className="text-sm -ms-0.5 my-1.5">
               {formatTribeBadges(contestant.tribes)}
             </p>
-            <div className="flex pb-1 text-sm">
+            <div className="flex pb-1.5 text-sm">
             {contestant.inPlay ? (<>
               <FireIcon className="h-5 w-5 text-orange-400 me-0.5" />
               <div className="text-stone-300 lowercase font-lostIsland tracking-wider">In Play</div>

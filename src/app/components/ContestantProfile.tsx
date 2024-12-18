@@ -262,7 +262,7 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
         </div>
         
         {/* Content */}
-        <div className="h-full px-0 py-4 overflow-y-scroll">
+        <div className="h-full px-0 py-4">
           {activeTab === "overview" && <div>Overview Content Goes Here</div>}
           {activeTab === "stats" && (
             <div>

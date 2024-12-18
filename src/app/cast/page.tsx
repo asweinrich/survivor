@@ -77,6 +77,19 @@ export default function Contestants() {
     fetchPoints();
   }, [contestants]);
 
+  useEffect(() => {
+    if (modalVisible) {
+      document.body.style.overflow = 'hidden'; // Disable scrolling
+    } else {
+      document.body.style.overflow = 'auto'; // Enable scrolling
+    }
+
+    // Cleanup on unmount
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, [modalVisible]);
+
 
   function getOrdinalSuffix(number: number): string {
     if (number >= 11 && number <= 13) return `${number}th`; // Special case for 11th, 12th, 13th
@@ -215,7 +228,7 @@ export default function Contestants() {
             onClick={closeModal}
           >
             <div
-              className="w-full max-w-3xl h-[92%] bg-stone-800 rounded-t-xl shadow-lg animate-slide-up relative font-lostIsland"
+              className="w-full max-w-3xl h-[92%] overflow-y-scroll bg-stone-800 rounded-t-xl shadow-lg animate-slide-up relative font-lostIsland"
               onClick={(e) => e.stopPropagation()} // Prevent modal close on click inside
             >
               <button

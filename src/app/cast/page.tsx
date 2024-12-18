@@ -75,7 +75,7 @@ export default function Contestants() {
       return (
         <span
           key={id}
-          className="inline-block px-3 py-0.5 text-sm tracking-wider rounded-full text-white me-1 uppercase font-lostIsland"
+          className="inline-block px-2 py-0.5 tracking-wider rounded-full text-white me-1 lowercase font-lostIsland"
           style={{
             backgroundColor: hexToRgba(tribe.color, 0.3), // Transparent background
             color: tribe.color, // Solid text color

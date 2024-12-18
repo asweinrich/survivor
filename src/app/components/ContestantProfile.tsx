@@ -58,10 +58,10 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
       {contestant ? (
       <div className="flex flex-col">
         {/* Modal Header */}
-        <div className="flex justify-between items-center border-b border-stone-600 px-5">
-          <div className="flex flex-col">
-            <h2 className="text-2xl tracking-wider">{contestant?.name || 'Loading...'}</h2>
-            <p className="text-xs tracking-wider opacity-70 ">
+        <div className="flex justify-between items-start border-b border-stone-600 px-4">
+          <div className="flex flex-col pt-4">
+            <h2 className="text-2xl tracking-wider uppercase">{contestant?.name || 'Loading...'}</h2>
+            <p className="text-xs tracking-wider opacity-70 lowercase">
               {contestant.profession} &bull; {contestant.hometown}
             </p>
             <p className="text-sm">
@@ -74,6 +74,24 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
               alt={contestant.name}
               className="w-36 mx-auto"
             />
+          </div>
+
+          
+          
+        </div>
+
+        <div className="flex justify-around items-center border-b border-stone-600 p-3">
+          <div className="flex flex-col mx-6 text-center">
+            <span className="text-xl tracking-wider">155</span>
+            <span className="lowercase opacity-70 text-sm">score</span>
+          </div>
+          <div className="flex flex-col mx-6 text-center">
+            <span className="text-xl tracking-wider">1</span>
+            <span className="lowercase opacity-70 text-sm">rank</span>
+          </div>
+          <div className="flex flex-col mx-6 text-center">
+            <span className="text-xl tracking-wider">68%</span>
+            <span className="lowercase opacity-70 text-sm">rostered</span>
           </div>
 
           

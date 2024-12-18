@@ -60,9 +60,12 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
         {/* Modal Header */}
         <div className="flex justify-between items-start border-b border-stone-600 px-4">
           <div className="flex flex-col pt-4">
-            <h2 className="text-2xl tracking-wider uppercase">{contestant?.name || 'Loading...'}</h2>
-            <p className="text-xs tracking-wider opacity-70 lowercase">
-              {contestant.profession} &bull; {contestant.hometown}
+            <h2 className="text-xl tracking-wider uppercase">{contestant?.name || 'Loading...'}</h2>
+            <p className="text-xs tracking-wider opacity-70 lowercase leading-tight pt-1">
+              {contestant.profession}
+            </p>
+            <p className="text-xs tracking-wider opacity-70 lowercase leading-tight pb-1">
+              {contestant.hometown}
             </p>
             <p className="text-sm">
               

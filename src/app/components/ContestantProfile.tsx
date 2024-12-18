@@ -21,7 +21,7 @@ type Contestant = {
   hiddenIdols: number;
   rewards: number;
   madeFire: boolean;
-  voteOutOrder?: number | null; // Optional field as it can be null
+  voteOutOrder: number; // Optional field as it can be null
   createdAt: Date; // Matches DateTime in Prisma
 };
 

@@ -1,5 +1,4 @@
-{
-  "scoringCategories": [
+[
     {
       "name": "Sole Survivor Bonus",
       "description": "Winning the game is the ultimate goal. The 'Sole Survivor' is the most vital category.",
@@ -46,7 +45,7 @@
       "name": "Survive Tribal Council",
       "description": "Avoiding elimination at tribal councils is fundamental. Surviving one tribal contributes to long-term success.",
       "points": 40,
-      "schemaKey": "tribalWins"
+      "schemaKey": "tribals"
     },
     {
       "name": "Survive an Episode",
@@ -72,5 +71,4 @@
       "points": -100,
       "schemaKey": "removedPenalty"
     }
-  ]
-}
+]

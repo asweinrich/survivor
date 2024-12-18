@@ -45,7 +45,8 @@ const scoringCategories: ScoringCategory[] = [
   { name: "Individual Immunities", points: 80, schemaKey: "immunityWins" },
   { name: "Reward Challenges", points: 50, schemaKey: "rewards" },
   { name: "Hidden Immunity Idols", points: 70, schemaKey: "hiddenIdols" },
-  { name: "Survive Tribal Council", points: 40, schemaKey: "tribalWins" },
+  { name: "Tribal Immunity Challenges", points: 30, schemaKey: "tribalWins" },
+  { name: "Survive Tribal Council", points: 40, schemaKey: "tribals" },
   { name: "Survive an Episode", points: 30, schemaKey: "episodes" },
   { name: "Advantages", points: 20, schemaKey: "advantages" },
 ];
@@ -221,11 +222,11 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
         <div className="flex justify-around items-center border-b border-stone-600 p-3">
           <div className="flex flex-col mx-6 text-center">
             <span className="text-xl tracking-wider">{calculateTotalScore()}</span>
-            <span className="lowercase opacity-70 text-sm">score</span>
+            <span className="lowercase opacity-70 text-sm">points</span>
           </div>
           <div className="flex flex-col mx-6 text-center">
             <span className="text-xl tracking-wider">1</span>
-            <span className="lowercase opacity-70 text-sm">rank</span>
+            <span className="lowercase opacity-70 text-sm">power rank</span>
           </div>
           <div className="flex flex-col mx-6 text-center">
             <span className="text-xl tracking-wider">68%</span>
@@ -261,15 +262,15 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
         </div>
         
         {/* Content */}
-        <div className="px-0 py-4">
+        <div className="h-full px-0 py-4 overflow-y-scroll">
           {activeTab === "overview" && <div>Overview Content Goes Here</div>}
           {activeTab === "stats" && (
             <div>
               {scoringCategories.map((category) => (
 
                 <div key={category.schemaKey} className="flex justify-between items-center p-3 border-b border-stone-600">
-                  <span className="text-stone-300 me-auto">{category.name}</span>
-                  <span className="text-center w-12">
+                  <span className="text-stone-300 me-auto text-lg">{category.name}</span>
+                  <span className="text-center w-12 text-lg">
                     {contestant[category.schemaKey as keyof Contestant] === null ? (
                       renderBooleanBadge(null) // Null explicitly renders as --
                     ) : typeof contestant[category.schemaKey as keyof Contestant] === "boolean" ? (
@@ -281,7 +282,7 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
                     )}
 
                   </span>
-                  <span className="text-orange-400 text-lg w-16 text-end">
+                  <span className="text-orange-400 text-xl w-16 text-end">
                     {((contestant[category.schemaKey as keyof Contestant] || 0) as number) * category.points}
                   </span>
                 </div>

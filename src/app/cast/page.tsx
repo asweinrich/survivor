@@ -25,6 +25,7 @@ export default function Contestants() {
   const [season, setSeason] = useState('47'); // Default season
   const [contestants, setContestants] = useState<Contestant[]>([]);
   const [tribes, setTribes] = useState<Tribe[]>([]);
+  const [points, setPoints] = useState<Record<number, number>>({}); // Store points for each contestant
   const [modalVisible, setModalVisible] = useState(false);
   const [focusContestant, setFocusContestant] = useState(0);
 
@@ -47,6 +48,35 @@ export default function Contestants() {
 
 
   }, [season]);
+
+  // Fetch points for contestants
+  useEffect(() => {
+    if (contestants.length === 0) return; // Ensure contestants are loaded
+
+    async function fetchPoints() {
+      const pointsData: Record<number, number> = {};
+
+      await Promise.all(
+        contestants.map(async (contestant) => {
+          try {
+            const res = await fetch(`/api/contestant-points/${contestant.id}`);
+            if (!res.ok) throw new Error(`Error fetching points for contestant ${contestant.id}`);
+            const data = await res.json();
+            pointsData[contestant.id] = data.totalPoints || 0;
+          } catch (error) {
+            console.error(`Error fetching points for contestant ${contestant.id}:`, error);
+            pointsData[contestant.id] = 0;
+          }
+        })
+      );
+
+      setPoints(pointsData);
+      console.log('Fetched points:', pointsData); // Debug log
+    }
+
+    fetchPoints();
+  }, [contestants]);
+
 
   function getOrdinalSuffix(number: number): string {
     if (number >= 11 && number <= 13) return `${number}th`; // Special case for 11th, 12th, 13th
@@ -171,7 +201,7 @@ export default function Contestants() {
 
           {/* Score */}
           <div className="flex items-center justify-center w-20">
-            <span className="text-4xl font-lostIsland tracking-widest">1134</span>
+            <span className="text-3xl font-lostIsland tracking-widest">{points[contestant.id] ?? '--'}</span>
           </div>
         </div>
         ))}
@@ -185,7 +215,7 @@ export default function Contestants() {
             onClick={closeModal}
           >
             <div
-              className="w-full max-w-3xl h-[92%] overflow-y-scroll bg-stone-800 rounded-t-xl shadow-lg animate-slide-up relative font-lostIsland"
+              className="w-full max-w-3xl h-[92%] bg-stone-800 rounded-t-xl shadow-lg animate-slide-up relative font-lostIsland"
               onClick={(e) => e.stopPropagation()} // Prevent modal close on click inside
             >
               <button

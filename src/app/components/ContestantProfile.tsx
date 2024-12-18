@@ -58,17 +58,17 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
       {contestant ? (
       <div className="flex flex-col">
         {/* Modal Header */}
-        <div className="flex justify-between items-center border-b px-4">
+        <div className="flex justify-between items-center border-b border-stone-600 px-5">
           <div className="flex flex-col">
-            <h2 className="text-xl">{contestant?.name || 'Loading...'}</h2>
-            <p className="text-sm">
-              {contestant.profession}
+            <h2 className="text-2xl tracking-wider">{contestant?.name || 'Loading...'}</h2>
+            <p className="text-xs tracking-wider opacity-70 ">
+              {contestant.profession} &bull; {contestant.hometown}
             </p>
             <p className="text-sm">
-              {contestant.profession}
+              
             </p>
           </div>
-          <div className="ms-auto me-6 mt-6">
+          <div className="ms-auto me-2 mt-6">
             <img
               src={`/imgs/${contestant.img}.png`}
               alt={contestant.name}

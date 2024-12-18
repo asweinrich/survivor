@@ -276,7 +276,11 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
                       renderBooleanBadge(contestant[category.schemaKey as keyof Contestant] as boolean)
                     ) : (
                       <span>
-                        {contestant[category.schemaKey as keyof Contestant] || 0}
+                        {Array.isArray(contestant[category.schemaKey as keyof Contestant])
+                          ? (contestant[category.schemaKey as keyof Contestant] as number[]).join(', ') // Handle arrays
+                          : contestant[category.schemaKey as keyof Contestant] instanceof Date
+                          ? (contestant[category.schemaKey as keyof Contestant] as Date).toLocaleDateString() // Handle Date
+                          : contestant[category.schemaKey as keyof Contestant] || 0} {/* Default for numbers */}
                       </span>
                     )}
                   </span>

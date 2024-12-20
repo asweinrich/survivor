@@ -37,6 +37,13 @@ type ScoringCategory = {
   schemaKey: string;
 };
 
+type Recap = {
+  id: number;
+  headling: string;
+  body: string;
+  created_at: Date;
+};
+
 const scoringCategories: ScoringCategory[] = [
   { name: "Sole Survivor", points: 500, schemaKey: "soleSurvivor" },
   { name: "Final Three", points: 150, schemaKey: "top3" },
@@ -58,6 +65,7 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
   const [tribes, setTribes] = useState<Tribe[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("overview");
+  const [recaps, setRecaps] = useState<Recap[]>([]);
 
 
 
@@ -90,6 +98,11 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
         .then((res) => res.json())
         .then((data) => setTribes(data))
         .catch((error) => console.error('Error fetching tribes:', error));
+
+        fetch(`/api/recap/${contestant.id}`)
+        .then((res) => res.json())
+        .then((data) => setRecaps(data))
+        .catch((error) => console.error('Error fetching recaps:', error));
     }
   }, [contestant]);
 
@@ -139,7 +152,17 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
   }
 
   function formatVotedOutOrder(votedOutOrder: number): string {
-    return `${getOrdinalSuffix(votedOutOrder)} person voted out`;
+    if(votedOutOrder === 903) {
+      return `Sole Survivor`
+    } else if(votedOutOrder === 902) {
+      return `2nd Place`
+    } else if(votedOutOrder === 901) {
+      return `3rd Place`
+    } else if(votedOutOrder === 600) {
+      return `Lost Fire Making`
+    } else {
+      return `${getOrdinalSuffix(votedOutOrder)} person voted out`;
+    }
   }
 
   function calculateTotalScore(): number {
@@ -172,6 +195,38 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
     return <span className="inline-block uppercase px-2 py-1 w-10 text-center text-sm text-gray-400 bg-gray-700 rounded-lg tracking-widest">??</span>;
   }
 
+  function formatDateTime(dateTimeString) {
+    const date = new Date(dateTimeString);
+    const now = new Date();
+    
+    // Helper: Format time in "9:30 PM" format
+    const timeFormatter = new Intl.DateTimeFormat(undefined, {
+      hour: 'numeric',
+      minute: 'numeric',
+      hour12: true,
+    });
+
+    // Helper: Format date in "Dec 12, 2024" format
+    const dateFormatter = new Intl.DateTimeFormat(undefined, {
+      month: 'long',
+      day: 'numeric',
+      year: 'numeric',
+    });
+
+    // Calculate difference in days
+    const diffInDays = Math.floor((now - date) / (1000 * 60 * 60 * 24));
+    const isToday = diffInDays === 0;
+    const isYesterday = diffInDays === 1;
+
+    if (isToday) {
+      return `Today | ${timeFormatter.format(date)}`;
+    } else if (isYesterday) {
+      return `Yesterday | ${timeFormatter.format(date)}`;
+    } else {
+      return `${dateFormatter.format(date)} | ${timeFormatter.format(date)}`;
+    }
+  }
+
 
 
   return (
@@ -192,17 +247,40 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
               {formatTribeBadges(contestant.tribes)}
             </p>
             <div className="flex pb-1.5 text-sm">
-            {contestant.inPlay ? (<>
-              <FireIcon className="h-5 w-5 text-orange-400 me-0.5" />
-              <div className="text-stone-300 lowercase font-lostIsland tracking-wider">In Play</div>
-            </>) : (<>
-              <FireIcon className="h-5 w-5 text-white opacity-60 me-0.5" />
-              <div className="text-stone-400 lowercase font-lostIsland tracking-wider">
-                {formatVotedOutOrder(contestant.voteOutOrder)}
-              </div>
-              
-            </>
-            )}
+              {contestant.inPlay && (<>
+                <FireIcon className="h-5 w-5 text-orange-400 me-1" />
+                <div className="text-stone-300 lowercase font-lostIsland tracking-wider">In Play</div>
+              </>)}
+              {(!contestant.inPlay && contestant.voteOutOrder === 903) && (<>
+                <TrophyIcon className="h-5 w-5 text-yellow-400 me-2" />
+                <div className="text-stone-200 lowercase font-lostIsland tracking-wider">
+                  {formatVotedOutOrder(contestant.voteOutOrder)}
+                </div>
+                
+              </>)}
+              {(!contestant.inPlay && contestant.voteOutOrder === 902) && (<>
+                <TrophyIcon className="h-5 w-5 text-zinc-400 me-2" />
+                <div className="text-stone-200 lowercase font-lostIsland tracking-wider">
+                  {formatVotedOutOrder(contestant.voteOutOrder)}
+                </div>
+                
+              </>)}
+              {(!contestant.inPlay && contestant.voteOutOrder === 901) && (<>
+                <TrophyIcon className="h-5 w-5 text-amber-600 me-2" />
+                <div className="text-stone-200 lowercase font-lostIsland tracking-wider">
+                  {formatVotedOutOrder(contestant.voteOutOrder)}
+                </div>
+                
+              </>)}
+              {(!contestant.inPlay && contestant.voteOutOrder < 900) && (
+               <>
+                <FireIcon className="h-5 w-5 text-white opacity-60 me-1" />
+                <div className="text-stone-400 lowercase font-lostIsland tracking-wider">
+                  {formatVotedOutOrder(contestant.voteOutOrder)}
+                </div>
+                
+              </>
+              )}
             </div>
           </div>
           <div className="self-end ms-auto me-2 mt-6">
@@ -262,8 +340,18 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
         </div>
         
         {/* Content */}
-        <div className="h-full px-0 py-4">
-          {activeTab === "overview" && <div>Overview Content Goes Here</div>}
+        <div className="h-full px-0">
+          {activeTab === "overview" && (
+            <div>
+              {recaps.map((recap) => (
+                <div key={recap.id} className="flex flex-col p-5 border-b border-stone-600 tracking-wide">
+                  <span className="text-stone-300 me-auto text-2xl">{recap.headline}</span>
+                  <span className="text-stone-300 me-auto my-1 opacity-70">{formatDateTime(recap.created_at)}</span>
+                  <span className="text-stone-300 me-auto text-lg text-mono">{recap.body}</span>
+                </div>
+              ))}
+            </div>
+          )}
           {activeTab === "stats" && (
             <div>
               {scoringCategories.map((category) => (

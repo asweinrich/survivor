@@ -107,7 +107,17 @@ export default function Contestants() {
   }
 
   function formatVotedOutOrder(votedOutOrder: number): string {
-    return `${getOrdinalSuffix(votedOutOrder)} person voted out`;
+    if(votedOutOrder === 903) {
+      return `Sole Survivor`
+    } else if(votedOutOrder === 902) {
+      return `2nd Place`
+    } else if(votedOutOrder === 901) {
+      return `3rd Place`
+    } else if(votedOutOrder === 600) {
+      return `Lost Fire Making`
+    } else {
+      return `${getOrdinalSuffix(votedOutOrder)} person voted out`;
+    }
   }
 
   function formatTribeBadges(tribeIds: number[]) {
@@ -198,11 +208,34 @@ export default function Contestants() {
               <span className="">{formatTribeBadges(contestant.tribes)}</span>
             </div>
             <div className="flex items-center">
-              {contestant.inPlay ? (<>
-                <FireIcon className="h-5 w-5 text-orange-400 me-0.5" />
+              {contestant.inPlay && (<>
+                <FireIcon className="h-5 w-5 text-orange-400 me-1" />
                 <div className="text-stone-300 lowercase font-lostIsland tracking-wider">In Play</div>
-              </>) : (<>
-                <FireIcon className="h-5 w-5 text-white opacity-60 me-0.5" />
+              </>)}
+              {(!contestant.inPlay && contestant.voteOutOrder === 903) && (<>
+                <TrophyIcon className="h-5 w-5 text-yellow-400 me-2" />
+                <div className="text-stone-200 lowercase font-lostIsland tracking-wider mt-1">
+                  {formatVotedOutOrder(contestant.voteOutOrder)}
+                </div>
+                
+              </>)}
+              {(!contestant.inPlay && contestant.voteOutOrder === 902) && (<>
+                <TrophyIcon className="h-5 w-5 text-zinc-400 me-2" />
+                <div className="text-stone-200 lowercase font-lostIsland tracking-wider mt-1">
+                  {formatVotedOutOrder(contestant.voteOutOrder)}
+                </div>
+                
+              </>)}
+              {(!contestant.inPlay && contestant.voteOutOrder === 901) && (<>
+                <TrophyIcon className="h-5 w-5 text-amber-600 me-2" />
+                <div className="text-stone-200 lowercase font-lostIsland tracking-wider mt-1">
+                  {formatVotedOutOrder(contestant.voteOutOrder)}
+                </div>
+                
+              </>)}
+              {(!contestant.inPlay && contestant.voteOutOrder < 900) && (
+               <>
+                <FireIcon className="h-5 w-5 text-white opacity-60 me-1" />
                 <div className="text-stone-400 lowercase font-lostIsland tracking-wider">
                   {formatVotedOutOrder(contestant.voteOutOrder)}
                 </div>

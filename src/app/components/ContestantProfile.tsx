@@ -195,8 +195,8 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
     return <span className="inline-block uppercase px-2 py-1 w-10 text-center text-sm text-gray-400 bg-gray-700 rounded-lg tracking-widest">??</span>;
   }
 
-  function formatDateTime(dateTimeString: string): string {
-    const date = new Date(dateTimeString);
+  function formatDateTime(dateTime: Date | string): string {
+    const date = typeof dateTime === 'string' ? new Date(dateTime) : dateTime;
     const now = new Date();
     
     // Helper: Format time in "9:30 PM" format
@@ -348,7 +348,7 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
                   <div key={recap.id} className="flex flex-col p-6 border-b border-stone-600">
                     <span className="text-stone-300 me-auto text-xl uppercase mb-2 tracking-wider">{recap.headline}</span>
                     <span className="text-stone-300 me-auto mb-2 opacity-70 font-inter">{formatDateTime(recap.created_at)}</span>
-                    <span className="text-stone-300 me-auto text-lg font-inter font-light leading-tight">{recap.body}</span>
+                    <span className="text-stone-300 me-auto text-lg font-inter">{recap.body}</span>
                   </div>
                 ))
               ) : (

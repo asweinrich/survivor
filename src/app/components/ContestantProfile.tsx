@@ -214,7 +214,7 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
     });
 
     // Calculate difference in days
-    const diffInDays = Math.floor((now - date) / (1000 * 60 * 60 * 24));
+    const diffInDays = Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60 * 24));
     const isToday = diffInDays === 0;
     const isYesterday = diffInDays === 1;
 

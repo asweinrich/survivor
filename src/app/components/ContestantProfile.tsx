@@ -39,7 +39,7 @@ type ScoringCategory = {
 
 type Recap = {
   id: number;
-  headling: string;
+  headline: string;
   body: string;
   created_at: Date;
 };
@@ -345,10 +345,10 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
             <div>
               {recaps.length > 0 ?  ( 
                 recaps.map((recap) => (
-                  <div key={recap.id} className="flex flex-col p-5 border-b border-stone-600 tracking-wide">
-                    <span className="text-stone-300 me-auto text-2xl">{recap.headline}</span>
-                    <span className="text-stone-300 me-auto my-1 opacity-70">{formatDateTime(recap.created_at)}</span>
-                    <span className="text-stone-300 me-auto text-lg ">{recap.body}</span>
+                  <div key={recap.id} className="flex flex-col p-6 border-b border-stone-600">
+                    <span className="text-stone-300 me-auto text-xl uppercase mb-2 tracking-wider">{recap.headline}</span>
+                    <span className="text-stone-300 me-auto mb-2 opacity-70 font-inter">{formatDateTime(recap.created_at)}</span>
+                    <span className="text-stone-300 me-auto text-lg font-inter font-light leading-tight">{recap.body}</span>
                   </div>
                 ))
               ) : (

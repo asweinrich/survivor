@@ -15,6 +15,7 @@ export default {
       fontFamily: {
         lostIsland: ['LostIsland', 'sans-serif'],
         survivor: ['Survivor', 'sans-serif'], // Add your font
+        inter: ['Inter', 'sans-serif'], // Add Inter with fallback
       },
     },
   },

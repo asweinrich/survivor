@@ -219,11 +219,11 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
     const isYesterday = diffInDays === 1;
 
     if (isToday) {
-      return `Today | ${timeFormatter.format(date)}`;
+      return `Today • ${timeFormatter.format(date)}`;
     } else if (isYesterday) {
-      return `Yesterday | ${timeFormatter.format(date)}`;
+      return `Yesterday • ${timeFormatter.format(date)}`;
     } else {
-      return `${dateFormatter.format(date)} | ${timeFormatter.format(date)}`;
+      return `${dateFormatter.format(date)} • ${timeFormatter.format(date)}`;
     }
   }
 
@@ -346,9 +346,9 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
               {recaps.length > 0 ?  ( 
                 recaps.map((recap) => (
                   <div key={recap.id} className="flex flex-col p-6 border-b border-stone-600">
-                    <span className="text-stone-300 me-auto text-xl uppercase mb-2 tracking-wider">{recap.headline}</span>
-                    <span className="text-stone-300 me-auto mb-2 opacity-70 font-inter">{formatDateTime(recap.created_at)}</span>
-                    <span className="text-stone-300 me-auto text-lg font-inter">{recap.body}</span>
+                    <span className="text-stone-300 me-auto text-xl uppercase mb-1 tracking-wider">{recap.headline}</span>
+                    <span className="text-stone-400 me-auto mb-1 text-lg tracking-wider lowercase">{formatDateTime(recap.created_at)}</span>
+                    <span className="text-stone-200 me-auto text-lg font-inter">{recap.body}</span>
                   </div>
                 ))
               ) : (

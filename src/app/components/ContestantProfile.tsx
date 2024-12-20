@@ -195,7 +195,7 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
     return <span className="inline-block uppercase px-2 py-1 w-10 text-center text-sm text-gray-400 bg-gray-700 rounded-lg tracking-widest">??</span>;
   }
 
-  function formatDateTime(dateTimeString) {
+  function formatDateTime(dateTimeString: string): string {
     const date = new Date(dateTimeString);
     const now = new Date();
     
@@ -343,13 +343,20 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
         <div className="h-full px-0">
           {activeTab === "overview" && (
             <div>
-              {recaps.map((recap) => (
-                <div key={recap.id} className="flex flex-col p-5 border-b border-stone-600 tracking-wide">
-                  <span className="text-stone-300 me-auto text-2xl">{recap.headline}</span>
-                  <span className="text-stone-300 me-auto my-1 opacity-70">{formatDateTime(recap.created_at)}</span>
-                  <span className="text-stone-300 me-auto text-lg text-mono">{recap.body}</span>
+              {recaps.length > 0 ?  ( 
+                recaps.map((recap) => (
+                  <div key={recap.id} className="flex flex-col p-5 border-b border-stone-600 tracking-wide">
+                    <span className="text-stone-300 me-auto text-2xl">{recap.headline}</span>
+                    <span className="text-stone-300 me-auto my-1 opacity-70">{formatDateTime(recap.created_at)}</span>
+                    <span className="text-stone-300 me-auto text-lg ">{recap.body}</span>
+                  </div>
+                ))
+              ) : (
+                <div className="flex flex-col p-5 border-b border-stone-600 tracking-wide">
+                    <span className="text-stone-300 me-auto text-xl text-center w-full my-5">No recent updates</span>
                 </div>
-              ))}
+              )}
+
             </div>
           )}
           {activeTab === "stats" && (

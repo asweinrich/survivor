@@ -345,9 +345,9 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
             <div>
               {recaps.length > 0 ?  ( 
                 recaps.map((recap) => (
-                  <div key={recap.id} className="flex flex-col p-6 border-b border-stone-600">
-                    <span className="text-stone-300 me-auto text-xl uppercase mb-1 tracking-wider">{recap.headline}</span>
-                    <span className="text-stone-400 me-auto mb-1 text-lg tracking-wider lowercase">{formatDateTime(recap.created_at)}</span>
+                  <div key={recap.id} className="flex flex-col p-5 border-b border-stone-600">
+                    <span className="text-stone-300 me-auto text-xl uppercase mb-0 tracking-wider">{recap.headline}</span>
+                    <span className="text-stone-400 me-auto mb-0.5 text-lg tracking-wider lowercase">{formatDateTime(recap.created_at)}</span>
                     <span className="text-stone-200 me-auto text-lg font-inter">{recap.body}</span>
                   </div>
                 ))
@@ -360,10 +360,10 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
             </div>
           )}
           {activeTab === "stats" && (
-            <div>
+            <div className="py-1">
               {scoringCategories.map((category) => (
 
-                <div key={category.schemaKey} className="flex justify-between items-center p-3 border-b border-stone-600">
+                <div key={category.schemaKey} className="flex justify-between items-center px-5 py-3 border-b border-stone-600">
                   <span className="text-stone-300 me-auto text-lg">{category.name}</span>
                   <span className="text-center w-12 text-lg">
                     {contestant[category.schemaKey as keyof Contestant] === null ? (
@@ -377,7 +377,7 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
                     )}
 
                   </span>
-                  <span className="text-orange-400 text-xl w-16 text-end">
+                  <span className="text-orange-400 text-xl w-16 text-end pe-2">
                     {((contestant[category.schemaKey as keyof Contestant] || 0) as number) * category.points}
                   </span>
                 </div>

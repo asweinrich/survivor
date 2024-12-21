@@ -178,6 +178,7 @@ export default function Contestants() {
             onChange={(e) => setSeason(e.target.value)}
           >
             <option value={'47'}>Season 47</option>
+            <option value={'48'}>Season 48</option>
             {/* Add more seasons as needed */}
           </select>
         </div>

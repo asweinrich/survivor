@@ -19,7 +19,10 @@ export async function GET(req: Request, { params }: { params: Promise<{ id: stri
     });
 
     if (!contestant) {
-      return res.status(404).json({ error: 'Contestant not found' });
+      return NextResponse.json(
+        { error: 'No contestants found' },
+        { status: 404 }
+      );
     }
 
     const seasonId = contestant.seasonId;

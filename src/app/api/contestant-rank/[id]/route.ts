@@ -25,9 +25,9 @@ export async function GET(req: Request, { params }: { params: Promise<{ id: stri
       );
     }
 
-    const seasonId = contestant.seasonId;
+    const seasonId = contestant.season;
     const contestants = await prisma.contestant.findMany({
-      where: { seasonId },
+      where: { season: seasonId },
     });
 
     if (!contestants || contestants.length === 0) {
@@ -63,7 +63,7 @@ export async function GET(req: Request, { params }: { params: Promise<{ id: stri
     const allScoresAreZero = contestantScores.every((c) => c.score === 0);
 
     if (allScoresAreZero) {
-      return NextResponse.json('even');
+      return NextResponse.json({rank: '--'});
     }
 
     // Sort by scores in descending order

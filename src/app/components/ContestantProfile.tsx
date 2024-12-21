@@ -66,6 +66,7 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("overview");
   const [recaps, setRecaps] = useState<Recap[]>([]);
+  const [powerRank, setPowerRank] = useState<string | number>("--");
 
 
 
@@ -86,8 +87,18 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
           setLoading(false); // End loading even if there's an error
         });
 
+        // Fetch power rank for the contestant
+      fetch(`/api/contestant-rank/${contestantId}`)
+        .then((res) => res.json())
+        .then((data) => setPowerRank(data.rank || "--"))
+        .catch((error) => {
+          console.error('Error fetching contestant power rank:', error);
+          setPowerRank("--"); // Default to --
+        });
+
     } else {
       setContestant(null);
+      setPowerRank("--"); // Reset rank when no contestant is selected
     }
   }, [contestantId]);
 
@@ -303,7 +314,7 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
             <span className="lowercase opacity-70 text-sm">points</span>
           </div>
           <div className="flex flex-col mx-6 text-center">
-            <span className="text-xl tracking-wider">1</span>
+            <span className="text-xl tracking-wider">{powerRank}</span>
             <span className="lowercase opacity-70 text-sm">power rank</span>
           </div>
           <div className="flex flex-col mx-6 text-center">

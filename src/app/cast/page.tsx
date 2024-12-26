@@ -196,15 +196,15 @@ export default function Contestants() {
             <img
               src={`/imgs/${contestant.img}.png`}
               alt={contestant.name}
-              className="h-16 w-16 object-cover rounded"
+              className="h-20 w-20 object-cover rounded"
             />
           </div>
 
           {/* Survivor Name and Info */}
           <div className="flex flex-col flex-grow ps-1">
             <div className="flex flex-row items-center">
-              <span className="text-lg uppercase font-lostIsland tracking-wider">{contestant.name}</span>
-              <InformationCircleIcon className="w-5 h-5 ms-2" onClick={() => activateModal(contestant.id)} />
+              <span className="text-lg lowercase font-lostIsland tracking-wider">{contestant.name}</span>
+              <InformationCircleIcon className="w-5 h-5 ms-1" onClick={() => activateModal(contestant.id)} />
             </div>
             <div className="flex flex-row items-center my-0.5">
               <span className="">{formatTribeBadges(contestant.tribes)}</span>

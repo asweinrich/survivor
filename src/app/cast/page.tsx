@@ -204,7 +204,7 @@ export default function Contestants() {
           <div className="flex flex-col flex-grow ps-1">
             <div className="flex flex-row items-center">
               <span className="text-lg lowercase font-lostIsland tracking-wider">{contestant.name}</span>
-              <InformationCircleIcon className="w-5 h-5 ms-1" onClick={() => activateModal(contestant.id)} />
+              <InformationCircleIcon className="w-5 h-5 opacity-80 ms-1" onClick={() => activateModal(contestant.id)} />
             </div>
             <div className="flex flex-row items-center my-0.5">
               <span className="">{formatTribeBadges(contestant.tribes)}</span>

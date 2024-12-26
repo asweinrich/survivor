@@ -1,7 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { TrophyIcon, FireIcon, InformationCircleIcon } from '@heroicons/react/24/solid';
+import { TrophyIcon, FireIcon } from '@heroicons/react/24/solid';
+import { InformationCircleIcon } from '@heroicons/react/24/outline';
 import ContestantProfile from '../components/ContestantProfile';
 
 
@@ -195,7 +196,7 @@ export default function Contestants() {
             <img
               src={`/imgs/${contestant.img}.png`}
               alt={contestant.name}
-              className="h-20 w-20 object-cover rounded"
+              className="h-16 w-16 object-cover rounded"
             />
           </div>
 

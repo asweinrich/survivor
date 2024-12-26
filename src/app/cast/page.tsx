@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { TrophyIcon, FireIcon } from '@heroicons/react/24/solid';
+import { TrophyIcon, FireIcon, InformationCircleIcon } from '@heroicons/react/24/solid';
 import ContestantProfile from '../components/ContestantProfile';
 
 
@@ -189,7 +189,6 @@ export default function Contestants() {
           key={contestant.id}
           className="flex flex-row w-full items-center py-3 px-1 border-b border-t border-stone-700"
           style={{ opacity: contestant.inPlay ? 1 : 0.8 }}
-          onClick={() => activateModal(contestant.id)}
         >
           {/* Image */}
           <div className="flex items-center justify-center w-24">
@@ -204,6 +203,7 @@ export default function Contestants() {
           <div className="flex flex-col flex-grow ps-1">
             <div className="flex flex-row items-center">
               <span className="text-lg uppercase font-lostIsland tracking-wider">{contestant.name}</span>
+              <InformationCircleIcon className="w-5 h-5 ms-2" onClick={() => activateModal(contestant.id)} />
             </div>
             <div className="flex flex-row items-center my-0.5">
               <span className="">{formatTribeBadges(contestant.tribes)}</span>

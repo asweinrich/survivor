@@ -359,7 +359,7 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
                   <div key={recap.id} className="flex flex-col p-5 border-b border-stone-600">
                     <span className="text-stone-300 me-auto text-xl uppercase mb-0 tracking-wider">{recap.headline}</span>
                     <span className="text-stone-400 me-auto mb-1 text-lg tracking-wider lowercase">{formatDateTime(recap.created_at)}</span>
-                    <span className="text-stone-200 me-auto text-lg font-inter leading-tight">{recap.body}</span>
+                    <span className="text-stone-200 me-auto font-inter">{recap.body}</span>
                   </div>
                 ))
               ) : (

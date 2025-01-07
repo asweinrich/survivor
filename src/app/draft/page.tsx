@@ -28,6 +28,15 @@ export default function Draft() {
   const [modalVisible, setModalVisible] = useState(false);
   const [focusContestant, setFocusContestant] = useState(0);
 
+  const getRandomColor = () => {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  };
+
   // Form state
   const [form, setForm] = useState({
     email: '',
@@ -35,7 +44,7 @@ export default function Draft() {
     name: '',
     tribeName: '',
     emoji: '',
-    color: '#000000',
+    color: getRandomColor(),
   });
 
   const season = 48;
@@ -84,7 +93,7 @@ export default function Draft() {
       return (
         <span
           key={id}
-          className="inline-block px-2 py-0.5 tracking-wider rounded-full text-white me-1 lowercase font-lostIsland"
+          className="inline-block px-2 pt-1.5 pb-1 tracking-wider leading-none rounded-full text-white me-1 uppercase text-xs font-lostIsland"
           style={{
             backgroundColor: hexToRgba(tribe.color, 0.3), // Transparent background
             color: tribe.color, // Solid text color
@@ -204,6 +213,8 @@ export default function Draft() {
     setEmojiPickerVisible(false); // Close picker after selection
   };
 
+  
+
 
   return (
     <div className="min-h-screen bg-stone-900 text-stone-200 p-0">
@@ -224,6 +235,7 @@ export default function Draft() {
                 className="w-full p-2 bg-stone-700 rounded text-lg"
                 value={form.email}
                 onChange={handleInputChange}
+                required
               />
             </div>
             <div className="mb-4">
@@ -237,6 +249,7 @@ export default function Draft() {
                 className="w-full p-2 bg-stone-700 rounded text-lg"
                 value={form.phone}
                 onChange={handleInputChange}
+                required
               />
             </div>
             <div className="mb-4">
@@ -250,6 +263,7 @@ export default function Draft() {
                 className="w-full p-2 bg-stone-700 rounded text-lg"
                 value={form.name}
                 onChange={handleInputChange}
+                required
               />
             </div>
             <div className="flex justify-start mb-4">
@@ -267,6 +281,7 @@ export default function Draft() {
                     value={form.emoji}
                     readOnly // Make it read-only to force users to use the picker
                     onClick={() => setEmojiPickerVisible(!emojiPickerVisible)}
+                    required
                   />
                   
                 </div>
@@ -284,9 +299,11 @@ export default function Draft() {
                   type="color"
                   id="color"
                   name="color"
+                  placeholder="#77c471"
                   className="w-full p-1.5 bg-stone-700 rounded text-lg h-11"
                   value={form.color}
                   onChange={handleInputChange}
+                  required
                 />
               </div>
               <div className="w-full">
@@ -300,6 +317,7 @@ export default function Draft() {
                   className="w-full p-2 bg-stone-700 rounded text-lg"
                   value={form.tribeName}
                   onChange={handleInputChange}
+                  required
                 />
               </div>
             </div>
@@ -307,7 +325,7 @@ export default function Draft() {
               <label htmlFor="tribeArray" className="block text-lg leading-tight">
                 Your Tribe Members
               </label>
-              <p className="opacity-60 mb-1.5">Select 6 Contestants Below</p>
+              <p className="opacity-60 mb-1.5 lowercase">Select 6 Contestants from Below</p>
               <textarea
                 id="tribeArray"
                 name="tribeArray"
@@ -315,13 +333,41 @@ export default function Draft() {
                 className="w-full p-2 bg-stone-700 rounded text-lg"
                 value={getTribeNames()} // Dynamically update based on draftPicks
                 readOnly
+
               />
             </div>
           </div>
+
+          <button
+            type="button"
+            disabled={draftPicks.length === 0}
+            onClick={() => setDraftPicks([])} // Clear the tribe selection
+            className={`px-4 py-2 text-sm uppercase w-full rounded ${
+              draftPicks.length > 0
+                ? 'bg-red-600 text-white hover:bg-red-700'
+                : 'bg-gray-500 text-gray-300 cursor-not-allowed'
+            }`}
+          >
+            Clear Tribe Selection
+          </button>
           <button
             type="submit"
-            disabled={draftPicks.length !== 6} // Disable until exactly 6 picks are selected
-            className={`mt-4 w-full py-2 rounded text-lg ${
+            disabled={
+              !form.email ||
+              !form.phone ||
+              !form.name ||
+              !form.tribeName ||
+              !form.color ||
+              !form.emoji ||
+              draftPicks.length !== 6
+            }
+            className={`mt-4 w-full py-2 rounded text-lg uppercase ${
+              form.email &&
+              form.phone &&
+              form.name &&
+              form.tribeName &&
+              form.color &&
+              form.emoji &&
               draftPicks.length === 6
                 ? 'bg-green-600 text-white hover:bg-green-700'
                 : 'bg-gray-500 text-gray-300 cursor-not-allowed'
@@ -338,11 +384,13 @@ export default function Draft() {
           {contestants.map((contestant) => (
           <div
             key={contestant.id}
-            className="flex flex-col items-center p-3 bg-stone-800 m-2 rounded-xl"
+            className={`flex flex-col items-start p-1 bg-stone-800 border-4 m-2 rounded-xl ${
+              draftPicks.includes(contestant.id) ? 'border-green-500' : 'border-stone-700'
+            }`}
           >
             {/* Image */}
             <div 
-              className={`flex items-center justify-center w-28 h-28 rounded-full border-4 mb-3 hover:cursor-pointer ${
+              className={`flex items-center mx-auto justify-center w-24 h-24 rounded-full border-4 mb-3 hover:cursor-pointer ${
                 draftPicks.includes(contestant.id) ? 'border-green-400' : 'border-stone-400'
               } relative mb-2`}
               onClick={() => updatePicks(contestant.id)}
@@ -350,7 +398,7 @@ export default function Draft() {
               <img
                 src={`/imgs/${contestant.img}.png`}
                 alt={contestant.name}
-                className="h-24 w-24 object-cover rounded-full overflow-hidden"
+                className="h-20 w-20 object-cover rounded-full overflow-hidden"
               />
               <span 
                 className={`absolute -bottom-1 -right-1 border-4 rounded-full w-10 h-10 flex justify-center items-center ${
@@ -369,10 +417,10 @@ export default function Draft() {
             {/* Survivor Name and Info */}
             <div className="flex flex-col flex-grow">
               <div className="flex flex-row items-center px-1">
-                <span className="h-12 text-lg uppercase font-lostIsland tracking-wider leading-tight">{contestant.name}</span>
+                <span className="h-12 uppercase font-lostIsland tracking-wider leading-tight">{contestant.name}</span>
               </div>
               <div className="flex flex-row items-center px-1">
-                <IdentificationIcon className="w-6 h-6 stroke-2 me-1.5 hover:cursor-pointer" onClick={() => activateModal(contestant.id)} />
+                <IdentificationIcon className="w-6 h-6 stroke-2 me-1 hover:cursor-pointer" onClick={() => activateModal(contestant.id)} />
                 <span className="">{formatTribeBadges(contestant.tribes)}</span>
               </div>
               <div className="flex items-center">

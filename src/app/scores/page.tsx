@@ -248,7 +248,7 @@ export default function Scores() {
                   return (
                     <div
                       key={contestant.id}
-                      className="flex items-center py-2 border-b border-stone-700"
+                      className="flex items-center py-1 border-b border-stone-700"
                     >
                       <img
                         src={`/imgs/${contestant.img}.png`}

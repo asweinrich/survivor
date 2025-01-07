@@ -17,6 +17,13 @@ export default {
         survivor: ['Survivor', 'sans-serif'], // Add your font
         inter: ['Inter', 'sans-serif'], // Add Inter with fallback
       },
+      strokeWidth: {
+        '1': '1',
+        '2': '2',
+        '3': '3',
+        '4': '4',
+        '5': '5',
+      },
     },
   },
   plugins: [],

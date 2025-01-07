@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { HomeIcon, UserGroupIcon, TrophyIcon, FireIcon } from '@heroicons/react/24/solid';
+import { HomeIcon, UserGroupIcon, TrophyIcon, FireIcon, SparklesIcon } from '@heroicons/react/24/solid';
 
 
 const geistSans = Geist({
@@ -51,6 +51,10 @@ function Navbar() {
         <a href="/scores" className="flex flex-col hover:opacity-70 px-2">
           <TrophyIcon className="h-6 w-6 text-white mx-auto mb-1" />
           Scores
+        </a>
+        <a href="/draft" className="flex flex-col hover:opacity-70 px-2">
+          <SparklesIcon className="h-6 w-6 text-white mx-auto mb-1" />
+          Draft
         </a>
       </div>
     </nav>

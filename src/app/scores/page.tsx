@@ -33,6 +33,10 @@ type Tribe = {
   color: string;
 };
 
+type RankedPlayerTribe = PlayerTribe & {
+  rank: number;
+};
+
 
 
 export default function Scores() {
@@ -68,8 +72,6 @@ export default function Scores() {
     fetchTribes();
 
   }, [season]);
-
-  
 
   // Calculate scores for PlayerTribes
   const calculateScore = (tribe: PlayerTribe) => {

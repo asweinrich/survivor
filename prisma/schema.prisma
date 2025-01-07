@@ -17,14 +17,14 @@ model Player {
 }
 
 model PlayerTribe {
-  id        Int      @id @default(autoincrement())
-  playerId  Int
-  tribeName String
+  id         Int      @id @default(autoincrement())
+  playerId   Int
+  tribeName  String
+  color      String
+  emoji      String
+  createdAt  DateTime @default(now())
+  season     Int
   tribeArray Int[]
-  color     String
-  emoji     String
-  createdAt DateTime @default(now())
-  season    Int
 }
 
 model Contestant {
@@ -59,10 +59,10 @@ model ShowTribe {
 }
 
 model Recap {
-  id         Int      @id @default(autoincrement())
+  id           Int      @id @default(autoincrement())
   contestantId Int
-  season     Int
-  headline   String
-  body       String
-  created_at DateTime @default(now())
+  season       Int
+  headline     String
+  body         String
+  created_at   DateTime @default(now())
 }

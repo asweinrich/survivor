@@ -9,7 +9,6 @@ export async function POST(req: Request) {
     const body = await req.json();
     console.log('Request Body:', body);
 
-
     const { email, name, tribeName, color, emoji, tribeArray } = body;
 
     const season = 48;

@@ -214,7 +214,7 @@ export default function Scores() {
               </div>
               <div className="flex items-center">
                 <div
-                  className="w-10 h-10 rounded-full flex items-center justify-center text-2xl"
+                  className="w-12 h-12 rounded-full border-2 border-stone-500 flex items-center justify-center text-3xl"
                   style={{ backgroundColor: tribe.color }}
                 >
                   {tribe.emoji}
@@ -241,7 +241,7 @@ export default function Scores() {
 
             {/* Dropdown with Contestants */}
             {expandedTribes.includes(tribe.id) && (
-              <div className="ps-10 pt-3">
+              <div className="p-3">
                 {tribe.tribeArray.map((contestantId) => {
                   const contestant = contestants.find((c) => c.id === contestantId);
                   if (!contestant) return null;

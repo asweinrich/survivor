@@ -115,7 +115,7 @@ export default function Scores() {
     let rank = index + 1;
 
     if (index > 0 && array[index].score === array[index - 1].score) {
-      rank = array[index - 1].rank;
+      rank = array[index - 1].rank ?? 1;
     }
 
     console.log(`Tribe: ${tribe.tribeName}, Score: ${tribe.score}, Rank: ${rank}`);

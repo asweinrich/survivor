@@ -23,6 +23,8 @@ type PlayerTribe = {
   playerName: string;
   tribeArray: number[]; // Array of contestant IDs
   createdAt: string;
+  score?: number;
+  rank?: number;
 };
 
 type Tribe = {
@@ -30,6 +32,7 @@ type Tribe = {
   name: string;
   color: string;
 };
+
 
 
 export default function Scores() {
@@ -63,7 +66,10 @@ export default function Scores() {
       setTribes(data);
     }
     fetchTribes();
+
   }, [season]);
+
+  
 
   // Calculate scores for PlayerTribes
   const calculateScore = (tribe: PlayerTribe) => {
@@ -100,11 +106,22 @@ export default function Scores() {
       return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(); // Older createdAt first
     });
 
+    console.log('Sorted Player Tribes:', sortedPlayerTribes);
+
   // Assign Rankings with Ties
-  const rankedTribes = sortedPlayerTribes.map((tribe, index, array) => {
-    const rank = index > 0 && array[index - 1].score === tribe.score ? array[index - 1].rank : index + 1;
+  const rankedTribes: RankedPlayerTribe[] = sortedPlayerTribes.map((tribe, index, array) => {
+    let rank = index + 1;
+
+    if (index > 0 && array[index].score === array[index - 1].score) {
+      rank = array[index - 1].rank;
+    }
+
+    console.log(`Tribe: ${tribe.tribeName}, Score: ${tribe.score}, Rank: ${rank}`);
+
     return { ...tribe, rank };
   });
+
+
 
   function getOrdinalSuffix(number: number): string {
     if (number >= 11 && number <= 13) return `${number}th`; // Special case for 11th, 12th, 13th
@@ -188,8 +205,11 @@ export default function Scores() {
 
         {rankedTribes.map((tribe) => (
           <div key={tribe.id} className="border-b border-t border-stone-700 p-3">
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-start">
               {/* Emoji and Tribe Info */}
+              <div className="flex items-center w-8 font-lostIsland text-2xl me-2">
+                <span className="mx-auto">{tribe.rank}</span>
+              </div>
               <div className="flex items-center">
                 <div
                   className="w-10 h-10 rounded-full flex items-center justify-center text-2xl"
@@ -197,14 +217,14 @@ export default function Scores() {
                 >
                   {tribe.emoji}
                 </div>
-                <div className="ml-4">
-                  <div className="text-xl font-lostIsland">{tribe.tribeName}</div>
-                  <div className="text-sm text-stone-400 font-lostIsland">{tribe.playerName}</div>
+                <div className="ms-3">
+                  <div className="text-xl font-lostIsland leading-tight">{tribe.tribeName}</div>
+                  <div className="text-stone-400 font-lostIsland leading-tight">{tribe.playerName}</div>
                 </div>
               </div>
 
               {/* Score and Dropdown Toggle */}
-              <div className="flex items-center">
+              <div className="flex items-center ms-auto me-0">
                 <span className="text-2xl font-lostIsland tracking-widest mr-2">
                   {calculateScore(tribe)}
                 </span>
@@ -219,7 +239,7 @@ export default function Scores() {
 
             {/* Dropdown with Contestants */}
             {expandedTribes.includes(tribe.id) && (
-              <div className="ps-1 pe-2 pt-3">
+              <div className="ps-10 pt-3">
                 {tribe.tribeArray.map((contestantId) => {
                   const contestant = contestants.find((c) => c.id === contestantId);
                   if (!contestant) return null;

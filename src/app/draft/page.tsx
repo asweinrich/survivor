@@ -269,7 +269,7 @@ export default function Draft() {
             <div className="flex justify-start mb-4">
               <div className="w-12 me-4">
                 <label htmlFor="emoji" className="block text-lg mb-1.5">
-                  Emoji
+                  Icon
                 </label>
                 <div className="relative">
                   <input
@@ -377,17 +377,17 @@ export default function Draft() {
           </button>
         </form>
 
-        <div className="w-full bg-stone-800 rounded-lg p-4 mb-4">
-          <p className="text-xl lowercase font-lostIsland tracking-wider mb-6">
+        <div className="w-full bg-stone-800 text-stone-300 rounded-lg p-4 mb-4">
+          <p className="text-lg lowercase font-lostIsland tracking-wider mb-6">
             Tap 
-            <PlusIcon className="inline mx-1.5 w-7 h-7 stroke-4 text-stone-400 border-4 p-1 rounded-full border-stone-400 " />
+            <PlusIcon className="inline mx-1.5 w-7 h-7 stroke-4 text-stone-400 border-4 p-0.5 rounded-full border-stone-400 " />
             to add a contestant to your tribe. Tap them again to remove 
           </p>
 
-          <p className="text-xl lowercase font-lostIsland tracking-wider">
-            Tap the 
-            <IdentificationIcon className="inline mx-1.5 w-7 h-7 stroke-2" />
-            Icon to learn more about a contestant
+          <p className="text-lg lowercase font-lostIsland tracking-wider">
+            Tap 
+            <IdentificationIcon className="inline mx-2 w-7 h-7 stroke-2" />
+            to view contestant details
           </p>
         </div>
 
@@ -404,7 +404,7 @@ export default function Draft() {
           >
             {/* Image */}
             <div 
-              className={`flex items-center mx-auto justify-center w-24 h-24 rounded-full border-4 mb-3 hover:cursor-pointer ${
+              className={`flex items-center mx-auto justify-center w-24 h-24 rounded-full border-4 mb-2 hover:cursor-pointer ${
                 draftPicks.includes(contestant.id) ? 'border-green-400' : 'border-stone-400'
               } relative mb-2`}
               onClick={() => updatePicks(contestant.id)}
@@ -431,10 +431,10 @@ export default function Draft() {
             {/* Survivor Name and Info */}
             <div className="flex flex-col flex-grow">
               <div className="flex flex-row items-center px-1">
-                <span className="h-10 mb-0.5 uppercase font-lostIsland tracking-wider leading-tight">{contestant.name}</span>
+                <span className="h-10 mb-1 uppercase font-lostIsland tracking-wider leading-tight">{contestant.name}</span>
               </div>
               <div className="flex flex-row items-center px-1">
-                <IdentificationIcon className="w-6 h-6 stroke-2 me-1 hover:cursor-pointer" onClick={() => activateModal(contestant.id)} />
+                <IdentificationIcon className="w-6 h-6 stroke-2 me-1.5 hover:cursor-pointer" onClick={() => activateModal(contestant.id)} />
                 <span className="">{formatTribeBadges(contestant.tribes)}</span>
               </div>
               <div className="flex items-center">

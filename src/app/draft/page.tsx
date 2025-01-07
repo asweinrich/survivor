@@ -93,7 +93,7 @@ export default function Draft() {
       return (
         <span
           key={id}
-          className="inline-block px-2 pt-1.5 pb-1 tracking-wider leading-none rounded-full text-white me-1 uppercase text-xs font-lostIsland"
+          className="inline-block px-1.5 pt-1.5 pb-1 tracking-wider leading-none rounded-full text-white me-1 uppercase text-xs font-lostIsland"
           style={{
             backgroundColor: hexToRgba(tribe.color, 0.3), // Transparent background
             color: tribe.color, // Solid text color
@@ -222,7 +222,7 @@ export default function Draft() {
         <h1 className="text-5xl font-bold mb-2 text-stone-100 p-4 font-survivor tracking-wider">Draft your tribe</h1>
 
         {/* Form Section */}
-        <form className="mb-8 p-4 bg-stone-800 rounded-lg font-lostIsland tracking-wider uppercase" onSubmit={handleSubmit}>
+        <form className="mb-4 p-4 bg-stone-800 rounded-lg font-lostIsland tracking-wider uppercase" onSubmit={handleSubmit}>
           <div className="flex flex-col p-1">
             <div className="mb-4">
               <label htmlFor="email" className="block text-lg mb-1.5">
@@ -377,6 +377,20 @@ export default function Draft() {
           </button>
         </form>
 
+        <div className="w-full bg-stone-800 rounded-lg p-4 mb-4">
+          <p className="text-xl lowercase font-lostIsland tracking-wider mb-6">
+            Tap 
+            <PlusIcon className="inline mx-1.5 w-7 h-7 stroke-4 text-stone-400 border-4 p-1 rounded-full border-stone-400 " />
+            to add a contestant to your tribe. Tap them again to remove 
+          </p>
+
+          <p className="text-xl lowercase font-lostIsland tracking-wider">
+            Tap the 
+            <IdentificationIcon className="inline mx-1.5 w-7 h-7 stroke-2" />
+            Icon to learn more about a contestant
+          </p>
+        </div>
+
 
 
         <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
@@ -401,14 +415,14 @@ export default function Draft() {
                 className="h-20 w-20 object-cover rounded-full overflow-hidden"
               />
               <span 
-                className={`absolute -bottom-1.5 -right-1.5 border-4 rounded-full w-9 h-9 flex justify-center items-center ${
+                className={`absolute -bottom-1 -right-1.5 border-4 rounded-full w-9 h-9 flex justify-center items-center ${
                   draftPicks.includes(contestant.id) ? 'border-green-400' : 'border-stone-400'
                 } bg-stone-800`}
               >
                 {draftPicks.includes(contestant.id) ? (
-                  <CheckIcon className="w-5 h-5 stroke-3 text-green-400" />
+                  <CheckIcon className="w-5 h-5 stroke-4 text-green-400" />
                 ) : (
-                  <PlusIcon className="w-5 h-5 stroke-3 text-stone-400" />
+                  <PlusIcon className="w-5 h-5 stroke-4 text-stone-400" />
                 )}
               </span>
 
@@ -420,7 +434,7 @@ export default function Draft() {
                 <span className="h-10 mb-0.5 uppercase font-lostIsland tracking-wider leading-tight">{contestant.name}</span>
               </div>
               <div className="flex flex-row items-center px-1">
-                <IdentificationIcon className="w-5 h-5 stroke-2 me-1 hover:cursor-pointer" onClick={() => activateModal(contestant.id)} />
+                <IdentificationIcon className="w-6 h-6 stroke-2 me-1 hover:cursor-pointer" onClick={() => activateModal(contestant.id)} />
                 <span className="">{formatTribeBadges(contestant.tribes)}</span>
               </div>
               <div className="flex items-center">

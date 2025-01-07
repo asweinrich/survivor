@@ -10,12 +10,12 @@ export async function POST(req: Request) {
     console.log('Request Body:', body);
 
 
-    const { email, name, tribeName, color, emoji, tribeArray } = req.body;
+    const { email, name, tribeName, color, emoji, tribeArray } = body;
 
     const season = 48;
 
     if (!email || !name || !tribeName || !color || !emoji || !season || !tribeArray) {
-      return res.status(400).json({ message: 'Missing required fields' });
+      return NextResponse.json({ message: 'Missing required fields' }, { status: 400 });
     }
 
     // Check if the player already exists
@@ -54,9 +54,9 @@ export async function POST(req: Request) {
       },
     });
 
-    return res.status(200).json({ message: 'Player and PlayerTribe updated successfully' });
+    return NextResponse.json({ message: 'Player and PlayerTribe updated successfully' });
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ message: 'Internal server error' });
+    return NextResponse.json({ message: 'Internal server error' }, { status: 500 });
   }
 }

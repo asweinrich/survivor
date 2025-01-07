@@ -262,7 +262,7 @@ export default function Draft() {
                     type="text"
                     id="emoji"
                     name="emoji"
-                    maxLength={2}
+                    maxLength={1}
                     className="w-full p-2 bg-stone-700 rounded text-lg text-center"
                     value={form.emoji}
                     readOnly // Make it read-only to force users to use the picker

@@ -142,16 +142,51 @@ export default function Draft() {
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Form submitted:', {
-      ...form,
-      tribeArray: draftPicks.map((id) => {
+
+    const tribeArray = draftPicks
+      .map((id) => {
         const contestant = contestants.find((c) => c.id === id);
-        return contestant ? contestant.name : '';
-      }),
-    });
+        return contestant ? contestant.id : null;
+      })
+      .filter((id) => id !== null); // Filter out nulls
+
+    const data = {
+      email: form.email,
+      name: form.name,
+      tribeName: form.tribeName,
+      color: form.color,
+      emoji: form.emoji,
+      season,
+      tribeArray,
+    };
+
+    try {
+      const response = await fetch('/api/add-player', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (!response.ok) {
+        const errorMessage = `Server returned ${response.status}: ${response.statusText}`;
+        console.error(errorMessage);
+        alert(errorMessage);
+        return;
+      }
+
+      const result = await response.json();
+      alert('Submission successful!');
+      console.log('Response from server:', result);
+    } catch (error) {
+      console.error('Error during submission:', error);
+      alert('An error occurred while submitting the form.');
+    }
   };
+
 
   const getTribeNames = () => {
     return draftPicks
@@ -228,7 +263,7 @@ export default function Draft() {
                     id="emoji"
                     name="emoji"
                     maxLength={2}
-                    className="w-full p-1.5 bg-stone-700 rounded text-2xl text-center"
+                    className="w-full p-2 bg-stone-700 rounded text-lg text-center"
                     value={form.emoji}
                     readOnly // Make it read-only to force users to use the picker
                     onClick={() => setEmojiPickerVisible(!emojiPickerVisible)}
@@ -270,13 +305,13 @@ export default function Draft() {
             </div>
             <div className="mb-4">
               <label htmlFor="tribeArray" className="block text-lg leading-tight">
-                Your Tribe
+                Your Tribe Members
               </label>
               <p className="opacity-60 mb-1.5">Select 6 Contestants Below</p>
-              <input
-                type="text"
+              <textarea
                 id="tribeArray"
                 name="tribeArray"
+                rows={3}
                 className="w-full p-2 bg-stone-700 rounded text-lg"
                 value={getTribeNames()} // Dynamically update based on draftPicks
                 readOnly

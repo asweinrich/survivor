@@ -28,6 +28,7 @@ export async function POST(req: Request) {
         data: {
           email,
           name,
+          passwordHash: '',
           playerTribes: [], // Initialize as empty
         },
       });

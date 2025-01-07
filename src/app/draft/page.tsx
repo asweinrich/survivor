@@ -406,9 +406,9 @@ export default function Draft() {
                 } bg-stone-800`}
               >
                 {draftPicks.includes(contestant.id) ? (
-                  <CheckIcon className="w-4 h-4 stroke-4 text-green-400" />
+                  <CheckIcon className="w-5 h-5 stroke-3 text-green-400" />
                 ) : (
-                  <PlusIcon className="w-4 h-4 stroke-4 text-stone-400" />
+                  <PlusIcon className="w-5 h-5 stroke-3 text-stone-400" />
                 )}
               </span>
 

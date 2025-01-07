@@ -384,7 +384,7 @@ export default function Draft() {
           {contestants.map((contestant) => (
           <div
             key={contestant.id}
-            className={`flex flex-col items-start p-1 bg-stone-800 border-4 m-2 rounded-xl ${
+            className={`flex flex-col items-start px-0.5 py-1 bg-stone-800 border-4 m-2 rounded-xl ${
               draftPicks.includes(contestant.id) ? 'border-green-500' : 'border-stone-700'
             }`}
           >
@@ -401,14 +401,14 @@ export default function Draft() {
                 className="h-20 w-20 object-cover rounded-full overflow-hidden"
               />
               <span 
-                className={`absolute -bottom-1 -right-1 border-4 rounded-full w-10 h-10 flex justify-center items-center ${
+                className={`absolute -bottom-1.5 -right-1.5 border-4 rounded-full w-9 h-9 flex justify-center items-center ${
                   draftPicks.includes(contestant.id) ? 'border-green-400' : 'border-stone-400'
                 } bg-stone-800`}
               >
                 {draftPicks.includes(contestant.id) ? (
-                  <CheckIcon className="w-5 h-5 stroke-4 text-green-400" />
+                  <CheckIcon className="w-4 h-4 stroke-4 text-green-400" />
                 ) : (
-                  <PlusIcon className="w-5 h-5 stroke-4 text-stone-400" />
+                  <PlusIcon className="w-4 h-4 stroke-4 text-stone-400" />
                 )}
               </span>
 
@@ -417,10 +417,10 @@ export default function Draft() {
             {/* Survivor Name and Info */}
             <div className="flex flex-col flex-grow">
               <div className="flex flex-row items-center px-1">
-                <span className="h-12 uppercase font-lostIsland tracking-wider leading-tight">{contestant.name}</span>
+                <span className="h-10 mb-0.5 uppercase font-lostIsland tracking-wider leading-tight">{contestant.name}</span>
               </div>
               <div className="flex flex-row items-center px-1">
-                <IdentificationIcon className="w-6 h-6 stroke-2 me-1 hover:cursor-pointer" onClick={() => activateModal(contestant.id)} />
+                <IdentificationIcon className="w-5 h-5 stroke-2 me-1 hover:cursor-pointer" onClick={() => activateModal(contestant.id)} />
                 <span className="">{formatTribeBadges(contestant.tribes)}</span>
               </div>
               <div className="flex items-center">

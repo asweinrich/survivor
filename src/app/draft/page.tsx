@@ -22,7 +22,7 @@ type Tribe = {
 
 
 export default function Draft() {
-  const [draftPicks, setDraftPicks] = useState([]);
+  const [draftPicks, setDraftPicks] = useState<number[]>([]);
   const [contestants, setContestants] = useState<Contestant[]>([]);
   const [tribes, setTribes] = useState<Tribe[]>([]);
   const [modalVisible, setModalVisible] = useState(false);

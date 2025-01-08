@@ -47,13 +47,12 @@ type Recap = {
 const scoringCategories: ScoringCategory[] = [
   { name: "Sole Survivor", points: 500, schemaKey: "soleSurvivor" },
   { name: "Final Three", points: 150, schemaKey: "top3" },
-  { name: "Win Fire Making", points: 80, schemaKey: "madeFire" },
+  { name: "Win Fire Making", points: 100, schemaKey: "madeFire" },
   { name: "Make the Merge", points: 100, schemaKey: "madeMerge" },
   { name: "Individual Immunities", points: 80, schemaKey: "immunityWins" },
   { name: "Reward Challenges", points: 50, schemaKey: "rewards" },
   { name: "Hidden Immunity Idols", points: 70, schemaKey: "hiddenIdols" },
   { name: "Tribal Immunity Challenges", points: 30, schemaKey: "tribalWins" },
-  { name: "Survive Tribal Council", points: 40, schemaKey: "tribals" },
   { name: "Survive an Episode", points: 30, schemaKey: "episodes" },
   { name: "Advantages", points: 20, schemaKey: "advantages" },
 ];

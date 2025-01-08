@@ -20,7 +20,7 @@
     {
       "name": "Successful Fire Making",
       "description": "The fire-making challenge directly determines the Final Three contestants in modern Survivor.",
-      "points": 80,
+      "points": 100,
       "schemaKey": "madeFire"
     },
     {

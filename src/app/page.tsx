@@ -25,7 +25,7 @@ const HomePage = () => {
   return (
     <div className="bg-stone-900 text-white font-lostIsland min-h-screen">
       
-      <div className="relative w-full h-96 m-0 p-0">
+      <div className="relative w-full h-80 m-0 p-0">
         {/* Background Image */}
         <div className="z-0">
           <Image
@@ -37,16 +37,16 @@ const HomePage = () => {
           />
           <div className="absolute inset-0 bg-gradient-to-b from-transparent to-stone-900"></div>
         </div>
+        <h1 className="absolute bottom-0 z-10 text-2xl font-semibold mt-6">Welcome to Survivor Fantasy!</h1>
   
         {/* Logo and Welcome Section */}
-        <div className="absolute b-0 z-10 flex flex-col items-center text-center">
+        <div className="absolute inset-0 z-10 flex flex-col mx-auto items-center text-center">
           <Image
             src="/imgs/IMG_3143.png" // Replace with your Survivor logo path
             alt="Survivor Season 48 Logo"
             width={300}
             height={300}
           />
-          <h1 className="text-2xl font-semibold mt-6">Welcome to Survivor Fantasy!</h1>
         </div>
       </div>
 

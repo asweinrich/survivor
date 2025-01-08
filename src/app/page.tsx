@@ -25,7 +25,7 @@ const HomePage = () => {
   return (
     <div className="bg-stone-900 text-white font-lostIsland min-h-screen">
       
-      <div className="relative w-full h-80 m-0 p-0 text-center">
+      <div className="relative w-full h-80 mb-8 p-0 text-center">
         {/* Background Image */}
         <div className="z-0">
           <Image
@@ -37,7 +37,7 @@ const HomePage = () => {
           />
           <div className="absolute inset-0 bg-gradient-to-b from-transparent to-stone-900"></div>
         </div>
-        <h1 className="absolute -bottom-6 inset-x-0 z-10 text-2xl font-semibold">Welcome to Survivor Fantasy!</h1>
+        <h1 className="absolute -bottom-2 inset-x-0 z-10 text-2xl font-semibold">Welcome to Survivor Fantasy!</h1>
   
         {/* Logo and Welcome Section */}
         <div className="absolute inset-0 z-10 flex flex-row justify-center mx-auto items-center">
@@ -51,20 +51,20 @@ const HomePage = () => {
       </div>
 
       {/* Countdown Section */}
-      <div className="bg-stone-800 text-center py-8 px-4 m-4 rounded-xl">
-        <h2 className="text-lg uppercase">Season 48 Countdown</h2>
-        <p className="text-2xl font-bold mt-2">{countdown}</p>
+      <div className="bg-stone-800 text-center py-6 px-4 m-4 rounded-xl">
+        <h2 className="text-lg uppercase text-stone-300">Season 48 Countdown</h2>
+        <p className="text-2xl font-bold mt-1.5">{countdown}</p>
       </div>
 
       {/* Buttons Section */}
-      <div className="flex justify-center gap-4 py-8 lowercase">
+      <div className="flex justify-center gap-4 py-8 ">
         <a href="/rules">
-        <button className="w-48 py-3 bg-stone-700 rounded text-white hover:bg-stone-600">
+        <button className="w-40 py-3 uppercase bg-stone-700 rounded text-white hover:bg-stone-600">
           How to Play
         </button>
         </a>
         <a href="/draft">
-        <button className="w-48 py-3 bg-green-700 rounded text-white hover:bg-green-600">
+        <button className="w-40 py-3 uppercase bg-green-700 rounded text-white hover:bg-green-600">
           Draft Your Tribe
         </button>
         </a>

@@ -37,10 +37,10 @@ const HomePage = () => {
           />
           <div className="absolute inset-0 bg-gradient-to-b from-transparent to-stone-900"></div>
         </div>
-        <h1 className="absolute bottom-0 z-10 text-2xl font-semibold mt-6">Welcome to Survivor Fantasy!</h1>
+        <h1 className="absolute bottom-0 inset-x-0 z-10 text-3xl font-semibold">Welcome to Survivor Fantasy!</h1>
   
         {/* Logo and Welcome Section */}
-        <div className="absolute inset-0 z-10 flex flex-col mx-auto items-center text-center">
+        <div className="absolute inset-0 z-10 flex flex-row justify-center mx-auto items-center">
           <Image
             src="/imgs/IMG_3143.png" // Replace with your Survivor logo path
             alt="Survivor Season 48 Logo"

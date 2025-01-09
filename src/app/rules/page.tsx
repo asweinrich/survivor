@@ -1,10 +1,44 @@
 import React from 'react';
+import Image from "next/image";
+
 
 const RulesPage = () => {
   return (
     <div className="min-h-screen bg-stone-900 text-stone-200 p-0">
+
+      <div className="relative w-full h-60 mb-12 p-0 text-center">
+        {/* Background Image */}
+        <div className="z-0">
+          <Image
+            src="/imgs/graphics/home-graphic.png" // Replace with your background image path
+            alt="Survivor Background"
+            layout="fill"
+            objectFit="cover"
+            className=""
+          />
+          <div
+            className="absolute inset-0 bg-gradient-to-b from-stone-900 via-transparent to-stone-900"
+            style={{
+              backgroundImage:
+                "linear-gradient(to bottom, #1c1917 0%, transparent 33%, transparent 66%, #1c1917 100%)",
+            }}
+          ></div>
+
+        </div>
+        <h1 className="absolute -bottom-8 inset-x-0 z-10 text-4xl font-bold mb-2 text-stone-100 font-survivor tracking-wider">League Rules</h1>
+  
+        {/* Logo and Welcome Section */}
+        <div className="absolute inset-0 z-10 flex flex-row justify-center mx-auto items-center">
+          <Image
+            src={`/imgs/graphics/rule-book.png`} // Replace with your Survivor logo path
+            alt="Survivor Fantasy Rule Book"
+            width={200}
+            height={200}
+          />
+        </div>
+      </div>
+
       <div className="max-w-6xl mx-auto">
-        <h1 className="text-5xl font-bold mb-2 text-stone-100 p-4 font-survivor tracking-wider">League Rules</h1>
 
         <section className="mb-8 px-4 font-lostIsland tracking-wider">
           <h2 className="text-2xl mb-4">General Overview</h2>

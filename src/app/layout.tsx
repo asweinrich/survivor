@@ -38,7 +38,7 @@ export default function RootLayout({
 
 function Navbar() {
   return (
-    <nav className="bg-stone-700 text-white p-3">
+    <nav className="bg-stone-900 text-white p-3">
       <div className="flex justify-start space-x-4 font-lostIsland uppercase tracking-widest text-xs">
         <a href="/" className="flex flex-col hover:opacity-70 me-auto px-2">
           <HomeIcon className="h-6 w-6 text-white mx-auto mb-1" />

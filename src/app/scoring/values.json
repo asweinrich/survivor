@@ -13,7 +13,7 @@
     },
     {
       "name": "Make the Merge",
-      "description": "Making the merge is a critical milestone; it demonstrates social and tribal gameplay up to that point.",
+      "description": "Making the merge is a critical milestone; it demonstrates strong social gameplay and tribal alliances up to that point.",
       "points": 100,
       "schemaKey": "madeMerge"
     },
@@ -26,26 +26,20 @@
     {
       "name": "Individual Immunity",
       "description": "Winning individual immunity shows physical prowess and helps players avoid elimination in key moments.",
-      "points": 80,
+      "points": 100,
       "schemaKey": "immunityWins"
     },
     {
       "name": "Reward Challenge",
-      "description": "Reward wins provide resources, morale boosts, and bonding opportunities, though not directly related to survival.",
+      "description": "Going on a reward provides resources, morale boosts, and bonding opportunities, though it is not directly related to survival.",
       "points": 50,
       "schemaKey": "rewards"
     },
     {
       "name": "Hidden Immunity Idol",
-      "description": "Playing a hidden immunity idol successfully can change the course of the game, offering massive strategic value.",
+      "description": "Obtaining a hidden immunity idol successfully can change the course of the game, offering massive strategic value.",
       "points": 70,
       "schemaKey": "hiddenIdols"
-    },
-    {
-      "name": "Survive Tribal Council",
-      "description": "Avoiding elimination at tribal councils is fundamental. Surviving one tribal contributes to long-term success.",
-      "points": 40,
-      "schemaKey": "tribals"
     },
     {
       "name": "Survive an Episode",
@@ -55,7 +49,7 @@
     },
     {
       "name": "Tribal Immunity",
-      "description": "Tribal immunity prevents a player’s tribe from facing elimination. It’s critical pre-merge but less impactful after.",
+      "description": "1st place tribal immunity prevents a contestants tribe from facing elimination. It’s critical pre-merge but less impactful after.",
       "points": 30,
       "schemaKey": "tribalWins"
     },
@@ -64,11 +58,5 @@
       "description": "Finding or using an advantage can help, but it doesn't always guarantee safety or success.",
       "points": 20,
       "schemaKey": "advantages"
-    },
-    {
-      "name": "Removal Penalty",
-      "description": "Being voted out pre-merge or at any stage signifies a failure to progress. Penalties discourage poor performance.",
-      "points": -100,
-      "schemaKey": "removedPenalty"
     }
 ]

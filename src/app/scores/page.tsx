@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react';
 import { ChevronDownIcon, IdentificationIcon } from '@heroicons/react/24/outline';
 import { FireIcon, TrophyIcon } from '@heroicons/react/24/solid';
 import ContestantProfile from '../components/ContestantProfile';
+import Image from "next/image";
+
 
 type Contestant = {
   id: number;
@@ -187,11 +189,41 @@ export default function Scores() {
 
   return (
     <div className="min-h-screen bg-stone-900 text-stone-200 p-0">
-      <div className="max-w-6xl mx-auto">
-        <h1 className="text-5xl font-bold mb-2 text-stone-100 p-4 font-survivor tracking-wider">
-          Tribe Rankings
-        </h1>
+      
+      <div className="relative w-full h-60 mb-12 p-0 text-center">
+        {/* Background Image */}
+        <div className="z-0">
+          <Image
+            src="/imgs/graphics/home-graphic.png" // Replace with your background image path
+            alt="Survivor Background"
+            layout="fill"
+            objectFit="cover"
+            className=""
+          />
+          <div
+            className="absolute inset-0 bg-gradient-to-b from-stone-900 via-transparent to-stone-900"
+            style={{
+              backgroundImage:
+                "linear-gradient(to bottom, #1c1917 0%, transparent 33%, transparent 66%, #1c1917 100%)",
+            }}
+          ></div>
 
+        </div>
+        <h1 className="absolute -bottom-8 inset-x-0 z-10 text-4xl font-bold mb-2 text-stone-100 font-survivor tracking-wider">Tribe Leaderboard</h1>
+  
+        {/* Logo and Welcome Section */}
+        <div className="absolute inset-0 z-10 flex flex-row justify-center mx-auto items-center">
+          <Image
+            src={`/imgs/${season}/logo.png`} // Replace with your Survivor logo path
+            alt="Survivor Season 48 Logo"
+            width={250}
+            height={250}
+          />
+        </div>
+      </div>
+
+      <div className="max-w-6xl mx-auto">
+      
         {/* Season Dropdown */}
         <div className="mb-8 px-4 font-lostIsland tracking-wider">
           <select
@@ -253,12 +285,12 @@ export default function Scores() {
                       <img
                         src={`/imgs/${contestant.img}.png`}
                         alt={contestant.name}
-                        className="h-14 w-14 object-cover me-3"
+                        className="h-12 w-12 object-cover me-3"
                       />
                       <div className="flex-grow">
-                        <div className="text-lg font-lostIsland ps-0.5">{contestant.name}</div>
+                        <div className="text-lg font-lostIsland leading-tight ps-0.5">{contestant.name}</div>
                         
-                        <div className="flex items-center">
+                        <div className="flex items-center leading-tight">
                           {contestant.inPlay && (<>
                             <FireIcon className="h-5 w-5 text-orange-400 me-1" />
                             <div className="text-stone-300 lowercase font-lostIsland tracking-wider">In Play</div>
@@ -295,9 +327,9 @@ export default function Scores() {
                           )}
                         </div>
                       </div>
-                      <div className="text-2xl font-lostIsland text-stone-300">{contestant.points || 0}</div>
+                      <div className="text-xl font-lostIsland text-stone-300">{contestant.points || 0}</div>
                       <IdentificationIcon
-                        className="w-8 h-8 ms-3 cursor-pointer text-stone-400 hover:text-stone-200"
+                        className="w-6 h-6 ms-3 cursor-pointer text-stone-400 hover:text-stone-200"
                         onClick={() => activateModal(contestant.id)}
                       />
                     </div>

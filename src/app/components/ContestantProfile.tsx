@@ -49,7 +49,7 @@ const scoringCategories: ScoringCategory[] = [
   { name: "Final Three", points: 150, schemaKey: "top3" },
   { name: "Win Fire Making", points: 100, schemaKey: "madeFire" },
   { name: "Make the Merge", points: 100, schemaKey: "madeMerge" },
-  { name: "Individual Immunities", points: 80, schemaKey: "immunityWins" },
+  { name: "Individual Immunities", points: 100, schemaKey: "immunityWins" },
   { name: "Reward Challenges", points: 50, schemaKey: "rewards" },
   { name: "Hidden Immunity Idols", points: 70, schemaKey: "hiddenIdols" },
   { name: "Tribal Immunity Challenges", points: 30, schemaKey: "tribalWins" },
@@ -66,6 +66,8 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
   const [activeTab, setActiveTab] = useState("overview");
   const [recaps, setRecaps] = useState<Recap[]>([]);
   const [powerRank, setPowerRank] = useState<string | number>("--");
+  const [rosterPercentage, setRosterPercentage] = useState<number | null>(null);
+
 
 
 
@@ -113,6 +115,22 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
         .then((res) => res.json())
         .then((data) => setRecaps(data))
         .catch((error) => console.error('Error fetching recaps:', error));
+
+        // Fetch roster percentage for the contestant
+      fetch(`/api/roster-pct`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ playerId: contestant.id, season: contestant.season }),
+      })
+        .then((res) => res.json())
+        .then((data) => setRosterPercentage(data.rosterPercentage || 0))
+        .catch((error) => {
+          console.error('Error fetching roster percentage:', error);
+          setRosterPercentage(0); // Default to 0 on error
+        });
+
     }
   }, [contestant]);
 
@@ -317,7 +335,7 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
             <span className="lowercase opacity-70 text-sm">power rank</span>
           </div>
           <div className="flex flex-col mx-6 text-center">
-            <span className="text-xl tracking-wider">68%</span>
+            <span className="text-xl tracking-wider">{rosterPercentage}%</span>
             <span className="lowercase opacity-70 text-sm">rostered</span>
           </div>
 
@@ -370,7 +388,11 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
             </div>
           )}
           {activeTab === "stats" && (
-            <div className="py-1">
+            <div className="pb-4">
+              <p className="font-inter w-full text-center py-3 border-b border-stone-600">
+                Review scoring rules and point values <a href="/rules/#scoring" target="_blank" className="underline text-orange-500 hover:text-orange-400">here</a>
+              </p>
+              
               {scoringCategories.map((category) => (
 
                 <div key={category.schemaKey} className="flex justify-between items-center px-5 py-3 border-b border-stone-600">

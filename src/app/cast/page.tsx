@@ -2,8 +2,10 @@
 
 import { useState, useEffect } from 'react';
 import { TrophyIcon, FireIcon } from '@heroicons/react/24/solid';
-import { InformationCircleIcon } from '@heroicons/react/24/outline';
+import { IdentificationIcon } from '@heroicons/react/24/outline';
 import ContestantProfile from '../components/ContestantProfile';
+import Image from "next/image";
+
 
 
 type Contestant = {
@@ -129,7 +131,7 @@ export default function Contestants() {
       return (
         <span
           key={id}
-          className="inline-block px-2 py-0.5 tracking-wider rounded-full text-white me-1 lowercase font-lostIsland"
+          className="inline-block px-1.5 pt-1.5 pb-1 tracking-wider leading-none rounded-full me-1 uppercase font-lostIsland"
           style={{
             backgroundColor: hexToRgba(tribe.color, 0.3), // Transparent background
             color: tribe.color, // Solid text color
@@ -167,8 +169,40 @@ export default function Contestants() {
 
   return (
     <div className="min-h-screen bg-stone-900 text-stone-200 p-0">
+      
+      <div className="relative w-full h-60 mb-12 p-0 text-center">
+        {/* Background Image */}
+        <div className="z-0">
+          <Image
+            src="/imgs/graphics/home-graphic.png" // Replace with your background image path
+            alt="Survivor Background"
+            layout="fill"
+            objectFit="cover"
+            className=""
+          />
+          <div
+            className="absolute inset-0 bg-gradient-to-b from-stone-900 via-transparent to-stone-900"
+            style={{
+              backgroundImage:
+                "linear-gradient(to bottom, #1c1917 0%, transparent 33%, transparent 66%, #1c1917 100%)",
+            }}
+          ></div>
+
+        </div>
+        <h1 className="absolute -bottom-8 inset-x-0 z-10 text-4xl font-bold mb-2 text-stone-100 font-survivor tracking-wider">Cast Rankings</h1>
+  
+        {/* Logo and Welcome Section */}
+        <div className="absolute inset-0 z-10 flex flex-row justify-center mx-auto items-center">
+          <Image
+            src={`/imgs/${season}/logo.png`} // Replace with your Survivor logo path
+            alt="Survivor Season 48 Logo"
+            width={250}
+            height={250}
+          />
+        </div>
+      </div>
+
       <div className="max-w-6xl mx-auto">
-        <h1 className="text-5xl font-bold mb-2 text-stone-100 p-4 font-survivor tracking-wider">Survivor Cast</h1>
 
         {/* Season Dropdown */}
         <div className="mb-8 px-4 font-lostIsland tracking-wider">
@@ -189,11 +223,11 @@ export default function Contestants() {
         {contestants.map((contestant) => (
         <div
           key={contestant.id}
-          className="flex flex-row w-full items-center py-3 px-1 border-b border-t border-stone-700"
+          className="flex flex-row w-full items-center p-2 border-b border-t border-stone-700"
           style={{ opacity: contestant.inPlay ? 1 : 0.8 }}
         >
           {/* Image */}
-          <div className="flex items-center justify-center w-24">
+          <div className="flex items-center justify-center w-20 overflow-hidden ms-1.5 me-3">
             <img
               src={`/imgs/${contestant.img}.png`}
               alt={contestant.name}
@@ -202,10 +236,9 @@ export default function Contestants() {
           </div>
 
           {/* Survivor Name and Info */}
-          <div className="flex flex-col flex-grow ps-1">
+          <div className="flex flex-col flex-grow">
             <div className="flex flex-row items-center">
-              <span className="text-lg lowercase font-lostIsland tracking-wider">{contestant.name}</span>
-              <InformationCircleIcon className="w-5 h-5 opacity-80 ms-1" onClick={() => activateModal(contestant.id)} />
+              <span className="text-lg uppercase font-lostIsland tracking-wider">{contestant.name}</span>
             </div>
             <div className="flex flex-row items-center my-0.5">
               <span className="">{formatTribeBadges(contestant.tribes)}</span>
@@ -249,8 +282,9 @@ export default function Contestants() {
           </div>
 
           {/* Score */}
-          <div className="flex items-center justify-center w-20">
-            <span className="text-3xl font-lostIsland tracking-widest">{points[contestant.id] ?? '--'}</span>
+          <div className="flex flex-col items-center justify-center w-20">
+            <span className="text-3xl font-lostIsland text-white tracking-widest">{points[contestant.id] ?? '--'}</span>
+            <IdentificationIcon className="w-5 h-5 stroke-2 mt-1 text-stone-300 hover:cursor-pointer" onClick={() => activateModal(contestant.id)} />
           </div>
         </div>
         ))}

@@ -167,6 +167,17 @@ const RulesPage = () => {
             But let’s not forget, this game is about more than just money. It’s about bragging rights, epic moments, and proving you have what it takes to outwit, outplay, and outlast everyone else. So bring your A-game, and may the best tribe win!
           </p>
         </section>
+
+        <section className="mb-8 px-4 font-lostIsland tracking-wider">
+          <h2 className="text-2xl mb-4">Private Betting Pool Disclaimer</h2>
+          <p className="font-inter text-stone-300 tracking-wider mb-4">
+            In this Survivor Fantasy League, the prize pool is created entirely from the contributions of participating players. Each player pays an entry fee, which is pooled together to form the total prize. The entire pool is distributed among the winners at the end of the season based on the league's scoring system.
+          </p>
+          <p className="font-inter text-stone-300 tracking-wider mb-4">
+            No portion of the prize pool is retained for administrative purposes or for profit by the organizer. This league is a private, social activity designed for enjoyment and camaraderie. All fees directly contribute to the winnings for the season.
+          </p>
+        </section>
+
       </div>
     </div>
   );

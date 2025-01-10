@@ -426,7 +426,7 @@ export default function Draft() {
                 <div className="mb-2">
                   <div className="flex flex-row justify-around items-center mb-3">
                     <label htmlFor="tribeArray" className="flex grow text-lg leading-tight">
-                      Your Tribe
+                      Your Tribe ({draftPicks.length})
                     </label>
 
                     <button

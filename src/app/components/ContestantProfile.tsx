@@ -125,7 +125,7 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
         body: JSON.stringify({ playerId: contestant.id, season: contestant.season }),
       })
         .then((res) => res.json())
-        .then((data) => setRosterPercentage(data.rosterPercentage || 0))
+        .then((data) => setRosterPercentage((Math.round(data.rosterPercentage)) || 0))
         .catch((error) => {
           console.error('Error fetching roster percentage:', error);
           setRosterPercentage(0); // Default to 0 on error

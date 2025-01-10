@@ -225,8 +225,8 @@ export default function Draft() {
           <Image
             src="/imgs/graphics/home-graphic.png" // Replace with your background image path
             alt="Survivor Background"
-            layout="fill"
-            objectFit="cover"
+            fill
+            style={{ objectFit: 'cover' }} 
             className=""
           />
           <div
@@ -348,6 +348,7 @@ export default function Draft() {
                   className="w-full p-2 bg-stone-700 rounded text-lg"
                   value={form.tribeName}
                   onChange={handleInputChange}
+                  maxLength={23}
                   required
                 />
               </div>

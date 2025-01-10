@@ -389,9 +389,7 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
           )}
           {activeTab === "stats" && (
             <div className="pb-4">
-              <p className="font-inter w-full text-center py-3 border-b border-stone-600">
-                Review scoring rules and point values <a href="/rules/#scoring" target="_blank" className="underline text-orange-500 hover:text-orange-400">here</a>
-              </p>
+              
               
               {scoringCategories.map((category) => (
 
@@ -414,6 +412,9 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
                   </span>
                 </div>
               ))}
+              <p className="font-inter w-full text-center p-4 border-b border-stone-600 text-sm">
+                Review scoring rules and point values <a href="/rules/#scoring" target="_blank" className="underline text-orange-500 hover:text-orange-400">here</a>
+              </p>
             </div>
           )}
         </div>

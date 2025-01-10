@@ -4,19 +4,22 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 
 const HomePage = () => {
-  const [countdown, setCountdown] = useState("");
+  const [countdown, setCountdown] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+
 
   const season = 48;
 
   useEffect(() => {
-    const targetDate = new Date("2025-02-28T20:00:00"); // Replace with Season 48 premiere date
+    const targetDate = new Date("2025-02-26T19:00:00"); // Replace with Season 48 premiere date
     const updateCountdown = () => {
       const now = new Date();
       const timeLeft = targetDate.getTime() - now.getTime();
       const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
       const hours = Math.floor((timeLeft / (1000 * 60 * 60)) % 24);
       const minutes = Math.floor((timeLeft / (1000 * 60)) % 60);
-      setCountdown(`${days} days, ${hours} hours, ${minutes} minutes`);
+      const seconds = Math.floor((timeLeft / 1000) % 60);
+
+      setCountdown({ days, hours, minutes, seconds });
     };
 
     updateCountdown();
@@ -33,8 +36,8 @@ const HomePage = () => {
           <Image
             src="/imgs/graphics/home-graphic.png" // Replace with your background image path
             alt="Survivor Background"
-            layout="fill"
-            objectFit="cover"
+            fill
+            style={{ objectFit: 'cover' }} 
             className=""
           />
           <div
@@ -60,13 +63,30 @@ const HomePage = () => {
       </div>
 
       {/* Countdown Section */}
-      <div className="bg-stone-800 text-center py-6 px-4 m-4 rounded-xl">
-        <h2 className="text-lg uppercase text-stone-300">Season 48 Countdown</h2>
-        <p className="text-2xl font-bold mt-1.5">{countdown}</p>
+      <div className="text-center py-3 px-4 m-3 rounded-xl">
+        <h2 className="text-2xl uppercase text-stone-300 mb-4">Season 48 Countdown</h2>
+        <div className="flex flex-row  max-w-96 justify-center items-center space-x-6 lowercase tracking-wider bg-stone-800 border border-stone-700 mx-auto p-4 rounded-xl">
+          <div className="text-center">
+            <div className="text-3xl">{countdown.days}</div>
+            <div className="text-stone-400">Days</div>
+          </div>
+          <div className="text-center">
+            <div className="text-3xl">{countdown.hours}</div>
+            <div className="text-stone-400">Hours</div>
+          </div>
+          <div className="text-center">
+            <div className="text-3xl">{countdown.minutes}</div>
+            <div className="text-stone-400">Minutes</div>
+          </div>
+          <div className="text-center">
+            <div className="text-3xl">{countdown.seconds}</div>
+            <div className="text-stone-400">Seconds</div>
+          </div>
+        </div>
       </div>
 
       {/* Buttons Section */}
-      <div className="flex justify-center gap-4 py-8 ">
+      <div className="flex justify-center gap-4 py-4 ">
         <a href="/rules">
         <button className="w-40 py-3 uppercase bg-stone-700 rounded text-white hover:bg-stone-600">
           How to Play

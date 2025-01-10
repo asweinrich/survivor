@@ -196,8 +196,8 @@ export default function Scores() {
           <Image
             src="/imgs/graphics/home-graphic.png" // Replace with your background image path
             alt="Survivor Background"
-            layout="fill"
-            objectFit="cover"
+            fill
+            style={{ objectFit: 'cover' }} 
             className=""
           />
           <div
@@ -238,11 +238,11 @@ export default function Scores() {
         </div>
 
         {rankedTribes.map((tribe) => (
-          <div key={tribe.id} className="border-b border-t border-stone-700 p-3">
+          <div key={tribe.id} className="border-b border-t border-stone-700 px-2 py-3">
             <div className="flex items-center justify-start">
               {/* Emoji and Tribe Info */}
-              <div className="flex items-center w-8 font-lostIsland text-2xl me-2">
-                <span className="mx-auto">{tribe.rank}</span>
+              <div className="flex items-center w-8 font-lostIsland text-2xl me-1.5">
+                <span className="mx-auto">{tribe.rank}00</span>
               </div>
               <div className="flex items-center">
                 <div
@@ -252,28 +252,28 @@ export default function Scores() {
                   {tribe.emoji}
                 </div>
                 <div className="ms-3">
-                  <div className="text-xl font-lostIsland leading-tight">{tribe.tribeName}</div>
+                  <div className="text-lg font-lostIsland leading-tight">{tribe.tribeName}</div>
                   <div className="text-stone-400 font-lostIsland leading-tight">{tribe.playerName}</div>
                 </div>
               </div>
 
               {/* Score and Dropdown Toggle */}
-              <div className="flex items-center ms-auto me-0">
-                <span className="text-2xl font-lostIsland tracking-widest mr-2">
+              <div className="flex items-center ms-auto me-0" onClick={() => toggleDropdown(tribe.id)}>
+                <span className="text-2xl font-lostIsland tracking-wide mr-1.5">
                   {calculateScore(tribe)}
                 </span>
                 <ChevronDownIcon
-                  className={`w-5 h-5 stroke-3 cursor-pointer ${
+                  className={`w-4 h-4 stroke-3 cursor-pointer ${
                     expandedTribes.includes(tribe.id) ? 'rotate-180' : ''
                   }`}
-                  onClick={() => toggleDropdown(tribe.id)}
+                  
                 />
               </div>
             </div>
 
             {/* Dropdown with Contestants */}
             {expandedTribes.includes(tribe.id) && (
-              <div className="p-3">
+              <div className="px-3 mt-3 bg-stone-800 rounded-lg border border-stone-700">
                 {tribe.tribeArray.map((contestantId) => {
                   const contestant = contestants.find((c) => c.id === contestantId);
                   if (!contestant) return null;

@@ -12,16 +12,16 @@
       "schemaKey": "top3"
     },
     {
-      "name": "Make the Merge",
-      "description": "Making the merge is a critical milestone; it demonstrates strong social gameplay and tribal alliances up to that point.",
-      "points": 100,
-      "schemaKey": "madeMerge"
-    },
-    {
       "name": "Successful Fire Making",
       "description": "The fire-making challenge directly determines the Final Three contestants in modern Survivor.",
       "points": 100,
       "schemaKey": "madeFire"
+    },
+    {
+      "name": "Make the Merge",
+      "description": "Making the merge is a critical milestone; it demonstrates strong social gameplay and tribal alliances up to that point.",
+      "points": 100,
+      "schemaKey": "madeMerge"
     },
     {
       "name": "Individual Immunity",

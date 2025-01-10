@@ -176,8 +176,8 @@ export default function Contestants() {
           <Image
             src="/imgs/graphics/home-graphic.png" // Replace with your background image path
             alt="Survivor Background"
-            layout="fill"
-            objectFit="cover"
+            fill
+            style={{ objectFit: 'cover' }} 
             className=""
           />
           <div

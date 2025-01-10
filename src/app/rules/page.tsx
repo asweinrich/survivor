@@ -8,7 +8,7 @@ import scoringValues from '../scoring/values.json';
 
 const RulesPage = () => {
 
-  const [tooltip, setTooltip] = useState<string | null>(null);
+  const [tooltip, setTooltip] = useState<number | null>(null);
 
 
 

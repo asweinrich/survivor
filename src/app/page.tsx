@@ -110,9 +110,11 @@ const HomePage = () => {
         <div className="bg-stone-800 rounded p-4 hover:bg-stone-700">
           <h3 className="font-semibold">Leaderboard</h3>
         </div>
-        <div className="bg-stone-800 rounded p-4 hover:bg-stone-700">
-          <h3 className="font-semibold">Join WhatsApp Group</h3>
-        </div>
+        <a target="_blank" href="https://chat.whatsapp.com/FpRMxQLhp0U848l309PL1T">
+          <div className="bg-stone-800 rounded p-4 hover:bg-stone-700">
+            <h3 className="font-semibold">Join WhatsApp Group</h3>
+          </div>
+        </a>
       </div>
     </div>
   );

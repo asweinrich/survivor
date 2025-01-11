@@ -1,0 +1,394 @@
+[
+    {
+        "id": 1,
+        "email": "akkia15@gmail.com",
+        "playerName": "Abu",
+        "tribeName": "AssUpInTheWell",
+        "tribeArray": [
+            14,
+            2,
+            12
+        ],
+        "emoji": "\ud83c\udf86",
+        "color": "#FF5733",
+        "score": 1325
+    },
+    {
+        "id": 2,
+        "email": "fishbourneellie@gmail.com",
+        "playerName": "Ellie",
+        "tribeName": "NoOneCheered4MyCoconut",
+        "tribeArray": [
+            16,
+            15,
+            4
+        ],
+        "emoji": "\ud83e\udd65",
+        "color": "#33FF57",
+        "score": 910
+    },
+    {
+        "id": 3,
+        "email": "vvacknitz@gmail.com",
+        "playerName": "Tori",
+        "tribeName": "Toriko",
+        "tribeArray": [
+            15,
+            1,
+            4
+        ],
+        "emoji": "\ud83c\udf1e",
+        "color": "#3357FF",
+        "score": 1480
+    },
+    {
+        "id": 4,
+        "email": "joshbrigance@hotmail.com",
+        "playerName": "Josh",
+        "tribeName": "Joshiko",
+        "tribeArray": [
+            14,
+            5,
+            10
+        ],
+        "emoji": "\ud83c\udf39",
+        "color": "#FF33A1",
+        "score": 850
+    },
+    {
+        "id": 5,
+        "email": "catherinermarshall@gmail.com",
+        "playerName": "Cat",
+        "tribeName": "Cathemeral Tribe",
+        "tribeArray": [
+            7,
+            1,
+            3
+        ],
+        "emoji": "\ud83c\udf40",
+        "color": "#F3FF33",
+        "score": 1285
+    },
+    {
+        "id": 6,
+        "email": "slunbeck@gmail.com",
+        "playerName": "Lindsey L.",
+        "tribeName": "LunBecks",
+        "tribeArray": [
+            1,
+            4,
+            12
+        ],
+        "emoji": "\ud83c\udf0a",
+        "color": "#33FFF5",
+        "score": 1010
+    },
+    {
+        "id": 7,
+        "email": "cassandrew25@gmail.com",
+        "playerName": "Cassie",
+        "tribeName": "Cassaka",
+        "tribeArray": [
+            5,
+            11,
+            12
+        ],
+        "emoji": "\ud83c\udf3c",
+        "color": "#FF9F33",
+        "score": 800
+    },
+    {
+        "id": 8,
+        "email": "haileytannenbaum493@gmail.com",
+        "playerName": "Hailey",
+        "tribeName": "Hailstorm",
+        "tribeArray": [
+            15,
+            3,
+            12
+        ],
+        "emoji": "\ud83c\udf87",
+        "color": "#A133FF",
+        "score": 900
+    },
+    {
+        "id": 9,
+        "email": "lindsey.swiatek@gmail.com",
+        "playerName": "Lindsey S.",
+        "tribeName": "Ling",
+        "tribeArray": [
+            14,
+            16,
+            4
+        ],
+        "emoji": "\ud83c\udf4b",
+        "color": "#33FF9F",
+        "score": 1600
+    },
+    {
+        "id": 10,
+        "email": "jessica.homet@gmail.com",
+        "playerName": "Jess",
+        "tribeName": "Jesak'aa",
+        "tribeArray": [
+            7,
+            11,
+            4
+        ],
+        "emoji": "\ud83c\udfaf",
+        "color": "#FFD433",
+        "score": 1390
+    },
+    {
+        "id": 11,
+        "email": "asweinrich@gmail.com",
+        "playerName": "Andrew",
+        "tribeName": "Werd Na",
+        "tribeArray": [
+            5,
+            8,
+            13
+        ],
+        "emoji": "\ud83c\udf19",
+        "color": "#FF3357",
+        "score": 1525
+    },
+    {
+        "id": 12,
+        "email": "jjg999@gmail.com",
+        "playerName": "Jared",
+        "tribeName": "Jdogarundi",
+        "tribeArray": [
+            9,
+            2,
+            4
+        ],
+        "emoji": "\ud83c\udf38",
+        "color": "#33A1FF",
+        "score": 1130
+    },
+    {
+        "id": 13,
+        "email": "shelbynb94@gmail.com",
+        "playerName": "Shelby",
+        "tribeName": "Shebalba",
+        "tribeArray": [
+            14,
+            8,
+            1
+        ],
+        "emoji": "\ud83c\udf4e",
+        "color": "#57FF33",
+        "score": 1730
+    },
+    {
+        "id": 14,
+        "email": "enation114@gmail.com",
+        "playerName": "Erica",
+        "tribeName": "Bula",
+        "tribeArray": [
+            15,
+            11,
+            10
+        ],
+        "emoji": "\ud83c\udf08",
+        "color": "#9F33FF",
+        "score": 740
+    },
+    {
+        "id": 15,
+        "email": "axiedompier@yahoo.com",
+        "playerName": "Axie",
+        "tribeName": "Ax-ah",
+        "tribeArray": [
+            10,
+            4,
+            17
+        ],
+        "emoji": "\ud83d\udca5",
+        "color": "#33FFD4",
+        "score": 1300
+    },
+    {
+        "id": 16,
+        "email": "kristimichelleking@gmail.com",
+        "playerName": "Kristi",
+        "tribeName": "Jeffrey Lee Probst",
+        "tribeArray": [
+            8,
+            2,
+            4
+        ],
+        "emoji": "\ud83c\udfdd\ufe0f",
+        "color": "#A1FF33",
+        "score": 2550
+    },
+    {
+        "id": 17,
+        "email": "tjfking@gmail.com",
+        "playerName": "Tyler",
+        "tribeName": "Paku Paku",
+        "tribeArray": [
+            7,
+            5,
+            4
+        ],
+        "emoji": "\ud83c\udf49",
+        "color": "#5733FF",
+        "score": 1350
+    },
+    {
+        "id": 18,
+        "email": "nickgraham@gmail.com",
+        "playerName": "Nick",
+        "tribeName": "Nikuru Tribe",
+        "tribeArray": [
+            4,
+            17,
+            12
+        ],
+        "emoji": "\ud83e\udd6d",
+        "color": "#FF33D4",
+        "score": 685
+    },
+    {
+        "id": 19,
+        "email": "sigotron@gmail.com",
+        "playerName": "Joel",
+        "tribeName": "Joel Probst's Chosen",
+        "tribeArray": [
+            16,
+            1,
+            10
+        ],
+        "emoji": "\ud83c\udf47",
+        "color": "#FF5733",
+        "score": 920
+    },
+    {
+        "id": 20,
+        "email": "lorenamartinez500@gmail.com",
+        "playerName": "Lorena",
+        "tribeName": "LaLoreChosen",
+        "tribeArray": [
+            14,
+            8,
+            13
+        ],
+        "emoji": "\u2728",
+        "color": "#33FFA1",
+        "score": 540
+    },
+    {
+        "id": 21,
+        "email": "suegupta425@gmail.com",
+        "playerName": "Sue",
+        "tribeName": "Suevivor",
+        "tribeArray": [
+            14,
+            5,
+            12
+        ],
+        "emoji": "\ud83c\udf4d",
+        "color": "#FF339F",
+        "score": 750
+    },
+    {
+        "id": 22,
+        "email": "claudebullock@gmail.com",
+        "playerName": "Claude",
+        "tribeName": "Babu",
+        "tribeArray": [
+            16,
+            15,
+            4
+        ],
+        "emoji": "\ud83d\udd25",
+        "color": "#D4FF33",
+        "score": 750
+    },
+    {
+        "id": 23,
+        "email": "julialeelewis@gmail.com",
+        "playerName": "Julia",
+        "tribeName": "JuJu",
+        "tribeArray": [
+            15,
+            1,
+            4
+        ],
+        "emoji": "\ud83c\udf1f",
+        "color": "#33D4FF",
+        "score": 925
+    },
+    {
+        "id": 24,
+        "email": "joel.swiatek@gmail.com",
+        "playerName": "Joel S.",
+        "tribeName": "Jolagu",
+        "tribeArray": [
+            16,
+            2,
+            4
+        ],
+        "emoji": "\ud83c\udf52",
+        "color": "#57FF57",
+        "score": 1350
+    },
+    {
+        "id": 25,
+        "email": "charquach@gmail.com",
+        "playerName": "Char",
+        "tribeName": "Lordcharquad",
+        "tribeArray": [
+            5,
+            8,
+            2
+        ],
+        "emoji": "\ud83c\udf34",
+        "color": "#F5A142",
+        "score": 910
+    },
+    {
+        "id": 26,
+        "email": "kyle.d.heimbach@gmail.com",
+        "playerName": "Kyle",
+        "tribeName": "Heimheim",
+        "tribeArray": [
+            9,
+            8,
+            3
+        ],
+        "emoji": "\ud83c\udf3b",
+        "color": "#FF5733",
+        "score": 700
+    },
+    {
+        "id": 27,
+        "email": "natidibbern@gmail.com",
+        "playerName": "Nat",
+        "tribeName": "Natika",
+        "tribeArray": [
+            10,
+            3,
+            4
+        ],
+        "emoji": "\ud83c\udf43",
+        "color": "#33FF57",
+        "score": 980
+    },
+    {
+        "id": 28,
+        "email": "juanjo.neri@gmail.com",
+        "playerName": "Juanjo",
+        "tribeName": "Kumachikitopitito",
+        "tribeArray": [
+            3,
+            4,
+            17
+        ],
+        "emoji": "\ud83e\udd5d",
+        "color": "#3357FF",
+        "score": 1375
+    }
+]

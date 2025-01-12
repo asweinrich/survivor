@@ -1,0 +1,93 @@
+Running Notes / To Do: 
+
+Copy/Paste to signify completion:
+
+✅	- complete 
+⬜️	- incomplete
+❌ 	- cancelled
+
+
+
+-- LAYOUT -- 
+⬜️	Add footer to page with additional links for easy navigation. 
+⬜️	Give DRAFT navbar item a background so it pops. 
+
+
+-- HOME --
+⬜️	Fix button width on "how to play" and "draft your tribe" buttons. 
+⬜️	Need to update other buttons at the bottom of the page. 
+		Add some pizzaz to them! More than just text on a button. Maybe change the text/layout of them as well because their pretty tall right now. 
+⬜️	Some welcome text on the home page wouldn't hurt. 
+		Should be after the main 2 buttons referenced above I think. Should be 1-2 sentences that help people understand what they're looking at and guiding them to how to learn more. 
+
+
+
+-- CAST --
+⬜️	Generate ChatGPT recaps for contestants from season 47
+		Add the text to prisma db for contestants 1 - 18 (Season 47 cast)
+
+
+
+-- SCORES --
+⬜️	Add help text for users to click dropdown caret to see a Player's full tribe
+⬜️	Add help text for suers to click id icon on contestants to see more details.
+⬜️	Add a fun lil podium graphic for top 3 winners from a season and payout amounts(?)
+		Should remain on screen, but be empty for seasons still in progress.  
+⬜️	Need to configure scoring. Tried but got infinite page reloads which broke app. 
+		I feel like on the SCORES page load, I need to get contestant scores from a new API request and store those in a state variable. (Already a scores option for contestatns) so don't need new state variable, but I do need to run the code to get their scores and just pull the scores from that. It's not working rn. 
+⬜️	Add a sort to the contestants in a given PlayerTribe to rank them by SS, and then rank them.... actually scratch that. 
+		Should I rank by status? I think so. Rank alphabetically, with people voted out at the bottom - should do the same sort for CAST Page. 
+
+
+
+-- RULES --
+⬜️	Add content to 'Picking Your Tribe' section
+		Add more detailed instructions on how to draft your tribe. 
+⬜️	Add FAQ to bottom of rules. Link to this from homepage?
+⬜️	There is a weird black space at the bottom of the page, fix/remove it!
+⬜️	Should people draft BEFORE OR AFTER episode 1? 
+
+
+
+-- DRAFT --
+⬜️	Add help text to DRAFT page, guidance on how to draft and make your tribe
+		"Wait! Before you draft, have you reviewed the rules?"
+		Help text before form portion of traft where people write their emails and stuff
+⬜️	IMPORTANT - Fix flow after tribe submittal so that user is redirected to scores page where they can see their new tribe at the top of the list. 
+⬜️	Make it so that submit button is disabled after submission to prevent double tribe submissions
+⬜️	MAKE A DECISION - Will contestants be able to draft a sole survivor?
+		Leaning towards yes. But what does that mean?
+			Do they get extra points for that player? Do they get a one time bonus if their pick wins? 
+		Should be simple to implement:
+			SS will be first of their team, first pick. Instead of green it will be gold and instead of check icon it will have crown or trophy icon. 
+			BUT - if user removes SS from tribal selection, it will automatically make the next drafted contestant their SS pick. Could be confusing!
+⬜️	Do I need phone number? Can probably lose either phone number or email. Don't konw if people want to submit both, not a huge deal though. 
+
+
+
+
+-- RECAPS --
+⬜️ 	Make Page
+		Add consistent graphic and logo to top of page
+⬜️ 	Create primsa db to contain weekly general recaps
+		Include id, season, week, content, date/time
+		formatting? How will different paragraphs work?
+		Maybe make JSON file containing contents and reference that instead of prisma db??
+⬜️ 	Format recaps to read easily and in order
+⬜️ 	Add season selector to choose which season to read recaps
+
+
+
+-- OTHER/SITE-WIDE -- 
+⬜️	Figure out payment!!! 
+		Have a disclaimer in the draft page that says tribe entry fee must be paid before cutoff date. 
+		If entry fee is not paid, disclaimer should state that tribe will be removed from competition. 
+		Have user submit tribe, then get a popup where they have to select that they understand the payment disclaimer and so and so. They will have to check the box and submit everything (in a nice little recapped modal) in order to officially submit their tribe. Then get redirected to scores page or "submitted" page. 
+		I kinda the submitted page. Can either send POST data to display their tribe, or can just send PlayerTribe ID so that it loads data from a separate API - do whatever is easier. But add confetti! Maybe it's easier to include the PlayerTribe ID din there as a GET request so that people can revisit/re-experience if they want - this would be GREAT content to post. 
+⬜️	Add light mode / dark mode
+		Adds a fun personalization option for people. 
+		Can be a switch in the top toolbar on the far right. 
+⬜️	Get domain up and running and get app routed to domain through Vercel. 
+		Fix links in Whatsapp to reflect the new/official domain. 
+⬜️	Figure out ideal contestant image dimenstions and format - keep it consistent and produce them all in photoshop to match dimensions and style
+		Should I do no background? Or keep a background on the images? 

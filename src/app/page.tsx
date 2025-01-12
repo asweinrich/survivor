@@ -100,19 +100,19 @@ const HomePage = () => {
       </div>
 
       {/* Navigation Section */}
-      <div className="grid grid-cols-2 gap-4 py-8 px-4 text-center">
+      <div className="grid grid-cols-2 gap-4 py-8 px-4 text-center tracking-wider">
         <div className="bg-stone-800 rounded p-4 hover:bg-stone-700">
-          <h3 className="font-semibold">Preview Season 48 Cast</h3>
+          <h3 className="">Preview Season 48 Cast</h3>
         </div>
         <div className="bg-stone-800 rounded p-4 hover:bg-stone-700">
-          <h3 className="font-semibold">Weekly Recaps</h3>
+          <h3 className="">Weekly Recaps</h3>
         </div>
         <div className="bg-stone-800 rounded p-4 hover:bg-stone-700">
-          <h3 className="font-semibold">Leaderboard</h3>
+          <h3 className="">Leaderboard</h3>
         </div>
         <a target="_blank" href="https://chat.whatsapp.com/FpRMxQLhp0U848l309PL1T">
           <div className="bg-stone-800 rounded p-4 hover:bg-stone-700">
-            <h3 className="font-semibold">Join WhatsApp Group</h3>
+            <h3 className="">Join WhatsApp Group</h3>
           </div>
         </a>
       </div>

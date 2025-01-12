@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { TrophyIcon, FireIcon } from '@heroicons/react/24/solid';
+import { TrophyIcon, FireIcon, ArrowPathIcon } from '@heroicons/react/24/solid';
 
 
 type Contestant = {
@@ -421,7 +421,10 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
 
       </div>
       ) : (
-        <p className="mt-4 text-center text-stone-400">Loading...</p>
+        <div className="flex flex-col justify-center items-center py-10 h-96">
+          <ArrowPathIcon className="w-10 h-10 animate-spin text-stone-200" />
+          <p className="font-lostIsland text-xl lowercase my-4 tracking-wider">Loading...</p>
+        </div>
       )}
     
     </>

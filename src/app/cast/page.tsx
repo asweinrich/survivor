@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { TrophyIcon, FireIcon } from '@heroicons/react/24/solid';
+import { TrophyIcon, FireIcon, ArrowPathIcon } from '@heroicons/react/24/solid';
 import { IdentificationIcon } from '@heroicons/react/24/outline';
 import ContestantProfile from '../components/ContestantProfile';
 import Image from "next/image";
@@ -31,30 +31,40 @@ export default function Contestants() {
   const [points, setPoints] = useState<Record<number, number>>({}); // Store points for each contestant
   const [modalVisible, setModalVisible] = useState(false);
   const [focusContestant, setFocusContestant] = useState(0);
+  const [loading, setLoading] = useState(true); // New loading state
 
   // Fetch contestants when the season changes
   useEffect(() => {
+    setLoading(true); // Start loading when fetching begins
 
-    async function fetchContestants() {
-      const res = await fetch(`/api/cast/${season}`);
-      const data = await res.json();
-      setContestants(data);
+    async function fetchData() {
+      const fetchContestants = async () => {
+        const res = await fetch(`/api/cast/${season}`);
+        const data = await res.json();
+        setContestants(data);
+      };
+      await fetchContestants();
+
+      const fetchTribes = async () => {
+        const res = await fetch(`/api/show-tribes/${season}`);
+        const data = await res.json();
+        setTribes(data);
+      };
+      await fetchTribes();
+
+      
     }
-    fetchContestants();
 
-    async function fetchTribes() {
-      const res = await fetch(`/api/show-tribes/${season}`);
-      const data = await res.json();
-      setTribes(data);
-    }
-    fetchTribes();
-
+    fetchData();
 
   }, [season]);
 
   // Fetch points for contestants
   useEffect(() => {
-    if (contestants.length === 0) return; // Ensure contestants are loaded
+    if (contestants.length === 0) {
+      setLoading(false);
+      return; // Ensure contestants are loaded
+    }
 
     async function fetchPoints() {
       const pointsData: Record<number, number> = {};
@@ -74,7 +84,7 @@ export default function Contestants() {
       );
 
       setPoints(pointsData);
-      console.log('Fetched points:', pointsData); // Debug log
+      setLoading(false);
     }
 
     fetchPoints();
@@ -219,75 +229,82 @@ export default function Contestants() {
           </select>
         </div>
 
-        
-        {contestants.map((contestant) => (
-        <div
-          key={contestant.id}
-          className="flex flex-row w-full items-center p-2 border-b border-t border-stone-700"
-          style={{ opacity: contestant.inPlay ? 1 : 0.8 }}
-        >
-          {/* Image */}
-          <div className="flex items-center justify-center w-20 overflow-hidden ms-1.5 me-3">
-            <img
-              src={`/imgs/${contestant.img}.png`}
-              alt={contestant.name}
-              className="h-20 w-20 object-cover rounded"
-            />
+        {/* Loading Spinner */}
+        {loading ? (
+          <div className="flex flex-col justify-center items-center py-10">
+            <ArrowPathIcon className="w-10 h-10 animate-spin text-stone-200" />
+            <p className="font-lostIsland text-xl lowercase my-4 tracking-wider">Loading...</p>
           </div>
+        ) : (
+          contestants.map((contestant) => (
+            <div
+              key={contestant.id}
+              className="flex flex-row w-full items-center p-2 border-b border-t border-stone-700"
+              style={{ opacity: contestant.inPlay ? 1 : 0.8 }}
+            >
+              {/* Image */}
+              <div className="flex items-center justify-center w-20 overflow-hidden ms-1.5 me-3">
+                <img
+                  src={`/imgs/${contestant.img}.png`}
+                  alt={contestant.name}
+                  className="h-20 w-20 object-cover rounded"
+                />
+              </div>
 
-          {/* Survivor Name and Info */}
-          <div className="flex flex-col flex-grow">
-            <div className="flex flex-row items-center">
-              <span className="text-lg uppercase font-lostIsland tracking-wider">{contestant.name}</span>
-            </div>
-            <div className="flex flex-row items-center my-0.5">
-              <span className="">{formatTribeBadges(contestant.tribes)}</span>
-            </div>
-            <div className="flex items-center">
-              {contestant.inPlay && (<>
-                <FireIcon className="h-5 w-5 text-orange-400 me-1" />
-                <div className="text-stone-300 lowercase font-lostIsland tracking-wider">In Play</div>
-              </>)}
-              {(!contestant.inPlay && contestant.voteOutOrder === 903) && (<>
-                <TrophyIcon className="h-5 w-5 text-yellow-400 me-2" />
-                <div className="text-stone-200 lowercase font-lostIsland tracking-wider mt-1">
-                  {formatVotedOutOrder(contestant.voteOutOrder)}
+              {/* Survivor Name and Info */}
+              <div className="flex flex-col flex-grow">
+                <div className="flex flex-row items-center">
+                  <span className="text-lg uppercase font-lostIsland tracking-wider">{contestant.name}</span>
                 </div>
-                
-              </>)}
-              {(!contestant.inPlay && contestant.voteOutOrder === 902) && (<>
-                <TrophyIcon className="h-5 w-5 text-zinc-400 me-2" />
-                <div className="text-stone-200 lowercase font-lostIsland tracking-wider mt-1">
-                  {formatVotedOutOrder(contestant.voteOutOrder)}
+                <div className="flex flex-row items-center my-0.5">
+                  <span className="">{formatTribeBadges(contestant.tribes)}</span>
                 </div>
-                
-              </>)}
-              {(!contestant.inPlay && contestant.voteOutOrder === 901) && (<>
-                <TrophyIcon className="h-5 w-5 text-amber-600 me-2" />
-                <div className="text-stone-200 lowercase font-lostIsland tracking-wider mt-1">
-                  {formatVotedOutOrder(contestant.voteOutOrder)}
+                <div className="flex items-center">
+                  {contestant.inPlay && (<>
+                    <FireIcon className="h-5 w-5 text-orange-400 me-1" />
+                    <div className="text-stone-300 lowercase font-lostIsland tracking-wider">In Play</div>
+                  </>)}
+                  {(!contestant.inPlay && contestant.voteOutOrder === 903) && (<>
+                    <TrophyIcon className="h-5 w-5 text-yellow-400 me-2" />
+                    <div className="text-stone-200 lowercase font-lostIsland tracking-wider mt-1">
+                      {formatVotedOutOrder(contestant.voteOutOrder)}
+                    </div>
+                    
+                  </>)}
+                  {(!contestant.inPlay && contestant.voteOutOrder === 902) && (<>
+                    <TrophyIcon className="h-5 w-5 text-zinc-400 me-2" />
+                    <div className="text-stone-200 lowercase font-lostIsland tracking-wider mt-1">
+                      {formatVotedOutOrder(contestant.voteOutOrder)}
+                    </div>
+                    
+                  </>)}
+                  {(!contestant.inPlay && contestant.voteOutOrder === 901) && (<>
+                    <TrophyIcon className="h-5 w-5 text-amber-600 me-2" />
+                    <div className="text-stone-200 lowercase font-lostIsland tracking-wider mt-1">
+                      {formatVotedOutOrder(contestant.voteOutOrder)}
+                    </div>
+                    
+                  </>)}
+                  {(!contestant.inPlay && contestant.voteOutOrder < 900) && (
+                   <>
+                    <FireIcon className="h-5 w-5 text-white opacity-60 me-1" />
+                    <div className="text-stone-400 lowercase font-lostIsland tracking-wider">
+                      {formatVotedOutOrder(contestant.voteOutOrder)}
+                    </div>
+                    
+                  </>
+                  )}
                 </div>
-                
-              </>)}
-              {(!contestant.inPlay && contestant.voteOutOrder < 900) && (
-               <>
-                <FireIcon className="h-5 w-5 text-white opacity-60 me-1" />
-                <div className="text-stone-400 lowercase font-lostIsland tracking-wider">
-                  {formatVotedOutOrder(contestant.voteOutOrder)}
-                </div>
-                
-              </>
-              )}
-            </div>
-          </div>
+              </div>
 
-          {/* Score */}
-          <div className="flex flex-col items-center justify-center w-20">
-            <span className="text-3xl font-lostIsland text-white tracking-widest">{points[contestant.id] ?? '--'}</span>
-            <IdentificationIcon className="w-5 h-5 stroke-2 mt-1 text-stone-300 hover:cursor-pointer" onClick={() => activateModal(contestant.id)} />
-          </div>
-        </div>
-        ))}
+              {/* Score */}
+              <div className="flex flex-col items-center justify-center w-20">
+                <span className="text-3xl font-lostIsland text-white tracking-widest">{points[contestant.id] ?? '--'}</span>
+                <IdentificationIcon className="w-5 h-5 stroke-2 mt-1 text-stone-300 hover:cursor-pointer" onClick={() => activateModal(contestant.id)} />
+              </div>
+            </div>
+          ))
+        )}
 
 
 

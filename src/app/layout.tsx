@@ -14,7 +14,7 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <title>{String(metadata.title)}</title>
-        <meta name="description" content={metadata.description} />
+        <meta name="description" content={metadata.description || "Default description"} />
       </head>
       <body
         className={`antialiased bg-stone-900`}

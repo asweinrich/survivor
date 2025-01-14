@@ -44,7 +44,7 @@ Copy/Paste to signify completion:
 ⬜️	Add content to 'Picking Your Tribe' section
 		Add more detailed instructions on how to draft your tribe. 
 ⬜️	Add FAQ to bottom of rules. Link to this from homepage?
-⬜️	There is a weird black space at the bottom of the page, fix/remove it!
+✅	There is a weird black space at the bottom of the page, fix/remove it!
 ⬜️	Should people draft BEFORE OR AFTER episode 1? 
 
 

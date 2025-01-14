@@ -31,7 +31,7 @@ export default function Contestants() {
   const [points, setPoints] = useState<Record<number, number>>({}); // Store points for each contestant
   const [modalVisible, setModalVisible] = useState(false);
   const [focusContestant, setFocusContestant] = useState(0);
-  const [loading, setLoading] = useState(true); // New loading state
+  const [loading, setLoading] = useState(false); // New loading state
 
   // Fetch contestants when the season changes
   useEffect(() => {
@@ -61,8 +61,9 @@ export default function Contestants() {
 
   // Fetch points for contestants
   useEffect(() => {
+    setLoading(true)
     if (contestants.length === 0) {
-      setLoading(false);
+      
       return; // Ensure contestants are loaded
     }
 

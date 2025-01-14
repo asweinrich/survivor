@@ -88,12 +88,12 @@ const HomePage = () => {
       {/* Buttons Section */}
       <div className="flex justify-center gap-4 py-4 ">
         <a href="/rules">
-        <button className="w-40 py-3 uppercase bg-stone-700 rounded text-white hover:bg-stone-600">
+        <button className="w-44 py-3 uppercase bg-stone-700 rounded text-white hover:bg-stone-600">
           How to Play
         </button>
         </a>
         <a href="/draft">
-        <button className="w-40 py-3 uppercase bg-green-700 rounded text-white hover:bg-green-600">
+        <button className="w-44 py-3 uppercase bg-green-700 rounded text-white hover:bg-green-600">
           Draft Your Tribe
         </button>
         </a>

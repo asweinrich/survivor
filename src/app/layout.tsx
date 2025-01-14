@@ -16,10 +16,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`antialiased`}
+        className={`antialiased bg-stone-900`}
       >
         <Navbar />
         {children}
+        <Footer />
       </body>
     </html>
   );
@@ -51,5 +52,29 @@ function Navbar() {
         </a>
       </div>
     </nav>
+  );
+}
+
+function Footer() {
+  return (
+    <div className="bg-stone-700 text-white p-3">
+      <div className="flex justify-start space-x-4 font-lostIsland uppercase tracking-widest text-xs">
+        <a href="/" className="flex flex-col hover:opacity-70 me-auto px-2">
+          Home
+        </a>
+        <a href="/cast" className="flex flex-col hover:opacity-70 px-2">
+          Cast
+        </a>
+        <a href="/scores" className="flex flex-col hover:opacity-70 px-2">
+          Scores
+        </a>
+        <a href="/rules" className="flex flex-col hover:opacity-70 px-2">
+          Rules
+        </a>
+        <a href="/draft" className="flex flex-col hover:opacity-70 px-2">
+          Draft
+        </a>
+      </div>
+    </div>
   );
 }

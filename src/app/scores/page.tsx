@@ -57,6 +57,7 @@ export default function Scores() {
   // Fetch PlayerTribes and Contestants when the season changes
   useEffect(() => {
     setLoading(true); // Start loading when fetching begins
+    setExpandedTribes([])
 
     async function fetchData() {
       if (season === '47') {

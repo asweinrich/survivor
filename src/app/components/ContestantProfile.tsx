@@ -255,6 +255,21 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
     }
   }
 
+  function borderColor(status) {
+    console.log("STATUS", status)
+    if(status === 903) { 
+      return 'border-yellow-400'
+    } else if(status === 902) { 
+      return 'border-zinc-400'
+    } else if(status === 901) { 
+      return 'border-amber-600'
+    } else if(status === null) { 
+      return 'border-green-400'
+    } {
+      return 'border-stone-600'
+    }
+  }
+
 
 
   return (
@@ -262,13 +277,20 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
       {contestant ? (
       <div className="flex flex-col">
         {/* Modal Header */}
-        <div className="flex justify-between items-start border-b border-stone-600 px-4">
-          <div className="flex flex-col pt-4">
-            <h2 className="text-xl tracking-wider uppercase">{contestant?.name || 'Loading...'}</h2>
-            <p className="text-sm tracking-wider opacity-70 lowercase leading-tight">
+        <div className="flex justify-start items-start border-b border-stone-600 p-4 pb-2">
+          <div className="self-start mt-0 me-3">
+            <img
+              src={`/imgs/${contestant.img}.png`}
+              alt={contestant.name}
+              className={`w-28 h-28 object-cover mx-auto border-4 ${borderColor(contestant.voteOutOrder)} rounded-full p-1`}
+            />
+          </div>
+          <div className="flex flex-col">
+            <h2 className="text-lg tracking-wider uppercase">{contestant?.name || 'Loading...'}</h2>
+            <p className="text-xs tracking-wide opacity-80 uppercase leading-tight">
               {contestant.profession}
             </p>
-            <p className="text-sm tracking-wider opacity-70 lowercase leading-tight">
+            <p className="text-xs tracking-wide opacity-80 uppercase leading-tight">
               {contestant.hometown}
             </p>
             <p className="text-sm -ms-0.5 my-1.5">
@@ -311,13 +333,7 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
               )}
             </div>
           </div>
-          <div className="self-end ms-auto me-2 mt-6">
-            <img
-              src={`/imgs/${contestant.img}.png`}
-              alt={contestant.name}
-              className="w-36 mx-auto"
-            />
-          </div>
+          
 
           
           

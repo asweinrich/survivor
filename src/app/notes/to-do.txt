@@ -14,7 +14,7 @@ Copy/Paste to signify completion:
 
 
 -- HOME --
-⬜️	Fix button width on "how to play" and "draft your tribe" buttons. 
+✅	Fix button width on "how to play" and "draft your tribe" buttons. 
 ⬜️	Need to update other buttons at the bottom of the page. 
 		Add some pizzaz to them! More than just text on a button. Maybe change the text/layout of them as well because their pretty tall right now. 
 ⬜️	Some welcome text on the home page wouldn't hurt. 

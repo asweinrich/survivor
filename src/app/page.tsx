@@ -49,7 +49,7 @@ const HomePage = () => {
           ></div>
 
         </div>
-        <h1 className="absolute -bottom-8 inset-x-0 z-10 text-4xl font-bold mb-2 text-stone-100 font-survivor tracking-wider">Survivor Fantasy</h1>
+        <h1 className="absolute -bottom-8 inset-x-0 z-10 text-4xl font-bold mb-2 text-stone-100 font-survivor tracking-wider">Welcome!</h1>
   
         {/* Logo and Welcome Section */}
         <div className="absolute inset-0 z-10 flex flex-row justify-center mx-auto items-center">
@@ -100,7 +100,7 @@ const HomePage = () => {
       </div>
 
       {/* Navigation Section */}
-      <div className="grid grid-cols-2 gap-4 py-8 px-4 text-center tracking-wider">
+      <div className="max-w-5xl mx-auto grid grid-cols-2 gap-4 py-8 px-4 text-center tracking-wider">
         <div className="bg-stone-800 rounded p-4 hover:bg-stone-700">
           <h3 className="">Preview Season 48 Cast</h3>
         </div>

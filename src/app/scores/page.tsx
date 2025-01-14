@@ -313,7 +313,7 @@ export default function Scores() {
                         <img
                           src={`/imgs/${contestant.img}.png`}
                           alt={contestant.name}
-                          className="h-12 w-12 object-cover me-3"
+                          className="h-14 w-14 object-cover me-2 border-2 border-stone-500 rounded-full p-1"
                         />
                         <div className="flex-grow">
                           <div className="text-lg font-lostIsland leading-tight ps-0.5">{contestant.name}</div>

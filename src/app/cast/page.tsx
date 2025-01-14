@@ -177,6 +177,20 @@ export default function Contestants() {
     setModalVisible(true);
   };
 
+  function borderColor(status: number): string {
+    if(status === 903) { 
+      return 'border-yellow-400'
+    } else if(status === 902) { 
+      return 'border-zinc-400'
+    } else if(status === 901) { 
+      return 'border-amber-600'
+    } else if(status === null) { 
+      return 'border-green-400'
+    } {
+      return 'border-red-500'
+    }
+  }
+
 
   return (
     <div className="min-h-screen bg-stone-900 text-stone-200 p-0">
@@ -241,14 +255,14 @@ export default function Contestants() {
             <div
               key={contestant.id}
               className="flex flex-row w-full items-center p-2 border-b border-t border-stone-700"
-              style={{ opacity: contestant.inPlay ? 1 : 0.8 }}
+              style={{ opacity: contestant.inPlay ? 1 : 1 }}
             >
               {/* Image */}
               <div className="flex items-center justify-center w-20 overflow-hidden ms-1.5 me-3">
                 <img
                   src={`/imgs/${contestant.img}.png`}
                   alt={contestant.name}
-                  className="h-20 w-20 object-cover rounded-full border-2 border-stone-500 p-1"
+                  className={`h-20 w-20 object-cover rounded-full border-2 ${borderColor(contestant.voteOutOrder)} p-1`}
                 />
               </div>
 

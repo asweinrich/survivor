@@ -255,20 +255,7 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
     }
   }
 
-  function borderColor(status: number): string {
-    console.log("STATUS", status)
-    if(status === 903) { 
-      return 'border-yellow-400'
-    } else if(status === 902) { 
-      return 'border-zinc-400'
-    } else if(status === 901) { 
-      return 'border-amber-600'
-    } else if(status === null) { 
-      return 'border-green-400'
-    } {
-      return 'border-stone-600'
-    }
-  }
+  
 
 
 
@@ -282,7 +269,7 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
             <img
               src={`/imgs/${contestant.img}.png`}
               alt={contestant.name}
-              className={`w-28 h-28 object-cover mx-auto border-4 ${borderColor(contestant.voteOutOrder)} rounded-full p-1`}
+              className={`w-28 h-28 object-cover mx-auto border-4 border-stone-500 rounded-full p-1`}
             />
           </div>
           <div className="flex flex-col">

@@ -255,7 +255,7 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
     }
   }
 
-  function borderColor(status) {
+  function borderColor(status: number): string {
     console.log("STATUS", status)
     if(status === 903) { 
       return 'border-yellow-400'

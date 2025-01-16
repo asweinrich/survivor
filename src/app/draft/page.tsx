@@ -48,7 +48,7 @@ export default function Draft() {
     color: getRandomColor(),
   });
 
-  const season = 47;
+  const season = 48;
 
   const [emojiPickerVisible, setEmojiPickerVisible] = useState(false);
 

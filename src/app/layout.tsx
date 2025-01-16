@@ -17,7 +17,7 @@ export default function RootLayout({
         <meta name="description" content={metadata.description || "Default description"} />
       </head>
       <body
-        className={`antialiased bg-stone-900`}
+        className={`antialiased bg-stone-900 pb-12`}
       >
         <Navbar />
         {children}
@@ -35,14 +35,14 @@ function Navbar() {
   };
 
   return (
-    <nav className="bg-stone-900 text-white p-3 relative">
-      <div className="flex items-center justify-between lowercase tracking-wider">
+    <nav className="max-w-6xl mx-auto bg-stone-900 text-white p-3 relative">
+      <div className="flex items-center justify-between uppercase tracking-wider">
         <a href="/" className="text-3xl p-1 hover:opacity-70 font-survivor">Survivor Fantasy</a>
         <div className="text-lg hidden md:flex space-x-6 items-center font-lostIsland">
           <a href="/cast" className="hover:opacity-70">Cast</a>
           <a href="/scores" className="hover:opacity-70">Scores</a>
           <a href="/rules" className="hover:opacity-70">Rules</a>
-          <a href="/draft" className="px-4 py-1 bg-orange-600 hover:bg-orange-700 rounded text-white">Draft</a>
+          <a href="/draft" className="px-4 py-1 bg-gradient-to-r from-orange-500 to-orange-700 hover:from-orange-600 hover:to-orange-800 rounded text-white">Draft</a>
         </div>
         <button
           onClick={toggleMenu}
@@ -74,7 +74,7 @@ function Navbar() {
           <a href="/cast" className="hover:opacity-70">Cast</a>
           <a href="/scores" className="hover:opacity-70">Scores</a>
           <a href="/rules" className="hover:opacity-70">Rules</a>
-          <a href="/draft" className="px-4 py-2 bg-orange-600 hover:bg-orange-700 rounded-lg text-white">Draft</a>
+          <a href="/draft" className="px-4 py-2 bg-gradient-to-r from-orange-500 to-orange-700 hover:from-orange-600 hover:to-orange-800 rounded-lg text-white">Draft</a>
         </nav>
       </div>
     </nav>

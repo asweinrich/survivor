@@ -2,6 +2,7 @@
   
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
+import { UserGroupIcon, ChatBubbleLeftRightIcon, TrophyIcon, CalendarDaysIcon, BookOpenIcon } from "@heroicons/react/24/outline"
 
 const HomePage = () => {
   const [countdown, setCountdown] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
@@ -62,8 +63,12 @@ const HomePage = () => {
         </div>
       </div>
 
+      <p className="w-full max-w-5xl mx-auto px-4 py-6 text-center text-lg tracking-wider lowercase border-y-2 border-stone-600">
+        Welcome back to Survivor Fantasy! This year, we’re taking things up a notch with a brand-new web app to make your fantasy experience even better. Here, you can draft your tribe, track scores and contestants, and catch up on updates for Season 48. Dive in and take a look around!
+      </p>
+
       {/* Countdown Section */}
-      <div className="text-center py-3 px-4 m-3 rounded-xl">
+      <div className="text-center py-3 px-4 m-3 mb-6 rounded-xl">
         <h2 className="text-2xl uppercase text-stone-300 mb-4">Season 48 Countdown</h2>
         <div className="flex flex-row  max-w-96 justify-center items-center space-x-6 lowercase tracking-wider bg-stone-800 border border-stone-700 mx-auto p-4 rounded-xl">
           <div className="text-center">
@@ -86,33 +91,39 @@ const HomePage = () => {
       </div>
 
       {/* Buttons Section */}
-      <div className="flex justify-center gap-4 py-4 ">
-        <a href="/rules">
-        <button className="w-44 py-3 uppercase bg-stone-700 rounded text-white hover:bg-stone-600">
-          How to Play
-        </button>
-        </a>
-        <a href="/draft">
-        <button className="w-44 py-3 uppercase bg-green-700 rounded text-white hover:bg-green-600">
+      <div className="flex justify-center w-full px-4 mb-8">
+        <a href="/draft" className="w-full max-w-5xl mx-auto">
+        <button className="w-full p-3 text-2xl uppercase bg-gradient-to-tr from-orange-500 to-orange-700 hover:from-orange-600 hover:to-orange-800 rounded-lg text-white">
           Draft Your Tribe
         </button>
         </a>
       </div>
 
       {/* Navigation Section */}
-      <div className="max-w-5xl mx-auto grid grid-cols-2 gap-4 py-8 px-4 text-center tracking-wider">
-        <div className="bg-stone-800 rounded p-4 hover:bg-stone-700">
-          <h3 className="">Preview Season 48 Cast</h3>
-        </div>
-        <div className="bg-stone-800 rounded p-4 hover:bg-stone-700">
-          <h3 className="">Weekly Recaps</h3>
-        </div>
-        <div className="bg-stone-800 rounded p-4 hover:bg-stone-700">
-          <h3 className="">Leaderboard</h3>
-        </div>
+      <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-4 py-8 px-4 text-center tracking-wider border-y-2 border-stone-600">
+        <a href="/rules">
+          <div className="flex items-center bg-stone-800 rounded-lg p-0 hover:bg-stone-700 overflow-hidden">
+            <div className="bg-gradient-to-tr from-indigo-500 to-indigo-800 p-3 me-1"><BookOpenIcon className="w-8 h-8" /></div><h3 className="p-3 text-xl uppercase">How to Play</h3>
+          </div>
+        </a>
         <a target="_blank" href="https://chat.whatsapp.com/FpRMxQLhp0U848l309PL1T">
-          <div className="bg-stone-800 rounded p-4 hover:bg-stone-700">
-            <h3 className="">Join WhatsApp Group</h3>
+          <div className="flex items-center bg-stone-800 rounded-lg p-0 hover:bg-stone-700 overflow-hidden">
+            <div className="bg-gradient-to-tr from-emerald-500 to-emerald-700 p-3 me-1"><ChatBubbleLeftRightIcon className="w-8 h-8" /></div><h3 className="p-3 text-xl uppercase">Join WhatsApp Group</h3>
+          </div>
+        </a>
+        <a href="/cast">
+          <div className="flex items-center bg-stone-800 rounded-lg p-0 hover:bg-stone-700 overflow-hidden">
+            <div className="bg-gradient-to-tr from-yellow-500 to-yellow-700 p-3 me-1"><UserGroupIcon className="w-8 h-8" /></div><h3 className="p-3 text-xl uppercase">Preview Season 48 Cast</h3>
+          </div>
+        </a> 
+        <a href="/scores">
+          <div className="flex items-center bg-stone-800 rounded-lg p-0 hover:bg-stone-700 overflow-hidden">
+            <div className="bg-gradient-to-tr from-red-500 to-red-700 p-3 me-1"><TrophyIcon className="w-8 h-8" /></div><h3 className="p-3 text-xl uppercase">Leaderboard</h3>
+          </div>
+        </a>
+        <a href="/recaps">
+          <div className="flex items-center bg-stone-800 rounded-lg p-0 hover:bg-stone-700 overflow-hidden">
+            <div className="bg-gradient-to-tr from-pink-500 to-pink-700 p-3 me-1"><CalendarDaysIcon className="w-8 h-8" /></div><h3 className="p-3 text-xl uppercase">Weekly Recaps</h3>
           </div>
         </a>
       </div>

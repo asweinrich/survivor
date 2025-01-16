@@ -9,15 +9,15 @@ Copy/Paste to signify completion:
 
 
 -- LAYOUT -- 
-⬜️	Add footer to page with additional links for easy navigation. 
-⬜️	Give DRAFT navbar item a background so it pops. 
+❌	Add footer to page with additional links for easy navigation. 
+✅ 	Give DRAFT navbar item a background so it pops. 
 
 
 -- HOME --
 ✅	Fix button width on "how to play" and "draft your tribe" buttons. 
-⬜️	Need to update other buttons at the bottom of the page. 
+✅	Need to update other buttons at the bottom of the page. 
 		Add some pizzaz to them! More than just text on a button. Maybe change the text/layout of them as well because their pretty tall right now. 
-⬜️	Some welcome text on the home page wouldn't hurt. 
+✅	Some welcome text on the home page wouldn't hurt. 
 		Should be after the main 2 buttons referenced above I think. Should be 1-2 sentences that help people understand what they're looking at and guiding them to how to learn more. 
 
 

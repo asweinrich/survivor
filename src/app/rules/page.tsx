@@ -51,13 +51,13 @@ const RulesPage = () => {
 
         {/* Jump to Navigation */}
         <nav className="sticky top-0 max-w-6xl mx-auto mb-8 p-4 bg-stone-800 border-y border-stone-700">
-          <ul className="flex flex-wrap justify-around space-x-2 text-sm text-orange-200 font-lostIsland tracking-wider lowercase">
-            <li><a href="#overview" className="hover:text-orange-400">Overview</a></li>
-            <li><a href="#scoring" className="hover:text-orange-400">Scoring</a></li>
-            <li><a href="#your-tribe" className="hover:text-orange-400">Your Tribe</a></li>
-            <li><a href="#prizes" className="hover:text-orange-400">Prizes</a></li>
-            <li><a href="#disclaimer" className="hover:text-orange-400">Disclaimer</a></li>
-            <li><a href="#faq" className="hover:text-orange-400">FAQ</a></li>
+          <ul className="flex flex-wrap justify-start text-orange-200 font-lostIsland tracking-wider uppercase leading-relaxed">
+            <li><a href="#overview" className="hover:text-orange-400 pe-4">Overview</a></li>
+            <li><a href="#scoring" className="hover:text-orange-400 pe-4">Scoring</a></li>
+            <li><a href="#your-tribe" className="hover:text-orange-400 pe-4">Your Tribe</a></li>
+            <li><a href="#prizes" className="hover:text-orange-400 pe-4">Prizes</a></li>
+            <li><a href="#disclaimer" className="hover:text-orange-400 pe-4">Disclaimer</a></li>
+            <li><a href="#faq" className="hover:text-orange-400 pe-4">FAQ</a></li>
           </ul>
         </nav>
 

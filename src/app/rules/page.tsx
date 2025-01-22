@@ -68,7 +68,7 @@ const RulesPage = () => {
           <section id="overview" className="px-4 pt-16 font-lostIsland tracking-wider">
             <h2 className="text-2xl mb-4">General Overview</h2>
             <p className="mb-4 text-stone-300 tracking-wider font-inter">
-              Welcome to our Survivor Fantasy League! Just like on Survivor, it’s all about strategy, intuition, and outlasting the competition. Here’s how it works: Each player drafts a tribe of 6 contestants from the upcoming season (Season 48!). Your job is to pick the players you think will dominate challenges, survive tribal councils, and make it to the end. Each contestant earns you points based on their performance throughout the season. Think of it like crafting your own Survivor dream team, and every episode is another chance to earn points and climb the leaderboard.
+              Welcome to our Survivor Fantasy League! Just like on Survivor, it’s all about strategy, intuition, and outlasting the competition. Here’s how it works: First, you draft a tribe of 6 contestants from the upcoming season (Season 48!). Your job is to pick the players you think will dominate challenges, survive tribal councils, and make it to the end. Each contestant earns points based on their performance throughout the season. Think of it like crafting your own Survivor dream team, and every episode is another chance to earn points and climb the leaderboard.
             </p>
             <p className="mb-4 text-stone-300 tracking-wider font-inter">
               At the end of the season, the top three tribes with the most points will split the prize pool. Whether you’re a die-hard fan or just here to have a good time, this is your shot to outwit, outplay, and outlast!
@@ -79,7 +79,7 @@ const RulesPage = () => {
           <section className="px-4 pt-16 font-lostIsland tracking-wider" id="scoring">
             <h2 className="text-2xl mb-4">Scoring System</h2>
             <p className="mb-4 text-stone-300 tracking-wider font-inter">
-              Points are the currency of your success in this league. Each contestant in your tribe earns points individually based on their performance, and your tribe's total score is the sum of all six contestants' scores. Here’s the breakdown:
+              Points are the currency of your success in this league. Each contestant in your tribe earns points individually based on their performance, and your tribe's total score is the sum of your six contestants' scores. Here’s the breakdown:
             </p>
             <div className="overflow-x-auto">
               <table className="w-full text-left text-stone-300 font-inter border-collapse">
@@ -114,7 +114,7 @@ const RulesPage = () => {
               </table>
             </div>
             <p className="mt-4 text-stone-300 tracking-wider font-inter">
-              The scoring system is designed to reward key milestones in Survivor. Do you know who will be Sole Survivor? That could land you a nice 500 point bonus! Making the merge? That’s a solid 100 points for each pick. And don’t underestimate the smaller categories like winning challenges or simply surviving episodes -- they can add up quickly. Remember, if one of your contestants gets voted out, you won't earn additional points from them, so choose wisely. It’s all about balancing bold moves with smart picks.
+              The scoring system is designed to reward key milestones in Survivor. Do you know who will be Sole Survivor? That could land your tribe a nice 500 point bonus! Making the merge? That’s a solid 100 points for each pick. And don’t underestimate the smaller categories like winning challenges or simply surviving episodes -- they can add up quickly. Remember, if one of your contestants gets voted out, you won't earn additional points from them, so choose wisely. It’s all about balancing bold moves with smart picks.
             </p>
             <div className="border-b border-stone-500 w-full mt-16"></div>
           </section>
@@ -126,12 +126,12 @@ const RulesPage = () => {
               <p className="mb-4 font-inter text-stone-300 tracking-wider">
                 Your tribe is your team, your identity, and your strategy all rolled into one. You get to customize it in a few ways:
               </p>
-              <p className="list-disc list-inside mb-4 font-inter">
-                <strong>Tribe Name --</strong> Choose the defining name of your tribe. 
-                <br/><br/>
-                <strong>Emoji Tribe Icon --</strong> Choose any emoji that captures the essence of your tribe.
-                <br/><br/>
-                <strong>Tribe Color --</strong> Pick a favorite color to give your tribe a signature look on the leaderboard.
+              <p className="list-disc list-inside mb-4 font-inter leading-relaxed">
+                <strong>Tribe Name:</strong> Choose the defining name of your tribe. 
+                <br/>
+                <strong>Emoji Tribe Icon:</strong> Choose any emoji that captures the essence of your tribe.
+                <br/>
+                <strong>Tribe Color:</strong> Pick a favorite color to give your tribe a signature look on the leaderboard.
               </p>
             </div>
             <div id="picking-tribe" className="mb-8">
@@ -173,7 +173,7 @@ const RulesPage = () => {
               </table>
             </div>
             <p className="mt-4 font-inter text-stone-300 tracking-wider">
-              But let’s not forget, this game is about more than just money. It’s about bragging rights, epic moments, and proving you have what it takes to outwit, outplay, and outlast everyone else. So bring your A-game, and may the best tribe win!
+              But let’s not forget, this game is about more than just money! It’s about bragging rights, epic moments, and proving you have what it takes to outpick everyone else. So bring your A-game, and may the best tribe win!
             </p>
             <div className="border-b border-stone-500 w-full mt-16"></div>
           </section>

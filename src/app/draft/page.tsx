@@ -94,7 +94,7 @@ export default function Draft() {
       return (
         <span
           key={id}
-          className="inline-block px-1.5 pt-1.5 pb-1 tracking-wider leading-none rounded-full me-1 uppercase text-xs font-lostIsland"
+          className="inline-block px-1.5 pt-1.5 pb-1 tracking-wider leading-none rounded-full me-1 uppercase font-lostIsland"
           style={{
             backgroundColor: hexToRgba(tribe.color, 0.3), // Transparent background
             color: tribe.color, // Solid text color
@@ -359,7 +359,7 @@ export default function Draft() {
               <div className="w-full bg-stone-900 text-stone-300 rounded-lg mt-2 mb-6 px-5">
                 <p className="text-lg lowercase font-lostIsland tracking-wider mb-6">
                   Tap 
-                  <PlusIcon className="inline mx-1.5 w-7 h-7 stroke-4 text-stone-400 border-4 p-0.5 rounded-full border-stone-400 " />
+                  <PlusIcon className="inline mx-1.5 w-8 h-8 stroke-4 text-stone-400 border-4 p-0.5 rounded-lg border-stone-400 " />
                   to add a contestant to your tribe. Tap them again to remove 
                 </p>
 
@@ -370,51 +370,56 @@ export default function Draft() {
                 </p>
               </div>
 
-              <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 px-1 mb-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 px-1 mb-8">
           
                 {contestants.map((contestant) => (
                 <div
                   key={contestant.id}
-                  className={`flex flex-col items-start px-0.5 py-1 bg-stone-800 border-4 rounded-xl ${
+                  className={`flex flex-row items-center p-2 mb-0.5 bg-stone-800 border-4 rounded-xl ${
                     draftPicks.includes(contestant.id) ? 'border-green-500' : 'border-stone-700'
                   }`}
                 >
                   {/* Image */}
                   <div 
-                    className={`flex items-center mx-auto justify-center w-24 h-24 rounded-full border-4 mb-2 hover:cursor-pointer ${
+                    className={`flex items-center mx-auto justify-center w-20 h-20 p-1 rounded-full border-4  ${
                       draftPicks.includes(contestant.id) ? 'border-green-400' : 'border-stone-400'
-                    } relative mb-2`}
-                    onClick={() => updatePicks(contestant.id)}
+                    } relative`}
+                    
                   >
                     <img
                       src={`/imgs/${contestant.img}.png`}
                       alt={contestant.name}
-                      className="h-20 w-20 object-cover rounded-full overflow-hidden"
+                      className="w-full object-cover rounded-full overflow-hidden"
                     />
-                    <span 
-                      className={`absolute -bottom-1 -right-1.5 border-4 rounded-full w-9 h-9 flex justify-center items-center ${
-                        draftPicks.includes(contestant.id) ? 'border-green-400' : 'border-stone-400'
-                      } bg-stone-800`}
-                    >
-                      {draftPicks.includes(contestant.id) ? (
-                        <CheckIcon className="w-5 h-5 stroke-4 text-green-400" />
-                      ) : (
-                        <PlusIcon className="w-5 h-5 stroke-4 text-stone-400" />
-                      )}
-                    </span>
+
 
                   </div>
 
                   {/* Survivor Name and Info */}
-                  <div className="flex flex-col flex-grow">
-                    <div className="flex flex-row items-center px-1">
-                      <span className="h-10 mb-1 uppercase font-lostIsland tracking-wider leading-tight">{contestant.name}</span>
+                  <div className="flex flex-col flex-grow ps-1">
+                    <div className="flex flex-row items-center px-2 mb-1">
+                      <span className="uppercase text-lg font-lostIsland tracking-wider leading-tight">{contestant.name}</span>
                     </div>
-                    <div className="flex flex-row items-center px-1">
-                      <IdentificationIcon className="w-6 h-6 text-stone-300 stroke-2 me-1.5 hover:cursor-pointer" onClick={() => activateModal(contestant.id)} />
+                    <div className="flex flex-row items-center px-2">
+                      <IdentificationIcon className="w-7 h-7 text-stone-300 stroke-2 me-1.5 hover:cursor-pointer" onClick={() => activateModal(contestant.id)} />
                       <span className="">{formatTribeBadges(contestant.tribes)}</span>
                     </div>
                     
+                  </div>
+
+                  <div className="mx-1 hover:cursor-pointer">
+                    <span 
+                      className={`border-4 rounded-lg w-12 h-12 flex justify-center items-center ${
+                        draftPicks.includes(contestant.id) ? 'border-green-400' : 'border-stone-400'
+                      } bg-stone-800`}
+                      onClick={() => updatePicks(contestant.id)}
+                    >
+                      {draftPicks.includes(contestant.id) ? (
+                        <CheckIcon className="w-8 h-8 stroke-3 text-green-400" />
+                      ) : (
+                        <PlusIcon className="w-8 h-8 stroke-3 text-stone-400" />
+                      )}
+                    </span>
                   </div>
 
                   

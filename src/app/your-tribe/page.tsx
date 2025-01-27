@@ -31,12 +31,7 @@ export default function Draft() {
     setMounted(true);
   }, []);
 
-  // Function to draw rectangular shapes
-  const drawRectangle = (ctx) => {
-    ctx.beginPath();
-    ctx.rect(-5, -3, 10, 6); // Adjust these values for rectangle size
-    ctx.closePath();
-  };
+
 
 
   return (
@@ -49,13 +44,13 @@ export default function Draft() {
           recycle={false}
           numberOfPieces={800}
           wind={0.01}
-          drawShape={ctx => {
+          drawShape={(ctx: CanvasRenderingContext2D) => {
             ctx.beginPath();
             // Define the dimensions of the rectangle
-            const width = 18;  // Width of the rectangle
-            const height = 9;  // Height of the rectangle
+            const rectWidth = 18;  // Width of the rectangle
+            const rectHeight = 9;  // Height of the rectangle
             // Center the rectangle around the origin
-            ctx.rect(-width / 2, -height / 2, width, height);
+            ctx.rect(-rectWidth / 2, -rectHeight / 2, rectWidth, rectHeight);
             ctx.fill();
             ctx.closePath();
           }}

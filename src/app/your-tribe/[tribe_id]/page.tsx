@@ -32,7 +32,7 @@ export default function YourTribePage() {
   const [tribe, setTribe] = useState<Tribe | null>(null);
   const [mounted, setMounted] = useState(false);
   const { width, height } = useWindowSize();
-  const [tribeColor, setTribeColor] = useState(null);
+  const [tribeColor, setTribeColor] = useState('#77c471');
 
   // Fetch tribe data from the API
   useEffect(() => {

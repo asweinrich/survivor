@@ -19,6 +19,7 @@ type Tribe = {
   color: string;
   emoji: string;
   contestants: Contestant[];
+  playerName: string;
 };
 
 type ShowTribe = {

@@ -34,9 +34,11 @@ export default function YourTribePage() {
   const [mounted, setMounted] = useState(false);
   const { width, height } = useWindowSize();
   const [tribeColor, setTribeColor] = useState('#77c471');
+  const [loading, setLoading] = useState(false);
 
   // Fetch tribe data from the API
   useEffect(() => {
+    setLoading(true)
     async function fetchTribeData() {
       const tribeId = window.location.pathname.split('/').pop(); // Get tribe_id from URL
       try {
@@ -60,13 +62,14 @@ export default function YourTribePage() {
 
     fetchTribeData();
     setMounted(true); // Indicate that the component has mounted
+    setLoading(false)
   }, []);
 
 
 
 
   return (
-    <div className="flex flex-col items-center text-white w-full">
+    <div className="flex flex-col items-center text-white w-full mx-0 px-0 min-h-screen">
       {mounted && tribeColor && (
         <Confetti
           width={width}

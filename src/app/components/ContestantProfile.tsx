@@ -275,10 +275,10 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
           </div>
           <div className="flex flex-col">
             <h2 className="text-lg tracking-wider uppercase">{contestant?.name || 'Loading...'}</h2>
-            <p className="text-xs tracking-wide opacity-80 uppercase leading-tight">
-              {contestant.profession}, {contestant.age}
+            <p className="text-sm tracking-wide opacity-80 uppercase leading-tight">
+              <span className="text-base tracking-none">{contestant.age} •</span> {contestant.profession}
             </p>
-            <p className="text-xs tracking-wide opacity-80 uppercase leading-tight">
+            <p className="text-sm tracking-wide opacity-80 uppercase leading-tight">
               {contestant.hometown}
             </p>
             <p className="text-sm -ms-0.5 my-1.5">

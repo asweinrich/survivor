@@ -53,6 +53,11 @@ export default function YourTribePage() {
       }
     }
 
+    const element = document.getElementById("tribe");
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
     fetchTribeData();
     setMounted(true); // Indicate that the component has mounted
   }, []);
@@ -88,14 +93,15 @@ export default function YourTribePage() {
         <>
           {/* Tribe Header */}
           <div
-            className="flex flex-row w-full items-center p-3"
+            className="flex flex-row w-full items-center justify-start py-2 px-4"
             style={{
               backgroundImage: `linear-gradient(to bottom right, ${tribeColor}, ${tinycolor(tribeColor).darken(20).toString()})`,
             }}
+            id="tribe"
           >
-            <span className="text-5xl me-3">{tribe.emoji}</span>
+            <span className="text-4xl me-3">{tribe.emoji}</span>
             <div className="flex flex-col">
-              <h2 className="text-3xl font-lostIsland text-stone-100" style={{textShadow: '2px 2px 1px rgba(0, 0, 0, 1)'}} >{tribe.tribeName}</h2>
+              <h2 className="text-2xl font-lostIsland text-stone-100" style={{textShadow: '2px 2px 1px rgba(0, 0, 0, 1)'}} >{tribe.tribeName}</h2>
               <span className="text-xl font-lostIsland text-stone-100 leading-none mb-1" style={{textShadow: '2px 2px 1px rgba(0, 0, 0, 1)'}} >{tribe.playerName}</span>
             </div>
           </div>
@@ -106,15 +112,15 @@ export default function YourTribePage() {
             {tribe.contestants.length > 0 && (
               <div className="flex flex-col items-center mb-2">
                 <div
-                  className="flex items-center rounded-full overflow-hidden border-4 border-yellow-500 w-48 h-48"
+                  className="flex items-center rounded-full overflow-hidden border-4 border-yellow-500 w-36 h-36"
                 >
                   <img
                     src={`/imgs/${tribe.contestants[0].img}.png`}
                     alt={tribe.contestants[0].name}
-                    className="w-40 h-40 rounded-full mx-auto"
+                    className="w-32 h-32 rounded-full mx-auto"
                   />
                 </div>
-                <span className="mt-3 text-3xl font-lostIsland">
+                <span className="mt-3 text-2xl font-lostIsland">
                   {tribe.contestants[0].name}
                 </span>
                 <span className="text-xl font-lostIsland lowercase opacity-80">
@@ -138,13 +144,13 @@ export default function YourTribePage() {
                         className="w-24 h-24 mx-auto rounded-full"
                       />
                     </div>
-                    <span className="mt-1 text-xl font-lostIsland text-center leading-tight">{contestant.name}</span>
+                    <span className="mt-1 text-lg font-lostIsland text-center leading-tight">{contestant.name}</span>
                   </div>
                 ))}
               </div>
 
               {/* Second Row: 3 Contestants */}
-              <div className="flex justify-center gap-2">
+              <div className="flex justify-center gap-1">
                 {tribe.contestants.slice(3).map((contestant) => (
                   <div key={contestant.id} className="flex flex-col items-center w-32">
                     <div
@@ -156,7 +162,7 @@ export default function YourTribePage() {
                         className="w-24 h-24 mx-auto rounded-full"
                       />
                     </div>
-                    <span className="mt-1 text-xl font-lostIsland text-center leading-tight">{contestant.name}</span>
+                    <span className="mt-1 text-lg font-lostIsland text-center leading-tight">{contestant.name}</span>
                   </div>
                 ))}
               </div>

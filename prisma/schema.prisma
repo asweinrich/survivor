@@ -48,6 +48,7 @@ model Contestant {
   tribes       Int[]
   season       Int
   advantages   Int      @default(0)
+  age          Int      @default(30)
 }
 
 model ShowTribe {

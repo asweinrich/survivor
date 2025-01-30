@@ -23,6 +23,7 @@ type Contestant = {
   madeFire: boolean;
   voteOutOrder: number; // Optional field as it can be null
   createdAt: Date; // Matches DateTime in Prisma
+  age: number;
 };
 
 type Tribe = {
@@ -275,7 +276,7 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
           <div className="flex flex-col">
             <h2 className="text-lg tracking-wider uppercase">{contestant?.name || 'Loading...'}</h2>
             <p className="text-xs tracking-wide opacity-80 uppercase leading-tight">
-              {contestant.profession}
+              {contestant.profession}, {contestant.age}
             </p>
             <p className="text-xs tracking-wide opacity-80 uppercase leading-tight">
               {contestant.hometown}

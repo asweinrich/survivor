@@ -135,8 +135,8 @@ export default function YourTribePage() {
                         <img
                           src={`/imgs/48/full-body/${contestant.name}.png`}
                           alt={contestant.name}
-                          className={`object-contain h-[20rem] ${
-                            index === 2 ? "h-[22rem] drop-shadow-[0_0_20px_rgba(255,223,0,1)]" : "h-[20rem]"
+                          className={`object-contain h-[16rem] ${
+                            index === 2 ? "h-[24rem] drop-shadow-[0_0_20px_rgba(255,223,0,1)]" : "h-[16rem]"
                           }`}
                         />
                         <span 

@@ -55,11 +55,6 @@ export default function YourTribePage() {
       }
     }
 
-    const element = document.getElementById("tribe");
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
-
     fetchTribeData();
     setMounted(true); // Indicate that the component has mounted
     setLoading(false)
@@ -69,11 +64,12 @@ export default function YourTribePage() {
 
 
   return (
-    <div className="flex flex-col items-center text-white w-full mx-0 px-0 min-h-screen">
+    <div className="flex flex-col items-center text-white w-full mx-0 px-0 min-h-screen overflow-x-hidden">
       {mounted && tribeColor && (
+        <div className="fixed top-0 left-0 w-full h-full pointer-events-none z-50">
         <Confetti
-          width={width}
-          height={height}
+          width={document.documentElement.clientWidth}
+          height={document.documentElement.clientHeight}
           colors={[tribeColor, '#fc8c03', '#2bcc3e', '#ab2fed', tribeColor]}
           recycle={false}
           numberOfPieces={800}
@@ -89,6 +85,7 @@ export default function YourTribePage() {
             ctx.closePath();
           }}
         />
+        </div>
       )}
       
 
@@ -109,68 +106,54 @@ export default function YourTribePage() {
             </div>
           </div>
 
-          {/* Contestants */}
-          <div className="flex flex-col items-center mt-8 space-y-4">
-            {/* Sole Survivor Pick */}
-            {tribe.contestants.length > 0 && (
-              <div className="flex flex-col items-center mb-2">
-                <div
-                  className="flex items-center rounded-full overflow-hidden border-4 border-yellow-500 w-36 h-36"
-                >
-                  <img
-                    src={`/imgs/${tribe.contestants[0].img}.png`}
-                    alt={tribe.contestants[0].name}
-                    className="w-32 h-32 rounded-full mx-auto"
-                  />
-                </div>
-                <span className="mt-3 text-2xl font-lostIsland">
-                  {tribe.contestants[0].name}
-                </span>
-                <span className="text-xl font-lostIsland lowercase opacity-80">
-                  Sole Survivor
-                </span>
-              </div>
-            )}
-
-            {/* Remaining Contestants */}
-            <div className="flex flex-col gap-4">
-              {/* First Row: 2 Contestants */}
-              <div className="flex justify-center gap-4">
-                {tribe.contestants.slice(1, 3).map((contestant) => (
-                  <div key={contestant.id} className="flex flex-col items-center w-32 mb-2">
-                    <div
-                      className="flex items-center rounded-full overflow-hidden border-4 border-gray-500 w-28 h-28"
-                    >
-                      <img
-                        src={`/imgs/${contestant.img}.png`}
-                        alt={contestant.name}
-                        className="w-24 h-24 mx-auto rounded-full"
-                      />
-                    </div>
-                    <span className="mt-1 text-lg font-lostIsland text-center leading-tight">{contestant.name}</span>
-                  </div>
-                ))}
-              </div>
-
-              {/* Second Row: 3 Contestants */}
-              <div className="flex justify-center gap-1">
-                {tribe.contestants.slice(3).map((contestant) => (
-                  <div key={contestant.id} className="flex flex-col items-center w-32">
-                    <div
-                      className="flex items-center rounded-full overflow-hidden border-4 border-gray-500 w-28 h-28"
-                    >
-                      <img
-                        src={`/imgs/${contestant.img}.png`}
-                        alt={contestant.name}
-                        className="w-24 h-24 mx-auto rounded-full"
-                      />
-                    </div>
-                    <span className="mt-1 text-lg font-lostIsland text-center leading-tight">{contestant.name}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
+          <div className="relative flex justify-center items-end mt-12 max-w-6xl w-full">
+            <span className="font-survivor text-5xl">Your Tribe</span>
           </div>
+
+          {/* Contestants */}
+          <div className="relative flex justify-center items-end mt-12 max-w-6xl w-full">
+            {tribe.contestants.length > 0 && (
+              <>
+                {/* All Contestants including Sole Survivor */}
+                <div className="relative flex justify-center items-end w-full">
+                  {tribe.contestants.slice(0, 6).map((contestant, index) => {
+                    // Define the positions for proper spacing, placing the Sole Survivor as the 3rd contestant
+                    const positions = [
+                      "-translate-x-[160px] z-20 scale-80", // Far left
+                      "-translate-x-[100px] z-30 scale-90", // Left
+                      "-translate-x-[25px] z-40 scale-100",       // Center (Sole Survivor, slightly larger)
+                      "translate-x-[55px] z-30 scale-95",  // Right
+                      "translate-x-[110px] z-20 scale-85",  // Mid-right
+                      "translate-x-[165px] z-10 scale-75",  // Far right
+                    ];
+
+                    return (
+                      <div
+                        key={contestant.id}
+                        className={`absolute top-0 flex flex-col items-center ${positions[index]}`}
+                      >
+                        <img
+                          src={`/imgs/48/full-body/${contestant.name}.png`}
+                          alt={contestant.name}
+                          className={`object-contain h-[20rem] ${
+                            index === 2 ? "h-[22rem] drop-shadow-[0_0_20px_rgba(255,223,0,1)]" : "h-[20rem]"
+                          }`}
+                        />
+                        <span 
+                          className={`mt-16 font-lostIsland text-center leading-tight  ${
+                            index === 2 ? "mt-12 text-2xl text-yellow-300 drop-shadow-[0_0_5px_rgba(255,223,0,0.4)]" : ""
+                          }`}>
+                            {contestant.name}
+                        </span>
+                      </div>
+                    );
+                  })}
+                </div>
+              </>
+            )}
+          </div>
+
+ 
         </>
       )}
 

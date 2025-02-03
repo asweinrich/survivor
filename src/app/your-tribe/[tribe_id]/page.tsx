@@ -118,14 +118,8 @@ export default function YourTribePage() {
               </div>
             </div>
 
-            <div className="relative flex justify-center items-end mt-10 max-w-6xl w-full z-10">
-              <span className="font-survivor text-6xl" style={{ textShadow: '2px 2px 1px rgba(0, 0, 0, 1)' }}>
-                Your Tribe
-              </span>
-            </div>
-
             {/* Contestants */}
-            <div className="relative flex justify-center items-end py-10 max-w-6xl w-full z-20 overflow-visible">
+            <div className="relative flex justify-center items-end py-16 max-w-6xl w-full z-20 overflow-visible">
               {tribe.contestants.length > 0 && (
                 <>
                   <div className="relative flex justify-center items-end w-full">

@@ -106,12 +106,12 @@ export default function YourTribePage() {
             </div>
           </div>
 
-          <div className="relative flex justify-center items-end mt-12 max-w-6xl w-full">
+          <div className="relative flex justify-center items-end mt-8 max-w-6xl w-full">
             <span className="font-survivor text-5xl">Your Tribe</span>
           </div>
 
           {/* Contestants */}
-          <div className="relative flex justify-center items-end mt-12 max-w-6xl w-full">
+          <div className="relative flex justify-center items-end py-8 max-w-6xl w-full">
             {tribe.contestants.length > 0 && (
               <>
                 {/* All Contestants including Sole Survivor */}
@@ -119,12 +119,12 @@ export default function YourTribePage() {
                   {tribe.contestants.slice(0, 6).map((contestant, index) => {
                     // Define the positions for proper spacing, placing the Sole Survivor as the 3rd contestant
                     const positions = [
-                      "-translate-x-[160px] z-20 scale-75", // Far left
-                      "-translate-x-[105px] z-30 scale-85", // Left
-                      "-translate-x-[28px] -translate-y-[25px] z-40 scale-85",       // Center (Sole Survivor, slightly larger)
-                      "translate-x-[50px] z-30 scale-90",  // Right
-                      "translate-x-[105px] z-20 scale-80",  // Mid-right
-                      "translate-x-[160px] z-10 scale-70",  // Far right
+                      "-translate-x-[150px] z-20 scale-75", // Far left
+                      "-translate-x-[95px] z-30 scale-85", // Left
+                      "-translate-x-[28px] -translate-y-[30px] z-40 scale-85",       // Center (Sole Survivor, slightly larger)
+                      "translate-x-[39px] z-30 scale-90",  // Right
+                      "translate-x-[95px] z-20 scale-80",  // Mid-right
+                      "translate-x-[145px] z-10 scale-70",  // Far right
                     ];
 
                     return (
@@ -136,7 +136,7 @@ export default function YourTribePage() {
                           src={`/imgs/48/full-body/${contestant.name}.png`}
                           alt={contestant.name}
                           className={`object-contain h-[16rem] ${
-                            index === 2 ? "h-[20rem] drop-shadow-[0_0_20px_rgba(255,223,0,1)]" : "h-[16rem]"
+                            index === 2 ? "h-[20rem] drop-shadow-[-2px_0px_18px_rgba(255,223,0,1)]" : "h-[16rem]"
                           }`}
                         />
                         <span 

@@ -125,7 +125,7 @@ export default function YourTribePage() {
             </div>
 
             {/* Contestants */}
-            <div className="relative flex justify-center items-end py-10 max-w-6xl w-full">
+            <div className="relative flex justify-center items-end py-10 max-w-6xl w-full z-20 overflow-visible">
               {tribe.contestants.length > 0 && (
                 <>
                   <div className="relative flex justify-center items-end w-full">

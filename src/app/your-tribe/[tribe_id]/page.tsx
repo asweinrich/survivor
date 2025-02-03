@@ -99,10 +99,10 @@ export default function YourTribePage() {
             }}
             id="tribe"
           >
-            <span className="text-4xl me-3">{tribe.emoji}</span>
+            <span className="text-4xl me-4">{tribe.emoji}</span>
             <div className="flex flex-col">
-              <h2 className="text-2xl font-lostIsland text-stone-100" style={{textShadow: '2px 2px 1px rgba(0, 0, 0, 1)'}} >{tribe.tribeName}</h2>
-              <span className="text-xl font-lostIsland text-stone-100 leading-none mb-1" style={{textShadow: '2px 2px 1px rgba(0, 0, 0, 1)'}} >{tribe.playerName}</span>
+              <h2 className="text-3xl font-lostIsland text-stone-100 mb-1" style={{textShadow: '2px 2px 1px rgba(0, 0, 0, 1)'}} >{tribe.tribeName}</h2>
+              <span className="text-xl font-lostIsland text-stone-300 leading-none mb-1" style={{textShadow: '2px 2px 1px rgba(0, 0, 0, 1)'}} >{tribe.playerName}</span>
             </div>
           </div>
 
@@ -119,12 +119,12 @@ export default function YourTribePage() {
                   {tribe.contestants.slice(0, 6).map((contestant, index) => {
                     // Define the positions for proper spacing, placing the Sole Survivor as the 3rd contestant
                     const positions = [
-                      "-translate-x-[160px] z-20 scale-80", // Far left
-                      "-translate-x-[100px] z-30 scale-90", // Left
-                      "-translate-x-[25px] z-40 scale-100",       // Center (Sole Survivor, slightly larger)
-                      "translate-x-[55px] z-30 scale-95",  // Right
-                      "translate-x-[110px] z-20 scale-85",  // Mid-right
-                      "translate-x-[165px] z-10 scale-75",  // Far right
+                      "-translate-x-[160px] z-20 scale-75", // Far left
+                      "-translate-x-[105px] z-30 scale-85", // Left
+                      "-translate-x-[28px] -translate-y-[25px] z-40 scale-85",       // Center (Sole Survivor, slightly larger)
+                      "translate-x-[50px] z-30 scale-90",  // Right
+                      "translate-x-[105px] z-20 scale-80",  // Mid-right
+                      "translate-x-[160px] z-10 scale-70",  // Far right
                     ];
 
                     return (
@@ -136,12 +136,12 @@ export default function YourTribePage() {
                           src={`/imgs/48/full-body/${contestant.name}.png`}
                           alt={contestant.name}
                           className={`object-contain h-[16rem] ${
-                            index === 2 ? "h-[24rem] drop-shadow-[0_0_20px_rgba(255,223,0,1)]" : "h-[16rem]"
+                            index === 2 ? "h-[20rem] drop-shadow-[0_0_20px_rgba(255,223,0,1)]" : "h-[16rem]"
                           }`}
                         />
                         <span 
                           className={`mt-16 font-lostIsland text-center leading-tight  ${
-                            index === 2 ? "mt-12 text-2xl text-yellow-300 drop-shadow-[0_0_5px_rgba(255,223,0,0.4)]" : ""
+                            index === 2 ? "text-2xl text-yellow-300 drop-shadow-[0_0_5px_rgba(255,223,0,0.4)]" : ""
                           }`}>
                             {contestant.name}
                         </span>

@@ -59,6 +59,36 @@ export default function YourTribePage() {
     setMounted(true);
   }, []);
 
+  // Format tribe badges
+  function formatTribeBadges(tribeIds: number[]) {
+    return tribeIds.map((id) => {
+      const tribe = tribes.find((t) => t.id === id);
+      if (!tribe) return null;
+
+      return (
+        <span
+          key={id}
+          className="inline-block px-2 py-0.5 text-sm tracking-wider rounded-full me-1.5 lowercase font-lostIsland"
+          style={{
+            backgroundColor: hexToRgba(tribe.color, 0.3), // Transparent background
+            color: tribe.color, // Solid text color
+          }}
+        >
+          {tribe.name}
+        </span>
+      );
+    });
+  }
+
+  function hexToRgba(hex: string, alpha: number): string {
+    const cleanHex = hex.replace('#', '');
+    const r = parseInt(cleanHex.substring(0, 2), 16);
+    const g = parseInt(cleanHex.substring(2, 4), 16);
+    const b = parseInt(cleanHex.substring(4, 6), 16);
+
+    return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+  }
+
   return (
     <div className="flex flex-col items-center text-white w-full mx-0 px-0 min-h-screen overflow-x-hidden">
       
@@ -116,14 +146,14 @@ export default function YourTribePage() {
               </div>
             </div>
 
-            <div className="relative flex justify-center items-end mt-10 max-w-6xl w-full">
+            <div className="relative flex justify-center items-end mt-12 max-w-6xl w-full">
               <span className="font-survivor text-6xl" style={{ textShadow: '2px 2px 1px rgba(0, 0, 0, 1)' }}>
                 Your Tribe
               </span>
             </div>
 
             {/* Contestants */}
-            <div className="relative flex justify-center items-end py-10 max-w-6xl w-full">
+            <div className="relative flex justify-center items-end py-12 max-w-6xl w-full">
               {tribe.contestants.length > 0 && (
                 <>
                   <div className="relative flex justify-center items-end w-full">
@@ -157,6 +187,8 @@ export default function YourTribePage() {
                           >
                             {contestant.name}
                           </span>
+                          <p className="text-sm -ms-0.5 my-1.5">
+                          </p>
                         </div>
                       );
                     })}

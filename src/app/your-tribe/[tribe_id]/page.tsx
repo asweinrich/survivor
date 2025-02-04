@@ -126,12 +126,12 @@ export default function YourTribePage() {
                     {tribe.contestants.slice(0, 6).map((contestant, index) => {
                       // Define the positions for proper spacing, placing the Sole Survivor as the 3rd contestant
                       const positions = [
-                        "-translate-x-[150px] z-20 scale-85", // Far left
-                        "-translate-x-[95px] z-30 scale-90", // Left
-                        "-translate-x-[28px] -translate-y-[30px] z-40 scale-85", // Center (Sole Survivor, slightly larger)
-                        "translate-x-[39px] z-30 scale-90", // Right
-                        "translate-x-[95px] z-20 scale-85", // Mid-right
-                        "translate-x-[145px] z-10 scale-75", // Far right
+                        "-translate-x-[145px] z-20 scale-85", // Far left
+                        "-translate-x-[90px] z-30 scale-90", // Left
+                        "-translate-x-[23px] -translate-y-[30px] z-40 scale-85", // Center (Sole Survivor, slightly larger)
+                        "translate-x-[45px] z-30 scale-90", // Right
+                        "translate-x-[100px] z-20 scale-85", // Mid-right
+                        "translate-x-[150px] z-10 scale-75", // Far right
                       ];
 
                       return (
@@ -139,6 +139,8 @@ export default function YourTribePage() {
                           key={contestant.id}
                           className={`absolute top-0 flex flex-col items-center ${positions[index]}`}
                         >
+                          
+                          
                           <img
                             src={`/imgs/48/full-body/${contestant.name}.png`}
                             alt={contestant.name}
@@ -146,13 +148,14 @@ export default function YourTribePage() {
                               index === 2 ? "h-[20rem] drop-shadow-[-2px_0px_18px_rgba(255,223,0,1)]" : "h-[16rem]"
                             }`}
                           />
-                          <span
-                            className={`mt-8 font-lostIsland text-center leading-tight ${
-                              index === 2 ? "text-2xl text-yellow-300 drop-shadow-[0_0_5px_rgba(255,223,0,0.4)]" : ""
+                          <p
+                            className={`text-shadow border-2 rounded mt-4 border-stone-800 bg-stone-600 px-2 pt-1.5 pb-1 text-xs font-lostIsland uppercase tracking-wider ${
+                              index === 2 ? "mt-12 !text-xl text-yellow-400" : ""
                             }`}
+                            style={{ textShadow: '1px 1px 1px rgba(0, 0, 0, 1)' }}
                           >
                             {contestant.name}
-                          </span>
+                          </p>
                           <p className="text-sm -ms-0.5 my-1.5">
                           </p>
                         </div>

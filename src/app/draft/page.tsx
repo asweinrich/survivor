@@ -94,9 +94,9 @@ export default function Draft() {
       return (
         <span
           key={id}
-          className="inline-block px-1.5 pt-1.5 pb-1 tracking-wider leading-none rounded-full me-1 uppercase font-lostIsland"
+          className="inline-block p-1.5 tracking-wider leading-none rounded-full me-1 lowercase font-lostIsland"
           style={{
-            backgroundColor: hexToRgba(tribe.color, 0.3), // Transparent background
+            backgroundColor: hexToRgba(tribe.color, 0.2), // Transparent background
             color: tribe.color, // Solid text color
           }}
         >
@@ -252,6 +252,36 @@ export default function Draft() {
       </div>
 
       <div className="max-w-6xl mx-auto">
+
+        <div className="lowercase text-stone-200 border-y border-stone-500 p-4 my-8 font-lostIsland tracking-wider">
+          
+          <p className="mb-3">
+            Enter your contact and tribe information in the form below
+          </p>
+
+           <p className="mb-3">
+            Tap 
+            <PlusIcon className="inline mx-2 w-6 h-6 stroke-3 text-stone-400 border-2 p-0.5 rounded border-stone-400 " />
+            to add a contestant to your tribe. Tap it again to remove them
+          </p>
+
+          <p className="mb-3">
+            Pick <span className="text-lg">6</span> Contestants. When you submit, you will be prompted to selected one of them as your Sole Survivor. 
+          </p>
+
+          <p className="">
+            Tap the 
+            <IdentificationIcon className="inline mx-1.5 w-5 h-5 stroke-2 text-stone-300" />
+            icon to view additional contestant details
+          </p>
+
+          
+
+
+
+        </div>
+
+
         {/* Form Section */}
         <form className="mb-0 bg-stone-900 rounded-lg font-lostIsland tracking-wider uppercase" onSubmit={handleSubmit}>
           <div className="flex flex-col px-2">
@@ -354,21 +384,9 @@ export default function Draft() {
               </div>
             </div>
 
-            <div className="relative">
+            <div className="relative mt-4">
 
-              <div className="w-full bg-stone-900 text-stone-300 rounded-lg mt-2 mb-6 px-5">
-                <p className="text-lg lowercase font-lostIsland tracking-wider mb-6">
-                  Tap 
-                  <PlusIcon className="inline mx-1.5 w-8 h-8 stroke-4 text-stone-400 border-4 p-0.5 rounded-lg border-stone-400 " />
-                  to add a contestant to your tribe. Tap them again to remove 
-                </p>
-
-                <p className="text-lg lowercase font-lostIsland tracking-wider">
-                  Tap 
-                  <IdentificationIcon className="inline mx-2 w-7 h-7 stroke-2" />
-                  to view contestant details
-                </p>
-              </div>
+              <p className="mb-6 text-xl mx-auto text-center underline">Contestant List</p>
 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 px-1 mb-8">
           

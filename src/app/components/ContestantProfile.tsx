@@ -146,7 +146,7 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
           key={id}
           className="inline-block px-2 py-0.5 text-sm tracking-wider rounded-full me-1.5 lowercase font-lostIsland"
           style={{
-            backgroundColor: hexToRgba(tribe.color, 0.3), // Transparent background
+            backgroundColor: hexToRgba(tribe.color, 0.2), // Transparent background
             color: tribe.color, // Solid text color
           }}
         >

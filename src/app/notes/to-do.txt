@@ -29,9 +29,9 @@ Copy/Paste to signify completion:
 
 
 -- SCORES --
-⬜️	Add help text for users to click dropdown caret to see a Player's full tribe
-⬜️	Add help text for suers to click id icon on contestants to see more details.
-⬜️	Add a fun lil podium graphic for top 3 winners from a season and payout amounts(?)
+✅	Add help text for users to click dropdown caret to see a Player's full tribe
+✅	Add help text for suers to click id icon on contestants to see more details.
+❌	Add a fun lil podium graphic for top 3 winners from a season and payout amounts(?)
 		Should remain on screen, but be empty for seasons still in progress.  
 ⬜️	Need to configure scoring. Tried but got infinite page reloads which broke app. 
 		I feel like on the SCORES page load, I need to get contestant scores from a new API request and store those in a state variable. (Already a scores option for contestatns) so don't need new state variable, but I do need to run the code to get their scores and just pull the scores from that. It's not working rn. 
@@ -45,7 +45,9 @@ Copy/Paste to signify completion:
 		Add more detailed instructions on how to draft your tribe. 
 ⬜️	Add FAQ to bottom of rules. Link to this from homepage?
 ✅	There is a weird black space at the bottom of the page, fix/remove it!
-⬜️	Should people draft BEFORE OR AFTER episode 1? 
+✅	Should people draft BEFORE OR AFTER episode 1? 
+\--------> AFTER EPISODE 1
+
 
 
 

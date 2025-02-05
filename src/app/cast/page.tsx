@@ -142,9 +142,9 @@ export default function Contestants() {
       return (
         <span
           key={id}
-          className="inline-block px-1.5 pt-1.5 pb-1 tracking-wider leading-none rounded-full me-1 uppercase font-lostIsland"
+          className="inline-block p-1.5 tracking-wider leading-none rounded-full me-1 lowercase font-lostIsland"
           style={{
-            backgroundColor: hexToRgba(tribe.color, 0.3), // Transparent background
+            backgroundColor: hexToRgba(tribe.color, 0.2), // Transparent background
             color: tribe.color, // Solid text color
           }}
         >

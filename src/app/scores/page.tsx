@@ -243,6 +243,24 @@ export default function Scores() {
       </div>
 
       <div className="max-w-6xl mx-auto">
+
+        <div className="lowercase text-stone-200 border-y border-stone-500 p-4 my-8 font-lostIsland tracking-wider">
+          
+          <p className="mb-3">
+            Click a tribe to expand their lineup and see contestant points
+          </p>
+
+          <p className="mb-3">
+            Tap the 
+            <IdentificationIcon className="inline mx-1.5 w-5 h-5 stroke-2 text-stone-300" />
+            icon to view detailed contestant stats
+          </p>
+
+          <p className="">
+            Rankings are based on total points earned by each tribe
+          </p>
+
+        </div>
       
         {/* Season Dropdown */}
         <div className="mb-8 px-4 font-lostIsland tracking-wider">
@@ -267,7 +285,7 @@ export default function Scores() {
         ) : (
           rankedTribes.map((tribe) => (
             <div key={tribe.id} className="border-b border-t border-stone-700 px-2 py-3">
-              <div className="flex items-center justify-start">
+              <div className="flex items-center justify-start"  onClick={() => toggleDropdown(tribe.id)}>
                 {/* Emoji and Tribe Info */}
                 <div className="flex items-center w-8 font-lostIsland text-2xl me-1.5">
                   <span className="mx-auto">{tribe.rank}</span>
@@ -286,7 +304,7 @@ export default function Scores() {
                 </div>
 
                 {/* Score and Dropdown Toggle */}
-                <div className="flex items-center ms-auto me-0" onClick={() => toggleDropdown(tribe.id)}>
+                <div className="flex items-center ms-auto me-0">
                   <span className="text-2xl font-lostIsland tracking-wide mr-1.5">
                     {calculateScore(tribe)}
                   </span>

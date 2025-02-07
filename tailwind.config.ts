@@ -28,7 +28,10 @@ export default {
         80: '0.8',
         85: '0.85',
         70: '0.7',
-      }
+      },
+      dropShadow: {
+        'custom': '1px 1px 0px rgba(0, 0, 0, 1)',
+      },
     },
   },
   plugins: [],

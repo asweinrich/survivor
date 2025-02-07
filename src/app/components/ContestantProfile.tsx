@@ -270,7 +270,7 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
             <img
               src={`/imgs/${contestant.img}.png`}
               alt={contestant.name}
-              className={`w-28 h-28 object-cover mx-auto border-4 border-stone-500 rounded-full p-1`}
+              className={`w-28 h-28 object-cover scale-110 mx-auto border-4 border-stone-500 rounded-full p-1`}
             />
           </div>
           <div className="flex flex-col">

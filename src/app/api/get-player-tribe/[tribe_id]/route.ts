@@ -38,6 +38,7 @@ export async function GET(req: Request, { params }: { params: Promise<{ tribe_id
             name: true,
             img: true,
             tribes: true, // Assuming contestants have a `tribes` field for their show tribes
+            profession: true,
           },
         });
 
@@ -52,6 +53,7 @@ export async function GET(req: Request, { params }: { params: Promise<{ tribe_id
             name: contestant.name,
             img: contestant.img,
             tribes: contestant.tribes,
+            profession: contestant.profession,
           })),
           createdAt: tribe.createdAt,
           playerName: player ? player.name : 'Unknown Player',

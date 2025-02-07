@@ -5,12 +5,13 @@ import { useWindowSize } from 'react-use';
 import Confetti from 'react-confetti';
 import Image from "next/image";
 import tinycolor from "tinycolor2";
-import { ArrowPathIcon } from '@heroicons/react/24/solid';
+import { ArrowPathIcon, TrophyIcon } from '@heroicons/react/24/solid';
 
 type Contestant = {
   id: number;
   name: string;
   tribes: number[];
+  profession: string;
   img: string;
 };
 
@@ -23,13 +24,23 @@ type Tribe = {
   playerName: string;
 };
 
+type ShowTribe = {
+  id: number;
+  name: string;
+  color: string;
+};
+
 export default function YourTribePage() {
   const [tribe, setTribe] = useState<Tribe | null>(null);
+  const [tribes, setTribes] = useState<ShowTribe[]>([]);
   const [mounted, setMounted] = useState(false);
   const { width, height } = useWindowSize();
   const [tribeColor, setTribeColor] = useState('#77c471');
   const [loading, setLoading] = useState(true);
   const [recycleConfetti, setRecycleConfetti] = useState(true);
+
+  const season = 48;
+
 
   // Fetch tribe data from the API
   useEffect(() => {
@@ -51,123 +62,238 @@ export default function YourTribePage() {
       setLoading(false);
     }
 
+    async function fetchTribes() {
+      const res = await fetch(`/api/show-tribes/${season}`);
+      const data = await res.json();
+      setTribes(data);
+    }
+    
     setTimeout(() => {
       setRecycleConfetti(false); // Stop confetti after 2 seconds
     }, 4000);
 
     fetchTribeData();
+    fetchTribes();
     setMounted(true);
   }, []);
 
-  
+  function getFirstName(fullName: string): string {
+    return fullName.trim().split(' ')[0];
+  }
 
+  function formatTribeBadges(tribeIds: number[]) {
+    return tribeIds.map((id) => {
+      const tribe = tribes.find((t) => t.id === id);
+      if (!tribe) return null;
+      return (
+        <span
+          key={id}
+          className="inline-block p-1.5 tracking-wider leading-none rounded-full me-1 lowercase font-lostIsland"
+          style={{
+            backgroundColor: hexToRgba(tribe.color, 0.2),
+            color: tribe.color,
+          }}
+        >
+          {tribe.name}
+        </span>
+      );
+    });
+  }
+
+  function hexToRgba(hex: string, alpha: number): string {
+    const cleanHex = hex.replace('#', '');
+    const r = parseInt(cleanHex.substring(0, 2), 16);
+    const g = parseInt(cleanHex.substring(2, 4), 16);
+    const b = parseInt(cleanHex.substring(4, 6), 16);
+    return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+  }
+
+  
   return (
     <div className="flex flex-col items-center text-white w-full mx-0 px-0 min-h-screen overflow-x-hidden">
-      
-
       {/* Show Loading Spinner Until Data is Fully Loaded */}
       {loading ? (
         <div className="flex flex-col justify-center items-center py-24">
           <ArrowPathIcon className="w-10 h-10 animate-spin text-stone-200" />
-          <p className="font-lostIsland text-xl lowercase my-4 tracking-wider">Loading...</p>
+          <p className="font-lostIsland text-xl lowercase my-4 tracking-wider">
+            Loading...
+          </p>
         </div>
       ) : (
         <>
-        {mounted && tribeColor && (
-          <div className="fixed top-0 left-0 w-full h-full pointer-events-none z-50">
-            <Confetti
-              width={width}
-              height={height}
-              colors={[tribeColor, '#fc8c03', '#2bcc3e', '#ab2fed', tribeColor]}
-              recycle={recycleConfetti}
-              numberOfPieces={300}
-              wind={0.01}
-              gravity={0.075}
-              drawShape={(ctx: CanvasRenderingContext2D) => {
-                ctx.beginPath();
-                // Define the dimensions of the rectangle
-                const rectWidth = 18;  // Width of the rectangle
-                const rectHeight = 9;  // Height of the rectangle
-                // Center the rectangle around the origin
-                ctx.rect(-rectWidth / 2, -rectHeight / 2, rectWidth, rectHeight);
-                ctx.fill();
-                ctx.closePath();
-              }}
-            />
-          </div>
-        )}
+          {mounted && tribeColor && (
+            <div className="fixed top-0 left-0 w-full h-full pointer-events-none z-50">
+              <Confetti
+                width={width}
+                height={height}
+                colors={[tribeColor, "#fc8c03", "#2bcc3e", "#ab2fed", tribeColor]}
+                recycle={recycleConfetti}
+                numberOfPieces={300}
+                wind={0.01}
+                gravity={0.075}
+                drawShape={(ctx: CanvasRenderingContext2D) => {
+                  ctx.beginPath();
+                  const rectWidth = 18; // Width of the rectangle
+                  const rectHeight = 9; // Height of the rectangle
+                  ctx.rect(-rectWidth / 2, -rectHeight / 2, rectWidth, rectHeight);
+                  ctx.fill();
+                  ctx.closePath();
+                }}
+              />
+            </div>
+          )}
 
-        {tribe && (
-          <>
-            {/* Tribe Header */}
-            <div
-              className="flex flex-row w-full items-center justify-start py-2 px-4"
-              style={{
-                backgroundImage: `linear-gradient(to bottom right, ${tribeColor}, ${tinycolor(tribeColor).darken(20).toString()})`,
-              }}
-              id="tribe"
-            >
-              <span className="text-4xl me-4">{tribe.emoji}</span>
-              <div className="flex flex-col">
-                <h2 className="text-3xl font-lostIsland text-stone-100 mb-1" style={{ textShadow: '2px 2px 1px rgba(0, 0, 0, 1)' }}>
-                  {tribe.tribeName}
-                </h2>
-                <span className="text-xl font-lostIsland text-stone-200 leading-none mb-1" style={{ textShadow: '2px 2px 1px rgba(0, 0, 0, 1)' }}>
-                  {tribe.playerName}
-                </span>
+          {tribe && (
+            <>
+              {/* Tribe Header */}
+              <div
+                className="flex flex-row w-full items-center justify-start py-2 px-4"
+                style={{
+                  backgroundImage: `linear-gradient(to bottom right, ${tribeColor}, ${tinycolor(
+                    tribeColor
+                  )
+                    .darken(20)
+                    .toString()})`,
+                }}
+                id="tribe"
+              >
+                <span className="text-4xl me-4">{tribe.emoji}</span>
+                <div className="flex flex-col">
+                  <h2
+                    className="text-3xl font-lostIsland text-stone-100 mb-1"
+                    style={{ textShadow: "2px 2px 1px rgba(0, 0, 0, 1)" }}
+                  >
+                    {tribe.tribeName}
+                  </h2>
+                  <span
+                    className="text-xl font-lostIsland text-stone-200 leading-none mb-1"
+                    style={{ textShadow: "2px 2px 1px rgba(0, 0, 0, 1)" }}
+                  >
+                    {tribe.playerName}
+                  </span>
+                </div>
               </div>
-            </div>
 
-            {/* Contestants */}
-            <div className="relative flex justify-center items-end py-16 max-w-6xl w-full z-20 overflow-visible">
-              {tribe.contestants.length > 0 && (
-                <>
-                  <div className="relative flex justify-center items-end w-full">
-                    {tribe.contestants.slice(0, 6).map((contestant, index) => {
-                      // Define the positions for proper spacing, placing the Sole Survivor as the 3rd contestant
-                      const positions = [
-                        "-translate-x-[145px] z-20 scale-85", // Far left
-                        "-translate-x-[90px] z-30 scale-90", // Left
-                        "-translate-x-[23px] -translate-y-[30px] z-40 scale-85", // Center (Sole Survivor, slightly larger)
-                        "translate-x-[45px] z-30 scale-90", // Right
-                        "translate-x-[100px] z-20 scale-85", // Mid-right
-                        "translate-x-[150px] z-10 scale-75", // Far right
-                      ];
+              {/* Contestants */}
+              <div className="relative flex justify-center items-end max-w-6xl w-full z-20 overflow-visible">
+                {tribe.contestants.length > 0 && (
+                  (() => {
+                    // Use the ordered array of IDs (via tribeArray) if available; otherwise, default to tribe.contestants.
+                    let orderedContestants: Contestant[] = [];
+                    if ("tribeArray" in tribe && Array.isArray((tribe as any).tribeArray)) {
+                      const order: number[] = (tribe as any).tribeArray;
+                      orderedContestants = order
+                        .map(id => tribe.contestants.find(c => c.id === id))
+                        .filter((c): c is Contestant => Boolean(c));
+                    } else {
+                      orderedContestants = tribe.contestants;
+                    }
 
-                      return (
-                        <div
-                          key={contestant.id}
-                          className={`absolute top-0 flex flex-col items-center ${positions[index]}`}
-                        >
-                          
-                          
-                          <img
-                            src={`/imgs/48/full-body/${contestant.name}.png`}
-                            alt={contestant.name}
-                            className={`object-contain h-[16rem] ${
-                              index === 2 ? "h-[20rem] drop-shadow-[-2px_0px_18px_rgba(255,223,0,1)]" : "h-[16rem]"
-                            }`}
-                          />
-                          <p
-                            className={`text-shadow border-2 rounded mt-4 border-stone-800 bg-stone-600 px-2 pt-1.5 pb-1 text-xs font-lostIsland uppercase tracking-wider ${
-                              index === 2 ? "mt-12 !text-xl text-yellow-400" : ""
-                            }`}
-                            style={{ textShadow: '1px 1px 1px rgba(0, 0, 0, 1)' }}
-                          >
-                            {contestant.name}
-                          </p>
-                          <p className="text-sm -ms-0.5 my-1.5">
-                          </p>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </>
-              )}
-            </div>
-          </>
-        )}
-      </>)}
+                    // Reorder so that the sole survivor (the first element) is displayed in the center (index 2)
+                    let displayContestants: Contestant[] = [];
+                    if (orderedContestants.length === 6) {
+                      const temp = [...orderedContestants];
+                      const soleSurvivor = temp.shift(); // Remove the first element
+                      if (soleSurvivor) {
+                        temp.splice(2, 0, soleSurvivor); // Insert at index 2 (center)
+                      }
+                      displayContestants = temp;
+                    } else {
+                      displayContestants = orderedContestants;
+                    }
+
+                    // Define positions for proper spacing (preserving your original alignment)
+                    const positions = [
+                      "-translate-x-[145px] z-20 scale-85 space-y-11", // Far left
+                      "-translate-x-[90px] z-30 scale-90 space-y-11",    // Left
+                      "-translate-x-[23px] -translate-y-[30px] z-40 scale-85", // Center (sole survivor)
+                      "translate-x-[45px] z-30 scale-90 space-y-11",      // Right
+                      "translate-x-[105px] z-20 scale-85 space-y-11",     // Mid-right
+                      "translate-x-[160px] z-10 scale-75 space-y-14",     // Far right
+                    ];
+
+                    return (
+                      <div className="relative flex justify-center items-end w-full h-[25rem] pt-12 overflow-hidden">
+                        <img 
+                          className="absolute w-full -top-6 h-96"
+                          src="/imgs/graphics/tropical-graphic.png"
+                          style={{
+                              maskImage: "linear-gradient(to bottom, rgba(0,0,0,0.55) 65%, rgba(0,0,0,0) 100%)",
+                              WebkitMaskImage: "linear-gradient(to bottom, rgba(0,0,0,0.55) 65%, rgba(0,0,0,0) 100%)"
+                            }}
+                            alt="Tropical Graphic"                        />
+                        {displayContestants.map((contestant, index) => {
+                          // For each contestant, determine the primary show tribe from the contestant's tribes array
+                          const primaryTribe = contestant.tribes && contestant.tribes.length > 0 
+                            ? tribes.find(t => t.id === contestant.tribes[0])
+                            : null;
+
+                          return (
+                            <div
+                              key={contestant.id}
+                              className={`absolute top-12 flex flex-col items-center ${positions[index]}`}
+                            >
+                              <img
+                                src={`/imgs/48/full-body/${contestant.name}.png`}
+                                alt={contestant.name}
+                                className={`object-contain ${
+                                  index === 2
+                                    ? "h-[20rem] drop-shadow-[-2px_0px_18px_rgba(255,223,0,1)]"
+                                    : "h-[16rem] drop-shadow-[1px_2px_3px_rgba(0,0,0,1)]"
+                                }`}
+                              />
+                              <div 
+                                className="relative text-center border-y-4 border-2 border-stone-900 mt-4 px-1.5 py-1 font-lostIsland tracking-wide"
+                                style={{
+                                  textShadow: "1px 1px 1px rgba(0, 0, 0, 1)",
+                                  backgroundImage: primaryTribe
+                                    ? `linear-gradient(to bottom right, ${tinycolor(primaryTribe.color).darken(8).toString()}, ${tinycolor(primaryTribe.color).darken(20).toString()})`
+                                    : `linear-gradient(to bottom right, #F59E0B, ${tinycolor("#F59E0B").darken(20).toString()})`
+
+                                }}
+                              >
+                                {index === 2 && (
+                                  <TrophyIcon 
+                                    className="absolute -top-3.5 -right-1.5 w-6 h-6 text-yellow-400 drop-shadow-custom" 
+                                    
+                                  />
+                                )}
+                                <p
+                                  className={`min-w-14 text-sm uppercase ${
+                                    index === 2 ? "!text-lg" : ""
+                                  }`}
+                                  style={{
+                                    textShadow: "1px 1px 0px rgba(0, 0, 0, 1)",
+                                  }}
+                                >
+                                  {getFirstName(contestant.name)}
+                                  
+                                </p>
+                              </div>
+                              {index === 2 && (
+                                <p className="text-xs text-yellow-400 font-lostIsland tracking-wider uppercase max-w-18 wrap text-center leading-none mt-1">Sole Survivor</p>
+                              )}
+                            </div>
+                          );
+                        })}
+                      </div>
+                    );
+                  })()
+                )}
+              </div>
+
+              {/* Help Text */}
+              <div className="text-center p-4 font-lostIsland tracking-wide">
+                <p className="italic text-3xl mb-4">And this challenge is on!</p>
+                <p className="text-lg">Your tribe is chosen. Now, let the game begin.</p>
+              </div>
+
+            </>
+          )}
+        </>
+      )}
     </div>
   );
+
+
 }

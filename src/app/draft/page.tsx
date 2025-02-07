@@ -32,6 +32,8 @@ export default function Draft() {
   const [confirmationModalVisible, setConfirmationModalVisible] = useState(false);
   const [selectedSoleSurvivor, setSelectedSoleSurvivor] = useState<number | null>(null);
   const [finalSubmitting, setFinalSubmitting] = useState(false);
+  const [acknowledged, setAcknowledged] = useState(false);
+
 
   const router = useRouter();
 
@@ -217,6 +219,11 @@ export default function Draft() {
   const draftedContestants = draftPicks
     .map((id) => contestants.find((c) => c.id === id))
     .filter((c): c is Contestant => Boolean(c));
+
+
+  function getFirstName(fullName: string): string {
+    return fullName.trim().split(' ')[0];
+  }
 
   return (
     <div className="min-h-screen bg-stone-900 text-stone-200 p-0">
@@ -497,31 +504,31 @@ export default function Draft() {
             onClick={() => setConfirmationModalVisible(false)}
           >
             <div
-              className="bg-stone-800 rounded-lg p-6 w-full max-w-3xl relative"
+              className="bg-stone-800 rounded-lg p-4 w-full max-w-3xl relative"
               onClick={(e) => e.stopPropagation()}
             >
-              <h2 className="text-xl tracking-wider text-center uppercase mb-4 font-lostIsland">Confirm Your Tribe</h2>
-              <div className="mb-4">
-                <p className="font-lostIsland tracking-wider text-2xl">
-                  {form.name}
-                </p>
-                <p className="font-lostIsland tracking-wider text-xl opacity-80 border-b pb-4 mb-4">
-                  {form.email}
-                </p>
-                <p className="flex items-center border-b pb-4 mb-4">
+              <h2 className="text-xl tracking-wider text-center uppercase mb-2 font-lostIsland">Confirm Your Tribe</h2>
+              <div className="mb-4 pb-4 border-b ">
+                <p className="flex items-center mb-4">
                   <span
                     style={{ backgroundColor: form.color }}
                     className="inline-block w-12 h-12 text-center text-2xl p-2 rounded-full"
                   >{form.emoji}</span> 
-                  <span className="text-2xl ms-3 font-lostIsland tracking-wider">{form.tribeName}</span> 
+                  <span className="text-3xl ms-3 font-lostIsland tracking-wider">{form.tribeName}</span> 
+                </p>
+                <p className="font-lostIsland tracking-wider text-xl leading-none ps-1">
+                  {form.name}
+                </p>
+                <p className="font-lostIsland tracking-wider text-lg opacity-80 ps-1">
+                  {form.email}
                 </p>
                 
               </div>
               <div>
-                <p className="mb-4 font-lostIsland tracking-wider text-center text-lg">Chose Your Sole Survivor</p>
-                <div className="grid grid-cols-3 gap-4">
+                <p className="mb-4 font-lostIsland uppercase tracking-wider text-center text-xl">Chose Your Sole Survivor</p>
+                <div className="grid grid-cols-3 gap-2">
                   {draftedContestants.map((contestant) => (
-                    <div key={contestant.id} className="">
+                    <div key={contestant.id} className="w-28 h-28 relative">
                       <div
                         onClick={() => {
                           if (contestant.inPlay) setSelectedSoleSurvivor(contestant.id);
@@ -535,22 +542,37 @@ export default function Draft() {
                         <img
                           src={`/imgs/${contestant.img}.png`}
                           alt={contestant.name}
-                          className="w-24 h-24 object-cover rounded-full"
+                          className="w-24 object-cover rounded-full"
                         />
                         
                       </div>
                       <p 
-                        className={`text-stone-100 text-center font-lostIsland tracking-wider text-xl leading-tight p-2 ${
+                        className={`absolute -bottom-1 left-0 right-0 rounded-lg bg-stone-700 text-stone-100 text-center font-lostIsland tracking-wider text-lg leading-tight p-1 ${
                           selectedSoleSurvivor === contestant.id ? 'text-yellow-400' : 'text-stone-100'
                         }`}
                       >
-                        {contestant.name}
+                        {getFirstName(contestant.name)}
                       </p>
                     </div>
                   ))}
                 </div>
               </div>
-              <div className="flex flex-col mt-6 tracking-wider font-lostIsland text-xl space-y-4">
+              
+              {/* New Checkbox Section */}
+              <div className="flex items-center mt-4">
+                <input
+                  type="checkbox"
+                  id="acknowledge"
+                  checked={acknowledged}
+                  onChange={(e) => setAcknowledged(e.target.checked)}
+                  className="mx-3 h-24 w-24"
+                />
+                <label htmlFor="acknowledge" className="font-inter text-sm tracking-wider">
+                  I acknowledge I need to pay Andrew my tribe's entry fee by the March 5, 2025 @ 7:00 PST or else my tribe will be removed from this season's competition
+                </label>
+              </div>
+
+              <div className="flex flex-col mt-4 tracking-wider font-lostIsland text-xl space-y-4">
                 <button
                   onClick={() => setConfirmationModalVisible(false)}
                   className="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700"
@@ -559,9 +581,10 @@ export default function Draft() {
                 </button>
                 <button
                   onClick={handleFinalSubmit}
-                  disabled={!selectedSoleSurvivor || finalSubmitting}
+                  disabled={!selectedSoleSurvivor || finalSubmitting || !acknowledged}
                   className={`px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 ${
-                    (!selectedSoleSurvivor || finalSubmitting) && 'opacity-50 cursor-not-allowed'
+                    (!selectedSoleSurvivor || finalSubmitting || !acknowledged) &&
+                    "opacity-50 cursor-not-allowed"
                   }`}
                 >
                   Confirm Submission

@@ -286,6 +286,12 @@ export default function YourTribePage() {
               <div className="text-center p-4 font-lostIsland tracking-wide">
                 <p className="italic text-3xl mb-4">And this challenge is on!</p>
                 <p className="text-lg">Your tribe is chosen. Now, let the game begin.</p>
+              
+                <p className="text-lg my-4 leading-tight">Good luck this season and don't forget to&nbsp;
+                  <a className="underline text-orange-400 hover:text-orange-600" target="_blank" href={"https://venmo.com/andrew-weinrich?txn=pay&amount=20.00&note="+tribe.tribeName}>
+                    pay Your $20 Entry Fee on Venmo!
+                  </a>
+                </p>
               </div>
 
             </>

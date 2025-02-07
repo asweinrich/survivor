@@ -54,7 +54,10 @@ export async function POST(req: Request) {
       },
     });
 
-    return NextResponse.json({ message: 'Player and PlayerTribe updated successfully' });
+    return NextResponse.json({ 
+      message: 'Player and PlayerTribe updated successfully',
+      tribeId: newPlayerTribe.id 
+    });
   } catch (error) {
     console.error(error);
     return NextResponse.json({ message: 'Internal server error' }, { status: 500 });

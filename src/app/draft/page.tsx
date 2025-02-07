@@ -5,14 +5,14 @@ import { CheckIcon, PlusIcon, IdentificationIcon } from '@heroicons/react/24/out
 import ContestantProfile from '../components/ContestantProfile';
 import EmojiPicker from 'emoji-picker-react';
 import Image from "next/image";
-
-
+import { useRouter } from 'next/navigation';
 
 type Contestant = {
   id: number;
   name: string;
   tribes: number[];
   img: string; // This should match the field in your database
+  inPlay: boolean;
 };
 
 type Tribe = {
@@ -21,13 +21,19 @@ type Tribe = {
   color: string;
 };
 
-
 export default function Draft() {
   const [draftPicks, setDraftPicks] = useState<number[]>([]);
   const [contestants, setContestants] = useState<Contestant[]>([]);
   const [tribes, setTribes] = useState<Tribe[]>([]);
   const [modalVisible, setModalVisible] = useState(false);
   const [focusContestant, setFocusContestant] = useState(0);
+
+  // New state for confirmation modal & final submission
+  const [confirmationModalVisible, setConfirmationModalVisible] = useState(false);
+  const [selectedSoleSurvivor, setSelectedSoleSurvivor] = useState<number | null>(null);
+  const [finalSubmitting, setFinalSubmitting] = useState(false);
+
+  const router = useRouter();
 
   const getRandomColor = () => {
     const letters = '0123456789ABCDEF';
@@ -52,9 +58,8 @@ export default function Draft() {
 
   const [emojiPickerVisible, setEmojiPickerVisible] = useState(false);
 
-  // Fetch contestants when the season changes
+  // Fetch contestants and tribes when the component mounts
   useEffect(() => {
-
     async function fetchContestants() {
       const res = await fetch(`/api/cast/${season}`);
       const data = await res.json();
@@ -68,36 +73,30 @@ export default function Draft() {
       setTribes(data);
     }
     fetchTribes();
-
-
   }, []);
 
-
   useEffect(() => {
-    if (modalVisible) {
+    if (modalVisible || confirmationModalVisible) {
       document.body.style.overflow = 'hidden'; // Disable scrolling
     } else {
       document.body.style.overflow = 'auto'; // Enable scrolling
     }
-
-    // Cleanup on unmount
     return () => {
       document.body.style.overflow = 'auto';
     };
-  }, [modalVisible]);
+  }, [modalVisible, confirmationModalVisible]);
 
   function formatTribeBadges(tribeIds: number[]) {
     return tribeIds.map((id) => {
       const tribe = tribes.find((t) => t.id === id);
       if (!tribe) return null;
-
       return (
         <span
           key={id}
           className="inline-block p-1.5 tracking-wider leading-none rounded-full me-1 lowercase font-lostIsland"
           style={{
-            backgroundColor: hexToRgba(tribe.color, 0.2), // Transparent background
-            color: tribe.color, // Solid text color
+            backgroundColor: hexToRgba(tribe.color, 0.2),
+            color: tribe.color,
           }}
         >
           {tribe.name}
@@ -107,69 +106,76 @@ export default function Draft() {
   }
 
   function hexToRgba(hex: string, alpha: number): string {
-    // Remove the '#' if present
     const cleanHex = hex.replace('#', '');
-    // Convert hex to RGB
     const r = parseInt(cleanHex.substring(0, 2), 16);
     const g = parseInt(cleanHex.substring(2, 4), 16);
     const b = parseInt(cleanHex.substring(4, 6), 16);
-
     return `rgba(${r}, ${g}, ${b}, ${alpha})`;
   }
 
-  // Function to close the modal
+  // Function to close the default modal (for viewing contestant profile)
   const closeModal = () => {
     setModalVisible(false);
     setFocusContestant(0);
   };
 
-  // Function to close the modal
+  // Function to open the contestant profile modal
   const activateModal = (id: number) => {
     setFocusContestant(id);
     setModalVisible(true);
   };
 
-  //Fucntion to update draft picks
+  // Function to update draft picks (toggle selection)
   const updatePicks = (id: number) => {
     if (draftPicks.length >= 6 && !draftPicks.includes(id)) {
       alert("Only 6 Tribe Members allowed. Remove one of your picks to select a different contestant.");
       return;
     }
-
     setDraftPicks((prevPicks) => {
       if (prevPicks.includes(id)) {
-        // Remove the ID if it's already in the array
         return prevPicks.filter((pick) => pick !== id);
       } else {
-        // Add the ID to the array
         return [...prevPicks, id];
       }
     });
-  }
+  };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
+  const handleEmojiClick = (emoji: any) => {
+    setForm((prev) => ({ ...prev, emoji: emoji.emoji }));
+    setEmojiPickerVisible(false);
+  };
+
+  // Modified handleSubmit: instead of immediately submitting, show confirmation modal
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (draftPicks.length !== 6) {
+      alert("Please select exactly 6 contestants.");
+      return;
+    }
+    // Open the confirmation modal
+    setConfirmationModalVisible(true);
+  };
 
-    const tribeArray = draftPicks
-      .map((id) => {
-        const contestant = contestants.find((c) => c.id === id);
-        return contestant ? contestant.id : null;
-      })
-      .filter((id) => id !== null); // Filter out nulls
-
+  // Final submission: reorder tribe picks, submit to API, and then redirect
+  const handleFinalSubmit = async () => {
+    if (!selectedSoleSurvivor) return;
+    setFinalSubmitting(true);
+    // Reorder the tribe array so that the sole survivor is first
+    const newTribeArray = [selectedSoleSurvivor, ...draftPicks.filter(id => id !== selectedSoleSurvivor)];
     const data = {
       email: form.email,
+      phone: form.phone,
       name: form.name,
       tribeName: form.tribeName,
       color: form.color,
       emoji: form.emoji,
       season,
-      tribeArray,
+      tribeArray: newTribeArray,
     };
 
     try {
@@ -180,24 +186,24 @@ export default function Draft() {
         },
         body: JSON.stringify(data),
       });
-
       if (!response.ok) {
         const errorMessage = `Server returned ${response.status}: ${response.statusText}`;
         console.error(errorMessage);
         alert(errorMessage);
+        setFinalSubmitting(false);
         return;
       }
-
       const result = await response.json();
-      alert('Submission successful!');
-      console.log('Response from server:', result);
+      // Redirect to the newly created tribe page using the returned tribe ID.
+      router.push(`/your-tribe/${result.tribeId || result.id}`);
     } catch (error) {
-      console.error('Error during submission:', error);
-      alert('An error occurred while submitting the form.');
+      console.error('Error during final submission:', error);
+      alert('An error occurred during final submission.');
+      setFinalSubmitting(false);
     }
   };
 
-
+  // Helper to get the names of drafted contestants (for the textarea preview)
   const getTribeNames = () => {
     return draftPicks
       .map((id) => {
@@ -207,15 +213,10 @@ export default function Draft() {
       .join(', ');
   };
 
-
-
-  const handleEmojiClick = (emoji: any) => {
-    setForm((prev) => ({ ...prev, emoji: emoji.emoji }));
-    setEmojiPickerVisible(false); // Close picker after selection
-  };
-
-  
-
+  // Compute the drafted contestants array for use in the confirmation modal
+  const draftedContestants = draftPicks
+    .map((id) => contestants.find((c) => c.id === id))
+    .filter((c): c is Contestant => Boolean(c));
 
   return (
     <div className="min-h-screen bg-stone-900 text-stone-200 p-0">
@@ -223,10 +224,10 @@ export default function Draft() {
         {/* Background Image */}
         <div className="z-0">
           <Image
-            src="/imgs/graphics/home-graphic.png" // Replace with your background image path
+            src="/imgs/graphics/home-graphic.png"
             alt="Survivor Background"
             fill
-            style={{ objectFit: 'cover' }} 
+            style={{ objectFit: 'cover' }}
             className=""
           />
           <div
@@ -236,14 +237,13 @@ export default function Draft() {
                 "linear-gradient(to bottom, #1c1917 0%, transparent 33%, transparent 66%, #1c1917 100%)",
             }}
           ></div>
-
         </div>
-        <h1 className="absolute -bottom-8 inset-x-0 z-10 text-4xl font-bold mb-2 text-stone-100 font-survivor tracking-wider">Draft your Tribe</h1>
-  
-        {/* Logo and Welcome Section */}
+        <h1 className="absolute -bottom-8 inset-x-0 z-10 text-4xl font-bold mb-2 text-stone-100 font-survivor tracking-wider">
+          Draft your Tribe
+        </h1>
         <div className="absolute inset-0 z-10 flex flex-row justify-center mx-auto items-center">
           <Image
-            src={`/imgs/${season}/logo.png`} // Replace with your Survivor logo path
+            src={`/imgs/${season}/logo.png`}
             alt="Survivor Season 48 Logo"
             width={250}
             height={250}
@@ -252,35 +252,29 @@ export default function Draft() {
       </div>
 
       <div className="max-w-6xl mx-auto">
-
         <div className="lowercase text-stone-200 border-y border-stone-500 p-4 my-8 font-lostIsland tracking-wider">
-          
           <p className="mb-3">
-            Enter your contact and tribe information in the form below
+            Enter your contact and tribe information in the form below. Make sure you've read the{' '}
+            <a href="/rules" className="text-orange-400 hover:text-orange-600">
+              rules
+            </a>{' '}
+            before drafting your tribe!
           </p>
-
-           <p className="mb-3">
-            Tap 
-            <PlusIcon className="inline mx-2 w-6 h-6 stroke-3 text-stone-400 border-2 p-0.5 rounded border-stone-400 " />
-            to add a contestant to your tribe. Tap it again to remove them
-          </p>
-
           <p className="mb-3">
-            Pick <span className="text-lg">6</span> Contestants. When you submit, you will be prompted to selected one of them as your Sole Survivor. 
+            Tap{' '}
+            <PlusIcon className="inline mx-2 w-6 h-6 stroke-3 text-stone-400 border-2 p-0.5 rounded border-stone-400" /> to
+            add a contestant to your tribe. Tap it again to remove them.
           </p>
-
+          <p className="mb-3">
+            Pick <span className="text-lg">6</span> Contestants. When you submit, you will be prompted to select one
+            of them as your Sole Survivor.
+          </p>
           <p className="">
-            Tap the 
-            <IdentificationIcon className="inline mx-1.5 w-5 h-5 stroke-2 text-stone-300" />
-            icon to view additional contestant details
+            Tap the{' '}
+            <IdentificationIcon className="inline mx-1.5 w-5 h-5 stroke-2 text-stone-300" /> icon to view additional
+            contestant details.
           </p>
-
-          
-
-
-
         </div>
-
 
         {/* Form Section */}
         <form className="mb-0 bg-stone-900 rounded-lg font-lostIsland tracking-wider uppercase" onSubmit={handleSubmit}>
@@ -340,11 +334,10 @@ export default function Draft() {
                     maxLength={1}
                     className="w-full p-2 bg-stone-700 rounded text-lg text-center"
                     value={form.emoji}
-                    readOnly // Make it read-only to force users to use the picker
+                    readOnly
                     onClick={() => setEmojiPickerVisible(!emojiPickerVisible)}
                     required
                   />
-                  
                 </div>
                 {emojiPickerVisible && (
                   <div className="absolute z-50 mt-2">
@@ -385,78 +378,70 @@ export default function Draft() {
             </div>
 
             <div className="relative mt-4">
-
               <p className="mb-6 text-xl mx-auto text-center underline">Contestant List</p>
-
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 px-1 mb-8">
-          
                 {contestants.map((contestant) => (
-                <div
-                  key={contestant.id}
-                  className={`flex flex-row items-center p-2 mb-0.5 bg-stone-800 border-4 rounded-xl ${
-                    draftPicks.includes(contestant.id) ? 'border-green-500' : 'border-stone-700'
-                  }`}
-                >
-                  {/* Image */}
-                  <div 
-                    className={`flex items-center mx-auto justify-center w-20 h-20 p-1 rounded-full border-4  ${
-                      draftPicks.includes(contestant.id) ? 'border-green-400' : 'border-stone-400'
-                    } relative`}
-                    
+                  <div
+                    key={contestant.id}
+                    className={`flex flex-row items-center p-2 mb-0.5 bg-stone-800 border-4 rounded-xl ${
+                      draftPicks.includes(contestant.id) ? 'border-green-500' : 'border-stone-700'
+                    }`}
                   >
-                    <img
-                      src={`/imgs/${contestant.img}.png`}
-                      alt={contestant.name}
-                      className="w-full object-cover rounded-full overflow-hidden"
-                    />
-
-
-                  </div>
-
-                  {/* Survivor Name and Info */}
-                  <div className="flex flex-col flex-grow ps-1">
-                    <div className="flex flex-row items-center px-2 mb-1">
-                      <span className="uppercase text-lg font-lostIsland tracking-wider leading-tight">{contestant.name}</span>
-                    </div>
-                    <div className="flex flex-row items-center px-2">
-                      <IdentificationIcon className="w-7 h-7 text-stone-300 stroke-2 me-1.5 hover:cursor-pointer" onClick={() => activateModal(contestant.id)} />
-                      <span className="">{formatTribeBadges(contestant.tribes)}</span>
-                    </div>
-                    
-                  </div>
-
-                  <div className="mx-1 hover:cursor-pointer">
-                    <span 
-                      className={`border-4 rounded-lg w-12 h-12 flex justify-center items-center ${
+                    {/* Image */}
+                    <div
+                      className={`flex items-center mx-auto justify-center w-20 h-20 p-1 rounded-full border-4 ${
                         draftPicks.includes(contestant.id) ? 'border-green-400' : 'border-stone-400'
-                      } bg-stone-800`}
-                      onClick={() => updatePicks(contestant.id)}
+                      } relative`}
                     >
-                      {draftPicks.includes(contestant.id) ? (
-                        <CheckIcon className="w-8 h-8 stroke-3 text-green-400" />
-                      ) : (
-                        <PlusIcon className="w-8 h-8 stroke-3 text-stone-400" />
-                      )}
-                    </span>
+                      <img
+                        src={`/imgs/${contestant.img}.png`}
+                        alt={contestant.name}
+                        className="w-full object-cover rounded-full overflow-hidden"
+                      />
+                    </div>
+                    {/* Contestant Info */}
+                    <div className="flex flex-col flex-grow ps-1">
+                      <div className="flex flex-row items-center px-2 mb-1">
+                        <span className="uppercase text-lg font-lostIsland tracking-wider leading-tight">
+                          {contestant.name}
+                        </span>
+                      </div>
+                      <div className="flex flex-row items-center px-2">
+                        <IdentificationIcon
+                          className="w-7 h-7 text-stone-300 stroke-2 me-1.5 hover:cursor-pointer"
+                          onClick={() => activateModal(contestant.id)}
+                        />
+                        <span className="">{formatTribeBadges(contestant.tribes)}</span>
+                      </div>
+                    </div>
+                    <div className="mx-1 hover:cursor-pointer">
+                      <span
+                        className={`border-4 rounded-lg w-12 h-12 flex justify-center items-center ${
+                          draftPicks.includes(contestant.id) ? 'border-green-400' : 'border-stone-400'
+                        } bg-stone-800`}
+                        onClick={() => updatePicks(contestant.id)}
+                      >
+                        {draftPicks.includes(contestant.id) ? (
+                          <CheckIcon className="w-8 h-8 stroke-3 text-green-400" />
+                        ) : (
+                          <PlusIcon className="w-8 h-8 stroke-3 text-stone-400" />
+                        )}
+                      </span>
+                    </div>
                   </div>
-
-                  
-                </div>
                 ))}
               </div>
 
               <div className="sticky bottom-0 p-4 pt-3 bg-stone-700 rounded-t-xl mx-1">
-
                 <div className="mb-2">
                   <div className="flex flex-row justify-around items-center mb-3">
                     <label htmlFor="tribeArray" className="flex grow text-lg leading-tight">
                       Your Tribe ({draftPicks.length})
                     </label>
-
                     <button
                       type="button"
                       disabled={draftPicks.length === 0}
-                      onClick={() => setDraftPicks([])} // Clear the tribe selection
+                      onClick={() => setDraftPicks([])}
                       className={`leading-none px-3 py-1.5 lowercase w-auto rounded ${
                         draftPicks.length > 0
                           ? 'bg-red-600 text-white hover:bg-red-700'
@@ -465,21 +450,16 @@ export default function Draft() {
                     >
                       Clear Selection
                     </button>
-                  
-                    
                   </div>
-
                   <textarea
                     id="tribeArray"
                     name="tribeArray"
                     className="w-full tracking-wide p-2 bg-stone-600 rounded font-inter resize-none"
-                    value={getTribeNames()} // Dynamically update based on draftPicks
+                    value={getTribeNames()}
                     readOnly
-                    rows={3} 
+                    rows={3}
                   />
                 </div>
-
-                
                 <button
                   type="submit"
                   disabled={
@@ -506,21 +486,92 @@ export default function Draft() {
                   Submit
                 </button>
               </div>
-              
             </div>
-
-            
           </div>
         </form>
 
-        
+        {/* Confirmation Modal */}
+        {confirmationModalVisible && (
+          <div
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+            onClick={() => setConfirmationModalVisible(false)}
+          >
+            <div
+              className="bg-stone-800 rounded-lg p-6 w-full max-w-3xl relative"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <h2 className="text-xl tracking-wider text-center uppercase mb-4 font-lostIsland">Confirm Your Tribe</h2>
+              <div className="mb-4">
+                <p className="font-lostIsland tracking-wider text-2xl">
+                  {form.name}
+                </p>
+                <p className="font-lostIsland tracking-wider text-xl opacity-80 border-b pb-4 mb-4">
+                  {form.email}
+                </p>
+                <p className="flex items-center border-b pb-4 mb-4">
+                  <span
+                    style={{ backgroundColor: form.color }}
+                    className="inline-block w-12 h-12 text-center text-2xl p-2 rounded-full"
+                  >{form.emoji}</span> 
+                  <span className="text-2xl ms-3 font-lostIsland tracking-wider">{form.tribeName}</span> 
+                </p>
+                
+              </div>
+              <div>
+                <p className="mb-4 font-lostIsland tracking-wider text-center text-lg">Chose Your Sole Survivor</p>
+                <div className="grid grid-cols-3 gap-4">
+                  {draftedContestants.map((contestant) => (
+                    <div key={contestant.id} className="">
+                      <div
+                        onClick={() => {
+                          if (contestant.inPlay) setSelectedSoleSurvivor(contestant.id);
+                        }}
+                        className={`cursor-pointer p-2 border-4 rounded-full flex flex-col items-center ${
+                          !contestant.inPlay ? 'opacity-60 pointer-events-none' : ''
+                        } ${
+                          selectedSoleSurvivor === contestant.id ? 'border-yellow-400' : 'border-stone-600'
+                        }`}
+                      >
+                        <img
+                          src={`/imgs/${contestant.img}.png`}
+                          alt={contestant.name}
+                          className="w-24 h-24 object-cover rounded-full"
+                        />
+                        
+                      </div>
+                      <p 
+                        className={`text-stone-100 text-center font-lostIsland tracking-wider text-xl leading-tight p-2 ${
+                          selectedSoleSurvivor === contestant.id ? 'text-yellow-400' : 'text-stone-100'
+                        }`}
+                      >
+                        {contestant.name}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="flex flex-col mt-6 tracking-wider font-lostIsland text-xl space-y-4">
+                <button
+                  onClick={() => setConfirmationModalVisible(false)}
+                  className="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700"
+                >
+                  Edit Tribe
+                </button>
+                <button
+                  onClick={handleFinalSubmit}
+                  disabled={!selectedSoleSurvivor || finalSubmitting}
+                  className={`px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 ${
+                    (!selectedSoleSurvivor || finalSubmitting) && 'opacity-50 cursor-not-allowed'
+                  }`}
+                >
+                  Confirm Submission
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
 
-
-
-        
-
-
-        {/* Modal */}
+        {/* Existing Modal for Contestant Profile */}
         {modalVisible && (
           <div
             className="fixed inset-0 z-50 flex items-end justify-center bg-black bg-opacity-50"
@@ -528,7 +579,7 @@ export default function Draft() {
           >
             <div
               className="w-full max-w-3xl h-[92%] overflow-y-scroll bg-stone-800 rounded-t-xl shadow-lg animate-slide-up relative font-lostIsland"
-              onClick={(e) => e.stopPropagation()} // Prevent modal close on click inside
+              onClick={(e) => e.stopPropagation()}
             >
               <button
                 className="text-stone-400 hover:text-stone-200 absolute top-3 right-4"
@@ -536,11 +587,10 @@ export default function Draft() {
               >
                 ✕
               </button>
-              <ContestantProfile contestantId={focusContestant} />  
+              <ContestantProfile contestantId={focusContestant} />
             </div>
           </div>
         )}
-
       </div>
     </div>
   );

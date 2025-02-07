@@ -33,9 +33,9 @@ Copy/Paste to signify completion:
 ✅	Add help text for suers to click id icon on contestants to see more details.
 ❌	Add a fun lil podium graphic for top 3 winners from a season and payout amounts(?)
 		Should remain on screen, but be empty for seasons still in progress.  
-⬜️	Need to configure scoring. Tried but got infinite page reloads which broke app. 
+✅	Need to configure scoring. Tried but got infinite page reloads which broke app. 
 		I feel like on the SCORES page load, I need to get contestant scores from a new API request and store those in a state variable. (Already a scores option for contestatns) so don't need new state variable, but I do need to run the code to get their scores and just pull the scores from that. It's not working rn. 
-⬜️	Add a sort to the contestants in a given PlayerTribe to rank them by SS, and then rank them.... actually scratch that. 
+✅	Add a sort to the contestants in a given PlayerTribe to rank them by SS, and then rank them.... actually scratch that. 
 		Should I rank by status? I think so. Rank alphabetically, with people voted out at the bottom - should do the same sort for CAST Page. 
 
 
@@ -52,7 +52,7 @@ Copy/Paste to signify completion:
 
 
 -- DRAFT --
-⬜️	Add help text to DRAFT page, guidance on how to draft and make your tribe
+✅	Add help text to DRAFT page, guidance on how to draft and make your tribe
 		"Wait! Before you draft, have you reviewed the rules?"
 		Help text before form portion of traft where people write their emails and stuff
 ⬜️	IMPORTANT - Fix flow after tribe submittal so that user is redirected to scores page where they can see their new tribe at the top of the list. 

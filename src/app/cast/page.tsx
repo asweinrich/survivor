@@ -15,6 +15,7 @@ type Contestant = {
   inPlay: boolean;
   img: string; // This should match the field in your database
   voteOutOrder: number;
+  points: number;
 };
 
 type Tribe = {
@@ -28,7 +29,6 @@ export default function Contestants() {
   const [season, setSeason] = useState('48'); // Default season
   const [contestants, setContestants] = useState<Contestant[]>([]);
   const [tribes, setTribes] = useState<Tribe[]>([]);
-  const [points, setPoints] = useState<Record<number, number>>({}); // Store points for each contestant
   const [modalVisible, setModalVisible] = useState(false);
   const [focusContestant, setFocusContestant] = useState(0);
   const [loading, setLoading] = useState(false); // New loading state
@@ -38,58 +38,22 @@ export default function Contestants() {
     setLoading(true); // Start loading when fetching begins
 
     async function fetchData() {
-      const fetchContestants = async () => {
-        const res = await fetch(`/api/cast/${season}`);
-        const data = await res.json();
-        setContestants(data);
-      };
-      await fetchContestants();
+      // Fetch contestants (which now include points)
+      const res = await fetch(`/api/cast/${season}`);
+      const data = await res.json();
+      setContestants(data);
 
-      const fetchTribes = async () => {
-        const res = await fetch(`/api/show-tribes/${season}`);
-        const data = await res.json();
-        setTribes(data);
-      };
-      await fetchTribes();
+      // Fetch tribes data
+      const tribesRes = await fetch(`/api/show-tribes/${season}`);
+      const tribesData = await tribesRes.json();
+      setTribes(tribesData);
 
-      
+      setLoading(false);
     }
 
     fetchData();
 
   }, [season]);
-
-  // Fetch points for contestants
-  useEffect(() => {
-    setLoading(true)
-    if (contestants.length === 0) {
-      
-      return; // Ensure contestants are loaded
-    }
-
-    async function fetchPoints() {
-      const pointsData: Record<number, number> = {};
-
-      await Promise.all(
-        contestants.map(async (contestant) => {
-          try {
-            const res = await fetch(`/api/contestant-points/${contestant.id}`);
-            if (!res.ok) throw new Error(`Error fetching points for contestant ${contestant.id}`);
-            const data = await res.json();
-            pointsData[contestant.id] = data.totalPoints || 0;
-          } catch (error) {
-            console.error(`Error fetching points for contestant ${contestant.id}:`, error);
-            pointsData[contestant.id] = 0;
-          }
-        })
-      );
-
-      setPoints(pointsData);
-      setLoading(false);
-    }
-
-    fetchPoints();
-  }, [contestants]);
 
   useEffect(() => {
     if (modalVisible) {
@@ -186,9 +150,9 @@ export default function Contestants() {
       return 'border-amber-600'
     } else if(status === null) { 
       return 'border-green-400'
-    } {
-      return 'border-red-500'
-    }
+    } 
+    return 'border-red-500'
+    
   }
 
 
@@ -313,9 +277,15 @@ export default function Contestants() {
               </div>
 
               {/* Score */}
+              {/* Score - now using contestant.points directly */}
               <div className="flex flex-col items-center justify-center w-20">
-                <span className="text-3xl font-lostIsland text-white tracking-widest">{points[contestant.id] ?? '--'}</span>
-                <IdentificationIcon className="w-5 h-5 stroke-2 mt-1 text-stone-300 hover:cursor-pointer" onClick={() => activateModal(contestant.id)} />
+                <span className="text-3xl font-lostIsland text-white tracking-widest">
+                  {contestant.points ?? '--'}
+                </span>
+                <IdentificationIcon
+                  className="w-5 h-5 stroke-2 mt-1 text-stone-300 hover:cursor-pointer"
+                  onClick={() => activateModal(contestant.id)}
+                />
               </div>
             </div>
           ))

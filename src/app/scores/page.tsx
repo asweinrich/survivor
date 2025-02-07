@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 import { ChevronDownIcon, IdentificationIcon, ArrowPathIcon } from '@heroicons/react/24/outline';
 import { FireIcon, TrophyIcon } from '@heroicons/react/24/solid';
 import ContestantProfile from '../components/ContestantProfile';
@@ -64,27 +64,18 @@ export default function Scores() {
         // Load static JSON data for Season 47
         setPlayerTribes(season47Scores as PlayerTribe[]);
       } else {
-        const fetchPlayerTribes = async () => {
-          const res = await fetch(`/api/player-tribes/${season}`);
-          const data = await res.json();
-          setPlayerTribes(data);
-        };
-        await fetchPlayerTribes();
+        const res = await fetch(`/api/player-tribes/${season}`);
+        const data = await res.json();
+        setPlayerTribes(data);
       }
 
-      const fetchContestants = async () => {
-        const res = await fetch(`/api/cast/${season}`);
-        const data = await res.json();
-        setContestants(data);
-      };
-      await fetchContestants();
+      const castRes = await fetch(`/api/cast/${season}`);
+      const castData = await castRes.json();
+      setContestants(castData);
 
-      const fetchTribes = async () => {
-        const res = await fetch(`/api/show-tribes/${season}`);
-        const data = await res.json();
-        setTribes(data);
-      };
-      await fetchTribes();
+      const tribesRes = await fetch(`/api/show-tribes/${season}`);
+      const tribesData = await tribesRes.json();
+      setTribes(tribesData);
 
       setLoading(false); // Stop loading after fetching is complete
     }
@@ -95,16 +86,24 @@ export default function Scores() {
 
 
 
-  // Calculate scores for PlayerTribes
-  const calculateScore = (tribe: PlayerTribe) => {
+  // Create a lookup map for contestants
+  const contestantMap = useMemo(() => {
+    return contestants.reduce<Record<number, Contestant>>((map, contestant) => {
+      map[contestant.id] = contestant;
+      return map;
+    }, {});
+  }, [contestants]);
+
+  // Calculate tribe score using the lookup map
+  const calculateScore = useCallback((tribe: PlayerTribe): number => {
     if (season === '47') {
-      return tribe.score || 0; // Use pre-calculated score from JSON
+      return tribe.score || 0;
     }
     return tribe.tribeArray.reduce((total, contestantId) => {
-      const contestant = contestants.find((c) => c.id === contestantId);
+      const contestant = contestantMap[contestantId];
       return total + (contestant?.points || 0);
     }, 0);
-  };
+  }, [contestantMap, season]);
 
   const toggleDropdown = (tribeId: number) => {
     setExpandedTribes((prev) =>
@@ -122,16 +121,11 @@ export default function Scores() {
     setModalVisible(true);
   };
 
-  // Sort PlayerTribes by score and createdAt
+  // Example usage in sorting:
   const sortedPlayerTribes = [...playerTribes]
-    .map((tribe) => ({
-      ...tribe,
-      score: calculateScore(tribe),
-    }))
-    .sort((a, b) => {
-      if (a.score !== b.score) return b.score - a.score; // Higher scores first
-      return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(); // Older createdAt first
-    });
+    .map((tribe) => ({ ...tribe, score: calculateScore(tribe) }))
+    .sort((a, b) => b.score - a.score || new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+
 
   // Assign Rankings with Ties
   const rankedTribes: RankedPlayerTribe[] = sortedPlayerTribes.map((tribe, index, array) => {
@@ -320,69 +314,120 @@ export default function Scores() {
               {/* Dropdown with Contestants */}
               {expandedTribes.includes(tribe.id) && (
                 <div className="px-3 mt-3 bg-stone-800 rounded-lg border border-stone-700">
-                  {tribe.tribeArray.map((contestantId) => {
-                    const contestant = contestants.find((c) => c.id === contestantId);
-                    if (!contestant) return null;
-                    return (
-                      <div
-                        key={`${tribe.id}-${contestant.id}`}
-                        className="flex items-center py-1 border-b border-stone-700"
-                      >
-                        <img
-                          src={`/imgs/${contestant.img}.png`}
-                          alt={contestant.name}
-                          className="h-14 w-14 object-cover me-2 border-2 border-stone-500 rounded-full p-1"
-                        />
-                        <div className="flex-grow">
-                          <div className="text-lg font-lostIsland leading-tight ps-0.5">{contestant.name}</div>
-                          
-                          <div className="flex items-center leading-tight">
-                            {contestant.inPlay && (<>
-                              <FireIcon className="h-5 w-5 text-orange-400 me-1" />
-                              <div className="text-stone-300 lowercase font-lostIsland tracking-wider">In Play</div>
-                            </>)}
-                            {(!contestant.inPlay && contestant.voteOutOrder === 903) && (<>
-                              <TrophyIcon className="h-5 w-5 text-yellow-400 me-2" />
-                              <div className="text-stone-200 lowercase font-lostIsland tracking-wider mt-1">
-                                {formatVotedOutOrder(contestant.voteOutOrder)}
-                              </div>
-                              
-                            </>)}
-                            {(!contestant.inPlay && contestant.voteOutOrder === 902) && (<>
-                              <TrophyIcon className="h-5 w-5 text-zinc-400 me-2" />
-                              <div className="text-stone-200 lowercase font-lostIsland tracking-wider mt-1">
-                                {formatVotedOutOrder(contestant.voteOutOrder)}
-                              </div>
-                              
-                            </>)}
-                            {(!contestant.inPlay && contestant.voteOutOrder === 901) && (<>
-                              <TrophyIcon className="h-5 w-5 text-amber-600 me-2" />
-                              <div className="text-stone-200 lowercase font-lostIsland tracking-wider mt-1">
-                                {formatVotedOutOrder(contestant.voteOutOrder)}
-                              </div>
-                              
-                            </>)}
-                            {(!contestant.inPlay && contestant.voteOutOrder < 900) && (
-                             <>
-                              <FireIcon className="h-5 w-5 text-white opacity-60 me-1" />
-                              <div className="text-stone-400 lowercase font-lostIsland tracking-wider">
-                                {formatVotedOutOrder(contestant.voteOutOrder)}
-                              </div>
-                              
-                            </>
-                            )}
+                  {(() => {
+                    const tribeIds = tribe.tribeArray;
+                    if (!tribeIds || tribeIds.length === 0) return null;
+                    
+                    // Extract the sole survivor (always the first ID)
+                    const soleSurvivorId = tribeIds[0];
+                    const soleSurvivor = contestants.find((c) => c.id === soleSurvivorId);
+                    
+                    // Process remaining contestants: filter and sort (in-play first, then alphabetically)
+                    const remainingContestants = tribeIds
+                      .slice(1)
+                      .map((id) => contestants.find((c) => c.id === id))
+                      .filter((contestant): contestant is Contestant => Boolean(contestant));
+                    
+                    remainingContestants.sort((a, b) => {
+                      if (a.inPlay === b.inPlay) {
+                        return a.name.localeCompare(b.name);
+                      }
+                      return a.inPlay ? -1 : 1;
+                    });
+                    
+                    // Combine sole survivor with the sorted remaining contestants.
+                    const sortedContestants = soleSurvivor
+                      ? [soleSurvivor, ...remainingContestants]
+                      : remainingContestants;
+                    
+                    // Helper: determine the image border class
+                    const getImageBorder = (contestant: Contestant, isSoleSurvivor: boolean): string => {
+                      if (isSoleSurvivor) {
+                        return 'border-yellow-400'; // Gold for sole survivor
+                      } else if (contestant.voteOutOrder === 902) {
+                        return 'border-zinc-400'; // Silver for 2nd Place
+                      } else if (contestant.voteOutOrder === 901) {
+                        return 'border-amber-600'; // Amber for 3rd Place
+                      } else if (contestant.inPlay) {
+                        return 'border-green-400';
+                      } else {
+                        return 'border-red-500';
+                      }
+                    };
+                    
+                    return sortedContestants.map((contestant, idx) => {
+                      const borderClass = getImageBorder(contestant, idx === 0);
+                      return (
+                        <div
+                          key={`${tribe.id}-${contestant.id}`}
+                          className={`flex items-center py-1 border-b border-stone-700 ${!contestant.inPlay ? 'opacity-80' : 'opacity-100'}`}
+                        >
+                          <img
+                            src={`/imgs/${contestant.img}.png`}
+                            alt={contestant.name}
+                            className={`h-14 w-14 object-cover me-2 border-2 rounded-full p-1 ${borderClass}`}
+                          />
+                          <div className="flex-grow">
+                            <div className="text-lg font-lostIsland leading-tight ps-0.5">
+                              {contestant.name}
+                            </div>
+                            <div className="flex items-center leading-tight">
+                              {contestant.inPlay && (
+                                <>
+                                  <FireIcon className="h-5 w-5 text-orange-400 me-1" />
+                                  <div className="text-stone-300 lowercase font-lostIsland tracking-wider">
+                                    In Play
+                                  </div>
+                                </>
+                              )}
+                              {(!contestant.inPlay && contestant.voteOutOrder === 903) && (
+                                <>
+                                  <TrophyIcon className="h-5 w-5 text-yellow-400 me-2" />
+                                  <div className="text-stone-200 lowercase font-lostIsland tracking-wider mt-1">
+                                    {formatVotedOutOrder(contestant.voteOutOrder)}
+                                  </div>
+                                </>
+                              )}
+                              {(!contestant.inPlay && contestant.voteOutOrder === 902) && (
+                                <>
+                                  <TrophyIcon className="h-5 w-5 text-zinc-400 me-2" />
+                                  <div className="text-stone-200 lowercase font-lostIsland tracking-wider mt-1">
+                                    {formatVotedOutOrder(contestant.voteOutOrder)}
+                                  </div>
+                                </>
+                              )}
+                              {(!contestant.inPlay && contestant.voteOutOrder === 901) && (
+                                <>
+                                  <TrophyIcon className="h-5 w-5 text-amber-600 me-2" />
+                                  <div className="text-stone-200 lowercase font-lostIsland tracking-wider mt-1">
+                                    {formatVotedOutOrder(contestant.voteOutOrder)}
+                                  </div>
+                                </>
+                              )}
+                              {(!contestant.inPlay && contestant.voteOutOrder < 900) && (
+                                <>
+                                  <FireIcon className="h-5 w-5 text-white opacity-60 me-1" />
+                                  <div className="text-stone-400 lowercase font-lostIsland tracking-wider">
+                                    {formatVotedOutOrder(contestant.voteOutOrder)}
+                                  </div>
+                                </>
+                              )}
+                            </div>
                           </div>
+                          <div className="text-xl font-lostIsland text-stone-300">
+                            {contestant.points || 0}
+                          </div>
+                          <IdentificationIcon
+                            className="w-6 h-6 ms-3 cursor-pointer text-stone-400 hover:text-stone-200"
+                            onClick={() => activateModal(contestant.id)}
+                          />
                         </div>
-                        <div className="text-xl font-lostIsland text-stone-300">{contestant.points || 0}</div>
-                        <IdentificationIcon
-                          className="w-6 h-6 ms-3 cursor-pointer text-stone-400 hover:text-stone-200"
-                          onClick={() => activateModal(contestant.id)}
-                        />
-                      </div>
-                    );
-                  })}
+                      );
+                    });
+                  })()}
                 </div>
               )}
+
             </div>
           ))
         )}

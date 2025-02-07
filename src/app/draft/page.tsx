@@ -500,7 +500,7 @@ export default function Draft() {
         {/* Confirmation Modal */}
         {confirmationModalVisible && (
           <div
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-0"
             onClick={() => setConfirmationModalVisible(false)}
           >
             <div
@@ -565,7 +565,7 @@ export default function Draft() {
                   id="acknowledge"
                   checked={acknowledged}
                   onChange={(e) => setAcknowledged(e.target.checked)}
-                  className="mx-3 h-24 w-24"
+                  className="mx-3 h-12 w-12"
                 />
                 <label htmlFor="acknowledge" className="font-inter text-sm tracking-wider">
                   I acknowledge I need to pay Andrew my tribe's entry fee by the March 5, 2025 @ 7:00 PST or else my tribe will be removed from this season's competition

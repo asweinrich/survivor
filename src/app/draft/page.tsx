@@ -500,7 +500,7 @@ export default function Draft() {
         {/* Confirmation Modal */}
         {confirmationModalVisible && (
           <div
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-0"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-100"
             onClick={() => setConfirmationModalVisible(false)}
           >
             <div
@@ -508,18 +508,18 @@ export default function Draft() {
               onClick={(e) => e.stopPropagation()}
             >
               <h2 className="text-xl tracking-wider text-center uppercase mb-2 font-lostIsland">Confirm Your Tribe</h2>
-              <div className="mb-4 pb-4 border-b ">
-                <p className="flex items-center mb-4">
+              <div className="mb-3 pb-3 border-b ">
+                <p className="flex items-center mb-3">
                   <span
                     style={{ backgroundColor: form.color }}
                     className="inline-block w-12 h-12 text-center text-2xl p-2 rounded-full"
                   >{form.emoji}</span> 
-                  <span className="text-3xl ms-3 font-lostIsland tracking-wider">{form.tribeName}</span> 
+                  <span className="text-2xl ms-3 font-lostIsland tracking-wider">{form.tribeName}</span> 
                 </p>
                 <p className="font-lostIsland tracking-wider text-xl leading-none ps-1">
                   {form.name}
                 </p>
-                <p className="font-lostIsland tracking-wider text-lg opacity-80 ps-1">
+                <p className="font-lostIsland tracking-wider text-lg leading-tight opacity-80 ps-1">
                   {form.email}
                 </p>
                 
@@ -528,11 +528,15 @@ export default function Draft() {
                 <p className="mb-4 font-lostIsland uppercase tracking-wider text-center text-xl">Chose Your Sole Survivor</p>
                 <div className="grid grid-cols-3 gap-2">
                   {draftedContestants.map((contestant) => (
-                    <div key={contestant.id} className="w-28 h-28 relative">
+                    <div 
+                      key={contestant.id} 
+                      className="w-28 h-28 relative"
+                      onClick={() => {
+                        if (contestant.inPlay) setSelectedSoleSurvivor(contestant.id);
+                      }}
+                    >
                       <div
-                        onClick={() => {
-                          if (contestant.inPlay) setSelectedSoleSurvivor(contestant.id);
-                        }}
+                        
                         className={`cursor-pointer p-2 border-4 rounded-full flex flex-col items-center ${
                           !contestant.inPlay ? 'opacity-60 pointer-events-none' : ''
                         } ${
@@ -547,9 +551,10 @@ export default function Draft() {
                         
                       </div>
                       <p 
-                        className={`absolute -bottom-1 left-0 right-0 rounded-lg bg-stone-700 text-stone-100 text-center font-lostIsland tracking-wider text-lg leading-tight p-1 ${
-                          selectedSoleSurvivor === contestant.id ? 'text-yellow-400' : 'text-stone-100'
+                        className={`absolute -bottom-1 left-0 border-2 border-stone-800 right-0 rounded-lg text-stone-100 bg-stone-700 text-stone-100 text-center font-lostIsland tracking-wider text-lg leading-tight p-1 ${
+                          selectedSoleSurvivor === contestant.id ? 'bg-yellow-500' : 'bg-stone-700'
                         }`}
+                        style={{ textShadow: "2px 2px 1px rgba(0, 0, 0, 1)" }}
                       >
                         {getFirstName(contestant.name)}
                       </p>
@@ -567,7 +572,7 @@ export default function Draft() {
                   onChange={(e) => setAcknowledged(e.target.checked)}
                   className="mx-3 h-12 w-12"
                 />
-                <label htmlFor="acknowledge" className="font-inter text-sm tracking-wider">
+                <label htmlFor="acknowledge" className="font-inter text-sm tracking-wider leading-tight">
                   I acknowledge I need to pay Andrew my tribe's entry fee by the March 5, 2025 @ 7:00 PST or else my tribe will be removed from this season's competition
                 </label>
               </div>

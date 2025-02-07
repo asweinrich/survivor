@@ -285,13 +285,13 @@ export default function YourTribePage() {
               {/* Help Text */}
               <div className="text-center p-4 font-lostIsland tracking-wide">
                 <p className="italic text-3xl mb-4">And this challenge is on!</p>
-                <p className="text-lg">Your tribe is chosen. Now, let the game begin.</p>
-              
-                <p className="text-lg my-4 leading-tight">Good luck this season and don't forget to&nbsp;
+                <p className="text-lg mb-8">Your tribe is chosen. Now, let the game begin.</p>
+                <p className="leading-tight border-t border-stone-300 pt-8">Good luck this season and don't forget to&nbsp;
                   <a className="underline text-orange-400 hover:text-orange-600" target="_blank" href={"https://venmo.com/andrew-weinrich?txn=pay&amount=20.00&note="+tribe.tribeName}>
                     pay Your $20 Entry Fee on Venmo!
                   </a>
                 </p>
+                <p className="my-4 leading-tight">Tribe entry fees are due before the 2nd episode airs on March 5, 2025.</p>
               </div>
 
             </>

@@ -147,7 +147,7 @@ export default function YourTribePage() {
             <>
               {/* Tribe Header */}
               <div
-                className="flex flex-row w-full items-center justify-start py-2 px-4"
+                className="flex flex-row w-full items-center justify-start py-2 px-4 border-y-4 border-stone-800"
                 style={{
                   backgroundImage: `linear-gradient(to bottom right, ${tribeColor}, ${tinycolor(
                     tribeColor
@@ -204,12 +204,12 @@ export default function YourTribePage() {
 
                     // Define positions for proper spacing (preserving your original alignment)
                     const positions = [
-                      "-translate-x-[145px] z-20 scale-85 space-y-11", // Far left
-                      "-translate-x-[90px] z-30 scale-90 space-y-11",    // Left
-                      "-translate-x-[23px] -translate-y-[30px] z-40 scale-85", // Center (sole survivor)
-                      "translate-x-[45px] z-30 scale-90 space-y-11",      // Right
-                      "translate-x-[105px] z-20 scale-85 space-y-11",     // Mid-right
-                      "translate-x-[160px] z-10 scale-75 space-y-14",     // Far right
+                      "-translate-x-[155px] z-20 scale-85 space-y-11", // Far left
+                      "-translate-x-[95px] z-30 scale-90 space-y-11",    // Left
+                      "-translate-x-[28px] -translate-y-[30px] z-40 scale-85", // Center (sole survivor)
+                      "translate-x-[40px] z-30 scale-90 space-y-11",      // Right
+                      "translate-x-[100px] z-20 scale-85 space-y-11",     // Mid-right
+                      "translate-x-[155px] z-10 scale-75 space-y-14",     // Far right
                     ];
 
                     return (

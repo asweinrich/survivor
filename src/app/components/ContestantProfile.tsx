@@ -68,10 +68,7 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
   const [recaps, setRecaps] = useState<Recap[]>([]);
   const [powerRank, setPowerRank] = useState<string | number>("--");
   const [rosterPercentage, setRosterPercentage] = useState<number | null>(null);
-
-
-
-
+  const [winnerPercentage, setWinnerPercentage] = useState<number | null>(null);
 
   // Fetch contestant details when the modal is triggered
   useEffect(() => {
@@ -117,7 +114,7 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
         .then((data) => setRecaps(data))
         .catch((error) => console.error('Error fetching recaps:', error));
 
-        // Fetch roster percentage for the contestant
+      // Fetch roster percentage for the contestant
       fetch(`/api/roster-pct`, {
         method: 'POST',
         headers: {
@@ -126,11 +123,16 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
         body: JSON.stringify({ playerId: contestant.id, season: contestant.season }),
       })
         .then((res) => res.json())
-        .then((data) => setRosterPercentage((Math.round(data.rosterPercentage)) || 0))
+        .then((data) => {
+          setRosterPercentage((Math.round(data.rosterPercentage)) || 0)
+          setWinnerPercentage((Math.round(data.soleSurvivorPercentage)) || 0)
+        })
         .catch((error) => {
           console.error('Error fetching roster percentage:', error);
           setRosterPercentage(0); // Default to 0 on error
         });
+
+
 
     }
   }, [contestant]);
@@ -330,17 +332,21 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
        
 
         <div className="flex justify-around items-center border-b border-stone-600 p-3">
-          <div className="flex flex-col mx-6 text-center">
+          <div className="flex flex-col mx-4 text-center">
             <span className="text-xl tracking-wider">{calculateTotalScore()}</span>
             <span className="lowercase opacity-70 text-sm">points</span>
           </div>
-          <div className="flex flex-col mx-6 text-center">
+          <div className="flex flex-col mx-4 text-center">
             <span className="text-xl tracking-wider">{powerRank}</span>
             <span className="lowercase opacity-70 text-sm">power rank</span>
           </div>
-          <div className="flex flex-col mx-6 text-center">
+          <div className="flex flex-col mx-4 text-center">
             <span className="text-xl tracking-wider">{rosterPercentage}%</span>
             <span className="lowercase opacity-70 text-sm">rostered</span>
+          </div>
+          <div className="flex flex-col mx-4 text-center">
+            <span className="text-xl tracking-wider">{winnerPercentage}%</span>
+            <span className="lowercase opacity-70 text-sm">sole survivor</span>
           </div>
 
           

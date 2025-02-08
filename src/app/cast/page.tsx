@@ -199,7 +199,7 @@ export default function Contestants() {
             Contestants are sorted by their in-play status, and then alphabetically
           </p>
 
-          <p className="mb-3">
+          <p className="">
             Tap a contestant to view their full profile and stats
           </p>
 

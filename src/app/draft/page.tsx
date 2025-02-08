@@ -49,7 +49,6 @@ export default function Draft() {
   // Form state
   const [form, setForm] = useState({
     email: '',
-    phone: '',
     name: '',
     tribeName: '',
     emoji: '',
@@ -171,7 +170,6 @@ export default function Draft() {
     const newTribeArray = [selectedSoleSurvivor, ...draftPicks.filter(id => id !== selectedSoleSurvivor)];
     const data = {
       email: form.email,
-      phone: form.phone,
       name: form.name,
       tribeName: form.tribeName,
       color: form.color,
@@ -268,8 +266,8 @@ export default function Draft() {
             before drafting your tribe!
           </p>
           <p className="mb-3">
-            Tap{' '}
-            <PlusIcon className="inline mx-2 w-6 h-6 stroke-3 text-stone-400 border-2 p-0.5 rounded border-stone-400" /> to
+            Tap
+            <PlusIcon className="inline mx-2 w-6 h-6 stroke-3 text-stone-400 border-2 p-0.5 rounded border-stone-400" />to
             add a contestant to your tribe. Tap it again to remove them.
           </p>
           <p className="mb-3">
@@ -277,8 +275,8 @@ export default function Draft() {
             of them as your Sole Survivor.
           </p>
           <p className="">
-            Tap the{' '}
-            <IdentificationIcon className="inline mx-1.5 w-5 h-5 stroke-2 text-stone-300" /> icon to view additional
+            Tap the
+            <IdentificationIcon className="inline mx-1.5 w-5 h-5 stroke-2 text-stone-300" />icon to view additional
             contestant details.
           </p>
         </div>
@@ -296,20 +294,6 @@ export default function Draft() {
                 name="email"
                 className="w-full p-2 bg-stone-700 rounded text-lg"
                 value={form.email}
-                onChange={handleInputChange}
-                required
-              />
-            </div>
-            <div className="mb-4 px-4">
-              <label htmlFor="phone" className="block text-lg mb-1.5">
-                Phone Number
-              </label>
-              <input
-                type="tel"
-                id="phone"
-                name="phone"
-                className="w-full p-2 bg-stone-700 rounded text-lg"
-                value={form.phone}
                 onChange={handleInputChange}
                 required
               />
@@ -385,7 +369,7 @@ export default function Draft() {
             </div>
 
             <div className="relative mt-4">
-              <p className="mb-6 text-xl mx-auto text-center underline">Contestant List</p>
+              <p className="mb-6 text-xl mx-auto text-center">Contestant List</p>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 px-1 mb-8">
                 {contestants.map((contestant) => (
                   <div
@@ -471,7 +455,6 @@ export default function Draft() {
                   type="submit"
                   disabled={
                     !form.email ||
-                    !form.phone ||
                     !form.name ||
                     !form.tribeName ||
                     !form.color ||
@@ -480,7 +463,6 @@ export default function Draft() {
                   }
                   className={`w-full py-2 rounded text-lg uppercase ${
                     form.email &&
-                    form.phone &&
                     form.name &&
                     form.tribeName &&
                     form.color &&

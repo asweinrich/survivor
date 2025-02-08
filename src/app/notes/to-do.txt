@@ -55,10 +55,10 @@ Copy/Paste to signify completion:
 ✅	Add help text to DRAFT page, guidance on how to draft and make your tribe
 		"Wait! Before you draft, have you reviewed the rules?"
 		Help text before form portion of traft where people write their emails and stuff
-⬜️	IMPORTANT - Fix flow after tribe submittal so that user is redirected to scores page where they can see their new tribe at the top of the list. 
-⬜️	Make it so that submit button is disabled after submission to prevent double tribe submissions
-⬜️	MAKE A DECISION - Will contestants be able to draft a sole survivor?
-		Leaning towards yes. But what does that mean?
+❌	IMPORTANT - Fix flow after tribe submittal so that user is redirected to scores page where they can see their new tribe at the top of the list. 
+✅	Make it so that submit button is disabled after submission to prevent double tribe submissions
+✅	MAKE A DECISION - Will contestants be able to draft a sole survivor?
+		✅Leaning towards yes. But what does that mean?
 			Do they get extra points for that player? Do they get a one time bonus if their pick wins? 
 		Should be simple to implement:
 			SS will be first of their team, first pick. Instead of green it will be gold and instead of check icon it will have crown or trophy icon. 
@@ -81,7 +81,7 @@ Copy/Paste to signify completion:
 
 
 -- OTHER/SITE-WIDE -- 
-⬜️	Figure out payment!!! 
+✅	Figure out payment!!! 
 		Have a disclaimer in the draft page that says tribe entry fee must be paid before cutoff date. 
 		If entry fee is not paid, disclaimer should state that tribe will be removed from competition. 
 		Have user submit tribe, then get a popup where they have to select that they understand the payment disclaimer and so and so. They will have to check the box and submit everything (in a nice little recapped modal) in order to officially submit their tribe. Then get redirected to scores page or "submitted" page. 
@@ -89,7 +89,7 @@ Copy/Paste to signify completion:
 ⬜️	Add light mode / dark mode
 		Adds a fun personalization option for people. 
 		Can be a switch in the top toolbar on the far right. 
-⬜️	Get domain up and running and get app routed to domain through Vercel. 
+✅	Get domain up and running and get app routed to domain through Vercel. 
 		Fix links in Whatsapp to reflect the new/official domain. 
-⬜️	Figure out ideal contestant image dimenstions and format - keep it consistent and produce them all in photoshop to match dimensions and style
+✅	Figure out ideal contestant image dimenstions and format - keep it consistent and produce them all in photoshop to match dimensions and style
 		Should I do no background? Or keep a background on the images? 

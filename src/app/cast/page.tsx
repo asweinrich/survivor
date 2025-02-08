@@ -193,6 +193,18 @@ export default function Contestants() {
 
       <div className="max-w-6xl mx-auto">
 
+       <div className="lowercase text-stone-200 border-y border-stone-500 p-4 my-8 font-lostIsland tracking-wider">
+          
+          <p className="mb-3">
+            Contestants are sorted by their in-play status, and then alphabetically
+          </p>
+
+          <p className="mb-3">
+            Tap a contestant to view their full profile and stats
+          </p>
+
+        </div>
+
         {/* Season Dropdown */}
         <div className="mb-8 px-4 font-lostIsland tracking-wider">
           <select
@@ -220,6 +232,7 @@ export default function Contestants() {
               key={contestant.id}
               className="flex flex-row w-full items-center p-2 border-b border-t border-stone-700"
               style={{ opacity: contestant.inPlay ? 1 : 1 }}
+              onClick={() => activateModal(contestant.id)}
             >
               {/* Image */}
               <div className="flex items-center justify-center w-20 overflow-hidden ms-1.5 me-3">
@@ -282,10 +295,6 @@ export default function Contestants() {
                 <span className="text-3xl font-lostIsland text-white tracking-widest">
                   {contestant.points ?? '--'}
                 </span>
-                <IdentificationIcon
-                  className="w-5 h-5 stroke-2 mt-1 text-stone-300 hover:cursor-pointer"
-                  onClick={() => activateModal(contestant.id)}
-                />
               </div>
             </div>
           ))

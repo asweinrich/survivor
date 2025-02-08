@@ -41,6 +41,7 @@ function Navbar() {
         <div className="text-lg hidden md:flex space-x-6 items-center font-lostIsland">
           <a href="/cast" className="hover:opacity-70">Cast</a>
           <a href="/scores" className="hover:opacity-70">Scores</a>
+          <a href="/recaps" className="hover:opacity-70">Recaps</a>
           <a href="/rules" className="hover:opacity-70">Rules</a>
           <a href="/draft" className="px-4 py-1 bg-gradient-to-r from-orange-500 to-orange-700 hover:from-orange-600 hover:to-orange-800 rounded text-white">Draft</a>
         </div>
@@ -73,6 +74,7 @@ function Navbar() {
         <nav className="flex flex-col uppercase items-start p-6 space-y-4 font-lostIsland text-2xl tracking-wider">
           <a href="/cast" className="hover:opacity-70">Cast</a>
           <a href="/scores" className="hover:opacity-70">Scores</a>
+          <a href="/recaps" className="hover:opacity-70">Recaps</a>
           <a href="/rules" className="hover:opacity-70">Rules</a>
           <a href="/draft" className="px-4 py-2 bg-gradient-to-r from-orange-500 to-orange-700 hover:from-orange-600 hover:to-orange-800 rounded-lg text-white">Draft</a>
         </nav>

@@ -37,6 +37,8 @@ Copy/Paste to signify completion:
 		I feel like on the SCORES page load, I need to get contestant scores from a new API request and store those in a state variable. (Already a scores option for contestatns) so don't need new state variable, but I do need to run the code to get their scores and just pull the scores from that. It's not working rn. 
 ✅	Add a sort to the contestants in a given PlayerTribe to rank them by SS, and then rank them.... actually scratch that. 
 		Should I rank by status? I think so. Rank alphabetically, with people voted out at the bottom - should do the same sort for CAST Page. 
+⬜️	On season 47, top 3 tribe contestants are sorted and color coded incorrectly. Make it so that there is not color filtering on the imgs for season 47 tribe dropdowns
+⬜️	Add text if season === 47 that explains how scoring was different and that the contestant points listed did not ipmact the tribe's score
 
 
 

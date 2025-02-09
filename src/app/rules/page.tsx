@@ -137,7 +137,7 @@ const RulesPage = () => {
             <div id="picking-tribe" className="mb-8">
                 <h3 className="text-2xl mb-2 lowercase text-stone-300">Picking Your Tribe</h3>
               <p className="font-inter text-stone-300 tracking-wider">
-                Drafting your tribe is simple. Head to the <a href="/draft" className="underline text-orange-500 hover:text-orange-400">draft page</a> to register your tribe and lock in your 6 contestants. 
+                Drafting your tribe is simple. Head to the <a href="/draft" className="underline text-orange-500 hover:text-orange-400">draft page</a> to enter your email address, name, tribe info, and to choose 6 contestants who you think will dominate this season. After you submit your 6 tribe members, you will be prompted to confirm your picks and select one contestant who you think will walk away as sole survivor.  
               </p>
             </div>
             <div className="border-b border-stone-500 w-full mt-16"></div>
@@ -187,6 +187,65 @@ const RulesPage = () => {
               No portion of the prize pool is retained for administrative purposes or for profit by the organizer. This league is a private, social activity designed for enjoyment and camaraderie. All fees directly contribute to the winnings for the season.
             </p>
             <div className="border-b border-stone-500 w-full mt-16"></div>
+          </section>
+
+          <section id="faq" className="px-4 font-lostIsland tracking-wider mb-16">
+            <h2 className="text-2xl mb-4">Frequently Asked Questions</h2>
+            
+            <div className="border-b border-orange-100 py-8">
+              <p className="text-xl font-lostIsland text-stone-200 tracking-wider mb-2">
+                When do I draft my tribe?
+              </p>
+              <p className="font-inter text-stone-300 tracking-wider">
+                You can draft your tribe any time between the airing of the 1st and 2nd episodes of Season 48. Tribe 'drafting' will be open from Wednesday February 26 @ 9:00PM PST until Wednesday March 5 at 7:00PM PST.
+              </p>
+            </div>
+
+            <div className="border-b border-orange-100 py-8">
+              <p className="text-xl font-lostIsland text-stone-200 tracking-wider mb-2">
+                How do I pay my tribe's entry fee?
+              </p>
+              <p className="font-inter text-stone-300 tracking-wider mb-4">
+                Please pay Andrew $20 for your tribe's entry fee via venmo if possible. Make sure you put your tribe's name in the memo so I can keep track of who has paid! Apple Pay also works great. Reach out if you need to pay your entry fee using an alternate method. 
+              </p>
+              <p className="font-inter text-stone-300 tracking-wider mb-4">
+                Remember that if your tribe's entry fee isn't paid by the airing of the 2nd episode, your tribe will be removed from competition - we don't want that!
+              </p>
+              <a href="venmo://pay?txn=pay&recipients=Andrew-Weinrich&amount=20.00">
+                <div className="w-full text-center text-lg uppercase bg-gradient-to-tr from-orange-500 to-orange-700 hover:from-orange-600 hover:to-orange-800 p-2 rounded-lg">
+                  Pay $20 Entry Fee on Venmo
+                </div>
+              </a>
+            </div>
+
+            <div className="border-b border-orange-100 py-8">
+              <p className="text-xl font-lostIsland text-stone-200 tracking-wider mb-2">
+                Can I make more than one tribe?
+              </p>
+              <p className="font-inter text-stone-300 tracking-wider">
+                Absolutely! The more tribe's competing, the merrier! Just make sure you pay the entry fee for each tribe.
+              </p>
+            </div>
+
+            <div className="border-b border-orange-100 py-8">
+              <p className="text-xl font-lostIsland text-stone-200 tracking-wider mb-2">
+                What happens if one of my tribe picks gets voted out?
+              </p>
+              <p className="font-inter text-stone-300 tracking-wider">
+                If one of your tribe members are sent home, they will no longer earn points for your tribe. The points they accumulated during their time in the game wil still contribute to your total points, but they will not earn any additional points from the time they are sent home. 
+              </p>
+            </div>
+
+            <div className="border-b border-orange-100 py-8">
+              <p className="text-xl font-lostIsland text-stone-200 tracking-wider mb-2">
+                What happens if there is a tie?
+              </p>
+              <p className="font-inter text-stone-300 tracking-wider">
+                If two or more tribes are tied for any of the top 3 places at the end of the season, the prize for that place along with the prize for the next place(s) will be evenly distributed among those tied. For example, if two tribes tie for 1st place, they will split the combined 90% of the pot for 1st and 2nd place, and the next hightest scoring tribe would get 3rd place and receive 10% of the pot. 
+              </p>  
+            </div>
+
+
           </section>
 
         </div>

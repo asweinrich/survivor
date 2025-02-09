@@ -1,7 +1,7 @@
 [
     {
       "name": "Sole Survivor Bonus",
-      "description": "Winning the game is the ultimate goal. The 'Sole Survivor' is the most vital category.",
+      "description": "Winning the game is the ultimate goal. 'Sole Survivor' is the most vital category and is worth the most points.",
       "points": 500,
       "schemaKey": "soleSurvivor"
     },
@@ -13,7 +13,7 @@
     },
     {
       "name": "Successful Fire Making",
-      "description": "The fire-making challenge directly determines the Final Three contestants in modern Survivor.",
+      "description": "The fire making challenge directly determines the Final Three contestants in modern Survivor. The winner will prove that they have what it takes to perform under immense pressure.",
       "points": 100,
       "schemaKey": "madeFire"
     },
@@ -31,13 +31,13 @@
     },
     {
       "name": "Reward Challenge",
-      "description": "Going on a reward provides resources, morale boosts, and bonding opportunities, though it is not directly related to survival.",
+      "description": "Going on a reward provides resources, morale boosts, and key bonding opportunities, though it is not directly related to survival.",
       "points": 50,
       "schemaKey": "rewards"
     },
     {
       "name": "Hidden Immunity Idol",
-      "description": "Obtaining a hidden immunity idol successfully can change the course of the game, offering massive strategic value.",
+      "description": "Obtaining a hidden immunity idol can change the course of the game, offering massive strategic value. These points will be awarded to a contestant who finds and controls a hidden immunity idol. A contestant will still earn these points even if they never play the idol, or if the idol is played for another player.",
       "points": 70,
       "schemaKey": "hiddenIdols"
     },
@@ -49,13 +49,13 @@
     },
     {
       "name": "Tribal Immunity",
-      "description": "1st place tribal immunity prevents a contestants tribe from facing elimination. It’s critical pre-merge but less impactful after.",
+      "description": "Tribal immunity prevents contestants from facing elimination. It’s critical pre-merge but less impactful after. Tribal Immunity points will only be awarded to the tribe that gets 1st place in a tribal immunity challenge. Contestants are eligible for these points even if they sit out of the challenge to make numbers even.",
       "points": 30,
       "schemaKey": "tribalWins"
     },
     {
       "name": "Advantage",
-      "description": "Finding or using an advantage can help, but it doesn't always guarantee safety or success.",
+      "description": "Finding or using an advantage can help, but it doesn't always guarantee safety or success. Advantages will be awarded similar to hidden immunity idols. Points will be given to the player(s) who obtain and control the advantage.",
       "points": 20,
       "schemaKey": "advantages"
     }

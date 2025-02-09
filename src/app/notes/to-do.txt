@@ -41,9 +41,9 @@ Copy/Paste to signify completion:
 
 
 -- RULES --
-⬜️	Add content to 'Picking Your Tribe' section
+✅	Add content to 'Picking Your Tribe' section
 		Add more detailed instructions on how to draft your tribe. 
-⬜️	Add FAQ to bottom of rules. Link to this from homepage?
+✅	Add FAQ to bottom of rules. Link to this from homepage?
 ✅	There is a weird black space at the bottom of the page, fix/remove it!
 ✅	Should people draft BEFORE OR AFTER episode 1? 
 \--------> AFTER EPISODE 1
@@ -63,20 +63,20 @@ Copy/Paste to signify completion:
 		Should be simple to implement:
 			SS will be first of their team, first pick. Instead of green it will be gold and instead of check icon it will have crown or trophy icon. 
 			BUT - if user removes SS from tribal selection, it will automatically make the next drafted contestant their SS pick. Could be confusing!
-⬜️	Do I need phone number? Can probably lose either phone number or email. Don't konw if people want to submit both, not a huge deal though. 
+✅	Do I need phone number? Can probably lose either phone number or email. Don't konw if people want to submit both, not a huge deal though. 
 
 
 
 
 -- RECAPS --
-⬜️ 	Make Page
+✅ 	Make Page
 		Add consistent graphic and logo to top of page
-⬜️ 	Create primsa db to contain weekly general recaps
+✅ 	Create primsa db to contain weekly general recaps
 		Include id, season, week, content, date/time
 		formatting? How will different paragraphs work?
 		Maybe make JSON file containing contents and reference that instead of prisma db??
-⬜️ 	Format recaps to read easily and in order
-⬜️ 	Add season selector to choose which season to read recaps
+✅ 	Format recaps to read easily and in order
+✅ 	Add season selector to choose which season to read recaps
 
 
 

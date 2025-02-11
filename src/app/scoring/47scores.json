@@ -20,9 +20,9 @@
         "playerName": "Ellie",
         "tribeName": "NoOneCheered4MyCoconut",
         "tribeArray": [
+            4,
             16,
-            15,
-            4
+            15
         ],
         "emoji": "\ud83e\udd65",
         "color": "#33FF57",
@@ -35,8 +35,8 @@
         "playerName": "Tori",
         "tribeName": "Toriko",
         "tribeArray": [
-            15,
             1,
+            15,
             4
         ],
         "emoji": "\ud83c\udf1e",
@@ -50,8 +50,8 @@
         "playerName": "Josh",
         "tribeName": "Joshiko",
         "tribeArray": [
-            14,
             5,
+            14,
             10
         ],
         "emoji": "\ud83c\udf39",
@@ -80,9 +80,9 @@
         "playerName": "Lindsey L.",
         "tribeName": "LunBecks",
         "tribeArray": [
+            12,
             1,
-            4,
-            12
+            4
         ],
         "emoji": "\ud83c\udf0a",
         "color": "#33FFF5",
@@ -95,9 +95,9 @@
         "playerName": "Cassie",
         "tribeName": "Cassaka",
         "tribeArray": [
+            12,
             5,
-            11,
-            12
+            11
         ],
         "emoji": "\ud83c\udf3c",
         "color": "#FF9F33",
@@ -110,8 +110,8 @@
         "playerName": "Hailey",
         "tribeName": "Hailstorm",
         "tribeArray": [
-            15,
             3,
+            8,
             12
         ],
         "emoji": "\ud83c\udf87",
@@ -125,9 +125,9 @@
         "playerName": "Lindsey S.",
         "tribeName": "Ling",
         "tribeArray": [
+            4,
             14,
-            16,
-            4
+            16
         ],
         "emoji": "\ud83c\udf4b",
         "color": "#33FF9F",
@@ -140,7 +140,7 @@
         "playerName": "Jess",
         "tribeName": "Jesak'aa",
         "tribeArray": [
-            7,
+            16,
             11,
             4
         ],
@@ -185,9 +185,9 @@
         "playerName": "Shelby",
         "tribeName": "Shebalba",
         "tribeArray": [
+            1,
             14,
-            8,
-            1
+            8
         ],
         "emoji": "\ud83c\udf4e",
         "color": "#57FF33",
@@ -200,8 +200,8 @@
         "playerName": "Erica",
         "tribeName": "Bula",
         "tribeArray": [
-            15,
             11,
+            15,
             10
         ],
         "emoji": "\ud83c\udf08",
@@ -215,8 +215,8 @@
         "playerName": "Axie",
         "tribeName": "Ax-ah",
         "tribeArray": [
-            10,
             4,
+            10,
             17
         ],
         "emoji": "\ud83d\udca5",
@@ -230,9 +230,9 @@
         "playerName": "Kristi",
         "tribeName": "Jeffrey Lee Probst",
         "tribeArray": [
+            4,
             8,
-            2,
-            4
+            2
         ],
         "emoji": "\ud83c\udfdd\ufe0f",
         "color": "#A1FF33",
@@ -245,8 +245,8 @@
         "playerName": "Tyler",
         "tribeName": "Paku Paku",
         "tribeArray": [
-            7,
             5,
+            7,
             4
         ],
         "emoji": "\ud83c\udf49",
@@ -260,8 +260,8 @@
         "playerName": "Nick",
         "tribeName": "Nikuru Tribe",
         "tribeArray": [
-            4,
             17,
+            4,
             12
         ],
         "emoji": "\ud83e\udd6d",
@@ -275,9 +275,9 @@
         "playerName": "Joel",
         "tribeName": "Joel Probst's Chosen",
         "tribeArray": [
+            10,
             16,
-            1,
-            10
+            1
         ],
         "emoji": "\ud83c\udf47",
         "color": "#FF5733",
@@ -305,9 +305,9 @@
         "playerName": "Sue",
         "tribeName": "Suevivor",
         "tribeArray": [
+            12,
             14,
-            5,
-            12
+            5
         ],
         "emoji": "\ud83c\udf4d",
         "color": "#FF339F",
@@ -335,9 +335,9 @@
         "playerName": "Julia",
         "tribeName": "JuJu",
         "tribeArray": [
+            4,
             15,
-            1,
-            4
+            1
         ],
         "emoji": "\ud83c\udf1f",
         "color": "#33D4FF",
@@ -350,9 +350,9 @@
         "playerName": "Joel S.",
         "tribeName": "Jolagu",
         "tribeArray": [
+            4,
             16,
-            2,
-            4
+            2
         ],
         "emoji": "\ud83c\udf52",
         "color": "#57FF57",
@@ -380,8 +380,8 @@
         "playerName": "Kyle",
         "tribeName": "Heimheim",
         "tribeArray": [
-            9,
             8,
+            9,
             3
         ],
         "emoji": "\ud83c\udf3b",
@@ -395,9 +395,9 @@
         "playerName": "Nat",
         "tribeName": "Natika",
         "tribeArray": [
+            4,
             10,
-            3,
-            4
+            3
         ],
         "emoji": "\ud83c\udf43",
         "color": "#33FF57",
@@ -410,9 +410,9 @@
         "playerName": "Juanjo",
         "tribeName": "Kumachikitopitito",
         "tribeArray": [
+            17,
             3,
-            4,
-            17
+            4
         ],
         "emoji": "\ud83e\udd5d",
         "color": "#3357FF",

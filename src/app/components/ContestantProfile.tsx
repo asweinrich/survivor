@@ -342,7 +342,7 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
           </div>
           <div className="flex flex-col mx-4 text-center">
             <span className="text-xl tracking-wider">{rosterPercentage}%</span>
-            <span className="lowercase opacity-70 text-sm">rostered</span>
+            <span className="lowercase opacity-70 text-sm">drafted</span>
           </div>
           <div className="flex flex-col mx-4 text-center">
             <span className="text-xl tracking-wider">{winnerPercentage}%</span>
@@ -423,7 +423,7 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
                 </div>
               ))}
               <p className="font-inter w-full text-center p-4 border-b border-stone-600 text-sm">
-                Review scoring rules and point values <a href="/rules/#scoring" target="_blank" className="underline text-orange-500 hover:text-orange-400">here</a>
+                Review scoring rules and point values <a href="/how-to-play/#scoring" target="_blank" className="underline text-orange-500 hover:text-orange-400">here</a>
               </p>
             </div>
           )}

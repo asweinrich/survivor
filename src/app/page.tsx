@@ -55,7 +55,7 @@ const HomePage = () => {
         {/* Logo and Welcome Section */}
         <div className="absolute inset-0 z-10 flex flex-row justify-center mx-auto items-center">
           <Image
-            src={`/imgs/${season}/logo.png`} // Replace with your Survivor logo path
+            src={`/imgs/graphics/fantasy-logo.PNG`} // Replace with your Survivor logo path
             alt="Survivor Season 48 Logo"
             width={250}
             height={250}

@@ -173,14 +173,14 @@ export default function Recaps() {
                 const activeRecap =
                   sortedRecaps.find((r) => r.week === activeWeek) || sortedRecaps[0];
                 return (
-                  <div className="p-6">
+                  <div className="p-4">
                     <h2 className="text-2xl font-lostIsland tracking-wider">
                       {activeRecap.headline}
                     </h2>
                     <p className="my-2 text-stone-400 text-lg tracking-wider font-lostIsland lowercase">
                       {formatDateTime(activeRecap.created_at)}
                     </p>
-                    <p className="text-lg leading-tight" style={{ whiteSpace: "pre-line" }}>
+                    <p className="text-lg" style={{ whiteSpace: "pre-line" }}>
                       {activeRecap.body.replace(/\\n/g, "\n")}
                     </p>
                   </div>

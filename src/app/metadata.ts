@@ -7,7 +7,7 @@ export const metadata = {
   openGraph: {
     title: "Survivor Fantasy App",
     description: "Welcome to the ultimate Survivor Fantasy League! Draft your tribe and earn weekly points based on gameplays. Outwit, outplay, outpick!",
-    images: [
+    image: [
       {
         url: "https://survivorfantasy.app/meta-image.png",
         width: 1024,

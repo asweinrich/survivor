@@ -57,6 +57,9 @@ export default function Draft() {
 
   const season = 48;
 
+  //disable draft until it opens
+  const status = false;
+
   const [emojiPickerVisible, setEmojiPickerVisible] = useState(false);
 
   // Fetch contestants and tribes when the component mounts
@@ -205,12 +208,17 @@ export default function Draft() {
 
   // Helper to get the names of drafted contestants (for the textarea preview)
   const getTribeNames = () => {
-    return draftPicks
+    if(!status) {
+      return "Drafting is unavailable until after the first episode airs."
+    } else {
+      return draftPicks
       .map((id) => {
         const contestant = contestants.find((c) => c.id === id);
         return contestant ? contestant.name : '';
       })
       .join(', ');
+    }
+    
   };
 
   // Compute the drafted contestants array for use in the confirmation modal
@@ -278,6 +286,9 @@ export default function Draft() {
             Tap the
             <IdentificationIcon className="inline mx-1.5 w-5 h-5 stroke-2 text-stone-300" />icon to view additional
             contestant details.
+          </p>
+          <p className="mt-3 text-red-200 text-center bg-red-800 rounded-lg p-1 leading-tight">
+            Drafting opens Wednesday February 26 after the first episode airs
           </p>
         </div>
 
@@ -459,7 +470,9 @@ export default function Draft() {
                     !form.tribeName ||
                     !form.color ||
                     !form.emoji ||
+                    !status ||
                     draftPicks.length !== 6
+
                   }
                   className={`w-full py-2 rounded text-lg uppercase ${
                     form.email &&
@@ -467,6 +480,7 @@ export default function Draft() {
                     form.tribeName &&
                     form.color &&
                     form.emoji &&
+                    status &&
                     draftPicks.length === 6
                       ? 'bg-green-600 text-white hover:bg-green-700'
                       : 'bg-gray-500 text-gray-300 cursor-not-allowed'

@@ -14,8 +14,11 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <title>{String(metadata.title)}</title>
-        <meta name="description" content={metadata.description || "Default description"} />
+        <meta property="og:description" content="Welcome to the ultimate Survivor Fantasy League! Draft your tribe and earn weekly points based on gameplays. Outwit, outplay, outpick!" />
         <meta property="og:image" content="https://survivorfantasy.app/meta-image.png" />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://survivorfantasy.app" />
+        <meta property="og:title" content="Survivor Fantasy App" />
       </head>
       <body
         className={`antialiased bg-stone-900 pb-12`}

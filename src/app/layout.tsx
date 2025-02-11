@@ -15,6 +15,7 @@ export default function RootLayout({
       <head>
         <title>{String(metadata.title)}</title>
         <meta name="description" content={metadata.description || "Default description"} />
+        <meta property="og:image" content="https://survivorfantasy.app/meta-image.png" />
       </head>
       <body
         className={`antialiased bg-stone-900 pb-12`}

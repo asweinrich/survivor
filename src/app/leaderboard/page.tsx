@@ -43,7 +43,7 @@ type RankedPlayerTribe = PlayerTribe & {
 
 
 
-export default function Scores() {
+export default function Leaderboard() {
   const [season, setSeason] = useState('48'); // Default season
   const [playerTribes, setPlayerTribes] = useState<PlayerTribe[]>([]);
   const [contestants, setContestants] = useState<Contestant[]>([]);

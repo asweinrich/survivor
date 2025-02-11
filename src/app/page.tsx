@@ -101,7 +101,7 @@ const HomePage = () => {
 
       {/* Navigation Section */}
       <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-4 py-8 px-4 text-center tracking-wider border-y-2 border-stone-600">
-        <a href="/rules">
+        <a href="/how-to-play">
           <div className="flex items-center bg-stone-800 rounded-lg p-0 hover:bg-stone-700 overflow-hidden">
             <div className="bg-gradient-to-tr from-indigo-500 to-indigo-800 p-3 me-1"><BookOpenIcon className="w-8 h-8" /></div><h3 className="p-3 text-xl uppercase">How to Play</h3>
           </div>
@@ -116,7 +116,7 @@ const HomePage = () => {
             <div className="bg-gradient-to-tr from-yellow-500 to-yellow-700 p-3 me-1"><UserGroupIcon className="w-8 h-8" /></div><h3 className="p-3 text-xl uppercase">Preview Season 48 Cast</h3>
           </div>
         </a> 
-        <a href="/scores">
+        <a href="/leaderboard">
           <div className="flex items-center bg-stone-800 rounded-lg p-0 hover:bg-stone-700 overflow-hidden">
             <div className="bg-gradient-to-tr from-red-500 to-red-700 p-3 me-1"><TrophyIcon className="w-8 h-8" /></div><h3 className="p-3 text-xl uppercase">Leaderboard</h3>
           </div>

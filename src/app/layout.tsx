@@ -40,9 +40,10 @@ function Navbar() {
         <a href="/" className="text-3xl p-1 hover:opacity-70 font-survivor">Survivor Fantasy</a>
         <div className="text-lg hidden md:flex space-x-6 items-center font-lostIsland">
           <a href="/cast" className="hover:opacity-70">Cast</a>
-          <a href="/scores" className="hover:opacity-70">Scores</a>
-          <a href="/recaps" className="hover:opacity-70">Recaps</a>
-          <a href="/rules" className="hover:opacity-70">Rules</a>
+          <a href="/leaderboard" className="hover:opacity-70">Leaderboard</a>
+          <a href="/recaps" className="hover:opacity-70">Weekly Recaps</a>
+          <a href="/how-to-play" className="hover:opacity-70">How to Play</a>
+          <a href="/faq" className="hover:opacity-70">FAQ</a>
           <a href="/draft" className="px-4 py-1 bg-gradient-to-r from-orange-500 to-orange-700 hover:from-orange-600 hover:to-orange-800 rounded text-white">Draft</a>
         </div>
         <button
@@ -72,37 +73,15 @@ function Navbar() {
           <XMarkIcon className="h-6 w-6 text-white" />
         </button>
         <nav className="flex flex-col uppercase items-start p-6 space-y-4 font-lostIsland text-2xl tracking-wider">
+          <a href="/" className="hover:opacity-70">Home</a>
           <a href="/cast" className="hover:opacity-70">Cast</a>
-          <a href="/scores" className="hover:opacity-70">Scores</a>
-          <a href="/recaps" className="hover:opacity-70">Recaps</a>
-          <a href="/rules" className="hover:opacity-70">Rules</a>
+          <a href="/leaderboard" className="hover:opacity-70">Leaderboard</a>
+          <a href="/recaps" className="hover:opacity-70">Weekly Recaps</a>
+          <a href="/how-to-play" className="hover:opacity-70">How To Play</a>
+          <a href="/faq" className="hover:opacity-70">FAQ</a>
           <a href="/draft" className="px-4 py-2 bg-gradient-to-r from-orange-500 to-orange-700 hover:from-orange-600 hover:to-orange-800 rounded-lg text-white">Draft</a>
         </nav>
       </div>
     </nav>
-  );
-}
-
-function Footer() {
-  return (
-    <div className="bg-stone-700 text-white p-3 border-t border-stone-600">
-      <div className="max-w-5xl flex justify-start mx-auto space-x-4 font-lostIsland uppercase tracking-widest text-xs">
-        <a href="/" className="flex flex-col hover:opacity-70 me-auto px-2">
-          Home
-        </a>
-        <a href="/cast" className="flex flex-col hover:opacity-70 px-2">
-          Cast
-        </a>
-        <a href="/scores" className="flex flex-col hover:opacity-70 px-2">
-          Scores
-        </a>
-        <a href="/rules" className="flex flex-col hover:opacity-70 px-2">
-          Rules
-        </a>
-        <a href="/draft" className="flex flex-col hover:opacity-70 px-2">
-          Draft
-        </a>
-      </div>
-    </div>
   );
 }

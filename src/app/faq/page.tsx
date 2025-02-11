@@ -53,6 +53,23 @@ const FaqPage = () => {
             
             <div className="border-b border-orange-100 py-8">
               <p className="text-xl font-lostIsland text-stone-200 tracking-wider mb-2">
+                How do I join the WhatsApp group for updates and discussions?
+              </p>
+              <p className="font-inter text-stone-300 tracking-wider">
+                To get the full Survivor Fantasy experience, stay updated on game developments, and chat with other players, join our official WhatsApp group! Click the link below to join:
+              </p>
+              <a target="_blank" href="https://chat.whatsapp.com/FpRMxQLhp0U848l309PL1T">
+                <div className="my-4 w-full text-center text-lg uppercase bg-gradient-to-tr from-emerald-500 to-emerald-700 hover:from-emerald-600 hover:to-emerald-800 p-2 rounded-lg">
+                  Join WhatsApp Group
+                </div>
+              </a>
+              <p className="font-inter text-stone-300 tracking-wider">
+                This group is the best place to discuss strategies, react to episodes, and stay informed on scoring updates. Be sure to introduce yourself once you join!
+              </p>
+            </div>
+
+            <div className="border-b border-orange-100 py-8">
+              <p className="text-xl font-lostIsland text-stone-200 tracking-wider mb-2">
                 When do I draft my tribe?
               </p>
               <p className="font-inter text-stone-300 tracking-wider">

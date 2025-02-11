@@ -49,7 +49,7 @@ const FaqPage = () => {
         <div className="max-w-6xl mx-auto">
 
           <section id="faq" className="px-4 font-lostIsland tracking-wider mb-16">
-            <h2 className="text-2xl mb-4">Frequently Asked Questions</h2>
+            <h2 className="text-2xl mb-4 text-center">Frequently Asked Questions</h2>
             
             <div className="border-b border-orange-100 py-8">
               <p className="text-xl font-lostIsland text-stone-200 tracking-wider mb-2">

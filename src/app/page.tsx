@@ -127,7 +127,13 @@ const HomePage = () => {
           </div>
         </a>
       </div>
+
+      <div className="max-w-5xl text-sm uppercase py-8 px-4 text-center tracking-wider border-y-2 border-stone-600">
+        This site is in no way affiliated with Survivor or CBS
+      </div>
     </div>
+
+
   );
 };
 

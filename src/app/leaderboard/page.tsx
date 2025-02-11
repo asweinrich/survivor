@@ -254,6 +254,11 @@ export default function Leaderboard() {
             Rankings are based on total points earned by each tribe
           </p>
 
+          { season === '47' && 
+           <p className="mt-3 text-orange-300">
+              Season 47 was scored using a different set of rules than the current Season. The contestant points listed here did not impact the tribe's score. The three contestants in a tribe represent that tribe's top 3 picks from Season 47.
+            </p>
+          }
         </div>
       
         {/* Season Dropdown */}
@@ -340,37 +345,41 @@ export default function Leaderboard() {
                       ? [soleSurvivor, ...remainingContestants]
                       : remainingContestants;
                     
-                    // Helper: determine the image border class
-                    const getImageBorder = (contestant: Contestant, isSoleSurvivor: boolean): string => {
-                      if (isSoleSurvivor) {
-                        return 'border-yellow-400'; // Gold for sole survivor
-                      } else if (contestant.voteOutOrder === 902) {
-                        return 'border-zinc-400'; // Silver for 2nd Place
-                      } else if (contestant.voteOutOrder === 901) {
-                        return 'border-amber-600'; // Amber for 3rd Place
-                      } else if (contestant.inPlay) {
-                        return 'border-green-400';
-                      } else {
-                        return 'border-red-500';
+                    // Helper: determine the inner image border based on in-play status and final placement
+                    const getStatusBorder = (contestant: Contestant): string => {
+                      // If final placement is determined (i.e. voteOutOrder is set), override in-play status
+                      if (!contestant.inPlay && contestant.voteOutOrder) {
+                        if (contestant.voteOutOrder === 903) return 'border-yellow-400'; // Winner (Gold)
+                        if (contestant.voteOutOrder === 902) return 'border-zinc-400';   // 2nd Place (Silver)
+                        if (contestant.voteOutOrder === 901) return 'border-amber-600';   // 3rd Place (Bronze)
                       }
+                      // Otherwise, use in-play status: green if in play, red if out
+                      return contestant.inPlay ? 'border-green-400' : 'border-red-500';
                     };
                     
                     return sortedContestants.map((contestant, idx) => {
-                      const borderClass = getImageBorder(contestant, idx === 0);
+                      const statusBorder = getStatusBorder(contestant);
+                      const isSoleSurvivorSlot = idx === 0;
+                      
                       return (
                         <div
                           key={`${tribe.id}-${contestant.id}`}
-                          className={`flex items-center py-1 border-b border-stone-700 ${!contestant.inPlay ? 'opacity-80' : 'opacity-100'}`}
+                          className={`flex items-center py-2 border-b border-stone-700`}
                         >
-                          <img
-                            src={`/imgs/${contestant.img}.png`}
-                            alt={contestant.name}
-                            className={`h-14 w-14 object-cover me-2 border-2 rounded-full p-1 ${borderClass}`}
-                          />
+                          <div className="relative">
+                            <img
+                              src={`/imgs/${contestant.img}.png`}
+                              alt={contestant.name}
+                              className={`h-14 w-14 object-cover me-2 border-2 rounded-full p-1 ${statusBorder}`}
+                            />
+                          </div>
                           <div className="flex-grow">
                             <div className="text-lg font-lostIsland leading-tight ps-0.5">
                               {contestant.name}
                             </div>
+                            {isSoleSurvivorSlot && (
+                              <span className="text-xs tracking-wider font-lostIsland uppercase px-1.5 rounded-lg bg-yellow-900 text-yellow-300">Predicted Winner</span>
+                            )}
                             <div className="flex items-center leading-tight">
                               {contestant.inPlay && (
                                 <>
@@ -427,6 +436,7 @@ export default function Leaderboard() {
                   })()}
                 </div>
               )}
+
 
             </div>
           ))

@@ -196,12 +196,18 @@ export default function Contestants() {
        <div className="lowercase text-stone-200 border-y border-stone-500 p-4 my-8 font-lostIsland tracking-wider">
           
           <p className="mb-3">
-            Contestants are sorted by their in-play status, and then alphabetically
+            Contestants are sorted by their in-play status and vote out order
           </p>
 
           <p className="">
             Tap a contestant to view their full profile and stats
           </p>
+
+          { season === '47' && 
+            <p className="mt-3 text-orange-300">
+              The scores displayed for the Season 47 cast did not impact the fantasy results. They are listed here for posterity.
+            </p>
+          }
 
         </div>
 

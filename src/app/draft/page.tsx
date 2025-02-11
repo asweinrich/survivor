@@ -260,7 +260,7 @@ export default function Draft() {
         <div className="lowercase text-stone-200 border-y border-stone-500 p-4 my-8 font-lostIsland tracking-wider">
           <p className="mb-3">
             Enter your contact and tribe information in the form below. Make sure you've read the{' '}
-            <a href="/rules" className="text-orange-400 hover:text-orange-600">
+            <a href="/how-to-play" className="text-orange-400 hover:text-orange-600">
               rules
             </a>{' '}
             before drafting your tribe!

@@ -82,7 +82,7 @@ const FaqPage = () => {
                 How do I pay my tribe's entry fee?
               </p>
               <p className="font-inter text-stone-300 tracking-wider mb-4">
-                Please pay Andrew $20 for your tribe's entry fee via venmo if possible. Make sure you put your tribe's name in the memo so I can keep track of who has paid! Apple Pay also works great. Reach out if you need to pay your entry fee using an alternate method. 
+                Please pay Andrew $20 for your tribe's entry fee via venmo if possible. Make sure you put your tribe's name in the memo so I can keep track of who has paid! Apple Pay also works great. Reach out to me at 281-415-0650 if you need to pay your entry fee using an alternate method. 
               </p>
               <p className="font-inter text-stone-300 tracking-wider mb-4">
                 Remember that if your tribe's entry fee isn't paid by the airing of the 2nd episode, your tribe will be removed from competition - we don't want that!

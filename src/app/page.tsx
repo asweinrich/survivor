@@ -64,7 +64,7 @@ const HomePage = () => {
       </div>
 
       <p className="w-full max-w-5xl mx-auto px-4 py-6 text-center text-lg tracking-wider lowercase border-y-2 border-stone-600">
-        Welcome back to Survivor Fantasy! This year, we’re taking things up a notch with a brand-new web app to make your fantasy experience even better. Here, you can draft your tribe, track scores and contestants, and catch up on updates for Season 48. Dive in and take a look around!
+        Welcome back to Survivor Fantasy! This year, we’re taking things up a notch with a brand new web app to make your fantasy experience even better. Here, you can draft your tribe, track scores and contestants, and catch up on updates for Season 48. Dive in and take a look around!
       </p>
 
       {/* Countdown Section */}

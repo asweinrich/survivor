@@ -19,8 +19,8 @@ export default function Recaps() {
   const [loading, setLoading] = useState(false);
   const [recaps, setRecaps] = useState<Recap[]>([]);
   const [activeWeek, setActiveWeek] = useState<string>("");
-  
-  // Create a ref for the week selector container
+
+  // Create a ref for the week selector container (no longer used for auto-scrolling)
   const weekSelectorRef = useRef<HTMLDivElement>(null);
 
   // Fetch recaps when the season changes
@@ -31,8 +31,8 @@ export default function Recaps() {
       const data = await res.json();
       setRecaps(data);
       if (data.length > 0 && !activeWeek) {
-        // Sort recaps descending by week (assuming week is a numeric string)
-        const sortedRecaps = [...data].sort((a, b) => Number(b.week) - Number(a.week));
+        // Sort recaps ascending by week (assuming week is a numeric string) to get the earliest one
+        const sortedRecaps = [...data].sort((a, b) => Number(a.week) - Number(b.week));
         setActiveWeek(sortedRecaps[0].week);
       }
       setLoading(false);
@@ -40,12 +40,7 @@ export default function Recaps() {
     fetchData();
   }, [season]);
 
-  // After recaps load, scroll the week selector container to the end.
-  useEffect(() => {
-    if (weekSelectorRef.current) {
-      weekSelectorRef.current.scrollLeft = weekSelectorRef.current.scrollWidth;
-    }
-  }, [recaps]);
+  // Removed auto-scroll effect to keep the week selector scrolled to the left.
 
   function formatDateTime(dateTime: Date | string): string {
     const date = typeof dateTime === 'string' ? new Date(dateTime) : dateTime;
@@ -70,6 +65,15 @@ export default function Recaps() {
     } else {
       return `${dateFormatter.format(date)} • ${timeFormatter.format(date)}`;
     }
+  }
+
+  // Check if a recap is new (created within the last 3 days)
+  function isRecapNew(createdAt: string): boolean {
+    const createdDate = new Date(createdAt);
+    const now = new Date();
+    const diffInMilliseconds = now.getTime() - createdDate.getTime();
+    const threeDaysInMilliseconds = 3 * 24 * 60 * 60 * 1000;
+    return diffInMilliseconds < threeDaysInMilliseconds;
   }
 
   return (
@@ -98,7 +102,7 @@ export default function Recaps() {
         <div className="absolute inset-0 z-10 flex flex-row justify-center mx-auto items-center">
           <Image
             src={`/imgs/${season}/logo.png`}
-            alt="Survivor Season 48 Logo"
+            alt={`Survivor Season ${season} Logo`}
             width={250}
             height={250}
           />
@@ -138,39 +142,45 @@ export default function Recaps() {
               className="flex justify-start space-x-2 p-4 font-lostIsland w-full overflow-x-scroll whitespace-nowrap"
             >
               {recaps.map((recap) => (
-                <button
-                  key={recap.id}
-                  onClick={() => setActiveWeek(recap.week)}
-                  className={`w-12 h-12 flex-shrink-0 rounded-full text-xl border-2 flex items-center justify-center ${
-                    activeWeek === recap.week
-                      ? "bg-gradient-to-tr from-orange-500 to-orange-700 text-white border-transparent"
-                      : "bg-stone-800 text-stone-200 border-stone-700"
-                  }`}
-                  style={{ textShadow: "1px 1px 0px rgba(0, 0, 0, 1)" }}
-                >
-                  {recap.week}
-                </button>
+                <div key={recap.id} className="relative flex-shrink-0">
+                  <button
+                    onClick={() => setActiveWeek(recap.week)}
+                    className={`w-12 h-12 rounded-full text-xl border-2 flex items-center justify-center ${
+                      activeWeek === recap.week
+                        ? "bg-gradient-to-tr from-orange-500 to-orange-700 text-white border-transparent"
+                        : "bg-stone-800 text-stone-200 border-stone-700"
+                    }`}
+                    style={{ textShadow: "1px 1px 0px rgba(0, 0, 0, 1)" }}
+                  >
+                    {recap.week}
+                  </button>
+                  {isRecapNew(recap.created_at) && (
+                    <span className="absolute -top-1 -right-1 bg-red-600 text-white text-xs rounded-full px-1">
+                      new
+                    </span>
+                  )}
+                </div>
               ))}
             </div>
 
             {/* Active Recap Display */}
             {recaps.length > 0 && (
               (() => {
-                // Sort recaps by week number descending (highest week first)
+                // Sort recaps ascending by week number (lowest week first)
                 const sortedRecaps = [...recaps].sort(
-                  (a, b) => Number(b.week) - Number(a.week)
+                  (a, b) => Number(a.week) - Number(b.week)
                 );
                 const activeRecap =
                   sortedRecaps.find((r) => r.week === activeWeek) || sortedRecaps[0];
                 return (
-                  <div className="p-4">
+                  <div className="p-6">
                     <h2 className="text-2xl font-lostIsland tracking-wider">
                       {activeRecap.headline}
                     </h2>
                     <p className="my-2 text-stone-400 text-lg tracking-wider font-lostIsland lowercase">
                       {formatDateTime(activeRecap.created_at)}
                     </p>
-                    <p className="text-lg text-justify" style={{ whiteSpace: "pre-line" }}>
+                    <p className="text-lg leading-tight" style={{ whiteSpace: "pre-line" }}>
                       {activeRecap.body.replace(/\\n/g, "\n")}
                     </p>
                   </div>

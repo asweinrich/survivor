@@ -57,8 +57,8 @@ const HomePage = () => {
           <Image
             src={`/imgs/graphics/fantasy-logo.PNG`} // Replace with your Survivor logo path
             alt="Survivor Season 48 Logo"
-            width={250}
-            height={250}
+            width={175}
+            height={175}
           />
         </div>
       </div>

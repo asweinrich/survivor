@@ -66,15 +66,16 @@ model Recap {
   headline     String
   body         String
   created_at   DateTime @default(now())
+  media_url    String?
 }
 
 model WeeklyRecap {
-  id           Int      @id @default(autoincrement())
-  season       Int
-  week         Int
-  headline     String
-  body         String
-  winner       Int
-  loser        Int
-  created_at   DateTime @default(now())
+  id         Int      @id @default(autoincrement())
+  season     Int
+  week       Int
+  headline   String
+  body       String
+  winner     Int
+  loser      Int
+  created_at DateTime @default(now())
 }

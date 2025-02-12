@@ -43,7 +43,6 @@ type Recap = {
   headline: string;
   body: string;
   created_at: Date;
-  media_url: string;
 };
 
 const scoringCategories: ScoringCategory[] = [
@@ -259,46 +258,7 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
     }
   }
 
-  // New helper to render media content in a recap
-  const renderMedia = (media: string) => {
-    if (!media) return null;
-
-    // Check if the URL is for an image
-    if (/\.(jpg|jpeg|png|gif)$/i.test(media)) {
-      return <img src={media} alt="Recap media" className="mt-2 max-w-full h-auto" />;
-    }
-
-    // Check if the URL is a YouTube link
-    if (media.includes("youtube.com") || media.includes("youtu.be")) {
-      let videoId = "";
-      try {
-        const urlObj = new URL(media);
-        if (urlObj.hostname.includes("youtu.be")) {
-          videoId = urlObj.pathname.slice(1);
-        } else if (urlObj.hostname.includes("youtube.com")) {
-          videoId = urlObj.searchParams.get("v") || "";
-        }
-      } catch (error) {
-        console.error("Invalid URL:", error);
-      }
-      if (videoId) {
-        return (
-          <iframe
-            className="my-3 w-full min-h-60"
-            src={`https://www.youtube.com/embed/${videoId}`}
-            title="YouTube video player"
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          ></iframe>
-        );
-      }
-      return <a href={media} target="_blank" rel="noopener noreferrer" className="mt-2 text-blue-500 underline">Watch video</a>;
-    }
-
-    // Fallback: display media as a link
-    return <a href={media} target="_blank" rel="noopener noreferrer" className="mt-2 text-blue-500 underline">View media</a>;
-  };
+  
 
 
 
@@ -427,10 +387,6 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
                     <span className="text-stone-300 me-auto text-xl uppercase mb-0 tracking-wider">{recap.headline}</span>
                     <span className="text-stone-400 me-auto mb-1 text-lg tracking-wider lowercase">{formatDateTime(recap.created_at)}</span>
                     <span className="text-stone-200 me-auto font-inter" style={{ whiteSpace: "pre-line" }}>{recap.body.replace(/\\n/g, "\n")}</span>
-                    {/* Render media if available */}
-                    <div className="w-full">
-                      {recap.media_url && renderMedia(recap.media_url)}
-                    </div>
                   </div>
                 ))
               ) : (

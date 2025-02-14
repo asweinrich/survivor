@@ -7,8 +7,6 @@ import ContestantProfile from '../components/ContestantProfile';
 import Image from "next/image";
 import season47Scores from '../scoring/47scores.json';
 
-
-
 type Contestant = {
   id: number;
   name: string;
@@ -41,8 +39,6 @@ type RankedPlayerTribe = PlayerTribe & {
   rank: number;
 };
 
-
-
 export default function Leaderboard() {
   const [season, setSeason] = useState('48'); // Default season
   const [playerTribes, setPlayerTribes] = useState<PlayerTribe[]>([]);
@@ -53,11 +49,10 @@ export default function Leaderboard() {
   const [expandedTribes, setExpandedTribes] = useState<number[]>([]); // Tracks expanded dropdowns
   const [loading, setLoading] = useState(true); // New loading state
 
-
   // Fetch PlayerTribes and Contestants when the season changes
   useEffect(() => {
     setLoading(true); // Start loading when fetching begins
-    setExpandedTribes([])
+    setExpandedTribes([]);
 
     async function fetchData() {
       if (season === '47') {
@@ -81,10 +76,7 @@ export default function Leaderboard() {
     }
 
     fetchData();
-
   }, [season]);
-
-
 
   // Create a lookup map for contestants
   const contestantMap = useMemo(() => {
@@ -126,7 +118,6 @@ export default function Leaderboard() {
     .map((tribe) => ({ ...tribe, score: calculateScore(tribe) }))
     .sort((a, b) => b.score - a.score || new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
 
-
   // Assign Rankings with Ties
   const rankedTribes: RankedPlayerTribe[] = sortedPlayerTribes.map((tribe, index, array) => {
     let rank = index + 1;
@@ -138,8 +129,6 @@ export default function Leaderboard() {
 
     return { ...tribe, rank };
   });
-
-
 
   function getOrdinalSuffix(number: number): string {
     if (number >= 11 && number <= 13) return `${number}th`; // Special case for 11th, 12th, 13th
@@ -158,13 +147,13 @@ export default function Leaderboard() {
 
   function formatVotedOutOrder(votedOutOrder: number): string {
     if(votedOutOrder === 903) {
-      return `Sole Survivor`
+      return `Sole Survivor`;
     } else if(votedOutOrder === 902) {
-      return `2nd Place`
+      return `2nd Place`;
     } else if(votedOutOrder === 901) {
-      return `3rd Place`
+      return `3rd Place`;
     } else if(votedOutOrder === 600) {
-      return `Lost Fire Making`
+      return `Lost Fire Making`;
     } else {
       return `${getOrdinalSuffix(votedOutOrder)} person voted out`;
     }
@@ -221,9 +210,10 @@ export default function Leaderboard() {
                 "linear-gradient(to bottom, #1c1917 0%, transparent 33%, transparent 66%, #1c1917 100%)",
             }}
           ></div>
-
         </div>
-        <h1 className="absolute -bottom-8 inset-x-0 z-10 text-4xl font-bold mb-2 text-stone-100 font-survivor tracking-wider">Tribe Leaderboard</h1>
+        <h1 className="absolute -bottom-8 inset-x-0 z-10 text-4xl font-bold mb-2 text-stone-100 font-survivor tracking-wider">
+          Tribe Leaderboard
+        </h1>
   
         {/* Logo and Welcome Section */}
         <div className="absolute inset-0 z-10 flex flex-row justify-center mx-auto items-center">
@@ -239,24 +229,18 @@ export default function Leaderboard() {
       <div className="max-w-6xl mx-auto">
 
         <div className="lowercase text-stone-200 border-y border-stone-500 p-4 my-8 font-lostIsland tracking-wider">
-          
           <p className="mb-3">
             Click a tribe to expand their lineup and see contestant points
           </p>
-
           <p className="mb-3">
-            Tap the 
-            <IdentificationIcon className="inline mx-1.5 w-5 h-5 stroke-2 text-stone-300" />
-            icon to view detailed contestant stats
+            Tap the <IdentificationIcon className="inline mx-1.5 w-5 h-5 stroke-2 text-stone-300" /> icon to view detailed contestant stats
           </p>
-
           <p className="">
             Rankings are based on total points earned by each tribe
           </p>
-
           { season === '47' && 
            <p className="mt-3 text-orange-300">
-              Season 47 was scored using a different set of rules than the current Season. The contestant points listed here did not impact the tribe's score. The three contestants in a tribe represent that tribe's top 3 picks from Season 47.
+              Season 47 was scored using a different set of rules than the current season. The three contestants in a tribe represent that tribe's top 3 picks from Season 47.
             </p>
           }
         </div>
@@ -275,16 +259,25 @@ export default function Leaderboard() {
           </select>
         </div>
 
-        {/* Loading Spinner */}
+        {/* Loading Spinner or No Tribes Message */}
         {loading ? (
           <div className="flex flex-col justify-center items-center py-10">
             <ArrowPathIcon className="w-10 h-10 animate-spin text-stone-200" />
             <p className="font-lostIsland text-xl lowercase my-4 tracking-wider">Loading...</p>
           </div>
+        ) : rankedTribes.length === 0 ? (
+          <div className="flex flex-col justify-center items-center py-10 px-4 text-center leading-tight">
+            <p className="font-lostIsland text-lg my-2 tracking-wider">
+              No tribes have been drafted for this season yet.
+            </p>
+            <p className="font-lostIsland text-lg my-2 tracking-wider">
+              Tribe rosters will be displayed here once the draft process begins after the first episode airs.
+            </p>
+          </div>
         ) : (
           rankedTribes.map((tribe) => (
             <div key={tribe.id} className="border-b border-t border-stone-700 px-2 py-3">
-              <div className="flex items-center justify-start"  onClick={() => toggleDropdown(tribe.id)}>
+              <div className="flex items-center justify-start" onClick={() => toggleDropdown(tribe.id)}>
                 {/* Emoji and Tribe Info */}
                 <div className="flex items-center w-8 font-lostIsland text-2xl me-1.5">
                   <span className="mx-auto">{tribe.rank}</span>
@@ -308,10 +301,7 @@ export default function Leaderboard() {
                     {calculateScore(tribe)}
                   </span>
                   <ChevronDownIcon
-                    className={`w-4 h-4 stroke-3 cursor-pointer ${
-                      expandedTribes.includes(tribe.id) ? 'rotate-180' : ''
-                    }`}
-                    
+                    className={`w-4 h-4 stroke-3 cursor-pointer ${expandedTribes.includes(tribe.id) ? 'rotate-180' : ''}`}
                   />
                 </div>
               </div>
@@ -378,7 +368,9 @@ export default function Leaderboard() {
                               {contestant.name}
                             </div>
                             {isSoleSurvivorSlot && (
-                              <span className="text-xs tracking-wider font-lostIsland uppercase px-1.5 rounded-lg bg-yellow-900 text-yellow-300">Predicted Winner</span>
+                              <span className="text-xs tracking-wider font-lostIsland uppercase px-1.5 rounded-lg bg-yellow-900 text-yellow-300">
+                                Predicted Winner
+                              </span>
                             )}
                             <div className="flex items-center leading-tight">
                               {contestant.inPlay && (
@@ -436,8 +428,6 @@ export default function Leaderboard() {
                   })()}
                 </div>
               )}
-
-
             </div>
           ))
         )}

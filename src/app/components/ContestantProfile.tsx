@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import { TrophyIcon, FireIcon, ArrowPathIcon } from '@heroicons/react/24/solid';
+import scores47 from '../scoring/47scores.json';
+
 
 
 type Contestant = {
@@ -114,23 +116,47 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
         .then((data) => setRecaps(data))
         .catch((error) => console.error('Error fetching recaps:', error));
 
-      // Fetch roster percentage for the contestant
-      fetch(`/api/roster-pct`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ playerId: contestant.id, season: contestant.season }),
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          setRosterPercentage((Math.round(data.rosterPercentage)) || 0)
-          setWinnerPercentage((Math.round(data.soleSurvivorPercentage)) || 0)
-        })
-        .catch((error) => {
-          console.error('Error fetching roster percentage:', error);
-          setRosterPercentage(0); // Default to 0 on error
+      if (contestant.season === 47) {
+        // scores47 is an array of 28 objects, each with a tribeArray property
+        const totalTribes = scores47.length;
+        let draftedCount = 0;
+        let soleSurvivorCount = 0;
+
+        scores47.forEach((entry) => {
+          const tribeArray: number[] = entry.tribeArray;
+          if (tribeArray.includes(contestant.id)) {
+            draftedCount++;
+            // First element is the sole survivor pick
+            if (tribeArray[0] === contestant.id) {
+              soleSurvivorCount++;
+            }
+          }
         });
+
+        const draftedPct = Math.round((draftedCount / totalTribes) * 100);
+        const soleSurvivorPct = Math.round((soleSurvivorCount / totalTribes) * 100);
+
+        setRosterPercentage(draftedPct);
+        setWinnerPercentage(soleSurvivorPct);
+      } else {
+        // For other seasons, use the default API call
+        fetch(`/api/roster-pct`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ playerId: contestant.id, season: contestant.season }),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            setRosterPercentage(Math.round(data.rosterPercentage) || 0);
+            setWinnerPercentage(Math.round(data.soleSurvivorPercentage) || 0);
+          })
+          .catch((error) => {
+            console.error('Error fetching roster percentage:', error);
+            setRosterPercentage(0);
+          });
+      }
+
+      
 
 
 

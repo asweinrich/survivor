@@ -29,18 +29,22 @@ export default function Recaps() {
     async function fetchData() {
       const res = await fetch(`/api/weekly-recaps/${season}`);
       const data = await res.json();
-      setRecaps(data);
-      if (data.length > 0 && !activeWeek) {
+      // Normalize the data: if data is not an array, try to extract a recaps property or default to an empty array
+      const recapsArray = Array.isArray(data)
+        ? data
+        : data && Array.isArray(data.recaps)
+        ? data.recaps
+        : [];
+      setRecaps(recapsArray);
+      if (recapsArray.length > 0 && !activeWeek) {
         // Sort recaps ascending by week (assuming week is a numeric string) to get the earliest one
-        const sortedRecaps = [...data].sort((a, b) => Number(a.week) - Number(b.week));
+        const sortedRecaps = [...recapsArray].sort((a, b) => Number(a.week) - Number(b.week));
         setActiveWeek(sortedRecaps[0].week);
       }
       setLoading(false);
     }
     fetchData();
   }, [season]);
-
-  // Removed auto-scroll effect to keep the week selector scrolled to the left.
 
   function formatDateTime(dateTime: Date | string): string {
     const date = typeof dateTime === 'string' ? new Date(dateTime) : dateTime;
@@ -86,7 +90,6 @@ export default function Recaps() {
             alt="Survivor Background"
             fill
             style={{ objectFit: 'cover' }}
-            className=""
           />
           <div
             className="absolute inset-0 bg-gradient-to-b from-stone-900 via-transparent to-stone-900"
@@ -132,6 +135,12 @@ export default function Recaps() {
             <ArrowPathIcon className="w-10 h-10 animate-spin text-stone-200" />
             <p className="font-lostIsland text-xl lowercase my-4 tracking-wider">
               Loading...
+            </p>
+          </div>
+        ) : recaps.length === 0 ? (
+          <div className="flex flex-col justify-center items-center py-10">
+            <p className="font-lostIsland text-xl lowercase my-4 tracking-wider">
+              No recaps available at this time.
             </p>
           </div>
         ) : (

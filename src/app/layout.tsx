@@ -4,6 +4,7 @@ import { metadata } from "./metadata"; // Import the metadata
 import "./globals.css";
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import { useState } from 'react';
+import { Analytics } from "@vercel/analytics/react"
 
 export default function RootLayout({
   children,

@@ -294,11 +294,11 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
       <div className="flex flex-col">
         {/* Modal Header */}
         <div className="flex justify-start items-start border-b border-stone-600 p-4 pb-2">
-          <div className="self-start mt-0 me-3">
+          <div className="self-start mt-0 me-5">
             <img
               src={`/imgs/${contestant.img}.png`}
               alt={contestant.name}
-              className={`w-28 h-28 object-cover scale-110 mx-auto border-4 border-stone-500 rounded-full p-1`}
+              className={`w-28 h-28 object-cover scale-110 mx-auto border-4 border-stone-500 rounded-full p-1 mt-1.5`}
             />
           </div>
           <div className="flex flex-col">

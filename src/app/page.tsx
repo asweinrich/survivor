@@ -128,7 +128,7 @@ const HomePage = () => {
         </a>
         <a href="/faq">
           <div className="flex items-center bg-stone-800 rounded-lg p-0 hover:bg-stone-700 overflow-hidden">
-            <div className="bg-gradient-to-tr from-purple-500 to-purple-700 p-3 me-1"><QuestionMarkCircleIcon className="w-8 h-8" /></div><h3 className="p-3 text-xl uppercase">Frequently Asked Questions</h3>
+            <div className="bg-gradient-to-tr from-purple-500 to-purple-700 p-3 me-1"><QuestionMarkCircleIcon className="w-8 h-8" /></div><h3 className="p-3 text-xl uppercase">FAQ</h3>
           </div>
         </a>
       </div>

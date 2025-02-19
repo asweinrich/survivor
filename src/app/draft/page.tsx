@@ -288,7 +288,7 @@ export default function Draft() {
             contestant details.
           </p>
           <p className="mt-3 text-red-200 text-center bg-red-800 rounded-lg p-1 leading-tight">
-            Drafting opens Wednesday February 26 after the first episode airs
+            Drafting opens Wednesday February 26 at 9:00 PM PST, after the first episode airs.
           </p>
         </div>
 

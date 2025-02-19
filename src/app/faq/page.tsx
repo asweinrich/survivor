@@ -53,10 +53,10 @@ const FaqPage = () => {
             
             <div className="border-b border-orange-100 py-8">
               <p className="text-xl font-lostIsland text-stone-200 tracking-wider mb-2">
-                How do I join the WhatsApp group for updates and discussions?
+                How do I stay up to date with updates and discussions?
               </p>
               <p className="font-inter text-stone-300 tracking-wider">
-                To get the full Survivor Fantasy experience, stay updated on game developments, and chat with other players, join our official WhatsApp group! Click the link below to join:
+                To get the full Survivor Fantasy experience, stay updated on game developments, and chat with other players, join our WhatsApp group! Click the link below to join:
               </p>
               <a target="_blank" href="https://chat.whatsapp.com/FpRMxQLhp0U848l309PL1T">
                 <div className="my-4 w-full text-center text-lg uppercase bg-gradient-to-tr from-emerald-500 to-emerald-700 hover:from-emerald-600 hover:to-emerald-800 p-2 rounded-lg">
@@ -73,7 +73,7 @@ const FaqPage = () => {
                 When do I draft my tribe?
               </p>
               <p className="font-inter text-stone-300 tracking-wider">
-                You can draft your tribe any time between the airing of the 1st and 2nd episodes of Season 48. Tribe 'drafting' will be open from Wednesday February 26 @ 9:00PM PST until Wednesday March 5 at 7:00PM PST.
+                You can draft your tribe any time between the airing of the 1st and 2nd episodes of Season 48. Tribe 'drafting' will be open from Wednesday February 26 @ 9:00PM PST until Wednesday March 5 at 3:00PM PST.
               </p>
             </div>
 
@@ -82,7 +82,7 @@ const FaqPage = () => {
                 How do I pay my tribe's entry fee?
               </p>
               <p className="font-inter text-stone-300 tracking-wider mb-4">
-                Please pay Andrew $20 for your tribe's entry fee via venmo if possible. Make sure you put your tribe's name in the memo so I can keep track of who has paid! Apple Pay also works great. Reach out to me at 281-415-0650 if you need to pay your entry fee using an alternate method. 
+                Please pay Andrew $20 for your tribe's entry fee via venmo if possible. Make sure you put your tribe's name in the memo to help keep track of who has paid! Apple Pay also works great. Reach out at 281-415-0650 if you need to pay your entry fee using an alternate method. 
               </p>
               <p className="font-inter text-stone-300 tracking-wider mb-4">
                 Remember that if your tribe's entry fee isn't paid by the airing of the 2nd episode, your tribe will be removed from competition - we don't want that!

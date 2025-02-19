@@ -67,7 +67,7 @@ const RulesPage = () => {
           <section id="overview" className="px-4 pt-16 font-lostIsland tracking-wider">
             <h2 className="text-2xl mb-4">General Overview</h2>
             <p className="mb-4 text-stone-300 tracking-wider font-inter">
-              Welcome to our Survivor Fantasy League! Just like on Survivor, it’s all about strategy, intuition, and outlasting the competition. Here’s how it works: First, you draft a tribe of 6 contestants from the upcoming season (Season 48!). Your job is to pick the players you think will dominate challenges, survive tribal councils, and make it to the end. Each contestant earns points based on their performance throughout the season. Think of it like crafting your own Survivor dream team, and every episode is another chance to earn points and climb the leaderboard.
+              Welcome to our Survivor Fantasy League! Just like on Survivor, it’s all about strategy, intuition, and outlasting the competition. Here’s how it works: First, you draft a tribe of 6 contestants from the upcoming season (Season 48!). You'll then pick one of them who you think will win it all. Your job is to pick the players you think will dominate challenges, survive tribal councils, and make it to the end. Each contestant earns points based on their performance throughout the season. Think of it like crafting your own Survivor dream team, and every episode is another chance to earn points and climb the leaderboard.
             </p>
             <p className="mb-4 text-stone-300 tracking-wider font-inter">
               At the end of the season, the top three tribes with the most points will split the prize pool. Whether you’re a die-hard fan or just here to have a good time, this is your shot to outwit, outplay, and outlast!
@@ -78,7 +78,7 @@ const RulesPage = () => {
           <section className="px-4 pt-16 font-lostIsland tracking-wider" id="scoring">
             <h2 className="text-2xl mb-4">Scoring System</h2>
             <p className="mb-4 text-stone-300 tracking-wider font-inter">
-              Points are the currency of your success in this league. Each contestant in your tribe earns points individually based on their performance, and your tribe's total score is the sum of your six contestants' scores. Here’s the breakdown:
+              Points are the currency of your success in this league. Each contestant in your tribe earns points individually based on their performance, and your tribe's total score is the sum of your six contestants' scores. <br/><br/>Here’s the breakdown:<br/><span className="text-sm"><em>Tap the <InformationCircleIcon className="inline w-5 h-5" /> icon for details on a scoreing category</em></span>
             </p>
             <div className="overflow-x-auto">
               <table className="w-full text-left text-stone-300 font-inter border-collapse">
@@ -89,6 +89,22 @@ const RulesPage = () => {
                   </tr>
                 </thead>
                 <tbody>
+                  <tr key={-1}>
+                    <td className="p-2 border border-stone-700">
+                      <button
+                        onClick={() => setTooltip(tooltip === -1 ? null : -1)}
+                        className="me-2 text-stone-400 hover:text-stone-200"
+                      >
+                        <InformationCircleIcon className="w-5 h-5 inline mb-0.5" />
+                      </button>
+                      {tooltip === -1 && (
+                        <div className="absolute text-sm bg-stone-700 text-stone-200 p-4 mt-2 rounded-lg shadow-lg w-80">Picking the correct Sole Survivor earns your tribe a 200 point bonus.</div>
+                      )}
+                      Correct Sole Survivor Pick
+                    </td>
+
+                    <td className="p-2 border border-stone-700">200</td>
+                  </tr>
                   {scoringValues.map((score, index) => (
                     <tr key={index}>
                       <td className="p-2 border border-stone-700">
@@ -99,9 +115,10 @@ const RulesPage = () => {
                           <InformationCircleIcon className="w-5 h-5 inline mb-0.5" />
                         </button>
                         {tooltip === index && (
-                          <div className="absolute text-sm bg-stone-700 text-stone-200 p-4 mt-2 rounded-lg shadow-lg w-80">
-                            {score.description}
-                          </div>
+                          <div
+                            className="absolute text-sm bg-stone-700 text-stone-200 p-4 mt-2 rounded-lg shadow-lg w-80"
+                            dangerouslySetInnerHTML={{ __html: score.description }}
+                          />
                         )}
                         {score.name}
                       </td>
@@ -113,7 +130,7 @@ const RulesPage = () => {
               </table>
             </div>
             <p className="mt-4 text-stone-300 tracking-wider font-inter">
-              The scoring system is designed to reward key milestones in Survivor. Do you know who will be Sole Survivor? That could land your tribe a nice 500 point bonus! Making the merge? That’s a solid 100 points for each pick. And don’t underestimate the smaller categories like winning challenges or simply surviving episodes -- they can add up quickly. Remember, if one of your contestants gets voted out, you won't earn additional points from them, so choose wisely. It’s all about balancing bold moves with smart picks.
+              The scoring system is designed to reward key milestones in Survivor. Do you have the Sole Survivor on your tribe? That could land you 500 points! Making the merge? That’s a solid 100 points for each pick. And don’t underestimate the smaller categories like winning challenges or simply surviving episodes -- they can add up quickly. Remember, if one of your contestants gets voted out, you won't earn additional points from them, so choose wisely. It’s all about balancing bold moves with smart picks.
             </p>
             <div className="border-b border-stone-500 w-full mt-16"></div>
           </section>
@@ -127,17 +144,20 @@ const RulesPage = () => {
               </p>
               <p className="list-disc list-inside mb-4 font-inter leading-relaxed">
                 <strong>Tribe Name:</strong> Choose the defining name of your tribe. 
-                <br/>
+                <br/><br/>
                 <strong>Emoji Tribe Icon:</strong> Choose any emoji that captures the essence of your tribe.
-                <br/>
+                <br/><br/>
                 <strong>Tribe Color:</strong> Pick a favorite color to give your tribe a signature look on the leaderboard.
               </p>
             </div>
             <div id="picking-tribe" className="mb-8">
                 <h3 className="text-2xl mb-2 lowercase text-stone-300">Picking Your Tribe</h3>
-              <p className="font-inter text-stone-300 tracking-wider">
-                Drafting your tribe is simple. Head to the <a href="/draft" className="underline text-orange-500 hover:text-orange-400">draft page</a> to enter your email address, name, tribe info, and to choose 6 contestants who you think will dominate this season. After you submit your 6 tribe members, you will be prompted to confirm your picks and select one contestant who you think will walk away as sole survivor.  
+              <p className="font-inter text-stone-300 tracking-wider mb-2">
+                Drafting your tribe is simple. Head to the <a href="/draft" className="underline text-orange-500 hover:text-orange-400">draft page</a> to enter your email address, name, tribe info, and to choose 6 contestants who you think will dominate this season. After you submit your 6 tribe members, you will be prompted to confirm your picks and select one contestant who you think will walk away as sole survivor. Once you've drafted your tribe, it's time to sit back and watch the season unfold!
               </p>
+              <p className="font-inter text-stone-300 tracking-wider mb-2"><em>
+                Just like last season, each tribe is required to pay a $20 entry fee. This goes towards the prize pot to be distributed at the conclusion of Season 48. 
+              </em></p>
             </div>
             <div className="border-b border-stone-500 w-full mt-16"></div>
           </section>

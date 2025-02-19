@@ -2,7 +2,7 @@
   
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import { UserGroupIcon, ChatBubbleLeftRightIcon, TrophyIcon, CalendarDaysIcon, BookOpenIcon } from "@heroicons/react/24/outline"
+import { UserGroupIcon, ChatBubbleLeftRightIcon, TrophyIcon, CalendarDaysIcon, BookOpenIcon, QuestionMarkCircleIcon } from "@heroicons/react/24/outline"
 
 const HomePage = () => {
   const [countdown, setCountdown] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
@@ -64,7 +64,7 @@ const HomePage = () => {
       </div>
 
       <p className="w-full max-w-5xl mx-auto px-4 py-6 text-center text-lg tracking-wider lowercase border-y-2 border-stone-600">
-        Welcome back to Survivor Fantasy! This year, we’re taking things up a notch with a brand new web app to make your fantasy experience even better. Here, you can draft your tribe, track scores and contestants, and catch up on updates for Season 48. Dive in and take a look around!
+        Welcome back to Survivor Fantasy! This year, we’re taking things up a notch with a brand new web app to make your fantasy experience even better. Here, you can draft your tribe, track contestants and scores, and catch up on updates for Season 48. Dive in and take a look around!
       </p>
 
       {/* Countdown Section */}
@@ -126,9 +126,14 @@ const HomePage = () => {
             <div className="bg-gradient-to-tr from-pink-500 to-pink-700 p-3 me-1"><CalendarDaysIcon className="w-8 h-8" /></div><h3 className="p-3 text-xl uppercase">Weekly Recaps</h3>
           </div>
         </a>
+        <a href="/faq">
+          <div className="flex items-center bg-stone-800 rounded-lg p-0 hover:bg-stone-700 overflow-hidden">
+            <div className="bg-gradient-to-tr from-purple-500 to-purple-700 p-3 me-1"><QuestionMarkCircleIcon className="w-8 h-8" /></div><h3 className="p-3 text-xl uppercase">Frequently Asked Questions</h3>
+          </div>
+        </a>
       </div>
 
-      <div className="max-w-5xl text-sm uppercase py-8 px-4 text-center tracking-wider border-b-2 border-stone-600">
+      <div className="max-w-5xl mx-auto text-sm uppercase py-8 px-4 text-center tracking-wider border-b-2 border-stone-600">
         This site is in no way affiliated with Survivor or CBS
       </div>
     </div>

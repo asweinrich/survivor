@@ -11,7 +11,7 @@ const HomePage = () => {
   const season = 48;
 
   useEffect(() => {
-    const targetDate = new Date("2025-02-26T19:00:00"); // Replace with Season 48 premiere date
+    const targetDate = new Date("2025-02-26T20:00:00-08:00"); // PST (UTC-8)
     const updateCountdown = () => {
       const now = new Date();
       const timeLeft = targetDate.getTime() - now.getTime();

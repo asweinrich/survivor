@@ -430,7 +430,7 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
                   Category
                 </span>
                 <span className="text-center w-12">
-                  Score
+                  Count
                 </span>
                 <span className="text-end w-16">
                   Points

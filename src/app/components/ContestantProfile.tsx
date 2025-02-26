@@ -425,6 +425,17 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
           )}
           {activeTab === "stats" && (
             <div className="pb-4">
+              <div className="flex justify-between w-full py-1 text-sm px-5 py-3 text-stone-300 opacity-90 border-b border-stone-600 lowercase tracking-wider">
+                <span className="me-auto">
+                  Category
+                </span>
+                <span className="text-center w-12">
+                  Score
+                </span>
+                <span className="text-end w-16">
+                  Points
+                </span>
+              </div>
               
               
               {scoringCategories.map((category) => (

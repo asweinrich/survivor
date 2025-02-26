@@ -271,7 +271,7 @@ export default function YourTribePage() {
                                 </p>
                               </div>
                               {index === 2 && (
-                                <p className="text-xs text-yellow-400 font-lostIsland tracking-wider uppercase max-w-18 wrap text-center leading-none mt-1">Sole Survivor</p>
+                                <p className="text-sm px-1.5 py-1 rounded-lg bg-yellow-900 text-yellow-300 font-lostIsland tracking-wider lowercase max-w-18 wrap text-center leading-none mt-1">Predicted Winner</p>
                               )}
                             </div>
                           );

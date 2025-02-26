@@ -58,7 +58,7 @@ export default function Draft() {
   const season = 48;
 
   //disable draft until it opens
-  const status = false;
+  const status = true;
 
   const [emojiPickerVisible, setEmojiPickerVisible] = useState(false);
 
@@ -387,7 +387,7 @@ export default function Draft() {
                     key={contestant.id}
                     className={`flex flex-row items-center p-2 mb-0.5 bg-stone-800 border-4 rounded-xl ${
                       draftPicks.includes(contestant.id) ? 'border-green-500' : 'border-stone-700'
-                    }`}
+                    } ${!contestant.inPlay ? 'opacity-60' : ''}`}
                   >
                     {/* Image */}
                     <div
@@ -415,13 +415,24 @@ export default function Draft() {
                         />
                         <span className="">{formatTribeBadges(contestant.tribes)}</span>
                       </div>
+                      <div className="flex flex-row">
+                        {!contestant.inPlay && (
+                          <span className="ml-2 text-xs bg-red-500 text-white px-2 py-0.5 rounded lowercase">
+                            1ST VOTED OUT
+                          </span>
+                        )}
+                      </div>
                     </div>
-                    <div className="mx-1 hover:cursor-pointer">
+                    <div className="mx-1">
                       <span
                         className={`border-4 rounded-lg w-12 h-12 flex justify-center items-center ${
                           draftPicks.includes(contestant.id) ? 'border-green-400' : 'border-stone-400'
-                        } bg-stone-800`}
-                        onClick={() => updatePicks(contestant.id)}
+                        } bg-stone-800 ${!contestant.inPlay ? 'cursor-not-allowed opacity-60' : 'hover:cursor-pointer'}`}
+                        onClick={() => {
+                          if (contestant.inPlay) {
+                            updatePicks(contestant.id);
+                          }
+                        }}
                       >
                         {draftPicks.includes(contestant.id) ? (
                           <CheckIcon className="w-8 h-8 stroke-3 text-green-400" />

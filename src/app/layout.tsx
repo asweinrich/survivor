@@ -25,6 +25,7 @@ export default function RootLayout({
         className={`antialiased bg-stone-900 pb-12`}
       >
         <Navbar />
+        <Analytics />
         {children}
         
       </body>

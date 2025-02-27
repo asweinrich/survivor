@@ -233,7 +233,21 @@ export default function Contestants() {
             <p className="font-lostIsland text-xl lowercase my-4 tracking-wider">Loading...</p>
           </div>
         ) : (
-          contestants.map((contestant) => (
+          [...contestants]
+          .sort((a, b) => {
+            // Put active contestants first.
+            if (a.inPlay !== b.inPlay) {
+              return a.inPlay ? -1 : 1;
+            }
+            // For inPlay contestants, sort by points descending.
+            if (a.inPlay && b.inPlay) {
+              return b.points - a.points;
+            }
+            // For contestants not in play, sort by voteOutOrder descending 
+            // (so that the first person voted out ends up at the bottom).
+            return b.voteOutOrder - a.voteOutOrder;
+          })
+          .map((contestant) => (
             <div
               key={contestant.id}
               className="flex flex-row w-full items-center p-2 border-b border-t border-stone-700"

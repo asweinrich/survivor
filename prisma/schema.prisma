@@ -25,6 +25,7 @@ model PlayerTribe {
   createdAt  DateTime @default(now())
   season     Int
   tribeArray Int[]
+  paid       Boolean? @default(false)
 }
 
 model Contestant {

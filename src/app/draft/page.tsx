@@ -58,7 +58,7 @@ export default function Draft() {
   const season = 48;
 
   //disable draft until it opens
-  const status = false;
+  const status = true;
 
   const [emojiPickerVisible, setEmojiPickerVisible] = useState(false);
 
@@ -291,8 +291,8 @@ export default function Draft() {
             <IdentificationIcon className="inline mx-1.5 w-5 h-5 stroke-2 text-stone-300" />icon to view additional
             contestant details.
           </p>
-          <p className="mt-3 text-red-200 text-center bg-red-800 rounded-lg p-1 leading-tight">
-            Drafting opens Wednesday February 26 at 9:00 PM PST, after the first episode airs.
+          <p className="mt-3 text-green-200 text-center bg-green-800 rounded-lg p-1 leading-tight">
+            Tribe drafting is open until Wednesday, March 5 at 12:00 PM PST.
           </p>
         </div>
 

@@ -79,6 +79,15 @@ const FaqPage = () => {
 
             <div className="border-b border-orange-100 py-8">
               <p className="text-xl font-lostIsland text-stone-200 tracking-wider mb-2">
+                Can I update my tribe after I've drafted?
+              </p>
+              <p className="font-inter text-stone-300 tracking-wider">
+                No. Unfortunately you do not have the ability to make edits to your tribe after you've submitted your picks. So take your time and make sure you pick with intention! If you absolutely, direly need to make a change before tribes are locked on Wednesday March 5, please reach out to me. 
+              </p>  
+            </div>
+
+            <div className="border-b border-orange-100 py-8">
+              <p className="text-xl font-lostIsland text-stone-200 tracking-wider mb-2">
                 How do I pay my tribe's entry fee?
               </p>
               <p className="font-inter text-stone-300 tracking-wider mb-4">
@@ -120,6 +129,8 @@ const FaqPage = () => {
                 If two or more tribes are tied for any of the top 3 places at the end of the season, the prize for that place along with the prize for the next place(s) will be evenly distributed among those tied. For example, if two tribes tie for 1st place, they will split the combined 90% of the pot for 1st and 2nd place, and the next hightest scoring tribe would get 3rd place and receive 10% of the pot. 
               </p>  
             </div>
+
+            
 
 
           </section>

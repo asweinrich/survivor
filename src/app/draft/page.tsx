@@ -271,7 +271,11 @@ export default function Draft() {
             <a href="/how-to-play" className="text-orange-400 hover:text-orange-600">
               rules
             </a>{' '}
-            before drafting your tribe!
+            and{' '}
+            <a href="/faq" className="text-orange-400 hover:text-orange-600">
+              FAQ
+            </a>{' '}
+            before drafting your tribe! Tribes cannot be updated after you submit your picks. 
           </p>
           <p className="mb-3">
             Tap

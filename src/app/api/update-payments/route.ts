@@ -1,26 +1,19 @@
-// pages/api/update-payments.ts
-
-import type { NextApiRequest, NextApiResponse } from 'next';
+import { NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
-  // Only allow PUT requests.
-  if (req.method !== 'PUT') {
-    res.setHeader('Allow', ['PUT']);
-    return res.status(405).json({ error: `Method ${req.method} not allowed` });
-  }
-
+export async function POST(req: Request) {
   try {
-    const { playerTribes } = req.body;
+    const body = await req.json();
+    console.log('Request Body:', body);
+    const { playerTribes } = body;
 
-    // Validate that playerTribes is an array.
     if (!playerTribes || !Array.isArray(playerTribes)) {
-      return res.status(400).json({ error: 'Invalid request body.' });
+      return NextResponse.json(
+        { message: 'Missing or invalid playerTribes field' },
+        { status: 400 }
+      );
     }
 
     // Update the 'paid' status for each player tribe.
@@ -33,11 +26,15 @@ export default async function handler(
       })
     );
 
-    return res
-      .status(200)
-      .json({ message: 'Payment statuses updated successfully.', updatedTribes });
+    return NextResponse.json({
+      message: 'Payment statuses updated successfully',
+      updatedTribes,
+    });
   } catch (error) {
     console.error('Error updating payment statuses:', error);
-    return res.status(500).json({ error: 'Internal server error.' });
+    return NextResponse.json(
+      { message: 'Internal server error' },
+      { status: 500 }
+    );
   }
 }

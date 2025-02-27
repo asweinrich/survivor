@@ -67,7 +67,7 @@ const HomePage = () => {
         Welcome back to Survivor Fantasy! This year, we’re taking things up a notch with a brand new web app to make your fantasy experience even better. Here, you can draft your tribe, track contestants and scores, and catch up on updates for Season 48. Dive in and take a look around!
       </p>
 
-      {/* Countdown Section */}
+      {/* Countdown Section
       <div className="text-center py-3 px-4 m-3 mb-6 rounded-xl">
         <h2 className="text-2xl uppercase text-stone-300 mb-4">Season 48 Countdown</h2>
         <div className="flex flex-row  max-w-96 justify-center items-center space-x-6 lowercase tracking-wider bg-stone-800 border border-stone-700 mx-auto p-4 rounded-xl">
@@ -90,8 +90,10 @@ const HomePage = () => {
         </div>
       </div>
 
+       */}
+
       {/* Buttons Section */}
-      <div className="flex justify-center w-full px-4 mb-8">
+      <div className="flex justify-center w-full px-4 mb-8 mt-7">
         <a href="/draft" className="w-full max-w-5xl mx-auto">
         <button className="w-full p-3 text-2xl uppercase bg-gradient-to-tr from-orange-500 to-orange-700 hover:from-orange-600 hover:to-orange-800 rounded-lg text-white">
           Draft Your Tribe

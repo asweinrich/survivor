@@ -108,7 +108,7 @@ const FaqPage = () => {
                 Can I make more than one tribe?
               </p>
               <p className="font-inter text-stone-300 tracking-wider">
-                Absolutely! The more tribe's competing, the merrier! Just make sure you pay the entry fee for each tribe.
+                Absolutely! The more tribes competing, the merrier! Just make sure you pay the entry fee for each tribe.
               </p>
             </div>
 

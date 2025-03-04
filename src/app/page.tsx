@@ -115,7 +115,7 @@ const HomePage = () => {
         </a>
         <a href="/cast">
           <div className="flex items-center bg-stone-800 rounded-lg p-0 hover:bg-stone-700 overflow-hidden">
-            <div className="bg-gradient-to-tr from-yellow-500 to-yellow-700 p-3 me-1"><UserGroupIcon className="w-8 h-8" /></div><h3 className="p-3 text-xl uppercase">Preview Season 48 Cast</h3>
+            <div className="bg-gradient-to-tr from-yellow-500 to-yellow-700 p-3 me-1"><UserGroupIcon className="w-8 h-8" /></div><h3 className="p-3 text-xl uppercase">Season 48 Cast Rankings</h3>
           </div>
         </a> 
         <a href="/leaderboard">

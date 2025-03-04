@@ -2,6 +2,10 @@
 
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
+import { Pie } from 'react-chartjs-2';
+import { Chart, ArcElement, Tooltip, Legend } from 'chart.js';
+
+Chart.register(ArcElement, Tooltip, Legend);
 
 type PlayerTribe = {
   id: number;
@@ -15,6 +19,9 @@ export default function ManagePayments() {
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
 
+  const tribeCost = 20;
+
+
   // Fetch the list of player tribes on mount
   useEffect(() => {
     async function fetchPlayerTribes() {
@@ -22,7 +29,14 @@ export default function ManagePayments() {
       try {
         const res = await fetch('/api/player-tribes/48');
         const data = await res.json();
-        setPlayerTribes(data);
+
+        // Ensure that 'paid' is always either true or false
+        const transformedData = data.map((tribe: PlayerTribe) => ({
+          ...tribe,
+          paid: tribe.paid ?? false,  // If 'paid' is null or undefined, set it to false
+        }));
+
+        setPlayerTribes(transformedData);
       } catch (error) {
         console.error('Error fetching player tribes:', error);
       } finally {
@@ -45,7 +59,7 @@ export default function ManagePayments() {
     setSaving(true);
     try {
       const res = await fetch('/api/update-payments', {
-        method: 'PUT',
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -62,6 +76,25 @@ export default function ManagePayments() {
     } finally {
       setSaving(false);
     }
+  };
+
+  // Calculate paid and pending amounts
+  const paidCount = playerTribes.filter((tribe) => tribe.paid).length;
+  const unpaidCount = playerTribes.length - paidCount;
+  const totalPot = playerTribes.length * tribeCost;
+  const paidAmount = paidCount * tribeCost;
+  const unpaidAmount = unpaidCount * tribeCost;
+
+  // Pie chart data
+  const pieData = {
+    labels: ['Paid', 'Pending'],
+    datasets: [
+      {
+        data: [paidAmount, unpaidAmount],
+        backgroundColor: ['#77c471', '#6b7280'],
+        hoverBackgroundColor: ['#68b165', '#4b5563'],
+      },
+    ],
   };
 
   return (
@@ -88,10 +121,32 @@ export default function ManagePayments() {
         </h1>
       </div>
 
+      {/* Pie Chart Section */}
+      <div className="max-w-6xl mx-auto px-4 mb-8">
+        <div className="p-4 bg-stone-800 rounded-lg font-lostIsland tracking-wider text-center">
+          <h2 className="text-xl mb-4 uppercase">Payment Status Overview</h2>
+          <Pie data={pieData} />
+          <div className="mt-4 flex justify-center space-x-8">
+            <div className="flex flex-col items-center">
+              <span className="text-2xl text-stone-100 tracking-wider">${totalPot}</span>
+              <span className="text-sm text-stone-400">Total Pot</span>
+            </div>
+            <div className="flex flex-col items-center">
+              <span className="text-2xl text-green-400 tracking-wider">${paidAmount}</span>
+              <span className="text-sm text-stone-400">Paid</span>
+            </div>
+            <div className="flex flex-col items-center">
+              <span className="text-2xl text-stone-300 tracking-wider">${unpaidAmount}</span>
+              <span className="text-sm text-stone-400">Pending</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Main Content */}
       <div className="max-w-6xl mx-auto px-4">
         <div className="mb-8 p-4 bg-stone-800 rounded-lg font-lostIsland tracking-wider">
-          <p className="text-xl mb-2">Player Tribes Payment Status</p>
+          <p className="text-xl mb-4 uppercase text-center">Player Tribes Payment Status</p>
           {loading ? (
             <p className="text-center py-10">Loading...</p>
           ) : (
@@ -109,7 +164,7 @@ export default function ManagePayments() {
                   <label className="flex items-center space-x-2">
                     <input
                       type="checkbox"
-                      checked={tribe.paid}
+                      checked={!!tribe.paid}
                       onChange={(e) =>
                         handleCheckboxChange(tribe.id, e.target.checked)
                       }

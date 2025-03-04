@@ -17,6 +17,9 @@ export async function GET(req: Request, { params }: { params: Promise<{ season: 
     // Fetch PlayerTribes for the specified season
     const playerTribes = await prisma.playerTribe.findMany({
       where: { season: seasonInt },
+      orderBy: {
+        createdAt: 'asc',  // Order by creation date in ascending order
+      },
     });
 
     // Fetch all players and find the matching player for each tribe
@@ -33,6 +36,7 @@ export async function GET(req: Request, { params }: { params: Promise<{ season: 
         tribeArray: tribe.tribeArray,
         createdAt: tribe.createdAt,
         playerName: player ? player.name : 'Unknown Player',
+        paid: tribe.paid,
       };
     });
 

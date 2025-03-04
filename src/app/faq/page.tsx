@@ -73,7 +73,7 @@ const FaqPage = () => {
                 When do I draft my tribe?
               </p>
               <p className="font-inter text-stone-300 tracking-wider">
-                You can draft your tribe any time between the airing of the 1st and 2nd episodes of Season 48. Tribe 'drafting' will be open from Wednesday February 26 @ 9:00PM PST until Wednesday March 5 at 3:00PM PST.
+                You can draft your tribe any time between the airing of the 1st and 2nd episodes of Season 48. Tribe 'drafting' will be open from Wednesday February 26 @ 9:00PM PST until Wednesday March 5 at 5:00PM PST.
               </p>
             </div>
 

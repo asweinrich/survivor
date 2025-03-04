@@ -92,8 +92,14 @@ const HomePage = () => {
 
        */}
 
+
+
       {/* Buttons Section */}
-      <div className="flex justify-center w-full px-4 mb-8 mt-7">
+      <div className="flex flex-col justify-center w-full px-4 mb-8 mt-7">
+        <p className="text-stone=200 text-lg text-center mb-4">
+          Tribe drafting closes this Wednesday, March 5 at 5:00 PM PST.
+        </p>
+
         <a href="/draft" className="w-full max-w-5xl mx-auto">
         <button className="w-full p-3 text-2xl uppercase bg-gradient-to-tr from-orange-500 to-orange-700 hover:from-orange-600 hover:to-orange-800 rounded-lg text-white">
           Draft Your Tribe

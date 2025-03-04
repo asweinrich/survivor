@@ -292,7 +292,7 @@ export default function Draft() {
             contestant details.
           </p>
           <p className="mt-3 text-green-200 text-center bg-green-800 rounded-lg p-1 leading-tight">
-            Tribe drafting is open until Wednesday, March 5 at 12:00 PM PST.
+            Tribe drafting is open until Wednesday, March 5 at 5:00 PM PST.
           </p>
         </div>
 

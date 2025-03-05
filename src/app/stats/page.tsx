@@ -6,7 +6,6 @@ import Image from 'next/image';
 type Contestant = {
   id: number;
   name: string;
-  imageURL: string;
   stats: {
     draftPercentage: number;
     soleSurvivorPercentage: number;

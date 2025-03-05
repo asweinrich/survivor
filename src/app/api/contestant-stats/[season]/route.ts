@@ -85,7 +85,6 @@ export async function GET(req: Request, { params }: { params: Promise<{ season: 
       return {
         id: contestant.id,
         name: contestant.name,
-        imageURL: contestant.imageURL,
         stats: {
           draftPercentage: parseFloat(draftPerc.toFixed(2)),
           soleSurvivorPercentage: parseFloat(soleSurvivorPerc.toFixed(2)),

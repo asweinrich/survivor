@@ -46,8 +46,8 @@ export default function StatsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-stone-900 text-stone-200 p-4">
-      <div className="max-w-6xl mx-auto bg-stone-800 p-6 rounded-lg">
+    <div className="min-h-screen bg-stone-800 text-stone-200 p-4">
+      <div className="max-w-6xl mx-auto">
         <h2 className="text-2xl font-lostIsland tracking-wider uppercase mb-4 text-center">
           Draft Results
         </h2>

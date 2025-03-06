@@ -279,7 +279,7 @@ export default function Leaderboard() {
                   onChange={(e) => setRevealSpoilers(e.target.checked)}
                 />
                 <div className="w-12 h-7 bg-gray-400 rounded-full peer-focus:ring-2 peer-focus:ring-orange-300 peer-checked:bg-orange-500 transition-colors"></div>
-                <div className="absolute top-1 left-1 w-5 h-5 bg-white rounded-full transition-transform duration-200 peer-checked:translate-x-5"></div>
+                <div className="absolute top-1 left-1 w-5 h-5 bg-stone-200 border-2 border-stone-800 rounded-full transition-transform duration-200 peer-checked:translate-x-5"></div>
               </div>
             </label>
           </div>

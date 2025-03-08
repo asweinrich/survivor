@@ -27,6 +27,7 @@ type PlayerTribe = {
   createdAt: string;
   score?: number;
   rank?: number;
+  paid: boolean;
 };
 
 type Tribe = {
@@ -318,6 +319,7 @@ export default function Leaderboard() {
                   <div className="ms-3">
                     <div className="text-lg font-lostIsland leading-tight">{tribe.tribeName}</div>
                     <div className="text-stone-400 font-lostIsland leading-tight">{tribe.playerName}</div>
+                    {!tribe.paid && (<span className="inline-block font-lostIsland text-xs lowercase bg-red-900 text-red-300 px-2 py-0.5 -ms-0.5 rounded-full">Ineligible for Prizes</span>)}
                   </div>
                 </div>
                 {/* Score and Dropdown Toggle */}

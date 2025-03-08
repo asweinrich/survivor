@@ -94,7 +94,7 @@ const HomePage = () => {
 
 
 
-      {/* Buttons Section */}
+      {/* Buttons Section 
       <div className="flex flex-col justify-center w-full px-4 mb-8 mt-7">
         <p className="text-stone=200 text-lg text-center mb-4">
           Tribe drafting closes this Wednesday, March 5 at 5:00 PM PST.
@@ -106,6 +106,8 @@ const HomePage = () => {
         </button>
         </a>
       </div>
+
+      */}
 
       {/* Navigation Section */}
       <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-4 py-8 px-4 text-center tracking-wider border-y-2 border-stone-600">

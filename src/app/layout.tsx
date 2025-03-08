@@ -50,7 +50,7 @@ function Navbar() {
           <a href="/recaps" className="hover:opacity-70">Weekly Recaps</a>
           <a href="/how-to-play" className="hover:opacity-70">How to Play</a>
           <a href="/faq" className="hover:opacity-70">FAQ</a>
-          <a href="/draft" className="px-4 py-1 bg-gradient-to-r from-orange-500 to-orange-700 hover:from-orange-600 hover:to-orange-800 rounded text-white">Draft</a>
+          <div className="px-4 py-1 bg-gradient-to-r from-orange-500 to-orange-700 rounded text-white opacity-60">Draft</div>
         </div>
         <button
           onClick={toggleMenu}
@@ -85,7 +85,7 @@ function Navbar() {
           <a href="/recaps" className="hover:opacity-70">Weekly Recaps</a>
           <a href="/how-to-play" className="hover:opacity-70">How To Play</a>
           <a href="/faq" className="hover:opacity-70">FAQ</a>
-          <a href="/draft" className="px-4 py-2 bg-gradient-to-r from-orange-500 to-orange-700 hover:from-orange-600 hover:to-orange-800 rounded-lg text-white">Draft</a>
+          <div className="px-4 py-2 bg-gradient-to-r from-orange-500 to-orange-700 rounded-lg text-white opacity-60">Draft</div>
         </nav>
       </div>
     </nav>

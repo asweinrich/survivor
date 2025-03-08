@@ -12,6 +12,7 @@
         "emoji": "\ud83c\udf86",
         "color": "#FF5733",
         "score": 1325,
+        "paid": true,
         "createdAt": "2025-01-01T12:00:00"
     },
     {
@@ -27,6 +28,7 @@
         "emoji": "\ud83e\udd65",
         "color": "#33FF57",
         "score": 910,
+        "paid": true,
         "createdAt": "2025-01-01T12:00:00"
     },
     {
@@ -42,6 +44,7 @@
         "emoji": "\ud83c\udf1e",
         "color": "#3357FF",
         "score": 1480,
+        "paid": true,
         "createdAt": "2025-01-01T12:00:00"
     },
     {
@@ -57,6 +60,7 @@
         "emoji": "\ud83c\udf39",
         "color": "#FF33A1",
         "score": 850,
+        "paid": true,
         "createdAt": "2025-01-01T12:00:00"
     },
     {
@@ -72,6 +76,7 @@
         "emoji": "\ud83c\udf40",
         "color": "#F3FF33",
         "score": 1285,
+        "paid": true,
         "createdAt": "2025-01-01T12:00:00"
     },
     {
@@ -87,6 +92,7 @@
         "emoji": "\ud83c\udf0a",
         "color": "#33FFF5",
         "score": 1010,
+        "paid": true,
         "createdAt": "2025-01-01T12:00:00"
     },
     {
@@ -102,6 +108,7 @@
         "emoji": "\ud83c\udf3c",
         "color": "#FF9F33",
         "score": 800,
+        "paid": true,
         "createdAt": "2025-01-01T12:00:00"
     },
     {
@@ -117,6 +124,7 @@
         "emoji": "\ud83c\udf87",
         "color": "#A133FF",
         "score": 900,
+        "paid": true,
         "createdAt": "2025-01-01T12:00:00"
     },
     {
@@ -132,6 +140,7 @@
         "emoji": "\ud83c\udf4b",
         "color": "#33FF9F",
         "score": 1600,
+        "paid": true,
         "createdAt": "2025-01-01T12:00:00"
     },
     {
@@ -147,6 +156,7 @@
         "emoji": "\ud83c\udfaf",
         "color": "#FFD433",
         "score": 1390,
+        "paid": true,
         "createdAt": "2025-01-01T12:00:00"
     },
     {
@@ -162,6 +172,7 @@
         "emoji": "\ud83c\udf19",
         "color": "#FF3357",
         "score": 1525,
+        "paid": true,
         "createdAt": "2025-01-01T12:00:00"
     },
     {
@@ -177,6 +188,7 @@
         "emoji": "\ud83c\udf38",
         "color": "#33A1FF",
         "score": 1130,
+        "paid": true,
         "createdAt": "2025-01-01T12:00:00"
     },
     {
@@ -192,6 +204,7 @@
         "emoji": "\ud83c\udf4e",
         "color": "#57FF33",
         "score": 1730,
+        "paid": true,
         "createdAt": "2025-01-01T12:00:00"
     },
     {
@@ -207,6 +220,7 @@
         "emoji": "\ud83c\udf08",
         "color": "#9F33FF",
         "score": 740,
+        "paid": true,
         "createdAt": "2025-01-01T12:00:00"
     },
     {
@@ -222,6 +236,7 @@
         "emoji": "\ud83d\udca5",
         "color": "#33FFD4",
         "score": 1300,
+        "paid": true,
         "createdAt": "2025-01-01T12:00:00"
     },
     {
@@ -237,6 +252,7 @@
         "emoji": "\ud83c\udfdd\ufe0f",
         "color": "#A1FF33",
         "score": 2550,
+        "paid": true,
         "createdAt": "2025-01-01T12:00:00"
     },
     {
@@ -252,6 +268,7 @@
         "emoji": "\ud83c\udf49",
         "color": "#5733FF",
         "score": 1350,
+        "paid": true,
         "createdAt": "2025-01-01T12:00:00"
     },
     {
@@ -267,6 +284,7 @@
         "emoji": "\ud83e\udd6d",
         "color": "#FF33D4",
         "score": 685,
+        "paid": true,
         "createdAt": "2025-01-01T12:00:00"
     },
     {
@@ -282,6 +300,7 @@
         "emoji": "\ud83c\udf47",
         "color": "#FF5733",
         "score": 920,
+        "paid": true,
         "createdAt": "2025-01-01T12:00:00"
     },
     {
@@ -297,6 +316,7 @@
         "emoji": "\u2728",
         "color": "#33FFA1",
         "score": 540,
+        "paid": true,
         "createdAt": "2025-01-01T12:00:00"
     },
     {
@@ -312,6 +332,7 @@
         "emoji": "\ud83c\udf4d",
         "color": "#FF339F",
         "score": 750,
+        "paid": true,
         "createdAt": "2025-01-01T12:00:00"
     },
     {
@@ -327,6 +348,7 @@
         "emoji": "\ud83d\udd25",
         "color": "#D4FF33",
         "score": 750,
+        "paid": true,
         "createdAt": "2025-01-01T12:00:00"
     },
     {
@@ -342,6 +364,7 @@
         "emoji": "\ud83c\udf1f",
         "color": "#33D4FF",
         "score": 925,
+        "paid": true,
         "createdAt": "2025-01-01T12:00:00"
     },
     {
@@ -357,6 +380,7 @@
         "emoji": "\ud83c\udf52",
         "color": "#57FF57",
         "score": 1350,
+        "paid": true,
         "createdAt": "2025-01-01T12:00:00"
     },
     {
@@ -372,6 +396,7 @@
         "emoji": "\ud83c\udf34",
         "color": "#F5A142",
         "score": 910,
+        "paid": true,
         "createdAt": "2025-01-01T12:00:00"
     },
     {
@@ -387,6 +412,7 @@
         "emoji": "\ud83c\udf3b",
         "color": "#FF5733",
         "score": 700,
+        "paid": true,
         "createdAt": "2025-01-01T12:00:00"
     },
     {
@@ -402,6 +428,7 @@
         "emoji": "\ud83c\udf43",
         "color": "#33FF57",
         "score": 980,
+        "paid": true,
         "createdAt": "2025-01-01T12:00:00"
     },
     {
@@ -417,6 +444,7 @@
         "emoji": "\ud83e\udd5d",
         "color": "#3357FF",
         "score": 1375,
+        "paid": true,
         "createdAt": "2025-01-01T12:00:00"
     }
 ]

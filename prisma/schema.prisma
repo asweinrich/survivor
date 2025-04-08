@@ -80,3 +80,14 @@ model WeeklyRecap {
   loser      Int
   created_at DateTime @default(now())
 }
+
+model TribalCouncilVote {
+  id        Int  @id @default(autoincrement())
+  voter     Int
+  target    Int? 
+  council   Int
+  round     Int
+  tribe     Int
+  note      String?  
+  createdAt DateTime @default(now())
+}

@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
+import VotingGraph from "./components/VotingGraph";
+
 
 type StatsContestant = {
   id: number;
@@ -111,6 +113,14 @@ export default function StatsPage() {
 
   return (
     <div className="min-h-screen bg-stone-800 text-stone-200 p-4 pt-8">
+      <div className="max-w-6xl mx-auto mb-8">
+        <h2 className="text-2xl font-lostIsland tracking-wider uppercase mb-8 text-center">
+          Voting Chart
+        </h2>
+        <div className="border-4 border-stone-600 rounded-lg p-3">
+          <VotingGraph />
+        </div>
+      </div>
       <div className="max-w-6xl mx-auto">
         <h2 className="text-2xl font-lostIsland tracking-wider uppercase mb-8 text-center">
           Draft Results by Tribe
@@ -183,6 +193,7 @@ export default function StatsPage() {
             })
         )}
       </div>
+
     </div>
   );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useMemo } from "react";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { CSS2DRenderer, CSS2DObject } from "three/examples/jsm/renderers/CSS2DRenderer";
@@ -9,14 +9,20 @@ const VotingGraph = () => {
   const canvasContainerRef = useRef<HTMLDivElement>(null);
   const [contestants, setContestants] = useState<any[]>([]);
   const [votes, setVotes] = useState<any[]>([]);
-  const [graph, setGraph] = useState<any>(null);
+  const graphRef = useRef<any>(null);
   const sceneRef = useRef<THREE.Scene>();
   const cameraRef = useRef<THREE.PerspectiveCamera>();
   const rendererRef = useRef<THREE.WebGLRenderer>();
   const labelRendererRef = useRef<CSS2DRenderer>();
   const controlsRef = useRef<OrbitControls>();
 
-  // Fetch data once on mount
+  const [currentCouncil, setCurrentCouncil] = useState<number>(1);
+
+  const maxCouncil = useMemo(() => {
+    const councils = votes.map((v) => v.council).filter((v) => typeof v === 'number');
+    return councils.length > 0 ? Math.max(...councils) : 1;
+  }, [votes]);
+
   useEffect(() => {
     async function fetchData() {
       try {
@@ -38,6 +44,11 @@ const VotingGraph = () => {
         })));
 
         setVotes(votesData);
+
+        const validCouncils = votesData.map((v: any) => v.council).filter((v: any) => typeof v === 'number');
+        if (validCouncils.length > 0) {
+          setCurrentCouncil(Math.max(...validCouncils));
+        }
       } catch (error) {
         console.error("Error fetching graph data:", error);
       }
@@ -46,7 +57,6 @@ const VotingGraph = () => {
     fetchData();
   }, []);
 
-  // Initialize Three.js scene
   useEffect(() => {
     if (!canvasContainerRef.current || rendererRef.current) return;
 
@@ -83,7 +93,6 @@ const VotingGraph = () => {
     controls.maxDistance = 500;
     controlsRef.current = controls;
 
-    // Lighting
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
     const directionalLight = new THREE.DirectionalLight(0xffffff, 0.6);
     directionalLight.position.set(50, 50, 100);
@@ -107,52 +116,37 @@ const VotingGraph = () => {
     };
   }, []);
 
-  // Load graph after data is ready
   useEffect(() => {
-    if (!contestants.length || !votes.length || graph || !sceneRef.current) return;
+    if (!contestants.length || !votes.length || graphRef.current || !sceneRef.current) return;
 
     (async () => {
       const ThreeForceGraph = (await import("three-forcegraph")).default;
 
-      const links = votes
-        .filter((vote: any) => vote.target !== null)
-        .map((vote: any) => ({
-          source: vote.voter,
-          target: vote.target
+      const filteredLinks = votes
+        .filter((v: any) => v.council <= currentCouncil && v.target !== null)
+        .map((v: any) => ({
+          source: v.voter,
+          target: v.target,
+          tribalCouncil: v.council
         }));
 
-      const graphData = { nodes: contestants, links };
+      const graphData = {
+        nodes: contestants,
+        links: filteredLinks
+      };
+
       const myGraph = new ThreeForceGraph().graphData(graphData);
 
-      // Custom 3D link objects using cylinders
       myGraph
-        .linkThreeObject(() => {
-          const geometry = new THREE.CylinderGeometry(0.7, 0.7, 1, 6);
-          const material = new THREE.MeshStandardMaterial({ color: 0x77c471 });
-          const mesh = new THREE.Mesh(geometry, material);
-
-          // ✅ Tell ForceGraph what this object is
-          mesh.userData.__threeObjType = 'link';
-
-          return mesh;
+        .linkColor((link: any) => {
+          const diff = currentCouncil - link.tribalCouncil;
+          return diff >= 0 ? `rgba(255,0,0,${Math.max(0.2, 1 - diff * 0.2)})` : 'rgba(0,0,0,0)';
         })
-        .linkPositionUpdate((link, { start, end }, obj) => {
-          if (!(obj instanceof THREE.Object3D)) return;
-
-          const startVec = new THREE.Vector3(start.x, start.y, start.z);
-          const endVec = new THREE.Vector3(end.x, end.y, end.z);
-          const distance = startVec.distanceTo(endVec);
-
-          obj.scale.set(1, distance, 1);
-
-          const midPoint = new THREE.Vector3().addVectors(startVec, endVec).multiplyScalar(0.5);
-          obj.position.copy(midPoint);
-
-          obj.lookAt(endVec);
+        .linkOpacity((link: any) => {
+          const diff = currentCouncil - link.tribalCouncil;
+          return diff >= 0 ? Math.max(0.2, 1 - diff * 0.2) : 0;
         });
 
-
-      // Custom DOM node rendering using CSS2DObject
       myGraph.nodeThreeObject(({ img }: { img: string }) => {
         if (!img) return null;
 
@@ -180,26 +174,51 @@ const VotingGraph = () => {
       });
 
       sceneRef.current.add(myGraph);
-      setGraph(myGraph);
+      graphRef.current = myGraph;
     })();
-  }, [contestants, votes, graph]);
+  }, [currentCouncil, contestants, votes]);
 
-  // Animate scene
+  useEffect(() => {
+    if (!graphRef.current || !votes.length) return;
+
+    const filteredLinks = votes
+      .filter((v: any) => v.council <= currentCouncil && v.target !== null)
+      .map((v: any) => ({
+        source: v.voter,
+        target: v.target,
+        tribalCouncil: v.council
+      }));
+
+    graphRef.current.graphData({
+      nodes: contestants,
+      links: filteredLinks
+    });
+
+    graphRef.current
+      .linkColor((link: any) => {
+        const diff = currentCouncil - link.tribalCouncil;
+        return diff >= 0 ? `rgba(255,0,0,${Math.max(0.2, 1 - diff * 0.2)})` : 'rgba(0,0,0,0)';
+      })
+      .linkOpacity((link: any) => {
+        const diff = currentCouncil - link.tribalCouncil;
+        return diff >= 0 ? Math.max(0.2, 1 - diff * 0.2) : 0;
+      });
+  }, [currentCouncil, votes, contestants]);
+
   useEffect(() => {
     if (
-      !graph ||
+      !graphRef.current ||
       !rendererRef.current ||
       !cameraRef.current ||
       !sceneRef.current ||
       !controlsRef.current ||
       !labelRendererRef.current
-    )
-      return;
+    ) return;
 
     let reqId: number;
     const animate = () => {
       reqId = requestAnimationFrame(animate);
-      graph.tickFrame();
+      graphRef.current.tickFrame();
       controlsRef.current.update();
       rendererRef.current.render(sceneRef.current, cameraRef.current);
       labelRendererRef.current.render(sceneRef.current, cameraRef.current);
@@ -207,11 +226,26 @@ const VotingGraph = () => {
 
     animate();
     return () => cancelAnimationFrame(reqId);
-  }, [graph]);
+  }, []);
 
   return (
-    <div className="relative w-full h-[500px] rounded-lg">
-      <div ref={canvasContainerRef} className="absolute w-full h-full top-0 left-0" />
+    <div className="relative">
+      {votes.length > 0 && !isNaN(currentCouncil) && !isNaN(maxCouncil) && (
+        <div className="absolute top-2 left-2 z-10 bg-white/80 p-2 rounded shadow">
+          <label className="text-sm font-medium">Tribal Council: {currentCouncil}</label>
+          <input
+            type="range"
+            min={1}
+            max={maxCouncil.toString()}
+            value={currentCouncil.toString()}
+            onChange={(e) => setCurrentCouncil(Number(e.target.value))}
+            className="w-full"
+          />
+        </div>
+      )}
+      <div className="relative w-full h-[500px] rounded-lg">
+        <div ref={canvasContainerRef} className="absolute w-full h-full top-0 left-0" />
+      </div>
     </div>
   );
 };

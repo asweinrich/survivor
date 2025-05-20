@@ -94,11 +94,19 @@ export default function Leaderboard() {
     if (season === '47') {
       return tribe.score || 0;
     }
-    return tribe.tribeArray.reduce((total, contestantId) => {
+
+    const baseScore = tribe.tribeArray.reduce((total, contestantId) => {
       const contestant = contestantMap[contestantId];
       return total + (contestant?.points || 0);
     }, 0);
+
+    const predictedWinnerId = tribe.tribeArray[0];
+    const predictedWinner = contestantMap[predictedWinnerId];
+    const bonus = predictedWinner?.soleSurvivor ? 200 : 0;
+
+    return baseScore + bonus;
   }, [contestantMap, season]);
+
 
   const toggleDropdown = (tribeId: number) => {
     setExpandedTribes((prev) =>
@@ -319,12 +327,32 @@ export default function Leaderboard() {
                   <div className="ms-3">
                     <div className="text-lg font-lostIsland leading-tight">{tribe.tribeName}</div>
                     <div className="text-stone-400 font-lostIsland leading-tight">{tribe.playerName}</div>
+                    {revealSpoilers && (() => {
+                      const predictedWinnerId = tribe.tribeArray[0];
+                      const predictedWinner = contestantMap[predictedWinnerId];
+                      if (predictedWinner?.soleSurvivor) {
+                        return (
+                          <div className="lowercase bg-yellow-900 text-yellow-300 text-xs font-lostIsland px-2 py-0.5 -ms-1 rounded-full">
+                            Predicted Winner Bonus +200
+                          </div>
+                        );
+                      }
+                      return null;
+                    })()}
                     {!tribe.paid && (<span className="inline-block font-lostIsland text-xs lowercase bg-red-900 text-red-300 px-2 py-0.5 -ms-0.5 rounded-full">Ineligible for Prizes</span>)}
                   </div>
                 </div>
                 {/* Score and Dropdown Toggle */}
                 <div className="flex items-center ms-auto me-0">
-                  <span className="text-2xl font-lostIsland tracking-wide mr-1.5">
+                  <span
+                    className={`text-2xl font-lostIsland tracking-wide mr-1.5 ${
+                      revealSpoilers &&
+                      (() => {
+                        const predictedWinner = contestantMap[tribe.tribeArray[0]];
+                        return predictedWinner?.soleSurvivor ? 'text-yellow-300' : '';
+                      })()
+                    }`}
+                  >
                     {calculateScore(tribe)}
                   </span>
                   <ChevronDownIcon

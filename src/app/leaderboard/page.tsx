@@ -15,6 +15,7 @@ type Contestant = {
   img: string;
   voteOutOrder: number;
   points: number;
+  soleSurvivor: boolean;
 };
 
 type PlayerTribe = {

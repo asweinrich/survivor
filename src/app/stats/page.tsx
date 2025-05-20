@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
-import VotingGraph from "./components/VotingGraph";
+//import VotingGraph from "./components/VotingGraph";
 
 
 type StatsContestant = {
@@ -118,7 +118,7 @@ export default function StatsPage() {
           Voting Chart
         </h2>
         <div className="border-4 border-stone-600 rounded-lg p-3">
-          <VotingGraph />
+          
         </div>
       </div>
       <div className="max-w-6xl mx-auto">

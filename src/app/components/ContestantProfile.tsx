@@ -26,7 +26,7 @@ type Contestant = {
   voteOutOrder: number; // Optional field as it can be null
   createdAt: Date; // Matches DateTime in Prisma
   age: number;
-  pastSeasons?: { seasonName: string; color: string; seasonNumber?: number }[];
+  pastSeasons?: { seasonName: string; color: string; seasonNumber: number }[];
 };
 
 type Tribe = {

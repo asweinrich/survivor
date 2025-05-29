@@ -16,6 +16,8 @@ type Contestant = {
   img: string; // This should match the field in your database
   voteOutOrder: number;
   points: number;
+  pastSeasons?: { seasonName: string; color: string; seasonNumber?: number }[];
+  season: number;
 };
 
 type Tribe = {
@@ -116,6 +118,21 @@ export default function Contestants() {
         </span>
       );
     });
+  }
+
+  function formatPastSeasonBadges(pastSeasons: { seasonName: string, color: string, seasonNumber: number }[]) {
+    return pastSeasons.map((season, index) => (
+      <span
+        key={index}
+        className="inline-block text-sm py-1 px-2 tracking-wider leading-none rounded-full me-1 lowercase font-lostIsland"
+        style={{
+          backgroundColor: hexToRgba(season.color, 0.2),
+          color: season.color,
+        }}
+      >
+        {season.seasonName} {season.seasonNumber < 41 && `(${season.seasonNumber})` }
+      </span>
+    ));
   }
 
   function hexToRgba(hex: string, alpha: number): string {
@@ -219,6 +236,7 @@ export default function Contestants() {
             value={season}
             onChange={(e) => setSeason(e.target.value)}
           >
+            <option value={'50'}>Season 50</option>
             <option value={'48'}>Season 48</option>
             <option value={'47'}>Season 47</option>
             
@@ -235,16 +253,19 @@ export default function Contestants() {
         ) : (
           [...contestants]
           .sort((a, b) => {
-            // Put active contestants first.
+            if (season === '50') {
+              const aFirst = a.pastSeasons?.[0]?.seasonNumber ?? 999;
+              const bFirst = b.pastSeasons?.[0]?.seasonNumber ?? 999;
+              return aFirst - bFirst;
+            }
+
+            // Default logic for other seasons
             if (a.inPlay !== b.inPlay) {
               return a.inPlay ? -1 : 1;
             }
-            // For inPlay contestants, sort by points descending.
             if (a.inPlay && b.inPlay) {
               return b.points - a.points;
             }
-            // For contestants not in play, sort by voteOutOrder descending 
-            // (so that the first person voted out ends up at the bottom).
             return b.voteOutOrder - a.voteOutOrder;
           })
           .map((contestant) => (
@@ -264,13 +285,23 @@ export default function Contestants() {
               </div>
 
               {/* Survivor Name and Info */}
-              <div className="flex flex-col flex-grow">
+              <div className="flex flex-col flex-grow max-w-48">
                 <div className="flex flex-row items-center">
-                  <span className="text-lg uppercase font-lostIsland tracking-wider">{contestant.name}</span>
+                  <span className="text-lg uppercase font-lostIsland tracking-wider leading-tight mb-1">{contestant.name}</span>
                 </div>
-                <div className="flex flex-row items-center my-0.5">
-                  <span className="">{formatTribeBadges(contestant.tribes)}</span>
-                </div>
+                {contestant.season === 50 && contestant.pastSeasons
+                  ? (
+                      <div className="flex flex-col gap-1 items-start my-0.5">
+                        {formatPastSeasonBadges(contestant.pastSeasons)}
+                      </div>
+                    )
+                  : 
+                    (
+                      <div className="flex flex-row items-center my-0.5">
+                        {formatTribeBadges(contestant.tribes)}
+                      </div>
+                    )
+                }
                 <div className="flex items-center">
                   {contestant.inPlay && (<>
                     <FireIcon className="h-5 w-5 text-orange-400 me-1" />

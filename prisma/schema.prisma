@@ -50,6 +50,7 @@ model Contestant {
   season       Int
   advantages   Int      @default(0)
   age          Int      @default(30)
+  pastSeasons  Json?    // Stores array of { seasonName, color }
 }
 
 model ShowTribe {

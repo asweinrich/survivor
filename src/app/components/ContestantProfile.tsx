@@ -26,6 +26,7 @@ type Contestant = {
   voteOutOrder: number; // Optional field as it can be null
   createdAt: Date; // Matches DateTime in Prisma
   age: number;
+  pastSeasons?: { seasonName: string; color: string; seasonNumber?: number }[];
 };
 
 type Tribe = {
@@ -66,7 +67,7 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
   const [contestant, setContestant] = useState<Contestant | null>(null);
   const [tribes, setTribes] = useState<Tribe[]>([]);
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState("overview");
+  const [activeTab, setActiveTab] = useState("stats");
   const [recaps, setRecaps] = useState<Recap[]>([]);
   const [powerRank, setPowerRank] = useState<string | number>("--");
   const [rosterPercentage, setRosterPercentage] = useState<number | null>(null);
@@ -164,7 +165,7 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
   }, [contestant]);
 
   // Format tribe badges
-  function formatTribeBadges(tribeIds: number[]) {
+  function formatTribeBadges(tribeIds: number[], tribes: Tribe[]) {
     return tribeIds.map((id) => {
       const tribe = tribes.find((t) => t.id === id);
       if (!tribe) return null;
@@ -174,8 +175,8 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
           key={id}
           className="inline-block px-2 py-0.5 text-sm tracking-wider rounded-full me-1.5 lowercase font-lostIsland"
           style={{
-            backgroundColor: hexToRgba(tribe.color, 0.2), // Transparent background
-            color: tribe.color, // Solid text color
+            backgroundColor: hexToRgba(tribe.color, 0.2),
+            color: tribe.color,
           }}
         >
           {tribe.name}
@@ -183,6 +184,22 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
       );
     });
   }
+
+  function formatPastSeasonBadges(pastSeasons: { seasonName: string, color: string, seasonNumber: number }[]) {
+    return pastSeasons.map((season, index) => (
+      <span
+        key={index}
+        className="inline-block px-2 py-0.5 text-sm tracking-wider rounded-full me-1.5 mb-1.5 lowercase font-lostIsland"
+        style={{
+          backgroundColor: hexToRgba(season.color, 0.2),
+          color: season.color,
+        }}
+      >
+        {season.seasonName} {season.seasonNumber < 41 && `(${season.seasonNumber})` }
+      </span>
+    ));
+  }
+
 
   function hexToRgba(hex: string, alpha: number): string {
     const cleanHex = hex.replace('#', '');
@@ -293,8 +310,8 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
       {contestant ? (
       <div className="flex flex-col">
         {/* Modal Header */}
-        <div className="flex justify-start items-start border-b border-stone-600 p-4 pb-2">
-          <div className="self-start mt-0 me-5">
+        <div className="flex justify-start items-start border-b border-stone-600 p-4">
+          <div className="self-center mt-0 me-5">
             <img
               src={`/imgs/${contestant.img}.png`}
               alt={contestant.name}
@@ -302,15 +319,17 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
             />
           </div>
           <div className="flex flex-col">
-            <h2 className="text-lg tracking-wider uppercase">{contestant?.name || 'Loading...'}</h2>
+            <h2 className="text-lg tracking-wider leading-tight max-w-56 uppercase">{contestant?.name || 'Loading...'}</h2>
             <p className="text-sm tracking-wide opacity-80 uppercase leading-tight">
               <span className="text-base tracking-none">{contestant.age} •</span> {contestant.profession}
             </p>
             <p className="text-sm tracking-wide opacity-80 uppercase leading-tight">
               {contestant.hometown}
             </p>
-            <p className="text-sm -ms-0.5 my-1.5">
-              {formatTribeBadges(contestant.tribes)}
+            <p className="text-sm -ms-0.5 my-1.5 max-w-56">
+              {contestant.season === 50 && contestant.pastSeasons
+                ? formatPastSeasonBadges(contestant.pastSeasons)
+                : formatTribeBadges(contestant.tribes, tribes)}
             </p>
             <div className="flex pb-1.5 text-sm">
               {contestant.inPlay && (<>
@@ -385,14 +404,7 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
           
         {/* Menu Row */}
         <div className="flex justify-around items-center border-b border-stone-600 p-0 lowercase">
-          <button
-            onClick={() => setActiveTab("overview")}
-            className={`text-xl tracking-wider py-2 w-full ${
-              activeTab === "overview" ? "text-orange-400 border-b-4 border-orange-400" : "text-stone-300 border-b-4 border-stone-800"
-            }`}
-          >
-            Overview
-          </button>
+          
           <button
             onClick={() => setActiveTab("stats")}
             className={`text-xl tracking-wider py-2 w-full ${
@@ -400,6 +412,14 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
             }`}
           >
             Stats
+          </button>
+          <button
+            onClick={() => setActiveTab("overview")}
+            className={`text-xl tracking-wider py-2 w-full ${
+              activeTab === "overview" ? "text-orange-400 border-b-4 border-orange-400" : "text-stone-300 border-b-4 border-stone-800"
+            }`}
+          >
+            Overview
           </button>
         </div>
         

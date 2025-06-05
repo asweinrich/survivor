@@ -48,6 +48,13 @@ type Recap = {
   created_at: Date;
 };
 
+type PastSeason = {
+  seasonName: string;
+  SeasonNumber: number;
+  color: string;
+};
+
+
 const scoringCategories: ScoringCategory[] = [
   { name: "Sole Survivor", points: 500, schemaKey: "soleSurvivor" },
   { name: "Final Three", points: 150, schemaKey: "top3" },
@@ -186,7 +193,7 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
     });
   }
 
-  function formatPastSeasonBadges(pastSeasons: { seasonName: string, color: string, seasonNumber: number }[]) {
+  function formatPastSeasonBadges(pastSeasons: PastSeason[]) {
     return pastSeasons.map((season, index) => (
       <span
         key={index}

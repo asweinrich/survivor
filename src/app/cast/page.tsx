@@ -16,7 +16,7 @@ type Contestant = {
   img: string; // This should match the field in your database
   voteOutOrder: number;
   points: number;
-  pastSeasons?: { seasonName: string; color: string; seasonNumber: number }[];
+  pastSeasons?: PastSeason[];
   season: number;
 };
 

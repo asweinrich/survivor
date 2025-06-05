@@ -256,7 +256,7 @@ export default function DashboardPage() {
                       ? [soleSurvivor, ...remainingContestants]
                       : remainingContestants;
                     
-                    return sortedContestants.map((contestant: Contestant, idx: boolean) => {
+                    return sortedContestants.map((contestant: Contestant, idx: number) => {
                       const statusBorder = getStatusBorder(contestant);
                       const isSoleSurvivorSlot = idx === 0;
                       

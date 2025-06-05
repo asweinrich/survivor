@@ -42,7 +42,7 @@ export const authOptions = {
     },
   },
   events: {
-    async signIn({ user }) {
+    async signIn({ user }: { user?: User }) {
       const existing = await prisma.player.findFirst({
         where: { email: user.email || "" },
       });

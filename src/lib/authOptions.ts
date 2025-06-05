@@ -4,6 +4,9 @@ import AppleProvider from "next-auth/providers/apple";
 import EmailProvider from "next-auth/providers/email";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { prisma } from "./prisma";
+import type { Session, User } from "next-auth";
+import type { JWT } from "next-auth/jwt";
+
 
 export const authOptions = {
   adapter: PrismaAdapter(prisma),
@@ -25,13 +28,13 @@ export const authOptions = {
     signIn: "/sign-in",
   },
   callbacks: {
-    async session({ session, token }) {
+    async session({ session, token }: { session: Session; token: JWT }) {
       if (token?.email && session.user) {
         session.user.email = token.email as string;
       }
       return session;
     },
-    async jwt({ token, user }) {
+    async jwt({ token, user }: { token: JWT; user?: User }) {
       if (user?.email) {
         token.email = user.email;
       }

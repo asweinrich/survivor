@@ -26,7 +26,7 @@ export default function DashboardPage() {
   const [expandedTribes, setExpandedTribes] = useState<number[]>([]);
   const { revealSpoilers } = useSpoiler();
   const [loading, setLoading] = useState(true);
-  const [userEmail, setUserEmail] = useState<string>(session.user?.email || "");
+  const [userEmail, setUserEmail] = useState<string>("");
 
   useEffect(() => {
     async function fetchData() {
@@ -35,7 +35,7 @@ export default function DashboardPage() {
       if (!session) {
         redirect("/sign-in");
       }
-      const email = session?.user?.email || null;
+      const email = session?.user?.email || "";
       setUserEmail(email);
 
       let allTribes: any[] = [];

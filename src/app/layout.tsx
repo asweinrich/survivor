@@ -5,6 +5,13 @@ import "./globals.css";
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import { useState } from 'react';
 import { Analytics } from "@vercel/analytics/react"
+import { SessionProvider } from 'next-auth/react';
+import { useSession, signIn, signOut } from 'next-auth/react';
+import { SpoilerProvider } from '../context/SpoilerContext'; 
+import { useSpoiler } from '../context/SpoilerContext';
+
+
+
 
 export default function RootLayout({
   children,
@@ -24,9 +31,13 @@ export default function RootLayout({
       <body
         className={`antialiased bg-stone-900 pb-12`}
       >
-        <Navbar />
-        <Analytics />
-        {children}
+        <SessionProvider>
+          <SpoilerProvider>
+            <Navbar />
+            <Analytics />
+            {children}
+          </SpoilerProvider>
+        </SessionProvider>
         
       </body>
     </html>
@@ -41,9 +52,15 @@ function Navbar() {
   };
 
   return (
-    <nav className="max-w-6xl mx-auto bg-stone-900 text-white p-3 relative">
-      <div className="flex items-center justify-between uppercase tracking-wider">
-        <a href="/" className="text-3xl p-1 hover:opacity-70 font-survivor">Survivor Fantasy</a>
+    <nav className="max-w-6xl mx-auto bg-stone-900 text-white p-3 relative sticky top-0 z-30">
+      <div className="flex items-start justify-between uppercase tracking-wider">
+        <div className="flex flex-col">
+          <a href="/" className="text-3xl px-1 hover:opacity-70 font-survivor">Survivor Fantasy</a>
+          <div className="flex mt-1">
+            <SpoilerSwitch />
+          </div>
+        </div>
+
         <div className="text-lg hidden md:flex space-x-6 items-center font-lostIsland">
           <a href="/cast" className="hover:opacity-70">Cast</a>
           <a href="/leaderboard" className="hover:opacity-70">Leaderboard</a>
@@ -51,6 +68,8 @@ function Navbar() {
           <a href="/how-to-play" className="hover:opacity-70">How to Play</a>
           <a href="/faq" className="hover:opacity-70">FAQ</a>
           <div className="px-4 py-1 bg-gradient-to-r from-orange-500 to-orange-700 rounded text-white opacity-60">Draft</div>
+          <AuthButton />
+          
         </div>
         <button
           onClick={toggleMenu}
@@ -86,8 +105,60 @@ function Navbar() {
           <a href="/how-to-play" className="hover:opacity-70">How To Play</a>
           <a href="/faq" className="hover:opacity-70">FAQ</a>
           <div className="px-4 py-2 bg-gradient-to-r from-orange-500 to-orange-700 rounded-lg text-white opacity-60">Draft</div>
+          <AuthButton />
         </nav>
       </div>
     </nav>
   );
+}
+
+
+function AuthButton() {
+  const { data: session, status } = useSession();
+
+  if (status === 'loading') return <p>Loading...</p>;
+
+  if (session) {
+    return (
+      <div className="flex flex-col items-start gap-4">
+        <a href="/dashboard" className="px-4 py-2 bg-gradient-to-r from-lime-500 to-lime-700 rounded text-white">Dashboard</a>
+        <button
+          className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
+          onClick={() => signOut()}
+        >
+          Sign out
+        </button>
+      </div>
+    );
+  }
+
+  return (
+    <a href="/sign-in" className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+      Sign In
+    </a>
+  );
+}
+
+function SpoilerSwitch() {
+
+  const { revealSpoilers, toggleSpoilers } = useSpoiler(); 
+
+  return (
+    <label htmlFor="spoilerSwitch" className="flex items-center cursor-pointer font-lostIsland">
+      
+      <div className="relative me-2">
+        <input
+          type="checkbox"
+          id="spoilerSwitch"
+          className="sr-only peer"
+          checked={revealSpoilers}
+          onChange={toggleSpoilers}
+        />
+        <div className="w-10 h-6 bg-gray-400 rounded-full peer-checked:bg-orange-500 transition-colors"></div>
+        <div className="absolute top-1 left-1 w-4 h-4 bg-stone-200 border-2 border-stone-800 rounded-full transition-transform duration-200 peer-checked:translate-x-4"></div>
+      </div>
+
+      <span className="lowercase leading-none">Show Spoilers</span>
+    </label>
+  )
 }

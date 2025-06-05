@@ -173,10 +173,11 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
       return (
         <span
           key={id}
-          className="inline-block px-2 py-0.5 text-sm tracking-wider rounded-full me-1.5 lowercase font-lostIsland"
+          className="inline-block border border-black px-2 py-0.5 text-sm tracking-wider rounded-full me-1.5 lowercase font-lostIsland"
           style={{
             backgroundColor: hexToRgba(tribe.color, 0.2),
             color: tribe.color,
+            textShadow: '1px 1px 0px rgba(0,0,0,1)'
           }}
         >
           {tribe.name}
@@ -189,10 +190,11 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
     return pastSeasons.map((season, index) => (
       <span
         key={index}
-        className="inline-block px-2 py-0.5 text-sm tracking-wider rounded-full me-1.5 mb-1.5 lowercase font-lostIsland"
+        className="inline-block border border-black px-2 py-0.5 text-sm tracking-wider rounded-full me-1.5 mb-1.5 lowercase font-lostIsland"
         style={{
           backgroundColor: hexToRgba(season.color, 0.2),
           color: season.color,
+          textShadow: '1px 1px 0px rgba(0,0,0,1)'
         }}
       >
         {season.seasonName} {season.seasonNumber < 41 && `(${season.seasonNumber})` }
@@ -310,28 +312,28 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
       {contestant ? (
       <div className="flex flex-col">
         {/* Modal Header */}
-        <div className="flex justify-start items-start border-b border-stone-600 p-4">
-          <div className="self-center mt-0 me-5">
+        <div className="flex justify-start items-center border-b border-stone-600 p-4">
+          <div className="self-center mt-0 me-4">
             <img
               src={`/imgs/${contestant.img}.png`}
               alt={contestant.name}
-              className={`w-28 h-28 object-cover scale-110 mx-auto border-4 border-stone-500 rounded-full p-1 mt-1.5`}
+              className={`w-28 h-28 object-cover mx-auto border-4 border-stone-500 rounded-full p-1`}
             />
           </div>
           <div className="flex flex-col">
             <h2 className="text-lg tracking-wider leading-tight max-w-56 uppercase">{contestant?.name || 'Loading...'}</h2>
-            <p className="text-sm tracking-wide opacity-80 uppercase leading-tight">
+            <p className="text-sm tracking-wide opacity-80 uppercase leading-tight max-w-60">
               <span className="text-base tracking-none">{contestant.age} •</span> {contestant.profession}
             </p>
-            <p className="text-sm tracking-wide opacity-80 uppercase leading-tight">
+            <p className="text-sm tracking-wide opacity-80 uppercase leading pb-0.5">
               {contestant.hometown}
             </p>
-            <p className="text-sm -ms-0.5 my-1.5 max-w-56">
-              {contestant.season === 50 && contestant.pastSeasons
-                ? formatPastSeasonBadges(contestant.pastSeasons)
-                : formatTribeBadges(contestant.tribes, tribes)}
-            </p>
-            <div className="flex pb-1.5 text-sm">
+            {contestant.tribes.length > 0 && (
+              <p className="text-sm -ms-0.5 my-1.5 max-w-56">
+                {formatTribeBadges(contestant.tribes, tribes)}
+              </p>
+            )}
+            <div className="flex text-sm">
               {contestant.inPlay && (<>
                 <FireIcon className="h-5 w-5 text-orange-400 me-1" />
                 <div className="text-stone-300 lowercase font-lostIsland tracking-wider">In Play</div>
@@ -370,9 +372,20 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
           </div>
           
 
-          
+         
           
         </div>
+
+        {contestant.season === 50 && (
+          <div className="flex flex-col jusitfy-start p-2 border-b border-stone-600">
+            <h2 className="px-1 lowercase text-lg">Previously On</h2>
+            <div className="flex">
+              <p className="text-sm mt-1.5">
+                {formatPastSeasonBadges(contestant.pastSeasons)}
+              </p> 
+            </div>
+          </div>
+        )}
 
        
 

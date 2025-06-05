@@ -108,10 +108,11 @@ export default function Contestants() {
       return (
         <span
           key={id}
-          className="inline-block p-1.5 tracking-wider leading-none rounded-full me-1 lowercase font-lostIsland"
+          className="inline-block border border-black px-2 py-1 tracking-wider leading-none rounded-full me-1 lowercase font-lostIsland"
           style={{
             backgroundColor: hexToRgba(tribe.color, 0.2), // Transparent background
-            color: tribe.color, // Solid text color
+            color: tribe.color, 
+            textShadow: "2px 2px 0px rgba(0,0,0,1)"
           }}
         >
           {tribe.name}
@@ -124,10 +125,11 @@ export default function Contestants() {
     return pastSeasons.map((season, index) => (
       <span
         key={index}
-        className="inline-block text-sm py-1 px-2 tracking-wider leading-none rounded-full me-1 lowercase font-lostIsland"
+        className="inline-block border border-black text-sm py-1 px-2 tracking-wider leading-none rounded-full me-1 lowercase font-lostIsland"
         style={{
           backgroundColor: hexToRgba(season.color, 0.2),
           color: season.color,
+          textShadow: "2px 2px 0px rgba(0,0,0,1)"
         }}
       >
         {season.seasonName} {season.seasonNumber < 41 && `(${season.seasonNumber})` }
@@ -291,13 +293,15 @@ export default function Contestants() {
                 </div>
                 {contestant.season === 50 && contestant.pastSeasons
                   ? (
-                      <div className="flex flex-col gap-1 items-start my-0.5">
-                        {formatPastSeasonBadges(contestant.pastSeasons)}
+                      <div className="flex gap-1 items-start my-0.5 -mx-1">
+                        <p>
+                          {formatPastSeasonBadges(contestant.pastSeasons)}
+                        </p>
                       </div>
                     )
                   : 
                     (
-                      <div className="flex flex-row items-center my-0.5">
+                      <div className="flex flex-row items-center my-0.5 -mx-1">
                         {formatTribeBadges(contestant.tribes)}
                       </div>
                     )

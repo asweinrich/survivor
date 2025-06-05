@@ -1,123 +1,102 @@
-'use client';
+"use client";
 
-import { useState, useEffect, useMemo, useCallback } from 'react';
-import { ChevronDownIcon, IdentificationIcon, ArrowPathIcon } from '@heroicons/react/24/outline';
-import { FireIcon, TrophyIcon } from '@heroicons/react/24/solid';
-import ContestantProfile from '../components/ContestantProfile';
+import { useEffect, useMemo, useState, useCallback } from "react";
+import { getSession } from "next-auth/react";
+import { IdentificationIcon, ArrowPathIcon, ChevronDownIcon } from "@heroicons/react/24/outline";
+import { FireIcon, TrophyIcon } from "@heroicons/react/24/solid";
+import ContestantProfile from "../components/ContestantProfile";
 import Image from "next/image";
+import season47Scores from "../scoring/47scores.json";
+import UserHeader from "../components/UserHeader";
 import { useSpoiler } from "../../context/SpoilerContext"; 
+import { redirect } from "next/navigation";
 
 
-type Contestant = {
-  id: number;
-  name: string;
-  tribes: number[];
-  inPlay: boolean;
-  img: string;
-  voteOutOrder: number;
-  points: number;
-  soleSurvivor: boolean;
-};
+const SEASONS = [48, 47];
 
-type PlayerTribe = {
-  id: number;
-  tribeName: string;
-  color: string;
-  emoji: string;
-  playerName: string;
-  playerEmail: string;
-  tribeArray: number[];
-  createdAt: string;
-  score?: number;
-  pastScore: number;
-  rank?: number;
-  paid: boolean;
-};
+export default function DashboardPage() {
 
-type Tribe = {
-  id: number;
-  name: string;
-  color: string;
-};
+  
 
-type RankedPlayerTribe = PlayerTribe & {
-  rank: number;
-};
-
-export default function Leaderboard() {
-  const [season, setSeason] = useState('48'); // Default season
-  const [playerTribes, setPlayerTribes] = useState<PlayerTribe[]>([]);
-  const [contestants, setContestants] = useState<Contestant[]>([]);
-  const [tribes, setTribes] = useState<Tribe[]>([]);
+  const [playerTribes, setPlayerTribes] = useState<any[]>([]);
+  const [contestants, setContestants] = useState<any[]>([]);
   const [modalVisible, setModalVisible] = useState(false);
+  const [seasonRanks, setSeasonRanks] = useState<any[]>([]);
   const [focusContestant, setFocusContestant] = useState(0);
   const [expandedTribes, setExpandedTribes] = useState<number[]>([]);
-  const [loading, setLoading] = useState(true);
   const { revealSpoilers } = useSpoiler();
+  const [loading, setLoading] = useState(true);
+  const [userEmail, setUserEmail] = useState<string | null>(null);
 
-  // Fetch PlayerTribes and Contestants when the season changes
   useEffect(() => {
-    setLoading(true);
-    setExpandedTribes([]);
-
     async function fetchData() {
-     
-      const res = await fetch(`/api/player-tribes/${season}`);
-      const data = await res.json();
-      setPlayerTribes(data);
-      
+      setLoading(true);
+      const session = await getSession();
+      if (!session) {
+        redirect("/sign-in");
+      }
+      const email = session?.user?.email || null;
+      setUserEmail(email);
 
-      const castRes = await fetch(`/api/cast/${season}`);
-      const castData = await castRes.json();
-      setContestants(castData);
+      let allTribes: any[] = [];
+      let allContestants: any[] = [];
 
-      const tribesRes = await fetch(`/api/show-tribes/${season}`);
-      const tribesData = await tribesRes.json();
-      setTribes(tribesData);
+      for (const season of SEASONS) {
+        const [tribesRes, castRes] = await Promise.all([
+          fetch(`/api/player-tribes/${season}`),
+          fetch(`/api/cast/${season}`)
+        ]);
 
+        const seasonTribes = await tribesRes.json();
+        const seasonCast = await castRes.json();
+
+        allTribes.push(...seasonTribes.map((tribe: any) => ({ ...tribe, season })));
+        allContestants.push(...seasonCast);
+      }
+
+      setPlayerTribes(allTribes);
+      setContestants(allContestants);
       setLoading(false);
     }
-
     fetchData();
-  }, [season]);
+  }, []);
 
-  // Create a lookup map for contestants
   const contestantMap = useMemo(() => {
-    return contestants.reduce<Record<number, Contestant>>((map, contestant) => {
-      map[contestant.id] = contestant;
+    return contestants.reduce((map: any, c: any) => {
+      map[c.id] = c;
       return map;
     }, {});
   }, [contestants]);
 
-  // Calculate tribe score using the lookup map
-  const calculateScore = useCallback((tribe: PlayerTribe): number => {
-    if (season === '47') {
-      console.log(tribe)
+  const calculateScore = useCallback((tribe: any): number => {
+    if (tribe.season === 47) {
       return tribe.pastScore || 0;
     }
 
-    const baseScore = tribe.tribeArray.reduce((total, contestantId) => {
-      const contestant = contestantMap[contestantId];
+    const baseScore = tribe.tribeArray.reduce((total: number, id: number) => {
+      const contestant = contestantMap[id];
       return total + (contestant?.points || 0);
     }, 0);
-
     const predictedWinnerId = tribe.tribeArray[0];
     const predictedWinner = contestantMap[predictedWinnerId];
     const bonus = predictedWinner?.soleSurvivor ? 200 : 0;
-
     return baseScore + bonus;
-  }, [contestantMap, season]);
+  }, [contestantMap]);
 
-
-  const toggleDropdown = (tribeId: number) => {
-    setExpandedTribes((prev) =>
-      prev.includes(tribeId) ? prev.filter((id) => id !== tribeId) : [...prev, tribeId]
-    );
+  const getStatusBorder = (contestant: any): string => {
+    if (!revealSpoilers) return "border-gray-400";
+    if (!contestant.inPlay && contestant.voteOutOrder) {
+      if (contestant.voteOutOrder === 903) return "border-yellow-400";
+      if (contestant.voteOutOrder === 902) return "border-zinc-400";
+      if (contestant.voteOutOrder === 901) return "border-amber-600";
+    }
+    return contestant.inPlay ? "border-green-400" : "border-red-500";
   };
 
-  const closeModal = () => {
-    setModalVisible(false);
-    setFocusContestant(0);
+  const toggleDropdown = (id: number) => {
+    setExpandedTribes(prev =>
+      prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id]
+    );
   };
 
   const activateModal = (id: number) => {
@@ -125,19 +104,7 @@ export default function Leaderboard() {
     setModalVisible(true);
   };
 
-  // Helper: Determine the contestant's border color.
-  // When spoilers are hidden, always return a uniform border.
-  function getStatusBorder(contestant: Contestant): string {
-    if (!revealSpoilers) {
-      return 'border-gray-400';
-    }
-    if (!contestant.inPlay && contestant.voteOutOrder) {
-      if (contestant.voteOutOrder === 903) return 'border-yellow-400';
-      if (contestant.voteOutOrder === 902) return 'border-zinc-400';
-      if (contestant.voteOutOrder === 901) return 'border-amber-600';
-    }
-    return contestant.inPlay ? 'border-green-400' : 'border-red-500';
-  }
+  const closeModal = () => setModalVisible(false);
 
   function getOrdinalSuffix(number: number): string {
     if (number >= 11 && number <= 13) return `${number}th`;
@@ -168,185 +135,88 @@ export default function Leaderboard() {
     }
   }
 
-  function formatTribeBadges(tribeIds: number[]) {
-    return tribeIds.map((id) => {
-      const tribe = tribes.find((t) => t.id === id);
-      if (!tribe) return null;
+  const { rankedTribes, sortedUserTribes } = useMemo(() => {
+    const ranked: any[] = [];
 
-      return (
-        <span
-          key={id}
-          className="inline-block px-2 py-0 tracking-wider rounded-full text-white me-1 lowercase font-lostIsland"
-          style={{
-            backgroundColor: hexToRgba(tribe.color, 0.3),
-            color: tribe.color,
-          }}
-        >
-          {tribe.name}
-        </span>
-      );
-    });
-  }
+    for (const season of SEASONS) {
+      const seasonTribes = playerTribes
+        .filter((tribe) => tribe.season === season)
+        .map((tribe) => ({ ...tribe, score: calculateScore(tribe) }))
+        .sort((a, b) => b.score - a.score)
+        .map((tribe, index, arr) => ({
+          ...tribe,
+          rank: index + 1,
+          total: arr.length,
+        }));
 
-  function hexToRgba(hex: string, alpha: number): string {
-    const cleanHex = hex.replace('#', '');
-    const r = parseInt(cleanHex.substring(0, 2), 16);
-    const g = parseInt(cleanHex.substring(2, 4), 16);
-    const b = parseInt(cleanHex.substring(4, 6), 16);
-    return `rgba(${r}, ${g}, ${b}, ${alpha})`;
-  }
-
-  // Sorting and ranking
-  const sortedPlayerTribes = [...playerTribes]
-    .map((tribe) => ({ ...tribe, score: calculateScore(tribe) }))
-    .sort((a, b) => b.score - a.score || new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-
-  const rankedTribes: RankedPlayerTribe[] = sortedPlayerTribes.map((tribe, index, array) => {
-    let rank = index + 1;
-    if (index > 0 && array[index].score === array[index - 1].score) {
-      rank = array[index - 1].rank!;
+      ranked.push(...seasonTribes);
     }
-    return { ...tribe, rank };
-  });
+
+    const sortedUserTribes = ranked
+      .filter((tribe) => tribe.playerEmail === userEmail)
+      .sort((a, b) => b.season - a.season);
+
+    return { rankedTribes: ranked, sortedUserTribes };
+  }, [playerTribes, calculateScore, userEmail]);
+
+
+
+
+
+
 
   return (
     <div className="min-h-screen bg-stone-900 text-stone-200 p-0">
-      <div className="relative w-full h-60 mb-12 p-0 text-center">
-        {/* Background Image */}
-        <div className="z-0">
-          <Image
-            src="/imgs/graphics/home-graphic.png"
-            alt="Survivor Background"
-            fill
-            style={{ objectFit: 'cover' }}
-          />
-          <div
-            className="absolute inset-0 bg-gradient-to-b from-stone-900 via-transparent to-stone-900"
-            style={{
-              backgroundImage:
-                "linear-gradient(to bottom, #1c1917 0%, transparent 33%, transparent 66%, #1c1917 100%)",
-            }}
-          ></div>
-        </div>
-        <h1 className="absolute -bottom-8 inset-x-0 z-10 text-4xl font-bold mb-2 text-stone-100 font-survivor tracking-wider">
-          Tribe Leaderboard
-        </h1>
-        {/* Logo and Welcome Section */}
-        <div className="absolute inset-0 z-10 flex flex-row justify-center mx-auto items-center">
-          <Image
-            src={`/imgs/${season}/logo.png`}
-            alt="Survivor Season 48 Logo"
-            width={250}
-            height={250}
-          />
-        </div>
-      </div>
-
       <div className="max-w-6xl mx-auto">
-        {/* Instruction Section */}
-        <div className="lowercase text-stone-200 border-y border-stone-500 p-4 my-8 font-lostIsland tracking-wider">
-          <p className="mb-3">
-            Click a tribe to expand their lineup and see contestant points.
-          </p>
-          <p className="mb-3">
-            Tap the <IdentificationIcon className="inline mx-1.5 w-5 h-5 stroke-2 text-stone-300" /> icon to view detailed contestant stats.
-          </p>
-          <p className="">
-            Rankings are based on total points earned by each tribe.
-          </p>
-          {season === '47' && 
-            <p className="mt-3 text-orange-300">
-              Season 47 was scored using a different set of rules than the current season. The three contestants in a tribe represent that tribe's top 3 picks from Season 47.
-            </p>
-          }
-        </div>
+        <UserHeader
+          userEmail={userEmail}
+          tribeCount={sortedUserTribes.length}
+        />
 
-        <div className="flex justify-between mb-8 px-4">
-
-          {/* Season Dropdown */}
-          <div className="font-lostIsland tracking-wider">
-            <select
-              id="season"
-              className="p-2 border border-stone-700 text-lg rounded-md bg-stone-800 text-stone-200"
-              value={season}
-              onChange={(e) => setSeason(e.target.value)}
-            >
-              <option value={'48'}>Season 48</option>
-              <option value={'47'}>Season 47</option>
-            </select>
-          </div>
-
+        <h1 className="text-2xl font-lostIsland uppercase mb-2 px-4">Your Tribes</h1>
           
-
-        </div>
 
         {loading ? (
           <div className="flex flex-col justify-center items-center py-10">
             <ArrowPathIcon className="w-10 h-10 animate-spin text-stone-200" />
             <p className="font-lostIsland text-xl lowercase my-4 tracking-wider">Loading...</p>
           </div>
-        ) : rankedTribes.length === 0 ? (
-          <div className="flex flex-col justify-center items-center py-10 px-4 text-center leading-tight">
-            <p className="font-lostIsland text-lg my-2 tracking-wider">
-              No tribes have been drafted for this season yet.
-            </p>
-            <p className="font-lostIsland text-lg my-2 tracking-wider">
-              Tribe rosters will be displayed here once the draft process begins after the first episode airs.
-            </p>
-          </div>
         ) : (
-          rankedTribes.map((tribe) => (
+          sortedUserTribes.map((tribe) => (
             <div key={tribe.id} className="border-b border-t border-stone-700 px-2 py-3">
               <div className="flex items-center justify-start" onClick={() => toggleDropdown(tribe.id)}>
-                {/* Emoji and Tribe Info */}
-                <div className="flex items-center w-8 font-lostIsland text-2xl me-1.5">
-                  <span className="mx-auto">{tribe.rank}</span>
+                <div className="w-12 h-12 mx-2 rounded-full border border-stone-700 flex items-center justify-center text-3xl" style={{ backgroundColor: tribe.color }}>
+                  {tribe.emoji}
                 </div>
-                <div className="flex items-center">
-                  <div
-                    className="w-12 h-12 rounded-full border border-stone-700 flex items-center justify-center text-3xl"
-                    style={{ backgroundColor: tribe.color }}
-                  >
-                    {tribe.emoji}
+                <div className="ms-3">
+                  <div className="text-xl font-lostIsland mb-1">{tribe.tribeName}</div>
+                  <div>
+                    <div className="inline font-lostIsland leading-none me-2">Season {tribe.season}</div>
+                    {!tribe.paid ? (<span className="inline-block font-lostIsland text-sm lowercase bg-red-900 text-red-300 px-2 py-0.5 -ms-0.5 me-2 rounded-full">Not Paid - Ineligible for Prizes</span>) : (<span className="inline-block font-lostIsland text-sm lowercase bg-green-900 me-2 text-green-300 px-2 py-0.5 -ms-0.5 rounded-full">Paid</span>)}
                   </div>
-                  <div className="ms-3">
-                    <div className="text-lg font-lostIsland leading-tight">{tribe.tribeName}</div>
-                    <div className="text-stone-400 font-lostIsland leading-tight">{tribe.playerName}</div>
-                    {revealSpoilers && (() => {
-                      const predictedWinnerId = tribe.tribeArray[0];
-                      const predictedWinner = contestantMap[predictedWinnerId];
-                      if (predictedWinner?.soleSurvivor) {
-                        return (
-                          <div className="lowercase bg-yellow-900 text-yellow-300 text-xs font-lostIsland px-2 py-0.5 -ms-1 rounded-full">
-                            Predicted Winner Bonus +200
-                          </div>
-                        );
-                      }
-                      return null;
-                    })()}
-                    {!tribe.paid && (<span className="inline-block font-lostIsland text-xs lowercase bg-red-900 text-red-300 px-2 py-0.5 -ms-0.5 rounded-full">Ineligible for Prizes</span>)}
-                  </div>
+                  <div className="text-stone-300 font-lostIsland lowercase ">{getOrdinalSuffix(tribe.rank)} out of {tribe.total}</div>
+                  
+                  {revealSpoilers && (() => {
+                    const predictedWinnerId = tribe.tribeArray[0];
+                    const predictedWinner = contestantMap[predictedWinnerId];
+                    if (predictedWinner?.soleSurvivor) {
+                      return (
+                        <div className="lowercase inline-block bg-yellow-900 text-yellow-300 text-xs font-lostIsland px-2 py-0.5 -ms-1 rounded-full">
+                          Predicted Winner Bonus +200
+                        </div>
+                      );
+                    }
+                    return null;
+                  })()}
+                  
                 </div>
-                {/* Score and Dropdown Toggle */}
                 <div className="flex items-center ms-auto me-0">
-                  <span
-                    className={`text-2xl font-lostIsland tracking-wide mr-1.5 ${
-                      revealSpoilers &&
-                      (() => {
-                        const predictedWinner = contestantMap[tribe.tribeArray[0]];
-                        return predictedWinner?.soleSurvivor ? 'text-yellow-300' : '';
-                      })()
-                    }`}
-                  >
+                  <span className="text-2xl font-lostIsland tracking-wide mr-1.5">
                     {calculateScore(tribe)}
                   </span>
-                  <ChevronDownIcon
-                    className={`w-4 h-4 stroke-3 cursor-pointer ${expandedTribes.includes(tribe.id) ? 'rotate-180' : ''}`}
-                  />
+                  <ChevronDownIcon className={`w-4 h-4 stroke-3 cursor-pointer ${expandedTribes.includes(tribe.id) ? 'rotate-180' : ''}`} />
                 </div>
               </div>
-
-              {/* Dropdown with Contestants */}
               {expandedTribes.includes(tribe.id) && (
                 <div className="px-3 mt-3 bg-stone-800 rounded-lg border border-stone-700">
                   {(() => {
@@ -467,8 +337,7 @@ export default function Leaderboard() {
             </div>
           ))
         )}
-        
-        {/* Modal */}
+
         {modalVisible && (
           <div
             className="fixed inset-0 z-50 flex items-end justify-center bg-black bg-opacity-50"

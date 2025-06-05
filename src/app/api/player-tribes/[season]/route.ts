@@ -20,25 +20,24 @@ export async function GET(req: Request, { params }: { params: Promise<{ season: 
       orderBy: {
         createdAt: 'asc',  // Order by creation date in ascending order
       },
+      include: {
+        player: true, 
+      },
     });
 
-    // Fetch all players and find the matching player for each tribe
-    const players = await prisma.player.findMany();
-
-    const playerTribesWithPlayer = playerTribes.map((tribe) => {
-      const player = players.find((player) => player.playerTribes.includes(tribe.id));
-
-      return {
-        id: tribe.id,
-        tribeName: tribe.tribeName,
-        color: tribe.color,
-        emoji: tribe.emoji,
-        tribeArray: tribe.tribeArray,
-        createdAt: tribe.createdAt,
-        playerName: player ? player.name : 'Unknown Player',
-        paid: tribe.paid,
-      };
-    });
+    const playerTribesWithPlayer = playerTribes.map((tribe) => ({
+      id: tribe.id,
+      tribeName: tribe.tribeName,
+      color: tribe.color,
+      emoji: tribe.emoji,
+      tribeArray: tribe.tribeArray,
+      createdAt: tribe.createdAt,
+      playerName: tribe.player?.name || 'Unknown Player',
+      playerEmail: tribe.player?.email || null,
+      paid: tribe.paid,
+      pastScore: tribe.pastScore,
+      season: tribe.season,
+    }));
 
     return NextResponse.json(playerTribesWithPlayer);
   } catch (error) {

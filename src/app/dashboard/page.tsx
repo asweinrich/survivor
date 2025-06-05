@@ -14,6 +14,17 @@ import { redirect } from "next/navigation";
 
 const SEASONS = [48, 47];
 
+type Contestant = {
+  id: number;
+  name: string;
+  tribes: number[];
+  inPlay: boolean;
+  img: string;
+  voteOutOrder: number;
+  points: number;
+  soleSurvivor: boolean;
+};
+
 export default function DashboardPage() {
 
   
@@ -231,7 +242,7 @@ export default function DashboardPage() {
                     const remainingContestants = tribeIds
                       .slice(1)
                       .map((id: number) => contestants.find((c) => c.id === id))
-                      .filter((contestant: any): contestant is Contestant => Boolean(contestant));
+                      .filter((contestant: Contestant): contestant is Contestant => Boolean(contestant));
                     
                     remainingContestants.sort((a, b) => {
                       if (a.inPlay === b.inPlay) {

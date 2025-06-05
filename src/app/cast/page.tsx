@@ -26,6 +26,12 @@ type Tribe = {
   color: string;
 };
 
+type PastSeason = {
+  seasonName: string;
+  SeasonNumber: number;
+  color: string;
+};
+
 
 export default function Contestants() {
   const [season, setSeason] = useState('48'); // Default season
@@ -121,7 +127,7 @@ export default function Contestants() {
     });
   }
 
-  function formatPastSeasonBadges(pastSeasons: { seasonName: string, color: string, seasonNumber: number }[]) {
+  function formatPastSeasonBadges(pastSeasons: PastSeason[]) {
     return pastSeasons.map((season, index) => (
       <span
         key={index}

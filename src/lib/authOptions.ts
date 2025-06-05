@@ -15,10 +15,7 @@ export const authOptions = {
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
     }),
-    AppleProvider({
-      clientId: process.env.APPLE_CLIENT_ID!,
-      clientSecret: process.env.APPLE_CLIENT_SECRET!,
-    }),
+    
     EmailProvider({
       server: process.env.EMAIL_SERVER,
       from: process.env.EMAIL_FROM,
@@ -44,7 +41,7 @@ export const authOptions = {
   events: {
     async signIn({ user }: { user?: User }) {
       if (!user?.email) return;
-      
+
       const existing = await prisma.player.findFirst({
         where: { email: user.email || "" },
       });

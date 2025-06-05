@@ -231,7 +231,7 @@ export default function DashboardPage() {
                     const remainingContestants = tribeIds
                       .slice(1)
                       .map((id: number) => contestants.find((c) => c.id === id))
-                      .filter((contestant): contestant is Contestant => Boolean(contestant));
+                      .filter((contestant: any): contestant is Contestant => Boolean(contestant));
                     
                     remainingContestants.sort((a, b) => {
                       if (a.inPlay === b.inPlay) {

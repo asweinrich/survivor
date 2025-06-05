@@ -26,7 +26,7 @@ export default function DashboardPage() {
   const [expandedTribes, setExpandedTribes] = useState<number[]>([]);
   const { revealSpoilers } = useSpoiler();
   const [loading, setLoading] = useState(true);
-  const [userEmail, setUserEmail] = useState<string>("");
+  const [userEmail, setUserEmail] = useState<string>(session.user?.email || "");
 
   useEffect(() => {
     async function fetchData() {

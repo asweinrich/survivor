@@ -244,7 +244,7 @@ export default function DashboardPage() {
                       .map((id: number) => contestants.find((c) => c.id === id))
                       .filter((contestant: Contestant): contestant is Contestant => Boolean(contestant));
                     
-                    remainingContestants.sort((a, b) => {
+                    remainingContestants.sort((a: Contestant, b: Contestant) => {
                       if (a.inPlay === b.inPlay) {
                         return a.name.localeCompare(b.name);
                       }

@@ -28,7 +28,7 @@ type Tribe = {
 
 type PastSeason = {
   seasonName: string;
-  SeasonNumber: number;
+  seasonNumber: number;
   color: string;
 };
 

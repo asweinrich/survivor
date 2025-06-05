@@ -169,7 +169,7 @@ export default function DashboardPage() {
     <div className="min-h-screen bg-stone-900 text-stone-200 p-0">
       <div className="max-w-6xl mx-auto">
         <UserHeader
-          userEmail={userEmail}
+          userEmail={userEmail ?? ""}
           tribeCount={sortedUserTribes.length}
         />
 

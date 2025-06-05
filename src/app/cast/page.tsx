@@ -301,7 +301,7 @@ export default function Contestants() {
                   ? (
                       <div className="flex gap-1 items-start my-0.5 -mx-1">
                         <p>
-                          {formatPastSeasonBadges(contestant.pastSeasons)}
+                          {formatPastSeasonBadges(contestant.pastSeasons ?? [])}
                         </p>
                       </div>
                     )

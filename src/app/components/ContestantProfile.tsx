@@ -388,7 +388,7 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
             <h2 className="px-1 lowercase text-lg">Previously On</h2>
             <div className="flex">
               <p className="text-sm mt-1.5">
-                {formatPastSeasonBadges(contestant.pastSeasons)}
+                {formatPastSeasonBadges(contestant.pastSeasons ?? [])}
               </p> 
             </div>
           </div>

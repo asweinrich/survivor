@@ -16,5 +16,11 @@ export async function POST(req: Request) {
     },
   });
 
-  return NextResponse.json(player);
+  const allBadges = await prisma.userBadge.findMany();
+
+  return Response.json({
+    name: player?.name || '',
+    badges: player?.badges || [],
+    allBadges,
+  });
 }

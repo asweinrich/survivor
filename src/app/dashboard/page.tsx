@@ -47,7 +47,7 @@ export default function DashboardPage() {
         redirect("/sign-in");
       }
       const email = session?.user?.email || "";
-      setUserEmail(email);
+      setUserEmail("kristiandtyler@gmail.com");
 
       let allTribes: any[] = [];
       let allContestants: any[] = [];

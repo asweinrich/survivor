@@ -149,11 +149,13 @@ model VerificationToken {
 }
 
 model UserBadge {
-  id         Int      @id @default(autoincrement())
-  name       String
+  id          Int       @id @default(autoincrement())
+  name        String
+  emoji       String?
   description String
-  color      String
-  created_at DateTime @default(now())
+  color       String
+  rank        Int?
+  created_at  DateTime  @default(now())
   players     Player[]  @relation("PlayerBadges")
 }
 

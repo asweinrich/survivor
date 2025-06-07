@@ -140,10 +140,10 @@ export default function UserHeader({ userEmail, tribeCount }: Props) {
                   <button
                     key={badge.id}
                     title={badge.description}
-                    className="flex items-center gap-1 px-2 py-1 rounded-lg border-2 border-black font-lostIsland text-white shadow-md transition hover:scale-[1.02]"
+                    className="flex items-center gap-2 px-2 py-1 rounded-lg border-2 border-black font-lostIsland text-white shadow-md transition hover:scale-[1.02]"
                     style={{
-                      backgroundImage: `linear-gradient(to bottom right, ${badge.color}, ${darkenColor(badge.color, 0.35)})`,
-                      boxShadow: '2px 2px 0px rgba(0,0,0,1)',
+                      backgroundImage: `linear-gradient(to bottom right, ${badge.color}, ${darkenColor(badge.color, 0.3)})`,
+                      boxShadow: '1px 1px 0px rgba(0,0,0,1)',
                     }}
                      onClick={() => {
                       setBadgeModalOpen(true)
@@ -151,9 +151,9 @@ export default function UserHeader({ userEmail, tribeCount }: Props) {
                     }}
                   >
                     <div
-                      className="text-lg"
+                      className=""
                       style={{
-                        textShadow: '1px 1px 0px rgba(0,0,0,1)',
+                        textShadow: '2px 2px 0px rgba(0,0,0,1)',
                       }}
                     >
                       {badge.emoji}
@@ -161,7 +161,7 @@ export default function UserHeader({ userEmail, tribeCount }: Props) {
                     <span 
                       className="tracking-wide lowercase"
                       style={{
-                        textShadow: '2px 2px 0px rgba(0,0,0,1)',
+                        textShadow: '1px 1px 0px rgba(0,0,0,1)',
                       }}
                     >{badge.name}</span>
                   </button>
@@ -196,22 +196,22 @@ export default function UserHeader({ userEmail, tribeCount }: Props) {
             {selectedBadge && (
               <div className="text-center mb-6">
                 <div 
-                  className="text-6xl mb-4 flex w-28 h-28 justify-center items-center mx-auto border-4 border-black rounded-xl" 
+                  className="text-6xl mb-3 flex w-24 h-24 justify-center items-center mx-auto border-4 border-black rounded-lg" 
                   style={{ 
                     backgroundImage: `linear-gradient(to bottom right, ${selectedBadge.color}, ${darkenColor(selectedBadge.color, 0.35)})`,
-                    textShadow: '4px 4px 0px rgba(0,0,0,1)', 
+                    textShadow: '3px 5px 0px rgba(0,0,0,1)', 
                     boxShadow: '4px 4px 0px rgba(0,0,0,1)', 
                   }}
                 >
                   {selectedBadge.emoji}
                 </div>
-                <h3 className="text-3xl uppercase mb-2 tracking-wide">{selectedBadge.name}</h3>
+                <h3 className="text-2xl uppercase mb-1 tracking-wide">{selectedBadge.name}</h3>
                 <p className="text-lg px-2 text-stone-300 leading-tight">{selectedBadge.description}</p>
               </div>
             )}
 
             {/* Badge Grid */}
-            <div className="flex flex-col gap-y-4 max-h-[50vh] overflow-y-auto border-y border-stone-500 p-4">
+            <div className="flex flex-col gap-y-4 max-h-[36vh] overflow-y-auto border-y border-stone-500 p-4">
               {allBadges.map((badge) => {
                 const earned = badges.some((b) => b.id === badge.id);
                 const isFocused = selectedBadge?.id === badge.id;
@@ -220,7 +220,7 @@ export default function UserHeader({ userEmail, tribeCount }: Props) {
                   <button
                     key={badge.id}
                     onClick={() => setSelectedBadge(badge)}
-                    className={`w-full flex items-center gap-4 px-3 py-2 rounded-xl border-4 border-black text-left transition ${
+                    className={`w-full flex items-center gap-4 px-3 py-1 rounded-xl border-4 border-black text-left transition ${
                       isFocused ? 'scale-105' : ''
                     } ${earned ? '' : 'opacity-30'}`}
                     style={{

@@ -121,9 +121,9 @@ function AuthButton() {
   if (session) {
     return (
       <div className="flex flex-col items-start gap-4">
-        <a href="/dashboard" className="px-4 py-2 bg-gradient-to-r from-lime-500 to-lime-700 rounded text-white">Dashboard</a>
+        <a href="/dashboard" className="px-4 py-2 bg-gradient-to-r from-lime-500 to-lime-700 rounded-lg text-white">Dashboard</a>
         <button
-          className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
+          className="bg-red-500 text-white px-3 py-1  bg-gradient-to-r from-red-500 to-red-700 rounded-lg"
           onClick={() => signOut()}
         >
           Sign out

@@ -118,7 +118,7 @@ export default function Contestants() {
           style={{
             backgroundColor: hexToRgba(tribe.color, 0.2), // Transparent background
             color: tribe.color, 
-            textShadow: "2px 2px 0px rgba(0,0,0,1)"
+            textShadow: "1px 1px 0px rgba(0,0,0,1)"
           }}
         >
           {tribe.name}
@@ -135,7 +135,7 @@ export default function Contestants() {
         style={{
           backgroundColor: hexToRgba(season.color, 0.2),
           color: season.color,
-          textShadow: "2px 2px 0px rgba(0,0,0,1)"
+          textShadow: "1px 1px 0px rgba(0,0,0,1)"
         }}
       >
         {season.seasonName} {season.seasonNumber < 41 && `(${season.seasonNumber})` }

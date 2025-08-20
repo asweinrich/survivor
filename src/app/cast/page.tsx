@@ -17,7 +17,7 @@ import { TribeBadges } from '@/lib/utils/tribes';                // badge helper
 import { PastSeasonBadges } from '@/lib/utils/pastSeasons';      // badge helper
 
 export default function CastPage() {
-  const [season, setSeason] = useState('48');
+  const [season, setSeason] = useState('49');
   const [modalVisible, setModalVisible] = useState(false);
   const [focusContestant, setFocusContestant] = useState(0);
   const { revealSpoilers } = useSpoiler();
@@ -77,6 +77,7 @@ export default function CastPage() {
               onChange={(e) => setSeason(e.target.value)}
             >
               <option value="50">Season 50</option>
+              <option value="49">Season 49</option>
               <option value="48">Season 48</option>
               <option value="47">Season 47</option>
             </select>

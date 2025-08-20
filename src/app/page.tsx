@@ -11,7 +11,7 @@ const HomePage = () => {
   const season = 48;
 
   useEffect(() => {
-    const targetDate = new Date("2025-02-26T20:00:00-08:00"); // PST (UTC-8)
+    const targetDate = new Date("2025-09-24T16:00:00-08:00"); // PST (UTC-8)
     const updateCountdown = () => {
       const now = new Date();
       const timeLeft = targetDate.getTime() - now.getTime();
@@ -67,9 +67,8 @@ const HomePage = () => {
         Welcome back to Survivor Fantasy! This year, we’re taking things up a notch with a brand new web app to make your fantasy experience even better. Here, you can draft your tribe, track contestants and scores, and catch up on updates for Season 48. Dive in and take a look around!
       </p>
 
-      {/* Countdown Section
       <div className="text-center py-3 px-4 m-3 mb-6 rounded-xl">
-        <h2 className="text-2xl uppercase text-stone-300 mb-4">Season 48 Countdown</h2>
+        <h2 className="text-2xl uppercase text-stone-300 mb-4">Season 49 Countdown</h2>
         <div className="flex flex-row  max-w-96 justify-center items-center space-x-6 lowercase tracking-wider bg-stone-800 border border-stone-700 mx-auto p-4 rounded-xl">
           <div className="text-center">
             <div className="text-3xl">{countdown.days}</div>
@@ -90,7 +89,6 @@ const HomePage = () => {
         </div>
       </div>
 
-       */}
 
 
 
@@ -111,21 +109,22 @@ const HomePage = () => {
 
       {/* Navigation Section */}
       <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-4 py-8 px-4 text-center tracking-wider border-y-2 border-stone-600">
-        <a href="/how-to-play">
+        
+        <a href="/cast">
           <div className="flex items-center bg-stone-800 rounded-lg p-0 hover:bg-stone-700 overflow-hidden">
-            <div className="bg-gradient-to-tr from-indigo-500 to-indigo-800 p-3 me-1"><BookOpenIcon className="w-8 h-8" /></div><h3 className="p-3 text-xl uppercase">How to Play</h3>
+            <div className="bg-gradient-to-tr from-yellow-500 to-yellow-700 p-3 me-1"><UserGroupIcon className="w-8 h-8" /></div><h3 className="p-3 text-xl uppercase">Season 49 Cast Preview</h3>
           </div>
-        </a>
+        </a> 
         <a target="_blank" href="https://chat.whatsapp.com/FpRMxQLhp0U848l309PL1T">
           <div className="flex items-center bg-stone-800 rounded-lg p-0 hover:bg-stone-700 overflow-hidden">
             <div className="bg-gradient-to-tr from-emerald-500 to-emerald-700 p-3 me-1"><ChatBubbleLeftRightIcon className="w-8 h-8" /></div><h3 className="p-3 text-xl uppercase">Join WhatsApp Group</h3>
           </div>
         </a>
-        <a href="/cast">
+        <a href="/how-to-play">
           <div className="flex items-center bg-stone-800 rounded-lg p-0 hover:bg-stone-700 overflow-hidden">
-            <div className="bg-gradient-to-tr from-yellow-500 to-yellow-700 p-3 me-1"><UserGroupIcon className="w-8 h-8" /></div><h3 className="p-3 text-xl uppercase">Season 48 Cast Rankings</h3>
+            <div className="bg-gradient-to-tr from-indigo-500 to-indigo-800 p-3 me-1"><BookOpenIcon className="w-8 h-8" /></div><h3 className="p-3 text-xl uppercase">How to Play</h3>
           </div>
-        </a> 
+        </a>
         <a href="/leaderboard">
           <div className="flex items-center bg-stone-800 rounded-lg p-0 hover:bg-stone-700 overflow-hidden">
             <div className="bg-gradient-to-tr from-red-500 to-red-700 p-3 me-1"><TrophyIcon className="w-8 h-8" /></div><h3 className="p-3 text-xl uppercase">Leaderboard</h3>

@@ -6,7 +6,7 @@ import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { prisma } from "./prisma";
 import type { Session, User, NextAuthOptions } from "next-auth";
 import type { JWT } from "next-auth/jwt";
-import nodemailer from "nodemailer";
+import * as nodemailer from "nodemailer";
 
 // Map the magic-link data to the params you used in your Brevo template.
 // In the Brevo template editor, reference them as {{ params.MAGIC_LINK }} and {{ params.HOST }}.

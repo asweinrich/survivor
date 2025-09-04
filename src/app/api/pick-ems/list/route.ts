@@ -10,11 +10,7 @@ const prisma = new PrismaClient();
 async function getCurrentPlayerIdOrNull(session: any) {
   if (!session?.user) return null;
 
-  // EXAMPLE 1: if Player has a userId that matches session.user.id
-  if (session.user.id) {
-    const player = await prisma.player.findFirst({ where: { userId: session.user.id }, select: { id: true } });
-    if (player) return player.id;
-  }
+  
 
   // EXAMPLE 2: fallback by email (if unique)
   if (session.user.email) {

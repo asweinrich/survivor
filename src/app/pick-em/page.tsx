@@ -19,7 +19,7 @@ import {
 import { useSpoiler } from '../../context/SpoilerContext';
 import { useSeasonData } from '@/lib/hooks/useSeasonData';
 import { hexToRgba } from '@/lib/utils/color';
-import type { Tribe, Contestant, ScoredPlayerTribe } from '@/lib/types';
+import type { Tribe, Contestant, PlayerTribe } from '@/lib/types';
 import { LargeTribeBadges, TribeBadges } from '@/lib/utils/tribes';               
 import { rankAndScorePlayerTribes } from '@/lib/utils/score';
 
@@ -131,7 +131,7 @@ export default function WeeklyPickEms() {
   // but we won't display the score—status icon instead.
   const rankedTribes = useMemo(() => {
     const ranked = rankAndScorePlayerTribes(playerTribes, season, contestantMap) as Array<
-      ScoredPlayerTribe & { rank: number }
+      PlayerTribe & { rank: number }
     >;
 
     // Sort: submitted tribes first (locked in), maintaining relative rank inside buckets

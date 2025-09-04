@@ -58,7 +58,7 @@ export default function Draft() {
   const season = 49;
 
   //disable draft until it opens
-  const status = true;
+  const status = false;
 
   const [emojiPickerVisible, setEmojiPickerVisible] = useState(false);
 
@@ -267,13 +267,13 @@ export default function Draft() {
       { !status ? (
         // If status is false, show the disabled message.
         <div className="max-w-6xl mx-auto px-4 my-24">
-          <div className="bg-stone-800 text-center p-4 rounded-lg">
-            <p className="text-lg font-lostIsland tracking-wider leading-tight">
-              The drafting period for Season {season} has ended. Visit the{' '}
-              <a href="/leaderboard" className="text-orange-400 hover:text-orange-600">
-                leaderboard
+          <div className="bg-stone-800 border border-stone-700 text-center p-4 rounded-lg">
+            <p className="text-lg font-lostIsland tracking-wider">
+              The drafting period for Season {season} has not started yet. Tribes can be drafted anytime during the week between the 1st and 2nd episodes. Visit the{' '}
+              <a href="/cast" className="text-orange-400 hover:text-orange-600">
+                cast
               </a>{' '}
-              to see ranked tribes.
+              page to to see Season 49's contestants.
             </p>
           </div>
         </div>

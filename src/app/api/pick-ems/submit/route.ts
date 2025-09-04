@@ -14,13 +14,6 @@ const IGNORE_LOCK =
 async function getCurrentPlayerId(session: any) {
   if (!session?.user) throw new Error('Not signed in');
 
-  if (session.user.id) {
-    const p = await prisma.player.findFirst({
-      where: { userId: session.user.id },
-      select: { id: true },
-    });
-    if (p) return p.id;
-  }
   if (session.user.email) {
     const p = await prisma.player.findFirst({
       where: { email: session.user.email },

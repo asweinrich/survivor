@@ -52,7 +52,7 @@ export async function GET(req: Request) {
     // 3) PlayerTribes for this season (to translate playerId -> tribeId)
     const tribes = await prisma.playerTribe.findMany({
       where: { season },
-      select: { id: true, playerId: true, tribeName: true, color: true, emoji: true, playerName: true },
+      select: { id: true, playerId: true, tribeName: true, color: true, emoji: true },
     });
 
     const tribeByPlayerId = new Map<number, (typeof tribes)[number]>();
@@ -80,7 +80,6 @@ export async function GET(req: Request) {
         tribeName: t.tribeName,
         color: t.color,
         emoji: t.emoji,
-        playerName: t.playerName,
         submitted: submittedTribeIdsSet.has(t.id),
         picks: playerPicks, // [{ pickId, selection, createdAt }]
       };

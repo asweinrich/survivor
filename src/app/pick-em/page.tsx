@@ -623,15 +623,15 @@ export default function WeeklyPickEms() {
                     if (!locked) submitPicks();
                   }}
                 >
-                  <div className="space-y-2">
+                  <div className="space-y-12 py-4">
                     {markets.map((mkt) => (
-                      <div key={mkt.id} className="border-t-2 border-stone-600 p-4">
-                        <div className="mb-3 text-stone-100 tracking-wider">{mkt.question}</div>
+                      <div key={mkt.id} className="border-y-2 border-stone-600 px-4 py-6">
+                        <div className="text-xl mb-6 text-stone-200 tracking-wider leading-tight uppercase">{mkt.question}</div>
                         {(() => {
                           const marketType = mkt.options?.[0]?.type ?? 'text';
 
                           // Shared button classes
-                          const baseBtn = 'transition rounded-md border-2';
+                          const baseBtn = 'transition rounded-lg border-2';
                           const idleBtn = 'border-stone-700 bg-stone-800 text-stone-300 hover:bg-stone-700';
                           const activeBtn = 'border-orange-500 bg-orange-600/20 text-stone-100';
 
@@ -646,14 +646,20 @@ export default function WeeklyPickEms() {
                                       type="button"
                                       disabled={locked}
                                       onClick={() => handleSelect(mkt.id, opt.id)}
-                                      className={`${baseBtn} ${selected ? activeBtn : idleBtn} px-3 py-3 text-left`}
+                                      className={`${baseBtn} ${selected ? activeBtn : idleBtn} p-3 pb-2 text-left`}
                                       title={opt.pointValue ? `+${opt.pointValue} pts` : ''}
                                     >
-                                      <div className="flex items-center">
+                                      <div className="flex flex-col items-center">
                                         <LargeTribeBadges tribeIds={[Number(opt.value)]} tribes={tribes as Tribe[]} />
-                                        <div className="ml-3">
+                                        <div className="flex-row mt-2">
                                           {opt.pointValue != null && (
-                                            <div className="text-stone-400 mt-0.5">+{opt.pointValue} / -{opt.pointValue/4}</div>
+                                            <div className="text-xl tracking-wider">
+                                              <span className="text-green-400">+{opt.pointValue}</span>
+                                              &nbsp;&nbsp;
+                                              <span className="text-stone-500">|</span>
+                                              &nbsp;&nbsp;
+                                              <span className="text-red-400">-{opt.pointValue/4}</span>
+                                            </div>
                                           )}
                                         </div>
                                       </div>
@@ -665,34 +671,100 @@ export default function WeeklyPickEms() {
                           }
 
                           if (marketType === 'contestant') {
-                            // Contestant headshots in a denser grid
+                            // Group contestants by tribe, then sort each group by first name
+                            const tribeList = (tribes as Tribe[]) || [];
+                            const tribeById = new Map<number, Tribe>(tribeList.map((t) => [t.id, t]));
+
+                            // 1) Augment options with contestant + derived fields
+                            const optionsAug = (mkt.options || []).map((opt) => {
+                              const c: Contestant | undefined = contestantMap[Number(opt.value)];
+                              const name = c?.name ?? opt.label;
+                              const img = c?.img ?? 'placeholder';
+                              const first = firstName(name);
+
+                              // Support multiple possible fields for tribe linkage
+                              const tribeIdsRaw: any = (c as any)?.tribeIds ?? (c as any)?.tribes ?? ((c as any)?.tribeId != null ? [(c as any).tribeId] : []);
+                              const tribeIds: number[] = Array.isArray(tribeIdsRaw)
+                                ? tribeIdsRaw.map((t: any) => Number(t)).filter((n: any) => Number.isFinite(n))
+                                : [];
+                              const primaryTribeId: number | null = tribeIds.length ? tribeIds[0] : null;
+
+                              return { opt, c, name, img, first, tribeIds, primaryTribeId };
+                            });
+
+                            // 2) Group by primary tribe id
+                            const byTribe = new Map<number | null, typeof optionsAug>();
+                            optionsAug.forEach((item) => {
+                              const key = item.primaryTribeId;
+                              const arr = byTribe.get(key) || [] as any;
+                              arr.push(item);
+                              byTribe.set(key, arr);
+                            });
+
+                            // 3) Sort groups by tribe name (Unknown last), and entries by first name
+                            const groupKeys = Array.from(byTribe.keys()).sort((a, b) => {
+                              const ta = a != null ? (tribeById.get(a)?.name ?? '') : 'ZZZ';
+                              const tb = b != null ? (tribeById.get(b)?.name ?? '') : 'ZZZ';
+                              return ta.localeCompare(tb);
+                            });
+
+                            groupKeys.forEach((key) => {
+                              const arr = byTribe.get(key)!;
+                              arr.sort((x, y) => x.first.localeCompare(y.first));
+                            });
+
                             return (
-                              <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
-                                {mkt.options.map((opt) => {
-                                  const selected = selections[mkt.id] === opt.id;
-                                  const c: Contestant | undefined = contestantMap[Number(opt.value)]; // value = contestantId
-                                  const name = c?.name ?? opt.label;
-                                  const img = c?.img ?? 'placeholder'; // fallback to a placeholder name if needed
+                              <div className="space-y-4">
+                                {groupKeys.map((groupId) => {
+                                  const arr = byTribe.get(groupId)!;
+                                  const tribeBadge = groupId != null ? (
+                                    <LargeTribeBadges tribeIds={[groupId]} tribes={tribeList} />
+                                  ) : (
+                                    <span className="text-stone-400 text-sm">Unassigned tribe</span>
+                                  );
 
                                   return (
-                                    <button
-                                      key={opt.id}
-                                      type="button"
-                                      disabled={locked}
-                                      onClick={() => handleSelect(mkt.id, opt.id)}
-                                      className={`${baseBtn} ${selected ? activeBtn : idleBtn} px-2 py-3 flex flex-col items-center`}
-                                      title={opt.pointValue ? `+${opt.pointValue} pts` : ''}
-                                    >
-                                      <img
-                                        src={`/imgs/${img}.png`}
-                                        alt={name}
-                                        className="h-20 w-20 object-cover rounded-full border-2 p-1 border-stone-500"
-                                      />
-                                      <div className="mt-2 text-lg uppercase text-stone-200">{firstName(name)}</div>
-                                      {opt.pointValue != null && (
-                                        <div className="text-xs text-stone-400 mt-0.5">+{opt.pointValue}</div>
-                                      )}
-                                    </button>
+                                    <div key={groupId ?? 'unassigned'}>
+                                      <div className="mb-2 flex items-center justify-start">{tribeBadge}</div>
+                                      <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
+                                        {arr.map(({ opt, name, img, tribeIds }) => {
+                                          const selected = selections[mkt.id] === opt.id;
+                                          return (
+                                            <button
+                                              key={opt.id}
+                                              type="button"
+                                              disabled={locked}
+                                              onClick={() => handleSelect(mkt.id, opt.id)}
+                                              className={`${baseBtn} ${selected ? activeBtn : idleBtn} p-3 flex flex-col items-center`}
+                                              title={opt.pointValue ? `+${opt.pointValue} pts` : ''}
+                                            >
+                                              <img
+                                                src={`/imgs/${img}.png`}
+                                                alt={name}
+                                                className="h-22 w-22 object-cover rounded-full border-2 p-1 border-stone-500"
+                                              />
+                                              <div className="mt-1.5 flex flex-col items-center">
+                                                <div className="text-xl uppercase text-stone-200">{firstName(name)}</div>
+                                                {/*{tribeIds.length > 0 && (
+                                                  <div className="mt-1">
+                                                    <TribeBadges tribeIds={tribeIds} tribes={tribeList} />
+                                                  </div>
+                                                )} */}
+                                              </div>
+                                              {opt.pointValue != null && (
+                                                <div className="text-lg">
+                                                  <span className="text-green-400">+{opt.pointValue}</span>
+                                                  &nbsp;&nbsp;
+                                                  <span className="text-stone-500">|</span>
+                                                  &nbsp;&nbsp;
+                                                  <span className="text-red-400">-{opt.pointValue/4}</span>
+                                                </div>
+                                              )}
+                                            </button>
+                                          );
+                                        })}
+                                      </div>
+                                    </div>
                                   );
                                 })}
                               </div>
@@ -702,7 +774,7 @@ export default function WeeklyPickEms() {
                           if (marketType === 'boolean') {
                             // Two big blocks: True / False
                             return (
-                              <div className="grid sm:grid-cols-2 gap-3">
+                              <div className="grid grid-cols-2 gap-3">
                                 {mkt.options.map((opt) => {
                                   const selected = selections[mkt.id] === opt.id;
                                   return (
@@ -711,12 +783,18 @@ export default function WeeklyPickEms() {
                                       type="button"
                                       disabled={locked}
                                       onClick={() => handleSelect(mkt.id, opt.id)}
-                                      className={`${baseBtn} ${selected ? activeBtn : idleBtn} px-4 py-3 text-center`}
+                                      className={`${baseBtn} ${selected ? activeBtn : idleBtn} px-4 py-2 text-center`}
                                       title={opt.pointValue ? `+${opt.pointValue} pts` : ''}
                                     >
-                                      <div className="text-lg">{String(opt.label || opt.value)}</div>
+                                      <div className="text-4xl lowercase tracking-wider mb-2">{String(opt.label || opt.value)}</div>
                                       {opt.pointValue != null && (
-                                        <div className="text-xs text-stone-400 mt-0.5">+{opt.pointValue}</div>
+                                        <div className="text-xl tracking-wider">
+                                          <span className="text-green-400">+{opt.pointValue}</span>
+                                          &nbsp;&nbsp;
+                                          <span className="text-stone-500">|</span>
+                                          &nbsp;&nbsp;
+                                          <span className="text-red-400">-{opt.pointValue/4}</span>
+                                        </div>
                                       )}
                                     </button>
                                   );
@@ -756,7 +834,7 @@ export default function WeeklyPickEms() {
                     ))}
                   </div>
 
-                  <div className="mt-6 flex items-center justify-end gap-3">
+                  <div className="my-6 flex items-center justify-center gap-3">
                     <button
                       type="button"
                       onClick={closePickEmModal}

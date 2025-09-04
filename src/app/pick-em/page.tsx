@@ -145,10 +145,7 @@ export default function WeeklyPickEms() {
     return withStatusFirst;
   }, [playerTribes, season, contestantMap, submittedSet]);
 
-  const tribeMap = useMemo(
-    () => rankedTribes.reduce<Record<number, Tribe>>((acc, t) => { acc[t.id] = t; return acc; }, {}),
-    [rankedTribes]
-  );
+  
 
   const firstName = (full?: string) => (full || '').split(' ')[0] || '';
 

@@ -169,7 +169,7 @@ export default function UserHeader({ userEmail, tribeCount }: Props) {
                 <button
                   key={badge.id}
                   title={badge.description}
-                  className="flex items-center gap-2 px-2 py-1 rounded-lg border-2 border-black font-lostIsland text-white shadow-md transition hover:scale-[1.02]"
+                  className="flex items-center gap-1 w-10 h-10 rounded-full border-2 border-black font-lostIsland text-xl text-white shadow-md transition hover:scale-[1.02]"
                   style={{
                     backgroundImage: `linear-gradient(to bottom right, ${badge.color}, ${darkenColor(
                       badge.color,
@@ -182,15 +182,9 @@ export default function UserHeader({ userEmail, tribeCount }: Props) {
                     setSelectedBadge(badge);
                   }}
                 >
-                  <div style={{ textShadow: '2px 2px 0px rgba(0,0,0,1)' }}>
+                  <div className="mx-auto" style={{ textShadow: '1px 1px 0px rgba(0,0,0,1)' }}>
                     {badge.emoji}
                   </div>
-                  <span
-                    className="tracking-wide lowercase"
-                    style={{ textShadow: '1px 1px 0px rgba(0,0,0,1)' }}
-                  >
-                    {badge.name}
-                  </span>
                 </button>
               ))
             )}
@@ -222,7 +216,7 @@ export default function UserHeader({ userEmail, tribeCount }: Props) {
             {selectedBadge && (
               <div className="text-center mb-6">
                 <div
-                  className="text-6xl mb-3 flex w-24 h-24 justify-center items-center mx-auto border-4 border-black rounded-lg"
+                  className="text-6xl mb-3 flex w-24 h-24 justify-center items-center mx-auto border-4 border-black rounded-full"
                   style={{
                     backgroundImage: `linear-gradient(to bottom right, ${selectedBadge.color}, ${darkenColor(
                       selectedBadge.color,
@@ -248,7 +242,7 @@ export default function UserHeader({ userEmail, tribeCount }: Props) {
                   <button
                     key={badge.id}
                     onClick={() => setSelectedBadge(badge)}
-                    className={`w-full flex items-center gap-4 px-3 py-1 rounded-xl border-4 border-black text-left transition ${
+                    className={`w-full flex items-center gap-4 px-3 py-1 rounded-full border-4 border-black text-left transition ${
                       isFocused ? 'scale-105' : ''
                     } ${earned ? '' : 'opacity-30'}`}
                     style={{

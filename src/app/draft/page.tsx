@@ -55,7 +55,7 @@ export default function Draft() {
     color: getRandomColor(),
   });
 
-  const season = 48;
+  const season = 49;
 
   //disable draft until it opens
   const status = true;

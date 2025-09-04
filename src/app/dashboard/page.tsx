@@ -12,7 +12,7 @@ import { useSpoiler } from "../../context/SpoilerContext";
 import { redirect } from "next/navigation";
 
 
-const SEASONS = [48, 47];
+const SEASONS = [49, 48, 47];
 
 type Contestant = {
   id: number;

@@ -83,12 +83,14 @@ export default function Leaderboard() {
               value={season}
               onChange={(e) => setSeason(e.target.value)}
             >
+              {/*<option value="49">Season 49</option>*/}
               <option value="48">Season 48</option>
               <option value="47">Season 47</option>
             </select>
           </div>
         </div>
 
+        <div className="px-2">
         {loading ? (
           <div className="flex flex-col justify-center items-center py-10">
             <ArrowPathIcon className="w-10 h-10 animate-spin text-stone-200" />
@@ -106,13 +108,13 @@ export default function Leaderboard() {
             const hasWinnerBonus = !!predictedWinner?.soleSurvivor;
 
             return (
-              <div key={tribe.id} className="border-b border-t border-stone-700 px-2 py-3">
+              <div key={tribe.id} className="py-2 px-1 mb-2 rounded-lg border border-stone-700 bg-stone-800">
                 <div className="flex items-center justify-start" onClick={() => toggleDropdown(tribe.id)}>
                   <div className="flex items-center w-8 font-lostIsland text-2xl me-1.5">
                     <span className="mx-auto">{tribe.rank}</span>
                   </div>
                   <div className="flex items-center">
-                    <div className="w-12 h-12 rounded-full border border-stone-700 flex items-center justify-center text-3xl" style={{ backgroundColor: tribe.color }}>
+                    <div className="w-12 h-12 rounded-full border border-stone-700 flex items-center justify-center text-3xl" style={{ backgroundColor: hexToRgba(tribe.color, 0.75) }}>
                       {tribe.emoji}
                     </div>
                     <div className="ms-3">
@@ -139,7 +141,7 @@ export default function Leaderboard() {
                 </div>
 
                 {expandedTribes.includes(tribe.id) && (
-                  <div className="px-3 mt-3 bg-stone-800 rounded-lg border border-stone-700">
+                  <div className="px-2 mt-3">
                     {(() => {
                       const ids = tribe.tribeArray;
                       if (!ids?.length) return null;
@@ -229,6 +231,7 @@ export default function Leaderboard() {
             );
           })
         )}
+        </div>
 
         {modalVisible && (
           <div className="fixed inset-0 z-50 flex items-end justify-center bg-black bg-opacity-50" onClick={closeModal}>

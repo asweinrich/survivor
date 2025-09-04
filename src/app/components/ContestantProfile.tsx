@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { TrophyIcon, FireIcon, ArrowPathIcon } from '@heroicons/react/24/solid';
 import scores47 from '../scoring/47scores.json';
 
+import { TribeBadges } from '@/lib/utils/tribes';               
 
 
 type Contestant = {
@@ -178,17 +179,7 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
       if (!tribe) return null;
 
       return (
-        <span
-          key={id}
-          className="inline-block border border-black px-2 py-0.5 text-sm tracking-wider rounded-full me-1.5 lowercase font-lostIsland"
-          style={{
-            backgroundColor: hexToRgba(tribe.color, 0.2),
-            color: tribe.color,
-            textShadow: '1px 1px 0px rgba(0,0,0,1)'
-          }}
-        >
-          {tribe.name}
-        </span>
+        <TribeBadges tribeIds={[Number(opt.value)]} tribes={tribes as Tribe[]} />
       );
     });
   }
@@ -337,7 +328,7 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
             </p>
             {contestant.tribes.length > 0 && (
               <p className="text-sm -ms-0.5 my-1.5 max-w-56">
-                {formatTribeBadges(contestant.tribes, tribes)}
+                <TribeBadges tribeIds={[Number(contestant.tribes)]} tribes={tribes as Tribe[]} />
               </p>
             )}
             <div className="flex text-sm">

@@ -89,7 +89,6 @@ export async function GET(req: Request) {
     return NextResponse.json({
       season,
       week,
-      lockAt: lockAt ? new Date(lockAt).toISOString() : null,
       submittedTribeIds: Array.from(submittedTribeIdsSet),
       byTribe,
     }, { headers: { 'Cache-Control': 'no-store' } });

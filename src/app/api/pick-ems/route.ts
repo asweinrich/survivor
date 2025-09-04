@@ -22,7 +22,7 @@ export async function GET(req: Request) {
     // 1) All pick-ems for this season/week
     const pickEms = await prisma.pickEm.findMany({
       where: { season, week },
-      select: { id: true, lockAt: true, status: true },
+      select: { id: true, status: true },
     });
 
     // Early return when no markets exist yet
@@ -30,7 +30,6 @@ export async function GET(req: Request) {
       return NextResponse.json({
         season,
         week,
-        lockAt: null,
         submittedTribeIds: [],
         byTribe: [],
       });
@@ -86,12 +85,6 @@ export async function GET(req: Request) {
         picks: playerPicks, // [{ pickId, selection, createdAt }]
       };
     });
-
-    // 6) Earliest lock time among the week’s pick-ems
-    const lockAt = pickEms
-      .map(p => p.lockAt?.getTime())
-      .filter((n): n is number => typeof n === 'number')
-      .sort((a, b) => a - b)[0];
 
     return NextResponse.json({
       season,

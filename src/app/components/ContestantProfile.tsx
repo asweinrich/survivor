@@ -179,7 +179,7 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
       if (!tribe) return null;
 
       return (
-        <TribeBadges tribeIds={[Number(t.id)]} tribes={tribes as Tribe[]} />
+        <TribeBadges tribeIds={[Number(tribe)]} tribes={tribes as Tribe[]} />
       );
     });
   }

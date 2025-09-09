@@ -33,14 +33,18 @@ export async function POST(req: Request) {
     const season = Number(body?.season);
     const week = Number(body?.week);
     const picks = Array.isArray(body?.picks) ? body.picks : [];
+    const action: 'submit' | 'clear' = body?.action === 'clear' ? 'clear' : 'submit';
 
-    if (!Number.isFinite(season) || !Number.isFinite(week) || picks.length === 0) {
+    if (!Number.isFinite(season) || !Number.isFinite(week)) {
       return NextResponse.json({ error: 'Missing or invalid payload' }, { status: 400 });
+    }
+    if (action === 'submit' && picks.length === 0) {
+      return NextResponse.json({ error: 'No picks to submit' }, { status: 400 });
     }
 
     const playerId = await getCurrentPlayerId(session);
 
-    // Fetch pick-ems for validation (no per-row lockAt needed anymore)
+    // Fetch pick-ems for validation and scored-lock checks
     const pickEms = await prisma.pickEm.findMany({
       where: { season, week },
       select: { id: true, status: true, options: true },
@@ -49,6 +53,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'No pick-ems found for this week' }, { status: 404 });
     }
     const peById = new Map(pickEms.map((pe) => [pe.id, pe]));
+    const weekPickEmIds = pickEms.map((pe) => pe.id);
 
     // Single canonical lock per (season, week)
     const effectiveLockAt = weeklyLockAtPT(season, week);
@@ -70,7 +75,31 @@ export async function POST(req: Request) {
       );
     }
 
-    // Validate each pick: ids, status, and option membership
+    // --- ACTION: CLEAR ---
+    if (action === 'clear') {
+      // Disallow clearing if any pick-em for the week is already SCORED (unless ignore)
+      if (!IGNORE_LOCK && pickEms.some((pe) => pe.status === PickEmStatus.SCORED)) {
+        return NextResponse.json(
+          { error: 'Picks are locked (scored)', reason: 'scored', season, week },
+          { status: 409 }
+        );
+      }
+
+      const { count } = await prisma.pick.deleteMany({
+        where: { playerId, pickId: { in: weekPickEmIds } },
+      });
+
+      return NextResponse.json({
+        ok: true,
+        status: 'cleared',
+        count,
+        picks: [],
+        lockAt: effectiveLockAt,
+        ignoreLock: IGNORE_LOCK,
+      });
+    }
+
+    // --- ACTION: SUBMIT --- (validate each pick)
     for (const { pickId, selection } of picks as Array<{ pickId: number; selection: number }>) {
       if (!Number.isFinite(pickId) || !Number.isFinite(selection)) {
         return NextResponse.json({ error: 'Bad pick payload' }, { status: 400 });
@@ -110,22 +139,35 @@ export async function POST(req: Request) {
       }
     }
 
-    // Upsert each pick (unique on [playerId, pickId])
-    const tx = picks.map(({ pickId, selection }: { pickId: number; selection: number }) =>
-      prisma.pick.upsert({
-        where: { playerId_pickId: { playerId, pickId } },
-        create: { playerId, pickId, selection },
-        update: { selection },
-        select: { id: true, pickId: true, selection: true },
-      })
-    );
-    const results = await prisma.$transaction(tx);
+    // Determine created vs updated *for this week* before we write
+    const existingCount = await prisma.pick.count({
+      where: { playerId, pickId: { in: weekPickEmIds } },
+    });
+    const created = existingCount === 0;
+
+    // Replace this player's picks for the week atomically:
+    // delete all week picks, then insert the submitted set.
+    // (Prevents stale leftovers if they changed answers.)
+    const results = await prisma.$transaction([
+      prisma.pick.deleteMany({ where: { playerId, pickId: { in: weekPickEmIds } } }),
+      prisma.pick.createMany({
+        data: (picks as Array<{ pickId: number; selection: number }>).map((p) => ({
+          playerId,
+          pickId: p.pickId,
+          selection: p.selection,
+        })),
+      }),
+    ]);
+
+    // results[1] is the createMany result with a .count
+    const createdCount = (results[1] as unknown as { count: number })?.count ?? picks.length;
 
     return NextResponse.json({
       ok: true,
-      count: results.length,
-      picks: results,
-      lockAt: effectiveLockAt, // helpful for UI confirmation
+      status: created ? 'created' : 'updated',
+      count: createdCount,
+      // Return lockAt for UI confirmation/snackbar
+      lockAt: effectiveLockAt,
       ignoreLock: IGNORE_LOCK,
     });
   } catch (err: any) {

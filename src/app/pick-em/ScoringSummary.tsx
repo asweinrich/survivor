@@ -1,17 +1,15 @@
-import { useMemo } from 'react';
+import { useMemo } from 'react'
 import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/solid';
 import { TribeBadges, LargeTribeBadges } from '@/lib/utils/tribes';
 import type { Tribe, Contestant, PickEmScoreBreakdown } from '@/lib/types';
 
 export function ScoringSummary({
   breakdown,
-  picks,
   score,
   tribes,
   contestants,
 }: {
   breakdown: PickEmScoreBreakdown[];
-  picks: PickEmPick[];
   score: number;
   tribes: Tribe[];
   contestants: Contestant[];
@@ -34,8 +32,7 @@ export function ScoringSummary({
       ) : (
         <ul className="space-y-2">
           {breakdown.map((item, idx) => {
-            const pick = picks.find(p => p.pickEmId === item.pickEmId);
-            const opt = pick?.selectedOption || {};
+            const opt = item.selectedOption || {};
             const type = opt.type ?? item.type ?? 'text';
             return (
               <li key={idx} className="flex items-center justify-between gap-3">

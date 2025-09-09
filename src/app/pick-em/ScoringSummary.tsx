@@ -1,14 +1,17 @@
 import { useMemo } from 'react';
 import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/solid';
+import { TribeBadges, LargeTribeBadges } from '@/lib/utils/tribes';
 import type { Tribe, Contestant, PickEmScoreBreakdown } from '@/lib/types';
 
 export function ScoringSummary({
   breakdown,
+  picks,
   score,
   tribes,
   contestants,
 }: {
   breakdown: PickEmScoreBreakdown[];
+  picks: PickEmPick[];
   score: number;
   tribes: Tribe[];
   contestants: Contestant[];
@@ -17,6 +20,7 @@ export function ScoringSummary({
     () => contestants.reduce<Record<number, Contestant>>((acc, c) => { acc[c.id] = c; return acc; }, {}),
     [contestants]
   );
+  const firstName = (full?: string) => (full || '').split(' ')[0] || '';
 
   return (
     <div className="py-3 border-t border-stone-700/70 font-lostIsland lowercase text-stone-300">
@@ -29,21 +33,48 @@ export function ScoringSummary({
         <div className="text-stone-400 text-sm">No scored picks for this tribe.</div>
       ) : (
         <ul className="space-y-2">
-          {breakdown.map((item, idx) => (
-            <li key={idx} className="flex items-center justify-between gap-3">
-              <span className="text-stone-300">{item.label || `Question ${item.pickEmId}`}</span>
-              <span className="flex items-center gap-2">
-                {item.isCorrect ? (
-                  <CheckCircleIcon className="w-4 h-4 text-green-400" />
-                ) : (
-                  <XCircleIcon className="w-4 h-4 text-red-400" />
-                )}
-                <span className={item.isCorrect ? "text-green-400" : "text-red-400"}>
-                  {item.points > 0 ? `+${item.points}` : item.points}
+          {breakdown.map((item, idx) => {
+            const pick = picks.find(p => p.pickEmId === item.pickEmId);
+            const opt = pick?.selectedOption || {};
+            const type = opt.type ?? item.type ?? 'text';
+            return (
+              <li key={idx} className="flex items-center justify-between gap-3">
+                {/* Question */}
+                <span className="text-stone-300">{item.label || `Question ${item.pickEmId}`}</span>
+
+                {/* Selection & Points */}
+                <span className="flex items-center gap-2">
+                  {/* Selection rendering by type */}
+                  {type === 'tribe' && (
+                    <TribeBadges tribeIds={[Number(opt.value)]} tribes={tribes as Tribe[]} />
+                  )}
+                  {type === 'contestant' && (() => {
+                    const c: Contestant | undefined = contestantMap[Number(opt.value)];
+                    const name = c?.name ?? opt.label;
+                    const img = c?.img ?? 'placeholder';
+                    return (
+                      <span className="flex items-center gap-2">
+                        <img src={`/imgs/${img}.png`} alt={name} className="h-8 w-8 rounded-full border border-stone-500 object-cover" />
+                        <span className="uppercase">{firstName(name)}</span>
+                      </span>
+                    );
+                  })()}
+                  {type === 'boolean' && <span className="uppercase">{String(opt.label || opt.value)}</span>}
+                  {type !== 'tribe' && type !== 'contestant' && type !== 'boolean' && <span className="truncate max-w-[50vw]">{opt?.label}</span>}
+                  
+                  {/* Correct/Incorrect Icon & Points */}
+                  {item.isCorrect ? (
+                    <CheckCircleIcon className="w-4 h-4 text-green-400" title="Correct" />
+                  ) : (
+                    <XCircleIcon className="w-4 h-4 text-red-400" title="Incorrect" />
+                  )}
+                  <span className={item.isCorrect ? "text-green-400" : "text-red-400"}>
+                    {item.points > 0 ? `+${item.points}` : item.points}
+                  </span>
                 </span>
-              </span>
-            </li>
-          ))}
+              </li>
+            );
+          })}
         </ul>
       )}
     </div>

@@ -23,6 +23,7 @@ export type PlayerTribe = {
   emoji: string;
   playerName: string;
   playerEmail: string;
+  playerId: number;
   tribeArray: number[];
   createdAt: string;
   score?: number;
@@ -46,5 +47,14 @@ export type UserBadge = {
   description: string;
   color: string;
   rank: number;
+};
+
+export type PickEmScoreBreakdown = {
+  pickEmId: number;
+  optionId: number;
+  isCorrect: boolean;
+  points: number;
+  type: string;
+  label?: string; // e.g. tribe or contestant name
 };
 

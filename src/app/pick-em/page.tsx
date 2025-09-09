@@ -20,9 +20,10 @@ import {
 import { useSpoiler } from '../../context/SpoilerContext'
 import { useSeasonData } from '@/lib/hooks/useSeasonData'
 import { hexToRgba } from '@/lib/utils/color'
-import type { Tribe, Contestant, PlayerTribe } from '@/lib/types'
+import type { Tribe, Contestant, PlayerTribe, PickEmScoreBreakdown } from '@/lib/types'
 import { LargeTribeBadges, TribeBadges } from '@/lib/utils/tribes'
 import { rankAndScorePlayerTribes } from '@/lib/utils/score'
+import { ScoringSummary } from './ScoringSummary';
 
 // ---- Helpers ---------------------------------------------------------
 function computeDefaultLockAtPT(week: number): Date {
@@ -65,7 +66,10 @@ export default function WeeklyPickEms() {
   const [tribeSummaryLoading, setTribeSummaryLoading] = useState<Record<number, boolean>>({})
   const [tribeSummaryError, setTribeSummaryError] = useState<Record<number, string | null>>({})
 
-  // NEW: success banner after submit/update/clear
+  const [scoringBreakdowns, setScoringBreakdowns] = useState<Record<number, PickEmScoreBreakdown[]>>({});
+  const [scoringScores, setScoringScores] = useState<Record<number, number>>({});
+  const [scored, setScored] = useState(false); // Is this week scored?
+
   const [banner, setBanner] = useState<null | { kind: 'submitted' | 'updated' | 'cleared'; msg: string }>(null)
 
   const { data: session } = useSession()
@@ -149,6 +153,30 @@ export default function WeeklyPickEms() {
       ignore = true
     }
   }, [season, week])
+
+  useEffect(() => {
+  console.log('scoringBreakdowns:', scoringBreakdowns);
+  console.log('scoringScores:', scoringScores);
+}, [scoringBreakdowns, scoringScores]);
+
+  useEffect(() => {
+    async function fetchScores() {
+      try {
+        const res = await fetch(`/api/pick-ems/score?season=${season}&week=${week}`, { cache: 'no-store' });
+        if (!res.ok) throw new Error('Failed to fetch scores');
+        const data = await res.json();
+        setScoringBreakdowns(data.breakdowns || {});
+        setScoringScores(data.scores || {});
+        // Set scored true if there are breakdowns for any tribe
+        setScored(Object.keys(data.breakdowns || {}).length > 0);
+      } catch (e) {
+        setScored(false);
+        setScoringBreakdowns({});
+        setScoringScores({});
+      }
+    }
+    fetchScores();
+  }, [season, week]);
 
   // countdown
   useEffect(() => {
@@ -284,6 +312,8 @@ export default function WeeklyPickEms() {
     }
   }
 
+
+
   // ---- Render --------------------------------------------------------
   return (
     <div className="min-h-screen bg-stone-900 text-stone-200 p-0">
@@ -401,6 +431,7 @@ export default function WeeklyPickEms() {
             </div>
           ) : (
             rankedTribes.map((tribe) => {
+              console.log(tribe)
               const isSubmitted = submittedSet.has(tribe.id)
               return (
                 <div key={tribe.id} className="py-2 px-3 mb-2 rounded-lg border border-stone-700 bg-stone-800">
@@ -442,53 +473,62 @@ export default function WeeklyPickEms() {
                   {expandedTribes.includes(tribe.id) && (
                     <div className="px-2 mt-3">
                       {isSubmitted ? (
-                        <div className="py-3 border-t border-stone-700/70 font-lostIsland lowercase text-stone-300">
-                          <div className="flex items-center mb-2">
-                            <LockClosedIcon className="w-5 h-5 text-green-400 me-2" />
-                            <span>Picks submitted for week {week}:</span>
-                          </div>
-
-                          {tribeSummaryLoading[tribe.id] && (
-                            <div className="flex items-center gap-2 text-stone-400">
-                              <ArrowPathIcon className="w-4 h-4 animate-spin" />
-                              <span>Loading summary…</span>
+                        scored ? (
+                          <ScoringSummary
+                            breakdown={scoringBreakdowns[tribe.playerId] || []}
+                            score={scoringScores[tribe.playerId] || 0}
+                            tribes={tribes}
+                            contestants={contestants}
+                          />
+                        ) : (
+                          <div className="py-3 border-t border-stone-700/70 font-lostIsland lowercase text-stone-300">
+                            <div className="flex items-center mb-2">
+                              <LockClosedIcon className="w-5 h-5 text-green-400 me-2" />
+                              <span>Picks submitted for week {week}:</span>
                             </div>
-                          )}
 
-                          {tribeSummaryError[tribe.id] && <div className="text-red-300">{tribeSummaryError[tribe.id]}</div>}
+                            {tribeSummaryLoading[tribe.id] && (
+                              <div className="flex items-center gap-2 text-stone-400">
+                                <ArrowPathIcon className="w-4 h-4 animate-spin" />
+                                <span>Loading summary…</span>
+                              </div>
+                            )}
 
-                          {!tribeSummaryLoading[tribe.id] && !tribeSummaryError[tribe.id] && (
-                            <ul className="space-y-2">
-                              {(tribeSummaries[tribe.id] ?? []).map((item, idx) => {
-                                const opt: any = item.option || {}
-                                const t = opt.type ?? 'text'
-                                return (
-                                  <li key={idx} className="flex items-center justify-between gap-3">
-                                    <span className="text-stone-300">{item.question}</span>
-                                    <span className="flex items-center gap-2">
-                                      {t === 'tribe' && <TribeBadges tribeIds={[Number(opt.value)]} tribes={tribes as Tribe[]} />}
-                                      {t === 'contestant' && (() => {
-                                        const c: Contestant | undefined = contestantMap[Number(opt.value)]
-                                        const name = c?.name ?? opt.label
-                                        const img = c?.img ?? 'placeholder'
-                                        return (
-                                          <span className="flex items-center gap-2">
-                                            <img src={`/imgs/${img}.png`} alt={name} className="h-8 w-8 rounded-full border border-stone-500 object-cover" />
-                                            <span className="uppercase">{firstName(name)}</span>
-                                          </span>
-                                        )
-                                      })()}
-                                      {t === 'boolean' && <span className="uppercase">{String(opt.label || opt.value)}</span>}
-                                      {t !== 'tribe' && t !== 'contestant' && t !== 'boolean' && <span className="truncate max-w-[50vw]">{opt?.label}</span>}
-                                      {opt?.pointValue != null && <span className="text-xs text-stone-400">+{opt.pointValue}</span>}
-                                    </span>
-                                  </li>
-                                )
-                              })}
-                              {((tribeSummaries[tribe.id] ?? []).length === 0) && <li className="text-stone-400 text-sm">No picks to show.</li>}
-                            </ul>
-                          )}
-                        </div>
+                            {tribeSummaryError[tribe.id] && <div className="text-red-300">{tribeSummaryError[tribe.id]}</div>}
+
+                            {!tribeSummaryLoading[tribe.id] && !tribeSummaryError[tribe.id] && (
+                              <ul className="space-y-2">
+                                {(tribeSummaries[tribe.id] ?? []).map((item, idx) => {
+                                  const opt: any = item.option || {}
+                                  const t = opt.type ?? 'text'
+                                  return (
+                                    <li key={idx} className="flex items-center justify-between gap-3">
+                                      <span className="text-stone-300">{item.question}</span>
+                                      <span className="flex items-center gap-2">
+                                        {t === 'tribe' && <TribeBadges tribeIds={[Number(opt.value)]} tribes={tribes as Tribe[]} />}
+                                        {t === 'contestant' && (() => {
+                                          const c: Contestant | undefined = contestantMap[Number(opt.value)]
+                                          const name = c?.name ?? opt.label
+                                          const img = c?.img ?? 'placeholder'
+                                          return (
+                                            <span className="flex items-center gap-2">
+                                              <img src={`/imgs/${img}.png`} alt={name} className="h-8 w-8 rounded-full border border-stone-500 object-cover" />
+                                              <span className="uppercase">{firstName(name)}</span>
+                                            </span>
+                                          )
+                                        })()}
+                                        {t === 'boolean' && <span className="uppercase">{String(opt.label || opt.value)}</span>}
+                                        {t !== 'tribe' && t !== 'contestant' && t !== 'boolean' && <span className="truncate max-w-[50vw]">{opt?.label}</span>}
+                                        {opt?.pointValue != null && <span className="text-xs text-stone-400">+{opt.pointValue}</span>}
+                                      </span>
+                                    </li>
+                                  )
+                                })}
+                                {((tribeSummaries[tribe.id] ?? []).length === 0) && <li className="text-stone-400 text-sm">No picks to show.</li>}
+                              </ul>
+                            )}
+                          </div>
+                        )
                       ) : (
                         <div className="flex items-center py-3 border-t border-stone-700/70 text-stone-400 font-lostIsland lowercase">
                           <MinusCircleIcon className="w-5 h-5 me-2 opacity-70" />

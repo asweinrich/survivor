@@ -32,6 +32,7 @@ export async function GET(req: Request, { params }: { params: Promise<{ season: 
       emoji: tribe.emoji,
       tribeArray: tribe.tribeArray,
       createdAt: tribe.createdAt,
+      playerId: tribe.playerId,
       playerName: tribe.player?.name || 'Unknown Player',
       playerEmail: tribe.player?.email || null,
       paid: tribe.paid,

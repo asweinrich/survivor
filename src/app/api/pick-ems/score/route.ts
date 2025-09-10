@@ -35,14 +35,14 @@ export async function GET(req: Request) {
       const pickEm = pickEms.find(pe => pe.id === pick.pickId);
       if (!pickEm) continue;
       if (!Array.isArray(pickEm.options)) continue;
-      const option = pickEm.options.find((opt: any) => opt.id === pick.selection);
+      const option = pickEm.options.find((opt: any) => opt.id === pick.selection) as { id: number; [key: string]: any};
       if (!option) continue;;
 
       // Handle empty/null answers: do not score or penalize
       const validAnswers = Array.isArray(pickEm.answers) && pickEm.answers.length > 0 && pickEm.answers.some(a => typeof a === "number");
       const answers = pickEm.answers as number[];
       const isCorrect = validAnswers
-        ? answers.includes(Number(option.id))
+        ? answers.includes(option.id)
         : false;
       const points = validAnswers
         ? computePickEmScore(

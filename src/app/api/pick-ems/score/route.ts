@@ -36,7 +36,14 @@ export async function GET(req: Request) {
       if (!pickEm) continue;
       if (!Array.isArray(pickEm.options)) continue;
       const option = pickEm.options.find((opt: any) => opt.id === pick.selection) as { id: number; [key: string]: any};
-      if (!option) continue;;
+      if (!option) continue;
+
+      const filteredOptions = Array.isArray(pickEm.options)
+        ? pickEm.options.filter(
+            (opt): opt is { id: number; label?: string; value?: any; type?: string } =>
+              !!opt && typeof opt === "object" && "id" in opt && typeof (opt as any).id === "number"
+          )
+        : [];
 
       // Handle empty/null answers: do not score or penalize
       const validAnswers = Array.isArray(pickEm.answers) && pickEm.answers.length > 0 && pickEm.answers.some(a => typeof a === "number");
@@ -47,7 +54,7 @@ export async function GET(req: Request) {
       const points = validAnswers
         ? computePickEmScore(
             { optionId: option.id },
-            { id: pickEm.id, options: pickEm.options, answers: pickEm.answers }
+            { id: pickEm.id, options: filteredOptions, answers: pickEm.answers }
           )
         : 0;
 

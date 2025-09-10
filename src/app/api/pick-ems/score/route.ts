@@ -34,8 +34,9 @@ export async function GET(req: Request) {
     for (const pick of picks) {
       const pickEm = pickEms.find(pe => pe.id === pick.pickId);
       if (!pickEm) continue;
+      if (!Array.isArray(pickEm.options)) continue;
       const option = pickEm.options.find((opt: any) => opt.id === pick.selection);
-      if (!option) continue;
+      if (!option) continue;;
 
       // Handle empty/null answers: do not score or penalize
       const validAnswers = Array.isArray(pickEm.answers) && pickEm.answers.length > 0 && pickEm.answers.some(a => typeof a === "number");

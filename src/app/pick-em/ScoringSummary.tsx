@@ -50,9 +50,9 @@ export function ScoringSummary({
                 </span>
               );
             } else if (type === 'boolean') {
-              selectionDisplay = <span className="uppercase text-2xl tracking-wider">{String(opt.label ?? opt.value)}</span>;
+              selectionDisplay = <span className="uppercase text-2xl tracking-wider">{String(opt.label)}</span>;
             } else {
-              selectionDisplay = <span className="truncate max-w-[50vw]">{opt.label ?? String(opt.value) ?? ''}</span>;
+              selectionDisplay = <span className="truncate max-w-[50vw]">{opt.label ?? ''}</span>;
             }
 
             return (

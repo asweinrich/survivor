@@ -40,7 +40,7 @@ export async function GET(req: Request) {
 
       const filteredOptions = Array.isArray(pickEm.options)
         ? pickEm.options.filter(
-            (opt): opt is { id: number; label?: string; value?: any; type?: string } =>
+            (opt): opt is { id: number; label?: string; pointValue?: any; type?: string } =>
               !!opt && typeof opt === "object" && "id" in opt && typeof (opt as any).id === "number"
           )
         : [];

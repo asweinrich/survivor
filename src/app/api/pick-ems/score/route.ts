@@ -46,7 +46,7 @@ export async function GET(req: Request) {
         : false;
       const points = validAnswers
         ? computePickEmScore(
-            { pickEmId: pickEm.id, optionId: option.id },
+            { optionId: option.id },
             { id: pickEm.id, options: pickEm.options, answers: pickEm.answers }
           )
         : 0;

@@ -1,3 +1,5 @@
+type PickSubmission = { optionId: number };
+
 export function computePickEmScore(
   pick: PickSubmission,
   pickEm: PickEmConfig

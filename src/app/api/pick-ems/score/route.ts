@@ -41,7 +41,7 @@ export async function GET(req: Request) {
       // Handle empty/null answers: do not score or penalize
       const validAnswers = Array.isArray(pickEm.answers) && pickEm.answers.length > 0 && pickEm.answers.some(a => typeof a === "number");
       const isCorrect = validAnswers
-        ? pickEm.answers.includes(Number(option.id))
+        ? pickEm.answers.some(a => String(a) === String(option.id))
         : false;
       const points = validAnswers
         ? computePickEmScore(

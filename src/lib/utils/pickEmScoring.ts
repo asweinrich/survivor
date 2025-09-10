@@ -24,7 +24,7 @@ export function computePickEmScore(
   const isCorrect = pickEm.answers.includes(option.id);
 
   if (isCorrect) {
-    return option.pointValue;
+    return Number(option.pointValue);
   } else {
     if (option.type === 'contestant') {
       return -Math.round(option.pointValue / 4);

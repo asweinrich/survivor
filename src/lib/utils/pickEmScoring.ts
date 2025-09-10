@@ -1,5 +1,12 @@
 type PickSubmission = { optionId: number };
 
+type PickEmConfig = {
+  id: number;
+  options: { id: number; label?: string; value?: any; type?: string }[];
+  answers: number[];
+  // add other fields if needed
+};
+
 export function computePickEmScore(
   pick: PickSubmission,
   pickEm: PickEmConfig

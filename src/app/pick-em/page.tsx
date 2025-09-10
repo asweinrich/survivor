@@ -155,8 +155,6 @@ export default function WeeklyPickEms() {
   }, [season, week])
 
   useEffect(() => {
-  console.log('scoringBreakdowns:', scoringBreakdowns);
-  console.log('scoringScores:', scoringScores);
 }, [scoringBreakdowns, scoringScores]);
 
   useEffect(() => {
@@ -431,7 +429,6 @@ export default function WeeklyPickEms() {
             </div>
           ) : (
             rankedTribes.map((tribe) => {
-              console.log(tribe)
               const isSubmitted = submittedSet.has(tribe.id)
               return (
                 <div key={tribe.id} className="py-2 px-3 mb-2 rounded-lg border border-stone-700 bg-stone-800">
@@ -455,11 +452,32 @@ export default function WeeklyPickEms() {
                       </div>
                     </div>
                     <div className="flex items-center ms-auto me-0 gap-2">
-                      {isSubmitted ? (
-                        <span className="inline-flex items-center gap-1 text-green-300 font-lostIsland text-sm lowercase bg-green-900/40 px-2 py-0.5 rounded-full" title="Locked In">
-                          <CheckCircleIcon className="w-4 h-4" />
-                          locked in
-                        </span>
+                    {isSubmitted ? (
+                      scored ? (
+                        (() => {
+                          const points = scoringScores[tribe.playerId] ?? 0;
+                          let textColor = "text-green-300";
+                          let bgColor = "bg-green-900/40";
+                          let displayPoints = `${points} pts`;
+                          if (points < 0) {
+                            textColor = "text-red-300";
+                            bgColor = "bg-red-900/40";
+                          } else if (points === 0) {
+                            textColor = "text-stone-300";
+                            bgColor = "bg-stone-700/50";
+                          }
+                          return (
+                            <span className={`inline-flex items-center gap-1 font-lostIsland tracking-wider text-xl lowercase px-3 py-1 rounded-xl ${textColor} ${bgColor}`} title="Scored">
+                              {displayPoints}
+                            </span>
+                            );
+                          })()
+                        ) : (
+                          <span className="inline-flex items-center gap-1 text-green-300 font-lostIsland text-sm lowercase bg-green-900/40 px-2 py-0.5 rounded-full" title="Locked In">
+                            <CheckCircleIcon className="w-4 h-4" />
+                            locked in
+                          </span>
+                        )
                       ) : (
                         <span className="inline-flex items-center gap-1 text-stone-300 font-lostIsland text-sm lowercase bg-stone-700/50 px-2 py-0.5 rounded-full" title="Passed (no picks this week)">
                           <MinusCircleIcon className="w-4 h-4" />

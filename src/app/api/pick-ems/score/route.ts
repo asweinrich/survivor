@@ -54,6 +54,7 @@ export async function GET(req: Request) {
           optionId: option.id,
           isCorrect,
           points,
+          question: pickEm.question,
           type: option.type,
           label: option.label ?? option.value?.toString() ?? undefined,
         };

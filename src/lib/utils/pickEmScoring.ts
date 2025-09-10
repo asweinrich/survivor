@@ -23,15 +23,17 @@ export function computePickEmScore(
 
   const isCorrect = pickEm.answers.includes(option.id);
 
+  const pV = Number(option.pointValue)
+
   if (isCorrect) {
-    return Number(option.pointValue);
+    return pV;
   } else {
     if (option.type === 'contestant') {
-      return -Math.round(option.pointValue / 4);
+      return -Math.round(pV / 4);
     } else if (option.type === 'tribe' || option.type === 'boolean') {
-      return -Math.round(option.pointValue / 2);
+      return -Math.round(pV / 2);
     } else {
-      return -Math.round(option.pointValue / 4);
+      return -Math.round(pV / 4);
     }
   }
 }

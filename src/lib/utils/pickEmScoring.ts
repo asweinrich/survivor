@@ -2,7 +2,7 @@ type PickSubmission = { optionId: number };
 
 type PickEmConfig = {
   id: number;
-  options: { id: number; label?: string; value?: any; type?: string }[];
+  options: { id: number; label?: string; value?: any; type?: string; pointValue?: number }[];
   answers: number[];
   // add other fields if needed
 };

@@ -54,6 +54,7 @@ export type PickEmScoreBreakdown = {
   optionId: number;
   isCorrect: boolean;
   points: number;
+  question: string;
   type: string;
   label?: string; // e.g. tribe or contestant name
 };

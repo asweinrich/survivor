@@ -40,8 +40,10 @@ export async function GET(req: Request) {
 
       // Handle empty/null answers: do not score or penalize
       const validAnswers = Array.isArray(pickEm.answers) && pickEm.answers.length > 0 && pickEm.answers.some(a => typeof a === "number");
+      const isPrimitive = (val: unknown): val is string | number | boolean =>
+        typeof val === "string" || typeof val === "number" || typeof val === "boolean";
       const isCorrect = validAnswers
-        ? pickEm.answers.some(a => String(a) === String(option.id))
+        ? pickEm.answers.some(a => isPrimitive(a) && String(a) === String(option.id))
         : false;
       const points = validAnswers
         ? computePickEmScore(

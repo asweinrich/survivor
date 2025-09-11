@@ -27,7 +27,7 @@ export function ScoringSummary({
       {breakdown.length === 0 ? (
         <div className="text-stone-400 text-sm">No scored picks for this tribe.</div>
       ) : (
-        <ul className="space-y-2">
+        <ul className="">
           {breakdown.map((item, idx) => {
             // The option object from backend (mirroring summary route)
             const opt = item ?? {};
@@ -56,7 +56,7 @@ export function ScoringSummary({
             }
 
             return (
-              <li key={idx} className="flex items-center justify-between border-b border-stone-700/30">
+              <li key={idx} className="flex items-center justify-between border-b-2 py-2 border-stone-700">
                 {/* Question & selection */}
                 <span className="text-stone-300 flex flex-col text-lg lowercase tracking-wider leading-tight">
                   <span className="">{item.question ?? `Question ${item.pickEmId}`}</span>

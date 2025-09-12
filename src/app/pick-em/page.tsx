@@ -88,6 +88,7 @@ export default function WeeklyPickEms() {
     setSubmittedSet(set)
     if (data.lockAt) {
       // lockAt is UTC ISO string. Always parse as UTC.
+      console.log("data lockAt: ",data.lockAt)
       const d = new Date(data.lockAt)
       setLockAt(isNaN(d.getTime()) ? null : d)
     } else {
@@ -151,8 +152,6 @@ export default function WeeklyPickEms() {
 
   // ---- FIXED: Countdown always uses UTC lockAt from API ----
   useEffect(() => {
-    console.log('lockat: ',lockAt)
-
     if (!lockAt) return
     const tick = () => {
       const diff = lockAt.getTime() - Date.now() // both UTC

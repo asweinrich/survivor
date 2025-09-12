@@ -15,6 +15,8 @@ export async function GET(req: Request) {
     }
 
     // Compute a single canonical lock for this (season, week)
+    // weeklyLockAtPT returns a Date object for 5pm PT (Pacific Time) on the correct Wednesday.
+    // .toISOString() automatically converts this to a UTC ISO string.
     const lockAtPT = weeklyLockAtPT(season, week); // PT-local date
     const lockAtUTC = lockAtPT.toISOString(); // UTC ISO string
 
@@ -25,7 +27,7 @@ export async function GET(req: Request) {
     });
 
     if (pickEms.length === 0) {
-      return NextResponse.json({ submittedTribeIds: [], lockAt });
+      return NextResponse.json({ submittedTribeIds: [], lockAt: lockAtUTC });
     }
 
     const pickEmIds = pickEms.map((pe) => pe.id);
@@ -38,7 +40,7 @@ export async function GET(req: Request) {
     });
 
     if (picksByPlayer.length === 0) {
-      return NextResponse.json({ submittedTribeIds: [], lockAt });
+      return NextResponse.json({ submittedTribeIds: [], lockAt: lockAtUTC });
     }
 
     const playerIds = picksByPlayer.map((p) => p.playerId);
@@ -52,7 +54,7 @@ export async function GET(req: Request) {
 
     const submittedTribeIds = playerTribes.map((pt) => pt.id);
 
-    return NextResponse.json({ submittedTribeIds, lockAt });
+    return NextResponse.json({ submittedTribeIds, lockAt: lockAtUTC });
   } catch (err: any) {
     console.error('pick-ems/status GET error', err);
     const msg = typeof err?.message === 'string' ? err.message : 'Server error';

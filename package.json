@@ -33,6 +33,7 @@
     "zod": "^4.0.17"
   },
   "devDependencies": {
+    "@types/luxon": "^3.7.1",
     "@types/node": "^20.17.10",
     "@types/nodemailer": "^7.0.0",
     "@types/react": "^19",

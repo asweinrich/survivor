@@ -20,6 +20,8 @@ export async function GET(req: Request) {
     const lockAtPT = weeklyLockAtPT(season, week); // PT-local date
     const lockAtUTC = lockAtPT.toISOString(); // UTC ISO string
 
+    console.log("lock at from lock lib file: ",lockAtPT)
+
     // Find all pick-em ids for this week
     const pickEms = await prisma.pickEm.findMany({
       where: { season, week },

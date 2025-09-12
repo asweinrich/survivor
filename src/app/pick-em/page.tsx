@@ -1,4 +1,3 @@
-// src/app/pick-ems/page.tsx
 'use client'
 
 import { useEffect, useMemo, useState } from 'react'
@@ -27,29 +26,6 @@ import { rankAndScorePlayerTribes } from '@/lib/utils/score'
 import { ScoringSummary } from './ScoringSummary';
 import { PendingSummary } from './PendingSummary';
 
-// ---- Helpers ---------------------------------------------------------
-function computeDefaultLockAtPT(week: number): Date {
-  const now = new Date()
-  const ptNowStr = new Intl.DateTimeFormat('en-US', {
-    timeZone: 'America/Los_Angeles',
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-    hour: '2-digit',
-    minute: '2-digit',
-    hour12: false,
-  }).format(now)
-  const [mm, dd, yyyy, hh, min] = ptNowStr.match(/\d+/g) || []
-  const ptBaseline = new Date(Number(yyyy), Number(mm) - 1, Number(dd), Number(hh), Number(min), 0, 0)
-  const WED = 3
-  const day = ptBaseline.getDay()
-  const offset = ((WED - day + 7) % 7) || 7
-  const lock = new Date(ptBaseline)
-  lock.setDate(lock.getDate() + offset)
-  lock.setHours(17, 0, 0, 0)
-  return lock
-}
-
 // ---- Page ------------------------------------------------------------
 export default function WeeklyPickEms() {
   const [season, setSeason] = useState('49')
@@ -70,7 +46,7 @@ export default function WeeklyPickEms() {
 
   const [scoringBreakdowns, setScoringBreakdowns] = useState<Record<number, PickEmScoreBreakdown[]>>({});
   const [scoringScores, setScoringScores] = useState<Record<number, number>>({});
-  const [scored, setScored] = useState(false); // Is this week scored?
+  const [scored, setScored] = useState(false);
 
   const [banner, setBanner] = useState<null | { kind: 'submitted' | 'updated' | 'cleared'; msg: string }>(null)
 
@@ -103,7 +79,7 @@ export default function WeeklyPickEms() {
 
   const firstName = (full?: string) => (full || '').split(' ')[0] || ''
 
-  // status fetch
+  // ---- FIXED: Always use UTC from API; fallback is disabled ----
   async function fetchStatus() {
     const res = await fetch(`/api/pick-ems/status?season=${season}&week=${week}`, { cache: 'no-store' })
     if (!res.ok) throw new Error('status fetch failed')
@@ -111,25 +87,23 @@ export default function WeeklyPickEms() {
     const set = new Set<number>(Array.isArray(data.submittedTribeIds) ? data.submittedTribeIds : [])
     setSubmittedSet(set)
     if (data.lockAt) {
+      // lockAt is UTC ISO string. Always parse as UTC.
       const d = new Date(data.lockAt)
-      setLockAt(isNaN(d.getTime()) ? computeDefaultLockAtPT(week) : d)
+      setLockAt(isNaN(d.getTime()) ? null : d)
     } else {
-      setLockAt(computeDefaultLockAtPT(week))
+      setLockAt(null)
     }
     return set
   }
 
-  // refresh status + clear and refetch summaries for expanded rows
   async function refreshStatusAndSummaries() {
     try {
       const newSubmitted = await fetchStatus()
-      // clear cached summaries for expanded rows so they refetch
       setTribeSummaries((prev) => {
         const next = { ...prev }
         for (const id of expandedTribes) delete (next as any)[id]
         return next
       })
-      // refetch summaries only for rows that are open and submitted
       for (const id of expandedTribes) {
         if (newSubmitted.has(id)) await fetchTribeSummary(id)
       }
@@ -138,7 +112,6 @@ export default function WeeklyPickEms() {
     }
   }
 
-  // initial+deps status
   useEffect(() => {
     let ignore = false
     ;(async () => {
@@ -147,7 +120,7 @@ export default function WeeklyPickEms() {
       } catch {
         if (!ignore) {
           setSubmittedSet(new Set())
-          setLockAt(computeDefaultLockAtPT(week))
+          setLockAt(null)
         }
       }
     })()
@@ -156,8 +129,7 @@ export default function WeeklyPickEms() {
     }
   }, [season, week])
 
-  useEffect(() => {
-}, [scoringBreakdowns, scoringScores]);
+  useEffect(() => {}, [scoringBreakdowns, scoringScores]);
 
   useEffect(() => {
     async function fetchScores() {
@@ -167,7 +139,6 @@ export default function WeeklyPickEms() {
         const data = await res.json();
         setScoringBreakdowns(data.breakdowns || {});
         setScoringScores(data.scores || {});
-        // Set scored true if there are breakdowns for any tribe
         setScored(Object.keys(data.breakdowns || {}).length > 0);
       } catch (e) {
         setScored(false);
@@ -178,11 +149,11 @@ export default function WeeklyPickEms() {
     fetchScores();
   }, [season, week]);
 
-  // countdown
+  // ---- FIXED: Countdown always uses UTC lockAt from API ----
   useEffect(() => {
     if (!lockAt) return
     const tick = () => {
-      const diff = lockAt.getTime() - Date.now()
+      const diff = lockAt.getTime() - Date.now() // both UTC
       if (diff <= 0) {
         setCountdown({ days: 0, hours: 0, minutes: 0, seconds: 0 })
         return true
@@ -203,9 +174,21 @@ export default function WeeklyPickEms() {
     return () => clearInterval(interval)
   }, [lockAt])
 
+  // ---- FIXED: Display lockAt in PT for user clarity, but do NOT use it for countdown ----
+  const lockAtPTString = lockAt
+    ? lockAt.toLocaleString('en-US', {
+        timeZone: 'America/Los_Angeles',
+        hour: '2-digit',
+        minute: '2-digit',
+        weekday: 'long',
+        month: 'long',
+        day: 'numeric',
+        year: 'numeric',
+      })
+    : ''
+
   const locked = countdown.days === 0 && countdown.hours === 0 && countdown.minutes === 0 && countdown.seconds === 0
 
-  // summary helpers
   const fetchTribeSummary = async (tribeId: number) => {
     setTribeSummaryLoading((prev) => ({ ...prev, [tribeId]: true }))
     setTribeSummaryError((prev) => ({ ...prev, [tribeId]: null }))
@@ -229,7 +212,6 @@ export default function WeeklyPickEms() {
   const toggleDropdown = (tribeId: number) =>
     setExpandedTribes((prev) => (prev.includes(tribeId) ? prev.filter((id) => id !== tribeId) : [...prev, tribeId]))
 
-  // modal open
   const openPickEmModal = async () => {
     if (!session) {
       window.location.href = '/api/auth/signin?callbackUrl=' + encodeURIComponent(window.location.pathname)
@@ -260,7 +242,6 @@ export default function WeeklyPickEms() {
 
   const handleSelect = (pickEmId: number, optionId: number) => setSelections((prev) => ({ ...prev, [pickEmId]: optionId }))
 
-  // ---- Actions -------------------------------------------------------
   async function submitPicks() {
     try {
       setPeLoading(true)
@@ -312,8 +293,6 @@ export default function WeeklyPickEms() {
     }
   }
 
-
-
   // ---- Render --------------------------------------------------------
   return (
     <div className="min-h-screen bg-stone-900 text-stone-200 p-0">
@@ -339,7 +318,6 @@ export default function WeeklyPickEms() {
           <p className="mb-3">Tribes default each week to a status of <span className="text-stone-300">Passed</span>. If you submit picks, your status will update to Locked In. </p>
           <p className="mb-3">Weekly picks can be submitted up until the start of that weeks episode, or each Wednesday at 5PM Pacific, 7PM Central, 8PM Eastern. </p>
         </div>
-
 
         {/* Season / Week / CTA / Countdown */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6 my-8 px-4">
@@ -378,6 +356,11 @@ export default function WeeklyPickEms() {
                   <div className="text-stone-400">Seconds</div>
                 </div>
               </div>
+              {lockAtPTString && (
+                <div className="mt-2 text-sm text-stone-400">
+                  <span>Lock Time: {lockAtPTString} PT</span>
+                </div>
+              )}
             </div>
             <button onClick={openPickEmModal} disabled={locked} className={`w-full text-xl uppercase px-4 py-3 rounded-md font-lostIsland tracking-wider border ${locked ? 'bg-stone-800 border-stone-700 text-stone-500 cursor-not-allowed' : 'bg-orange-600 border-orange-700 text-stone-50 hover:bg-orange-500'}`}>
               {session ? 'Submit your picks' : 'Sign in to submit your picks'}

@@ -15,7 +15,8 @@ export async function GET(req: Request) {
     }
 
     // Compute a single canonical lock for this (season, week)
-    const lockAt = weeklyLockAtPT(season, week).toISOString();
+    const lockAtPT = weeklyLockAtPT(season, week); // PT-local date
+    const lockAtUTC = lockAtPT.toISOString(); // UTC ISO string
 
     // Find all pick-em ids for this week
     const pickEms = await prisma.pickEm.findMany({

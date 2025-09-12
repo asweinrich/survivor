@@ -15,6 +15,7 @@ import {
   MinusCircleIcon,
   LockClosedIcon,
   XCircleIcon,
+  FireIcon,
 } from '@heroicons/react/24/solid'
 
 import { useSpoiler } from '../../context/SpoilerContext'
@@ -24,6 +25,7 @@ import type { Tribe, Contestant, PlayerTribe, PickEmScoreBreakdown } from '@/lib
 import { LargeTribeBadges, TribeBadges } from '@/lib/utils/tribes'
 import { rankAndScorePlayerTribes } from '@/lib/utils/score'
 import { ScoringSummary } from './ScoringSummary';
+import { PendingSummary } from './PendingSummary';
 
 // ---- Helpers ---------------------------------------------------------
 function computeDefaultLockAtPT(week: number): Date {
@@ -430,8 +432,21 @@ export default function WeeklyPickEms() {
           ) : (
             rankedTribes.map((tribe) => {
               const isSubmitted = submittedSet.has(tribe.id)
+              const pendingBreakdown = (tribeSummaries[tribe.id] ?? []).map((item: any) => {
+                const opt = item.option || {};
+                return {
+                  question: item.question ?? 'Question',
+                  type: opt.type ?? 'text',
+                  label: opt.label ?? opt.value ?? '',
+                  value: opt.value,
+                  pickEmId: opt.pickEmId ?? tribe.id,
+                  isCorrect: undefined,
+                  points: undefined,
+                  ...(opt.pointValue && { pointValue: opt.pointValue }),
+                };
+              });
               return (
-                <div key={tribe.id} className="py-2 px-3 mb-2 rounded-lg border border-stone-700 bg-stone-800">
+                <div key={tribe.id} className="py-2 px-2 mb-2 rounded-lg border border-stone-700 bg-stone-800">
                   <div
                     className="flex items-center justify-start"
                     onClick={() => {
@@ -447,7 +462,7 @@ export default function WeeklyPickEms() {
                         {tribe.emoji}
                       </div>
                       <div className="ms-3">
-                        <div className="text-lg font-lostIsland leading-tight">{tribe.tribeName}</div>
+                        <div className="text-lg font-lostIsland leading-none pb-1">{tribe.tribeName}</div>
                         <div className="text-stone-400 font-lostIsland leading-tight">{tribe.playerName}</div>
                       </div>
                     </div>
@@ -457,30 +472,28 @@ export default function WeeklyPickEms() {
                         (() => {
                           const points = scoringScores[tribe.playerId] ?? 0;
                           let textColor = "text-green-300";
-                          let bgColor = "bg-green-900/40";
+                          let bgColor = "bg-green-900/60";
                           let displayPoints = `${points} pts`;
                           if (points < 0) {
                             textColor = "text-red-300";
-                            bgColor = "bg-red-900/40";
+                            bgColor = "bg-red-900/60";
                           } else if (points === 0) {
                             textColor = "text-stone-300";
                             bgColor = "bg-stone-700/50";
                           }
                           return (
-                            <span className={`inline-flex items-center gap-1 font-lostIsland tracking-wider text-xl lowercase px-3 py-1 rounded-xl ${textColor} ${bgColor}`} title="Scored">
+                            <span className={`inline-flex items-center gap-1 font-lostIsland text-xl lowercase tracking-wider px-2 py-1 rounded-lg ${textColor} ${bgColor}`} title="Scored">
                               {displayPoints}
                             </span>
                             );
                           })()
                         ) : (
-                          <span className="inline-flex items-center gap-1 text-green-300 font-lostIsland text-sm lowercase bg-green-900/40 px-2 py-0.5 rounded-full" title="Locked In">
-                            <CheckCircleIcon className="w-4 h-4" />
+                          <span className="tracking-wider inline-flex items-center gap-1 text-orange-300 font-lostIsland uppercase bg-orange-900/60 px-2 py-1 rounded-lg" title="Locked In">
                             locked in
                           </span>
                         )
                       ) : (
-                        <span className="inline-flex items-center gap-1 text-stone-300 font-lostIsland text-sm lowercase bg-stone-700/50 px-2 py-0.5 rounded-full" title="Passed (no picks this week)">
-                          <MinusCircleIcon className="w-4 h-4" />
+                        <span className="tracking-wider inline-flex items-center gap-1 text-gray-300 font-lostIsland uppercase bg-gray-600/60 px-2 py-1 rounded-lg" title="Passed (no picks this week)">
                           passed
                         </span>
                       )}
@@ -499,58 +512,17 @@ export default function WeeklyPickEms() {
                             contestants={contestants}
                           />
                         ) : (
-                          <div className="py-3 border-t border-stone-700/70 font-lostIsland lowercase text-stone-300">
-                            <div className="flex items-center mb-2">
-                              <LockClosedIcon className="w-5 h-5 text-green-400 me-2" />
-                              <span>Picks submitted for week {week}:</span>
-                            </div>
-
-                            {tribeSummaryLoading[tribe.id] && (
-                              <div className="flex items-center gap-2 text-stone-400">
-                                <ArrowPathIcon className="w-4 h-4 animate-spin" />
-                                <span>Loading summary…</span>
-                              </div>
-                            )}
-
-                            {tribeSummaryError[tribe.id] && <div className="text-red-300">{tribeSummaryError[tribe.id]}</div>}
-
-                            {!tribeSummaryLoading[tribe.id] && !tribeSummaryError[tribe.id] && (
-                              <ul className="space-y-2">
-                                {(tribeSummaries[tribe.id] ?? []).map((item, idx) => {
-                                  const opt: any = item.option || {}
-                                  const t = opt.type ?? 'text'
-                                  return (
-                                    <li key={idx} className="flex items-center justify-between gap-3">
-                                      <span className="text-stone-300">{item.question}</span>
-                                      <span className="flex items-center gap-2">
-                                        {t === 'tribe' && <TribeBadges tribeIds={[Number(opt.value)]} tribes={tribes as Tribe[]} />}
-                                        {t === 'contestant' && (() => {
-                                          const c: Contestant | undefined = contestantMap[Number(opt.value)]
-                                          const name = c?.name ?? opt.label
-                                          const img = c?.img ?? 'placeholder'
-                                          return (
-                                            <span className="flex items-center gap-2">
-                                              <img src={`/imgs/${img}.png`} alt={name} className="h-8 w-8 rounded-full border border-stone-500 object-cover" />
-                                              <span className="uppercase">{firstName(name)}</span>
-                                            </span>
-                                          )
-                                        })()}
-                                        {t === 'boolean' && <span className="uppercase">{String(opt.label || opt.value)}</span>}
-                                        {t !== 'tribe' && t !== 'contestant' && t !== 'boolean' && <span className="truncate max-w-[50vw]">{opt?.label}</span>}
-                                        {opt?.pointValue != null && <span className="text-xs text-stone-400">+{opt.pointValue}</span>}
-                                      </span>
-                                    </li>
-                                  )
-                                })}
-                                {((tribeSummaries[tribe.id] ?? []).length === 0) && <li className="text-stone-400 text-sm">No picks to show.</li>}
-                              </ul>
-                            )}
-                          </div>
+                          <PendingSummary
+                            breakdown={pendingBreakdown}
+                            score={0}
+                            tribes={tribes}
+                            contestants={contestants}
+                          />
                         )
                       ) : (
-                        <div className="flex items-center py-3 border-t border-stone-700/70 text-stone-400 font-lostIsland lowercase">
-                          <MinusCircleIcon className="w-5 h-5 me-2 opacity-70" />
-                          <span>No picks submitted for week {week}.</span>
+                        <div className="flex items-center justify-center py-3 text-stone-400 text-lg font-lostIsland uppercase">
+                          <FireIcon className="w-6 h-6 me-3" />
+                          <span>No picks submitted for week {week}</span>
                         </div>
                       )}
                     </div>

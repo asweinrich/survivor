@@ -151,6 +151,8 @@ export default function WeeklyPickEms() {
 
   // ---- FIXED: Countdown always uses UTC lockAt from API ----
   useEffect(() => {
+    console.log('lockat: ',lockAt)
+
     if (!lockAt) return
     const tick = () => {
       const diff = lockAt.getTime() - Date.now() // both UTC
@@ -172,6 +174,7 @@ export default function WeeklyPickEms() {
       if (isLocked) clearInterval(interval)
     }, 1000)
     return () => clearInterval(interval)
+
   }, [lockAt])
 
   // ---- FIXED: Display lockAt in PT for user clarity, but do NOT use it for countdown ----

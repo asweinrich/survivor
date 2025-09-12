@@ -19,8 +19,7 @@ function buildPTDate(parts: Anchor, hour = 17, minute = 0) {
     day: parts.day,
     hour,
     minute,
-    zone: 'America/Los_Angeles', // Pacific Time!
-  }).toUTC().toJSDate();
+  }, { zone: 'America/Los_Angeles' }).toUTC().toJSDate();
 }
 
 export function weeklyLockAtPT(season: number, week: number): Date {
@@ -36,14 +35,14 @@ export function weeklyLockAtPT(season: number, week: number): Date {
 
   console.log("datetime: ", DateTime)
 
+    // Create PT date for anchor, then add week offset
   const anchorDT = DateTime.fromObject({
     year: anchor.year,
     month: anchor.month,
     day: anchor.day,
     hour: 17,
     minute: 0,
-    //zone: "America/Los_Angeles",
-  }).plus({ days: 7 * (week - 1) });
+  }, { zone: "America/Los_Angeles" }).plus({ days: 7 * (week - 1) });
   return anchorDT.toUTC().toJSDate();
 }
 

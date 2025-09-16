@@ -154,18 +154,19 @@ model UserBadge {
 }
 
 model PickEm {
-  id        Int          @id @default(autoincrement())
-  season    Int
-  week      Int
-  question  String
+  id          Int          @id @default(autoincrement())
+  season      Int
+  week        Int
+  question    String
   /// JSON array of option objects:
   /// [{ id: 101, type: "contestant" | "tribe" | "boolean" | "text",
   /// value: number | boolean | string, label: string, pointValue: number, meta?: any }]
-  options   Json
-  answers   Int[]        @default([])
-  status    PickEmStatus @default(OPEN)
-  createdAt DateTime     @default(now())
-  picks     Pick[]
+  options     Json
+  answers     Int[]        @default([])
+  status      PickEmStatus @default(OPEN)
+  createdAt   DateTime     @default(now())
+  description String?
+  picks       Pick[]
 }
 
 model Pick {

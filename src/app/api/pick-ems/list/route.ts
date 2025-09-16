@@ -47,6 +47,7 @@ export async function GET(req: Request) {
       select: {
         id: true,
         question: true,
+        description: true,
         options: true,
         status: true,
       },
@@ -75,6 +76,7 @@ export async function GET(req: Request) {
       pickEms: pickEms.map(pe => ({
         id: pe.id,
         question: pe.question,
+        description: pe.description,
         options: pe.options, // [{ id, label, type, value, pointValue, ... }]
         status: pe.status,
       })),

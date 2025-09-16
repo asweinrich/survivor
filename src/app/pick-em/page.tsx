@@ -38,7 +38,7 @@ export default function WeeklyPickEms() {
   const [peModalOpen, setPeModalOpen] = useState(false)
   const [peLoading, setPeLoading] = useState(false)
   const [peError, setPeError] = useState<string | null>(null)
-  const [markets, setMarkets] = useState<Array<{ id: number; question: string; options: Array<{ id: number; label: string; type: string; value: any; pointValue: number }> }>>([])
+  const [markets, setMarkets] = useState<Array<{ id: number; question: string; description: string; options: Array<{ id: number; label: string; type: string; value: any; pointValue: number }> }>>([])
   const [selections, setSelections] = useState<Record<number, number | null>>({})
   const [tribeSummaries, setTribeSummaries] = useState<Record<number, Array<{ question: string; option: any }>>>({})
   const [tribeSummaryLoading, setTribeSummaryLoading] = useState<Record<number, boolean>>({})
@@ -88,7 +88,6 @@ export default function WeeklyPickEms() {
     setSubmittedSet(set)
     if (data.lockAt) {
       // lockAt is UTC ISO string. Always parse as UTC.
-      console.log("data lockAt: ",data.lockAt)
       const d = new Date(data.lockAt)
       setLockAt(isNaN(d.getTime()) ? null : d)
     } else {
@@ -182,7 +181,7 @@ export default function WeeklyPickEms() {
         timeZone: 'America/Los_Angeles',
         hour: '2-digit',
         minute: '2-digit',
-        weekday: 'long',
+        weekday: 'short',
         month: 'long',
         day: 'numeric',
         year: 'numeric',
@@ -360,7 +359,7 @@ export default function WeeklyPickEms() {
               </div>
               {lockAtPTString && (
                 <div className="mt-2 text-sm text-stone-400">
-                  <span>Lock Time: {lockAtPTString} PT</span>
+                  <span>picks lock {lockAtPTString} PT</span>
                 </div>
               )}
             </div>

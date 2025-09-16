@@ -78,7 +78,7 @@ const RulesPage = () => {
           <section className="px-4 pt-16 font-lostIsland tracking-wider" id="scoring">
             <h2 className="text-2xl mb-4">Scoring System</h2>
             <p className="mb-4 text-stone-300 tracking-wider font-inter">
-              Points are the currency of your success in this league. Each contestant in your tribe earns points individually based on their performance, and your tribe's total score is the sum of your six contestants' scores. <br/><br/>Here’s the breakdown:<br/><span className="text-sm"><em>Tap the <InformationCircleIcon className="inline w-5 h-5" /> icon for details on a scoreing category</em></span>
+              Points are the currency of your success in this league. Each contestant in your tribe earns points individually based on their performance, and your tribe's total score is the sum of your six contestants' scores. <br/><br/>Here’s the breakdown:<br/><span className="text-sm"><em>Tap the <InformationCircleIcon className="inline w-5 h-5" /> icon for details on a scoring category</em></span>
             </p>
             <div className="overflow-x-auto">
               <table className="w-full text-left text-stone-300 font-inter border-collapse">

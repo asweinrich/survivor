@@ -445,7 +445,7 @@ export default function WeeklyPickEms() {
                     }}
                   >
                     <div className="flex items-center">
-                      <div className="w-12 h-12 rounded-full border border-stone-700 flex items-center justify-center text-3xl" style={{ backgroundColor: hexToRgba(tribe.color, 0.75) }}>
+                      <div className="w-12 h-12 rounded-full border border-stone-700 flex items-center justify-center text-2xl" style={{ backgroundColor: hexToRgba(tribe.color, 0.75) }}>
                         {tribe.emoji}
                       </div>
                       <div className="ms-3">
@@ -526,8 +526,14 @@ export default function WeeklyPickEms() {
             <div className="w-full max-w-3xl h-[92%] overflow-y-auto bg-stone-800 rounded-t-xl shadow-lg animate-slide-up relative font-lostIsland" onClick={(e) => e.stopPropagation()}>
               <button className="text-stone-400 hover:text-stone-200 absolute top-3 right-4" onClick={closePickEmModal}>✕</button>
               <div className="p-0">
-                <h2 className="py-6 text-4xl mb-1 tracking-wider uppercase text-center">Week {week} Picks</h2>
-                <p className="px-6 text-stone-300 mb-4 lowercase">Select one answer for each question. Picks lock at 5:00 PM PT.</p>
+                <h2 className="pt-8 pb-4 text-3xl tracking-wider uppercase text-center">Week {week} Picks</h2>
+                <p className="px-5 text-stone-300 lowercase">
+                  Select one answer per question. 
+                  <br/>
+                  Answer as many or as few questions as you like.
+                  <br/>
+                  You can clear your picks at the bottom of the form. 
+                </p>
                 {peError && <div className="mb-4 mx-6 p-3 rounded-lg border border-red-700 bg-red-900/30 text-red-200">{peError}</div>}
                 {peLoading ? (
                   <div className="flex flex-col items-center py-10">
@@ -540,8 +546,8 @@ export default function WeeklyPickEms() {
                   <form onSubmit={(e) => { e.preventDefault(); if (!locked) submitPicks() }}>
                     <div className="space-y-12 py-4">
                       {markets.map((mkt) => (
-                        <div key={mkt.id} className="border-y-2 border-stone-600 px-4 py-6">
-                          <div className="relative text-xl mb-6 text-stone-200 tracking-wider leading-tight uppercase">
+                        <div key={mkt.id} className="border-y-2 border-stone-700 px-4 pt-6 pb-8 bg-stone-900">
+                          <div className="relative text-2xl mb-4 text-stone-200 tracking-wider leading-tight lowercase">
                             {mkt.question}
                             <button
                               type="button"
@@ -551,7 +557,7 @@ export default function WeeklyPickEms() {
                               <InformationCircleIcon className="w-7 h-7 inline mb-1" />
                             </button>
                             {tooltip === mkt.id && (
-                              <div className="absolute text-sm uppercase leading-normal bg-stone-700 border border-stone-500 text-stone-200 p-4 mt-2 rounded w-80">
+                              <div className="absolute text-sm uppercase leading-normal bg-stone-700 border border-stone-900 text-stone-200 p-4 mt-2 rounded w-80">
                                 <button
                                   type="button"
                                   className="absolute top-0 right-3 text-stone-400 hover:text-stone-200 text-2xl"
@@ -568,7 +574,7 @@ export default function WeeklyPickEms() {
 
                           {(() => {
                             const marketType = mkt.options?.[0]?.type ?? 'text'
-                            const baseBtn = 'transition rounded-lg border-2'
+                            const baseBtn = 'transition rounded-lg border'
                             const idleBtn = 'border-stone-700 bg-stone-800 text-stone-300 hover:bg-stone-700'
                             const activeBtn = 'border-orange-500 bg-orange-600/20 text-stone-100'
 

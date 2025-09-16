@@ -13,7 +13,7 @@ export function TribeBadges({ tribeIds, tribes }: { tribeIds: number[]; tribes: 
         return (
           <span
           key={id}
-          className="inline-block border border-black px-2 pb-1 pt-0.5 text-base tracking-wider rounded-lg uppercase font-lostIsland"
+          className="inline-block border border-black px-2 p-0.5 text-base tracking-wider rounded-lg uppercase font-lostIsland"
           style={{
             backgroundColor: hexToRgba(tribe.color, 0.2),
             color: tribe.color,

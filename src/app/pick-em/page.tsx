@@ -8,6 +8,7 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon,
   ArrowPathIcon,
+  InformationCircleIcon,
 } from '@heroicons/react/24/outline'
 import {
   CheckCircleIcon,
@@ -53,6 +54,8 @@ export default function WeeklyPickEms() {
   const { data: session } = useSession()
   const { revealSpoilers } = useSpoiler()
   const { playerTribes, contestants, tribes, loading } = useSeasonData(season)
+  const [tooltip, setTooltip] = useState<number | null>(null);
+
 
   const contestantMap = useMemo(
     () =>
@@ -538,7 +541,31 @@ export default function WeeklyPickEms() {
                     <div className="space-y-12 py-4">
                       {markets.map((mkt) => (
                         <div key={mkt.id} className="border-y-2 border-stone-600 px-4 py-6">
-                          <div className="text-xl mb-6 text-stone-200 tracking-wider leading-tight uppercase">{mkt.question}</div>
+                          <div className="relative text-xl mb-6 text-stone-200 tracking-wider leading-tight uppercase">
+                            {mkt.question}
+                            <button
+                              type="button"
+                              onClick={() => setTooltip(tooltip === mkt.id ? null : mkt.id)}
+                              className="ms-2 text-stone-400/80 hover:text-stone-200"
+                            >
+                              <InformationCircleIcon className="w-7 h-7 inline mb-1" />
+                            </button>
+                            {tooltip === mkt.id && (
+                              <div className="absolute text-sm uppercase leading-normal bg-stone-700 border border-stone-500 text-stone-200 p-4 mt-2 rounded w-80">
+                                <button
+                                  type="button"
+                                  className="absolute top-0 right-3 text-stone-400 hover:text-stone-200 text-2xl"
+                                  onClick={() => setTooltip(null)}
+                                  aria-label="Close help"
+                                >
+                                  ×
+                                </button>
+                                {mkt.description}
+                              </div>
+                            )}
+                          </div>
+
+
                           {(() => {
                             const marketType = mkt.options?.[0]?.type ?? 'text'
                             const baseBtn = 'transition rounded-lg border-2'

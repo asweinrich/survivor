@@ -55,7 +55,7 @@ export default function CastPage() {
         {/* Original blurb/instructions preserved */}
         <div className="lowercase text-stone-200 border-y border-stone-500 p-4 my-8 font-lostIsland tracking-wider">
           <p className="mb-3">
-            Contestants are sorted by their in-play status and vote out order
+            Contestants are grouped by their tribe and in-play status and sorted by vote out order
           </p>
           <p className="">
             Tap a contestant to view their full profile and stats

@@ -317,10 +317,10 @@ export default function WeeklyPickEms() {
 
       <div className="max-w-6xl mx-auto">
         {/* Top help / rules */}
-        <div className="lowercase text-stone-200 border-y border-stone-500 p-4 mt-8 font-lostIsland tracking-wider ">
-          <p className="mb-3">Weekly Pick Ems are an optional side game that can help ..or hurt.. your overall fantasy score.</p>
-          <p className="mb-3">Tribes default each week to a status of <span className="text-stone-300">Passed</span>. If you submit picks, your status will update to Locked In. </p>
-          <p className="mb-3">Weekly picks can be submitted up until the start of that weeks episode, or each Wednesday at 5PM Pacific, 7PM Central, 8PM Eastern. </p>
+        <div className="lowercase text-stone-200 border-y border-stone-500 p-4 mt-8 font-lostIsland tracking-wider leading-tight">
+          <p className="mb-3">Weekly Pick Em's are an optional side game that can help you feel like a winner, even if your tribe is a bust!</p>
+          <p className="mb-3">Tribe Picks default each week to a status of <span className="text-stone-300/80">Passed</span>. If you submit picks, your status will update to <span className="text-orange-300/80">Locked In</span>. </p>
+          <p className="mb-3">Weekly picks can be submitted up until the start of that week's episode, or each Wednesday at 5PM Pacific, 7PM Central, 8PM Eastern. </p>
         </div>
 
         {/* Season / Week / CTA / Countdown */}
@@ -531,8 +531,10 @@ export default function WeeklyPickEms() {
                   Select one answer per question. 
                   <br/>
                   Answer as many or as few questions as you like.
-                  <br/>
-                  You can clear your picks at the bottom of the form. 
+                  <br/><br/>
+                  The <span className="text-green-400">green points</span> are the points you gain if your guess is correct. The <span className="text-red-400">red points</span> are how many points you lose if your guess is incorrect. 
+                  <br/><br/>
+                  You can clear / reset your picks at the bottom of the form. 
                 </p>
                 {peError && <div className="mb-4 mx-6 p-3 rounded-lg border border-red-700 bg-red-900/30 text-red-200">{peError}</div>}
                 {peLoading ? (
@@ -547,34 +549,16 @@ export default function WeeklyPickEms() {
                     <div className="space-y-12 py-4">
                       {markets.map((mkt) => (
                         <div key={mkt.id} className="border-y-2 border-stone-700 px-4 pt-6 pb-8 bg-stone-900">
-                          <div className="relative text-2xl mb-4 text-stone-200 tracking-wider leading-tight lowercase">
+                          <div className="relative text-xl mb-2 text-stone-200 tracking-wider leading-tight uppercase">
                             {mkt.question}
-                            <button
-                              type="button"
-                              onClick={() => setTooltip(tooltip === mkt.id ? null : mkt.id)}
-                              className="ms-2 text-stone-400/80 hover:text-stone-200"
-                            >
-                              <InformationCircleIcon className="w-7 h-7 inline mb-1" />
-                            </button>
-                            {tooltip === mkt.id && (
-                              <div className="absolute text-sm uppercase leading-normal bg-stone-700 border border-stone-900 text-stone-200 p-4 mt-2 rounded w-80">
-                                <button
-                                  type="button"
-                                  className="absolute top-0 right-3 text-stone-400 hover:text-stone-200 text-2xl"
-                                  onClick={() => setTooltip(null)}
-                                  aria-label="Close help"
-                                >
-                                  ×
-                                </button>
-                                {mkt.description}
-                              </div>
-                            )}
                           </div>
-
+                          <div className="relative text-base mb-6 text-stone-400 tracking-wider leading-tight lowercase">
+                            {mkt.description}
+                          </div>
 
                           {(() => {
                             const marketType = mkt.options?.[0]?.type ?? 'text'
-                            const baseBtn = 'transition rounded-lg border'
+                            const baseBtn = 'transition rounded-lg border-2 '
                             const idleBtn = 'border-stone-700 bg-stone-800 text-stone-300 hover:bg-stone-700'
                             const activeBtn = 'border-orange-500 bg-orange-600/20 text-stone-100'
 
@@ -710,12 +694,12 @@ export default function WeeklyPickEms() {
                     </div>
 
                     {/* Footer buttons: row 1 = Cancel + Clear; row 2 = Submit */}
-                    <div className="my-6 flex items-center justify-center gap-3">
-                      <button type="button" onClick={closePickEmModal} className="px-4 py-2 rounded-md border border-stone-700 bg-stone-800 text-stone-300 hover:bg-stone-700">Cancel</button>
-                      <button type="button" onClick={clearPicks} disabled={peLoading} className={`px-4 py-2 rounded-md border font-semibold tracking-wider ${peLoading ? 'bg-stone-800 border-stone-700 text-stone-500 cursor-not-allowed' : 'bg-stone-900 border-stone-600 text-stone-100 hover:bg-stone-700'}`}>Clear picks</button>
+                    <div className="py-6 mt-8 flex items-center justify-center gap-3 bg-stone-900 border-t-2 border-stone-700">
+                      <button type="button" onClick={closePickEmModal} className="w-40 uppercase px-4 py-2 rounded-md border border-stone-700 bg-stone-800 text-stone-200 hover:bg-stone-700">Cancel</button>
+                      <button type="button" onClick={clearPicks} disabled={peLoading} className={`w-40 uppercase px-4 py-2 rounded-md border tracking-wider ${peLoading ? 'bg-stone-800 border-stone-700 text-stone-500 cursor-not-allowed' : 'bg-stone-800 border-stone-700 text-stone-200 hover:bg-stone-700'}`}>Clear picks</button>
                     </div>
-                    <div className="mb-10 flex items-center justify-center">
-                      <button type="submit" disabled={locked || peLoading} className={`w-[min(92%,28rem)] px-4 py-3 rounded-md border text-lg font-semibold tracking-wider ${locked || peLoading ? 'bg-stone-800 border-stone-700 text-stone-500 cursor-not-allowed' : 'bg-orange-600 border-orange-700 text-stone-50 hover:bg-orange-500'}`}>{locked ? 'Locked' : 'Submit Picks'}</button>
+                    <div className="pb-10 flex items-center justify-center bg-stone-900 border-b border-stone-700">
+                      <button type="submit" disabled={locked || peLoading} className={`w-[min(92%,28rem)] px-4 py-3 rounded-md border text-2xl uppercase tracking-wider ${locked || peLoading ? 'bg-stone-800 border-stone-700 text-stone-500 cursor-not-allowed' : 'bg-orange-600 border-orange-700 text-stone-50 hover:bg-orange-500'}`}>{locked ? 'Locked' : 'Submit Picks'}</button>
                     </div>
                   </form>
                 )}

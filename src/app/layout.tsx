@@ -62,8 +62,9 @@ function Navbar() {
         </div>
 
         <div className="text-lg hidden md:flex space-x-6 items-center font-lostIsland">
-          <a href="/cast" className="hover:opacity-70">Cast</a>
           <a href="/leaderboard" className="hover:opacity-70">Leaderboard</a>
+          <a href="/cast" className="hover:opacity-70">Cast</a>
+          <a href="/pick-em" className="hover:opacity-70">Pick Em Contest</a>
           <a href="/recaps" className="hover:opacity-70">Weekly Recaps</a>
           <a href="/how-to-play" className="hover:opacity-70">How to Play</a>
           <a href="/faq" className="hover:opacity-70">FAQ</a>
@@ -99,8 +100,9 @@ function Navbar() {
         </button>
         <nav className="flex flex-col uppercase items-start p-6 space-y-4 font-lostIsland text-2xl tracking-wider">
           <a href="/" className="hover:opacity-70">Home</a>
-          <a href="/cast" className="hover:opacity-70">Cast</a>
           <a href="/leaderboard" className="hover:opacity-70">Leaderboard</a>
+          <a href="/cast" className="hover:opacity-70">Cast</a>
+          <a href="/pick-em" className="hover:opacity-70">Pick Em Contest</a>
           <a href="/recaps" className="hover:opacity-70">Weekly Recaps</a>
           <a href="/how-to-play" className="hover:opacity-70">How To Play</a>
           <a href="/faq" className="hover:opacity-70">FAQ</a>

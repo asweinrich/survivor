@@ -98,7 +98,17 @@ const RulesPage = () => {
                         <InformationCircleIcon className="w-5 h-5 inline mb-0.5" />
                       </button>
                       {tooltip === -1 && (
-                        <div className="absolute text-sm bg-stone-700 text-stone-200 p-4 mt-2 rounded-lg shadow-lg w-80">Picking the correct Sole Survivor earns your tribe a 200 point bonus.</div>
+                        <div className="absolute text-sm bg-stone-700 border border-stone-900 text-stone-200 p-4 mt-2 rounded w-80">
+                          <button
+                            type="button"
+                            className="absolute top-0 right-3 text-stone-400 hover:text-stone-200 text-2xl"
+                            onClick={() => setTooltip(null)}
+                            aria-label="Close help"
+                          >
+                            ×
+                          </button>
+                          Picking the correct Sole Survivor earns your tribe a 200 point bonus.
+                        </div>
                       )}
                       Correct Sole Survivor Pick
                     </td>
@@ -115,10 +125,17 @@ const RulesPage = () => {
                           <InformationCircleIcon className="w-5 h-5 inline mb-0.5" />
                         </button>
                         {tooltip === index && (
-                          <div
-                            className="absolute text-sm bg-stone-700 text-stone-200 p-4 mt-2 rounded-lg shadow-lg w-80"
-                            dangerouslySetInnerHTML={{ __html: score.description }}
-                          />
+                          <div className="absolute text-sm bg-stone-700 border border-stone-900 text-stone-200 p-4 mt-2 rounded w-80">
+                          <button
+                            type="button"
+                            className="absolute top-0 right-3 text-stone-400 hover:text-stone-200 text-2xl"
+                            onClick={() => setTooltip(null)}
+                            aria-label="Close help"
+                          >
+                            ×
+                          </button>
+                          {score.description}
+                          </div>
                         )}
                         {score.name}
                       </td>

@@ -90,7 +90,7 @@ export default function UserHeader({ userEmail, tribeCount }: Props) {
 
   return (
     <>
-      <div className="font-lostIsland bg-stone-800 w-full max-w-6xl p-4 flex-col items-center gap-4 mb-4">
+      <div className="font-lostIsland border-2 border-stone-700 rounded bg-stone-800 w-full max-w-6xl p-3 flex-col items-center gap-4 mb-4">
         <div className="flex items-center gap-3">
           {/* Text Content */}
           <div className="flex-col py-2">
@@ -159,7 +159,7 @@ export default function UserHeader({ userEmail, tribeCount }: Props) {
           </div>
         </div>
 
-        <div className="flex mb-2">
+        <div className="flex mb-2 ps-1">
           {/* Badges */}
           <div className="flex flex-wrap mt-3 gap-2">
             {badges.length === 0 ? (
@@ -169,13 +169,13 @@ export default function UserHeader({ userEmail, tribeCount }: Props) {
                 <button
                   key={badge.id}
                   title={badge.description}
-                  className="flex items-center gap-1 w-10 h-10 rounded-full border-2 border-black font-lostIsland text-xl text-white shadow-md transition hover:scale-[1.02]"
+                  className="flex items-center gap-1 w-10 h-10 rounded-lg border-2 border-black font-lostIsland text-xl text-white shadow-md transition hover:scale-[1.02]"
                   style={{
                     backgroundImage: `linear-gradient(to bottom right, ${badge.color}, ${darkenColor(
                       badge.color,
                       0.3
                     )})`,
-                    boxShadow: '1px 1px 0px rgba(0,0,0,1)',
+                    boxShadow: '1px 2px 0px rgba(0,0,0,1)',
                   }}
                   onClick={() => {
                     setBadgeModalOpen(true);
@@ -216,13 +216,12 @@ export default function UserHeader({ userEmail, tribeCount }: Props) {
             {selectedBadge && (
               <div className="text-center mb-6">
                 <div
-                  className="text-6xl mb-3 flex w-24 h-24 justify-center items-center mx-auto border-4 border-black rounded-full"
+                  className="text-6xl mb-3 flex w-24 h-24 justify-center items-center mx-auto border-4 border-black rounded-2xl"
                   style={{
                     backgroundImage: `linear-gradient(to bottom right, ${selectedBadge.color}, ${darkenColor(
                       selectedBadge.color,
                       0.35
                     )})`,
-                    textShadow: '3px 5px 0px rgba(0,0,0,1)',
                     boxShadow: '4px 4px 0px rgba(0,0,0,1)',
                   }}
                 >
@@ -233,7 +232,7 @@ export default function UserHeader({ userEmail, tribeCount }: Props) {
               </div>
             )}
 
-            <div className="flex flex-col gap-y-4 max-h-[36vh] overflow-y-auto border-y border-stone-500 p-4">
+            <div className="flex flex-col gap-y-4 max-h-[36vh] overflow-y-auto border-y-2 border-stone-700 p-4">
               {allBadges.map((badge) => {
                 const earned = badges.some((b) => b.id === badge.id);
                 const isFocused = selectedBadge?.id === badge.id;
@@ -242,7 +241,7 @@ export default function UserHeader({ userEmail, tribeCount }: Props) {
                   <button
                     key={badge.id}
                     onClick={() => setSelectedBadge(badge)}
-                    className={`w-full flex items-center gap-4 px-3 py-1 rounded-full border-4 border-black text-left transition ${
+                    className={`w-full flex items-center gap-4 px-3 py-1 rounded-xl border-4 border-black text-left transition ${
                       isFocused ? 'scale-105' : ''
                     } ${earned ? '' : 'opacity-30'}`}
                     style={{

@@ -178,14 +178,15 @@ export default function DashboardPage() {
 
   return (
     <div className="min-h-screen bg-stone-900 text-stone-200 p-0">
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-6xl mx-auto p-3">
         <UserHeader
           userEmail={userEmail ?? ""}
           tribeCount={sortedUserTribes.length}
         />
 
-        <h1 className="text-2xl font-lostIsland uppercase mb-2 px-4">Your Tribes</h1>
-          
+        <h1 className="text-2xl font-lostIsland uppercase mb-2 px-2">Your Tribes</h1>
+         
+        <div className="">  
 
         {loading ? (
           <div className="flex flex-col justify-center items-center py-10">
@@ -194,7 +195,7 @@ export default function DashboardPage() {
           </div>
         ) : (
           sortedUserTribes.map((tribe) => (
-            <div key={tribe.id} className="border-b border-t border-stone-700 px-2 py-3">
+            <div key={tribe.id} className="py-2 px-1 mb-3 rounded-lg border border-stone-700 bg-stone-800">
               <div className="flex items-center justify-start" onClick={() => toggleDropdown(tribe.id)}>
                 <div className="w-12 h-12 mx-2 rounded-full border border-stone-700 flex items-center justify-center text-3xl" style={{ backgroundColor: tribe.color }}>
                   {tribe.emoji}
@@ -229,7 +230,7 @@ export default function DashboardPage() {
                 </div>
               </div>
               {expandedTribes.includes(tribe.id) && (
-                <div className="px-3 mt-3 bg-stone-800 rounded-lg border border-stone-700">
+                <div className="px-3 mt-3 bg-stone-800">
                   {(() => {
                     const tribeIds = tribe.tribeArray;
                     if (!tribeIds || tribeIds.length === 0) return null;
@@ -348,6 +349,7 @@ export default function DashboardPage() {
             </div>
           ))
         )}
+        </div>
 
         {modalVisible && (
           <div

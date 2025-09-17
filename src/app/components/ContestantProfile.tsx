@@ -328,7 +328,7 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
             </p>
             {contestant.tribes.length > 0 && (
               <p className="text-sm -ms-0.5 my-1.5 max-w-56">
-                <TribeBadges tribeIds={[Number(contestant.tribes)]} tribes={tribes as Tribe[]} />
+                <TribeBadges tribeIds={contestant.tribes} tribes={tribes as Tribe[]} />
               </p>
             )}
             <div className="flex text-sm">

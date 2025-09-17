@@ -66,7 +66,7 @@ const HomePage = () => {
       <div className="w-full flex flex-col max-w-5xl mx-auto px-4 py-6 text-center text-lg tracking-wider lowercase border-y-2 border-stone-600">
         <span className="mb-3">Welcome back to Survivor Fantasy!</span>
         <span className="mb-3">This website is a place where you can draft a fantasy tribe, track contestants and scores, and make weekly predictions.</span>
-        <span className="">Join the WhatsApp group to meet your competition and to get the best Survivior Fantasy experience - come say hi!</span>
+        <span className="">Join the WhatsApp group to meet your competition and to get the best Survivor Fantasy experience - come say hi!</span>
       </div>
 
       <div className="text-center py-3 px-4 mt-3 mx-3 rounded-xl">

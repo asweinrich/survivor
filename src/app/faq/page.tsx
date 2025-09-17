@@ -51,7 +51,7 @@ const FaqPage = () => {
           <section id="faq" className="px-4 font-lostIsland tracking-wider mb-16">
             <h2 className="text-2xl mb-4 text-center">Frequently Asked Questions</h2>
             
-            <div className="border-b border-orange-100 py-8">
+            <div className="border-b-2 border-stone-700 py-8">
               <p className="text-xl font-lostIsland text-stone-200 tracking-wider mb-2">
                 How do I stay up to date with updates and discussions?
               </p>
@@ -68,60 +68,51 @@ const FaqPage = () => {
               </p>
             </div>
 
-            <div className="border-b border-orange-100 py-8">
+            <div className="border-b-2 border-stone-700 py-8">
               <p className="text-xl font-lostIsland text-stone-200 tracking-wider mb-2">
                 When do I draft my tribe?
               </p>
               <p className="font-inter text-stone-300 tracking-wider">
-                You can draft your tribe any time between the airing of the 1st and 2nd episodes of Season 48. Tribe 'drafting' will be open from Wednesday February 26 @ 9:00PM PST until Wednesday March 5 at 5:00PM PST.
+                You can draft your tribe any time between the airing of the 1st and 2nd episodes of Season 49. Tribe 'drafting' will be open from Wednesday September 24th at 10:00PM PT until Wednesday October 1st at 5:00PM PT.
               </p>
             </div>
 
-            <div className="border-b border-orange-100 py-8">
+            <div className="border-b-2 border-stone-700 py-8">
               <p className="text-xl font-lostIsland text-stone-200 tracking-wider mb-2">
                 Can I update my tribe after I've drafted?
               </p>
               <p className="font-inter text-stone-300 tracking-wider">
-                No. Unfortunately you do not have the ability to make edits to your tribe after you've submitted your picks. So take your time and make sure you pick with intention! If you absolutely, direly need to make a change before tribes are locked on Wednesday March 5, please reach out to me. 
+                No. Unfortunately you do not have the ability to make edits to your tribe after you've submitted your picks. So take your time and make sure you pick with intention! If you absolutely, direly need to make a change before tribes are locked on Wednesday October 1st, please reach out to me (Andrew Scott) in the WhatsApp. 
               </p>  
             </div>
 
-            <div className="border-b border-orange-100 py-8">
+            <div className="border-b-2 border-stone-700 py-8">
               <p className="text-xl font-lostIsland text-stone-200 tracking-wider mb-2">
                 How do I pay my tribe's entry fee?
               </p>
               <p className="font-inter text-stone-300 tracking-wider mb-4">
-                Please pay Andrew $20 for your tribe's entry fee via venmo if possible. Make sure you put your tribe's name in the memo to help keep track of who has paid! Apple Pay also works great. Reach out at 281-415-0650 if you need to pay your entry fee using an alternate method. 
+                Please pay me the $20 for your tribe's entry fee via venmo, if possible. Make sure you put your tribe's name in the memo to help keep track of who has paid! Apple Pay also works great. Again, reach out to me (Andrew Scott) in the WhatsApp if you need to pay using an alternate method. 
               </p>
               <p className="font-inter text-stone-300 tracking-wider mb-4">
-                Remember that if your tribe's entry fee isn't paid by the airing of the 2nd episode, your tribe will be removed from competition - we don't want that!
+                Remember that if your tribe's entry fee isn't paid by the airing of the 2nd episode, your tribe will be ineligible for cash prizes - we don't want that!
               </p>
-              <a href="https://venmo.com/Andrew-Weinrich?txn=pay&amount=20.00&note=Don%27t+forget+your+tribe+name%21">
+              <a href="https://venmo.com/Andrew-w-scott?txn=pay&amount=20.00&note=Don%27t+forget+your+tribe+name%21">
                 <div className="w-full text-center text-lg uppercase bg-gradient-to-tr from-orange-500 to-orange-700 hover:from-orange-600 hover:to-orange-800 p-2 rounded-lg">
                   Pay $20 Entry Fee on Venmo
                 </div>
               </a>
             </div>
 
-            <div className="border-b border-orange-100 py-8">
-              <p className="text-xl font-lostIsland text-stone-200 tracking-wider mb-2">
-                Can I make more than one tribe?
-              </p>
-              <p className="font-inter text-stone-300 tracking-wider">
-                Absolutely! The more tribes competing, the merrier! Just make sure you pay the entry fee for each tribe.
-              </p>
-            </div>
-
-            <div className="border-b border-orange-100 py-8">
+            <div className="border-b-2 border-stone-700 py-8">
               <p className="text-xl font-lostIsland text-stone-200 tracking-wider mb-2">
                 What happens if one of my tribe picks gets voted out?
               </p>
               <p className="font-inter text-stone-300 tracking-wider">
-                If one of your tribe members are sent home, they will no longer earn points for your tribe. The points they accumulated during their time in the game wil still contribute to your total points, but they will not earn any additional points from the time they are sent home. 
+                If one of your tribe members are sent home, they will no longer earn points for your tribe. The points they accumulated during their time in the game wil still contribute to your total tribe points, but they will not earn any additional points from the time they are sent home. 
               </p>
             </div>
 
-            <div className="border-b border-orange-100 py-8">
+            <div className="border-b-2 border-stone-700 py-8">
               <p className="text-xl font-lostIsland text-stone-200 tracking-wider mb-2">
                 What happens if there is a tie?
               </p>

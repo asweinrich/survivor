@@ -123,17 +123,10 @@ const FaqPage = () => {
 
             <div className="border-b-2 border-stone-700 py-8">
               <p className="lowercase text-2xl leading-tight font-lostIsland text-stone-200 tracking-wider mb-2">
-                What is the difference between the Fantasy Tribes and the Weekly Pick Em's?
+                What happens if I don't play the Weekly Pick Em Contest?
               </p>
               <p className="font-inter text-stone-300 tracking-wider">
-              </p>  
-            </div>
-
-            <div className="border-b-2 border-stone-700 py-8">
-              <p className="lowercase text-2xl leading-tight font-lostIsland text-stone-200 tracking-wider mb-2">
-                What happens if I don't play the Weekly Pick Em?
-              </p>
-              <p className="font-inter text-stone-300 tracking-wider">
+                Nothing! The Pick Em Contest is completely optional and does not affect your tribe's score on the leaderboard. 
               </p>  
             </div>
 
@@ -142,6 +135,7 @@ const FaqPage = () => {
                 Can I invite any interested friends or family?
               </p>
               <p className="font-inter text-stone-300 tracking-wider">
+                Yes please! If there is anybody in your life who might enjoy Survivor Fantasy, please let them know about this league! The more, the merrier!
               </p>  
             </div>
 

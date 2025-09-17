@@ -30,7 +30,7 @@ import { PendingSummary } from './PendingSummary';
 // ---- Page ------------------------------------------------------------
 export default function WeeklyPickEms() {
   const [season, setSeason] = useState('49')
-  const [week, setWeek] = useState<number>(1)
+  const [week, setWeek] = useState<number>(2)
   const [expandedTribes, setExpandedTribes] = useState<number[]>([])
   const [submittedSet, setSubmittedSet] = useState<Set<number>>(new Set())
   const [lockAt, setLockAt] = useState<Date | null>(null)
@@ -66,8 +66,8 @@ export default function WeeklyPickEms() {
     [contestants]
   )
 
-  const MIN_WEEK = 1
-  const MAX_WEEK = 1
+  const MIN_WEEK = 2
+  const MAX_WEEK = 2
 
   const rankedTribes = useMemo(() => {
     const ranked = rankAndScorePlayerTribes(playerTribes, season, contestantMap) as Array<PlayerTribe & { rank: number }>
@@ -527,15 +527,20 @@ export default function WeeklyPickEms() {
               <button className="text-stone-400 hover:text-stone-200 absolute top-3 right-4" onClick={closePickEmModal}>✕</button>
               <div className="p-0">
                 <h2 className="pt-8 pb-4 text-3xl tracking-wider uppercase text-center">Week {week} Picks</h2>
-                <p className="px-5 text-stone-300 lowercase">
-                  Select one answer per question. 
-                  <br/>
-                  Answer as many or as few questions as you like.
-                  <br/><br/>
-                  The <span className="text-green-400">green points</span> are the points you gain if your guess is correct. The <span className="text-red-400">red points</span> are how many points you lose if your guess is incorrect. 
-                  <br/><br/>
-                  You can clear / reset your picks at the bottom of the form. 
-                </p>
+                <div className="p-4 border-y-2 border-stone-700 text-stone-300 lowercase">
+                  <p className="mb-3">
+                    Select one answer per question. 
+                    <br/>
+                    Answer as many or as few questions as you like.
+                  </p>
+                  <p className="mb-3">
+                    The <span className="text-green-400">green points</span> are the points you gain if your guess is correct. The <span className="text-red-400">red points</span> are how many points you lose if your guess is incorrect. 
+                  </p>
+                  <p className="">
+                    You can clear / reset your picks at the bottom of the form. 
+                  </p>
+                </div>
+                                
                 {peError && <div className="mb-4 mx-6 p-3 rounded-lg border border-red-700 bg-red-900/30 text-red-200">{peError}</div>}
                 {peLoading ? (
                   <div className="flex flex-col items-center py-10">
@@ -543,7 +548,7 @@ export default function WeeklyPickEms() {
                     <p className="mt-3 text-stone-300 tracking-wider lowercase">Loading...</p>
                   </div>
                 ) : markets.length === 0 ? (
-                  <div className="px-6 text-stone-300">No picks have been posted for this week yet.</div>
+                  <div className="p-6 text-center text-2xl lowercase text-stone-300">No picks have been posted for this week yet.</div>
                 ) : (
                   <form onSubmit={(e) => { e.preventDefault(); if (!locked) submitPicks() }}>
                     <div className="space-y-12 py-4">

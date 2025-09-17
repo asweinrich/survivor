@@ -52,7 +52,7 @@ const FaqPage = () => {
             <h2 className="text-2xl mb-4 text-center">Frequently Asked Questions</h2>
             
             <div className="border-b-2 border-stone-700 py-8">
-              <p className="text-xl font-lostIsland text-stone-200 tracking-wider mb-2">
+              <p className="lowercase text-2xl leading-tight font-lostIsland text-stone-200 tracking-wider mb-2">
                 How do I stay up to date with updates and discussions?
               </p>
               <p className="font-inter text-stone-300 tracking-wider">
@@ -69,7 +69,7 @@ const FaqPage = () => {
             </div>
 
             <div className="border-b-2 border-stone-700 py-8">
-              <p className="text-xl font-lostIsland text-stone-200 tracking-wider mb-2">
+              <p className="lowercase text-2xl leading-tight font-lostIsland text-stone-200 tracking-wider mb-2">
                 When do I draft my tribe?
               </p>
               <p className="font-inter text-stone-300 tracking-wider">
@@ -78,7 +78,7 @@ const FaqPage = () => {
             </div>
 
             <div className="border-b-2 border-stone-700 py-8">
-              <p className="text-xl font-lostIsland text-stone-200 tracking-wider mb-2">
+              <p className="lowercase text-2xl leading-tight font-lostIsland text-stone-200 tracking-wider mb-2">
                 Can I update my tribe after I've drafted?
               </p>
               <p className="font-inter text-stone-300 tracking-wider">
@@ -87,7 +87,7 @@ const FaqPage = () => {
             </div>
 
             <div className="border-b-2 border-stone-700 py-8">
-              <p className="text-xl font-lostIsland text-stone-200 tracking-wider mb-2">
+              <p className="lowercase text-2xl leading-tight font-lostIsland text-stone-200 tracking-wider mb-2">
                 How do I pay my tribe's entry fee?
               </p>
               <p className="font-inter text-stone-300 tracking-wider mb-4">
@@ -104,7 +104,7 @@ const FaqPage = () => {
             </div>
 
             <div className="border-b-2 border-stone-700 py-8">
-              <p className="text-xl font-lostIsland text-stone-200 tracking-wider mb-2">
+              <p className="lowercase text-2xl leading-tight font-lostIsland text-stone-200 tracking-wider mb-2">
                 What happens if one of my tribe picks gets voted out?
               </p>
               <p className="font-inter text-stone-300 tracking-wider">
@@ -113,11 +113,35 @@ const FaqPage = () => {
             </div>
 
             <div className="border-b-2 border-stone-700 py-8">
-              <p className="text-xl font-lostIsland text-stone-200 tracking-wider mb-2">
+              <p className="lowercase text-2xl leading-tight font-lostIsland text-stone-200 tracking-wider mb-2">
                 What happens if there is a tie?
               </p>
               <p className="font-inter text-stone-300 tracking-wider">
                 If two or more tribes are tied for any of the top 3 places at the end of the season, the prize for that place along with the prize for the next place(s) will be evenly distributed among those tied. For example, if two tribes tie for 1st place, they will split the combined 90% of the pot for 1st and 2nd place, and the next hightest scoring tribe would get 3rd place and receive 10% of the pot. 
+              </p>  
+            </div>
+
+            <div className="border-b-2 border-stone-700 py-8">
+              <p className="lowercase text-2xl leading-tight font-lostIsland text-stone-200 tracking-wider mb-2">
+                What is the difference between the Fantasy Tribes and the Weekly Pick Em's?
+              </p>
+              <p className="font-inter text-stone-300 tracking-wider">
+              </p>  
+            </div>
+
+            <div className="border-b-2 border-stone-700 py-8">
+              <p className="lowercase text-2xl leading-tight font-lostIsland text-stone-200 tracking-wider mb-2">
+                What happens if I don't play the Weekly Pick Em?
+              </p>
+              <p className="font-inter text-stone-300 tracking-wider">
+              </p>  
+            </div>
+
+            <div className="border-b-2 border-stone-700 py-8">
+              <p className="lowercase text-2xl leading-tight font-lostIsland text-stone-200 tracking-wider mb-2">
+                Can I invite any interested friends or family?
+              </p>
+              <p className="font-inter text-stone-300 tracking-wider">
               </p>  
             </div>
 

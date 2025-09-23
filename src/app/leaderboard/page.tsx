@@ -84,7 +84,6 @@ export default function Leaderboard() {
               onChange={(e) => setSeason(e.target.value)}
             >
               {/*<option value="49">Season 49</option>*/}
-              <option value="49">Season 49</option>
               <option value="48">Season 48</option>
               <option value="47">Season 47</option>
             </select>

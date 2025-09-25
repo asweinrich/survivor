@@ -137,7 +137,7 @@ export default function Leaderboard() {
                 const soleSurvivor = contestants.find((c) => c.id === ids[0]);
                 const rest = ids.slice(1)
                   .map((id: number) => contestants.find((c) => c && c.id === id))
-                  .filter((c): c is Contestant => !!c)
+                  .filter((c: Contestant | undefined): c is Contestant => !!c)
                   .sort((a, b) => (a.inPlay === b.inPlay ? a.name.localeCompare(b.name) : a.inPlay ? -1 : 1));
 
                 const list = soleSurvivor ? [soleSurvivor, ...rest] : rest;

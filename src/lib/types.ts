@@ -30,6 +30,7 @@ export type PlayerTribe = {
   pastScore: number;
   rank?: number;
   paid: boolean;
+  season: number;
 };
 
 export type Tribe = {

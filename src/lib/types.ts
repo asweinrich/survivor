@@ -61,3 +61,9 @@ export type PickEmScoreBreakdown = {
   label?: string; // e.g. tribe or contestant name
 };
 
+export type Player = {
+  id: number;
+  name: string;
+  email: string;
+  // Add any other relevant fields here!
+};

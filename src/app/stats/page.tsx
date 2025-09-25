@@ -2,6 +2,9 @@
 
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
+import { LargeTribeBadges } from '@/lib/utils/tribes'
+import { useSeasonData } from '@/lib/hooks/useSeasonData'
+
 
 
 type StatsContestant = {
@@ -26,7 +29,9 @@ export default function StatsPage() {
   const [tribes, setTribes] = useState<Tribe[]>([]);
   const [loading, setLoading] = useState(false);
   // You can make the season dynamic as needed
-  const season = "48";
+  const season = "49";
+
+  const { tribesX } = useSeasonData(season)
 
   useEffect(() => {
     async function fetchData() {
@@ -78,33 +83,7 @@ export default function StatsPage() {
     );
   });
 
-  // Function to format tribe badges (similar to your cast page)
-  function formatTribeBadges(tribeIds: number[]) {
-    return tribeIds.map((id) => {
-      const tribe = tribes.find((t) => t.id === id);
-      if (!tribe) return null;
-      return (
-        <span
-          key={id}
-          className="inline-block px-4 py-3 uppercase tracking-wider text-2xl leading-none rounded-full font-lostIsland"
-          style={{
-            backgroundColor: hexToRgba(tribe.color, 0.2),
-            color: tribe.color,
-          }}
-        >
-          {tribe.name}
-        </span>
-      );
-    });
-  }
-
-  function hexToRgba(hex: string, alpha: number): string {
-    const cleanHex = hex.replace('#', '');
-    const r = parseInt(cleanHex.substring(0, 2), 16);
-    const g = parseInt(cleanHex.substring(2, 4), 16);
-    const b = parseInt(cleanHex.substring(4, 6), 16);
-    return `rgba(${r}, ${g}, ${b}, ${alpha})`;
-  }
+  
 
   if (loading) {
     return <p className="text-center py-10 text-stone-200">Loading...</p>;
@@ -112,14 +91,7 @@ export default function StatsPage() {
 
   return (
     <div className="min-h-screen bg-stone-800 text-stone-200 p-4 pt-8">
-      <div className="max-w-6xl mx-auto mb-8">
-        <h2 className="text-2xl font-lostIsland tracking-wider uppercase mb-8 text-center">
-          Voting Chart
-        </h2>
-        <div className="border-4 border-stone-600 rounded-lg p-3">
-          
-        </div>
-      </div>
+      
       <div className="max-w-6xl mx-auto">
         <h2 className="text-2xl font-lostIsland tracking-wider uppercase mb-8 text-center">
           Draft Results by Tribe
@@ -144,7 +116,7 @@ export default function StatsPage() {
                 <div key={tribeId} className="mb-8">
                   {tribeInfo && (
                     <div className="flex justify-center mb-4">
-                      {formatTribeBadges([tribeInfo.id])}
+                      <LargeTribeBadges tribeIds={[Number(tribeInfo.id)]} tribes={tribes as Tribe[]} />
                     </div>
                   )}
                   {groupContestants.map(contestant => (
@@ -153,7 +125,7 @@ export default function StatsPage() {
                       className="flex items-center space-x-4 border-y border-stone-500 py-3"
                     >
                       <Image
-                        src={`/imgs/48/${contestant.name}.png`}
+                        src={`/imgs/49/${contestant.name}.png`}
                         alt={contestant.name}
                         width={60}
                         height={60}

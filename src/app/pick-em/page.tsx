@@ -324,7 +324,7 @@ export default function WeeklyPickEms() {
       <div className="max-w-6xl mx-auto">
         {/* Top help / rules */}
         <div className="lowercase text-stone-200 border-y border-stone-500 p-4 mt-8 font-lostIsland tracking-wider leading-tight">
-          <p className="mb-3">The Pick Em Contest an optional side game that can help you feel like a winner, even if your tribe is a bust!</p>
+          <p className="mb-3">This is an optional side game that can help you feel like a winner, even if your tribe is a bust!</p>
           <p className="mb-3">These do not impact your Fantasy Tribe score!</p>
           <p className="mb-3">Picks are included with your tribe entry and default each week to a status of <span className="text-stone-300/80">Passed</span>. If you submit picks, your status will update to <span className="text-orange-300/80">Locked In</span>. Picks will be scored following each episode.</p>
           <p className="mb-3">Picks can be submitted up until the start of that week's episode, or each Wednesday at 5PM Pacific, 7PM Central, 8PM Eastern. </p>

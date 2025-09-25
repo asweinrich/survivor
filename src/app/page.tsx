@@ -2,7 +2,7 @@
   
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import { UserGroupIcon, ChatBubbleLeftRightIcon, TrophyIcon, CalendarDaysIcon, BookOpenIcon, QuestionMarkCircleIcon } from "@heroicons/react/24/outline"
+import { UserGroupIcon, CursorArrowRaysIcon, ChatBubbleLeftRightIcon, TrophyIcon, CalendarDaysIcon, BookOpenIcon, QuestionMarkCircleIcon } from "@heroicons/react/24/outline"
 
 const HomePage = () => {
   const [countdown, setCountdown] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
@@ -69,8 +69,8 @@ const HomePage = () => {
         <span className="">Join the WhatsApp group to meet your competition and to get the best Survivor Fantasy experience - come say hi!</span>
       </div>
 
-      {/*<div className="text-center py-3 px-4 mt-3 mx-3 rounded-xl">
-        <h2 className="text-2xl uppercase text-stone-300 mb-4">Tribes due in</h2>
+      <div className="text-center py-3 px-4 mt-3 mx-3 rounded-xl">
+        <h2 className="text-2xl uppercase text-stone-300 mb-4">Tribe Drafting Closes in...</h2>
         <div className="flex flex-row  max-w-96 justify-center items-center space-x-6 lowercase tracking-wider bg-stone-800 border border-stone-700 mx-auto p-4 rounded-xl">
           <div className="text-center">
             <div className="text-3xl">{countdown.days}</div>
@@ -90,14 +90,14 @@ const HomePage = () => {
           </div>
         </div>
       </div>
-      */}
+      
 
 
 
       <div className="flex flex-col justify-center w-full p-4">
-        <p className="text-stone-300 text-lg px-4 uppercase tracking-wider  text-center mb-2">
+        {/*<p className="text-stone-300 text-lg px-4 uppercase tracking-wider  text-center mb-2">
           Tribe drafting opens Wednesday, September 24 at 10:00 PM PT.
-        </p>
+        </p>*/}
 
         <a href="/draft" className="w-full max-w-5xl mx-auto">
         <button className="w-full p-3 text-2xl uppercase bg-gradient-to-tr from-orange-500 to-orange-700 hover:from-orange-600 hover:to-orange-800 rounded-lg text-white">
@@ -111,16 +111,24 @@ const HomePage = () => {
       {/* Navigation Section */}
       <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-4 py-8 px-4 text-center tracking-wider border-y-2 border-stone-600">
         
-        <a href="/cast">
-          <div className="flex items-center bg-stone-800 rounded-lg p-0 hover:bg-stone-700 overflow-hidden">
-            <div className="bg-gradient-to-tr from-yellow-500 to-yellow-700 p-3 me-1"><UserGroupIcon className="w-8 h-8" /></div><h3 className="p-3 text-xl uppercase">Season 49 Cast Preview</h3>
-          </div>
-        </a> 
         <a href="/leaderboard">
           <div className="flex items-center bg-stone-800 rounded-lg p-0 hover:bg-stone-700 overflow-hidden">
             <div className="bg-gradient-to-tr from-red-500 to-red-700 p-3 me-1"><TrophyIcon className="w-8 h-8" /></div><h3 className="p-3 text-xl uppercase">Leaderboard</h3>
           </div>
         </a>
+
+        <a href="/pick-em">
+          <div className="flex items-center bg-stone-800 rounded-lg p-0 hover:bg-stone-700 overflow-hidden">
+            <div className="bg-gradient-to-tr from-pink-500 to-pink-700 p-3 me-1"><CursorArrowRaysIcon className="w-8 h-8" /></div><h3 className="p-3 text-xl uppercase">Weekly Pick Em</h3>
+          </div>
+        </a>
+
+        <a href="/cast">
+          <div className="flex items-center bg-stone-800 rounded-lg p-0 hover:bg-stone-700 overflow-hidden">
+            <div className="bg-gradient-to-tr from-yellow-500 to-yellow-700 p-3 me-1"><UserGroupIcon className="w-8 h-8" /></div><h3 className="p-3 text-xl uppercase">Season 49 Cast</h3>
+          </div>
+        </a> 
+        
         <a target="_blank" href="https://chat.whatsapp.com/FpRMxQLhp0U848l309PL1T">
           <div className="flex items-center bg-stone-800 rounded-lg p-0 hover:bg-stone-700 overflow-hidden">
             <div className="bg-gradient-to-tr from-emerald-500 to-emerald-700 p-3 me-1"><ChatBubbleLeftRightIcon className="w-8 h-8" /></div><h3 className="p-3 text-xl uppercase">Join WhatsApp Group</h3>

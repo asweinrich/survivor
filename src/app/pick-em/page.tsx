@@ -68,7 +68,7 @@ export default function WeeklyPickEms() {
   )
 
   const MIN_WEEK = 2
-  const MAX_WEEK = 4
+  const MAX_WEEK = 2
 
   const rankedTribes = useMemo(() => {
     const ranked = rankAndScorePlayerTribes(playerTribes, season, contestantMap) as Array<PlayerTribe & { rank: number }>

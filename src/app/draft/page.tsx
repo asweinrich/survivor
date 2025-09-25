@@ -6,6 +6,8 @@ import ContestantProfile from '../components/ContestantProfile';
 import EmojiPicker from 'emoji-picker-react';
 import Image from "next/image";
 import { useRouter } from 'next/navigation';
+import { LargeTribeBadges, TribeBadges } from '@/lib/utils/tribes'
+
 
 type Contestant = {
   id: number;
@@ -307,7 +309,7 @@ export default function Draft() {
               contestant details.
             </p>
             <p className="mt-3 text-green-200 text-center bg-green-800 rounded-lg p-1 leading-tight">
-              Tribe drafting is open until Wednesday, March 5 at 5:00 PM PST.
+              Tribe drafting is open until Wednesday, October 1st at 5:00 PM PST.
             </p>
           </div>
 
@@ -432,7 +434,7 @@ export default function Draft() {
                             className="w-7 h-7 text-stone-300 stroke-2 me-1.5 hover:cursor-pointer"
                             onClick={() => activateModal(contestant.id)}
                           />
-                          <span className="">{formatTribeBadges(contestant.tribes)}</span>
+                          <TribeBadges tribeIds={[Number(contestant.tribes)]} tribes={tribes as Tribe[]} />
                         </div>
                         <div className="flex flex-row">
                           {!contestant.inPlay && (

@@ -52,8 +52,9 @@ export default function WeeklyPickEms() {
   const [banner, setBanner] = useState<null | { kind: 'submitted' | 'updated' | 'cleared'; msg: string }>(null)
 
   const { data: session } = useSession()
+  const userEmail = session?.user?.email || null;
   const { revealSpoilers } = useSpoiler()
-  const { playerTribes, contestants, tribes, loading } = useSeasonData(season)
+  const { playerTribes, contestants, tribes, players, loading } = useSeasonData(season)
   const [tooltip, setTooltip] = useState<number | null>(null);
 
 
@@ -67,7 +68,7 @@ export default function WeeklyPickEms() {
   )
 
   const MIN_WEEK = 2
-  const MAX_WEEK = 2
+  const MAX_WEEK = 4
 
   const rankedTribes = useMemo(() => {
     const ranked = rankAndScorePlayerTribes(playerTribes, season, contestantMap) as Array<PlayerTribe & { rank: number }>
@@ -297,6 +298,11 @@ export default function WeeklyPickEms() {
     }
   }
 
+  const tribeId = playerTribes.find(pt => pt.playerId === (players.find(p => p.email?.toLowerCase() === userEmail?.toLowerCase())?.id) && String(pt.season) === String(season))?.id;
+
+
+  console.log(userEmail)
+
   // ---- Render --------------------------------------------------------
   return (
     <div className="min-h-screen bg-stone-900 text-stone-200 p-0">
@@ -319,8 +325,10 @@ export default function WeeklyPickEms() {
         {/* Top help / rules */}
         <div className="lowercase text-stone-200 border-y border-stone-500 p-4 mt-8 font-lostIsland tracking-wider leading-tight">
           <p className="mb-3">The Pick Em Contest an optional side game that can help you feel like a winner, even if your tribe is a bust!</p>
-          <p className="mb-3">Tribe Picks default each week to a status of <span className="text-stone-300/80">Passed</span>. If you submit picks, your status will update to <span className="text-orange-300/80">Locked In</span>. </p>
-          <p className="mb-3">Weekly picks can be submitted up until the start of that week's episode, or each Wednesday at 5PM Pacific, 7PM Central, 8PM Eastern. </p>
+          <p className="mb-3">These do not impact your Fantasy Tribe score!</p>
+          <p className="mb-3">Picks are included with your tribe entry and default each week to a status of <span className="text-stone-300/80">Passed</span>. If you submit picks, your status will update to <span className="text-orange-300/80">Locked In</span>. Picks will be scored following each episode.</p>
+          <p className="mb-3">Picks can be submitted up until the start of that week's episode, or each Wednesday at 5PM Pacific, 7PM Central, 8PM Eastern. </p>
+          <p className="mb-3">25% of the overall prize pool will go to the final top 3 Pick Em scores! See the full info about Pick Ems and prizes <a href="/how-to-play#prizes" className="text-blue-400 underline">here</a>.</p>
         </div>
 
         {/* Season / Week / CTA / Countdown */}
@@ -366,9 +374,28 @@ export default function WeeklyPickEms() {
                 </div>
               )}
             </div>
-            <button onClick={openPickEmModal} disabled={locked} className={`w-full text-xl uppercase px-4 py-3 rounded-md font-lostIsland tracking-wider border ${locked ? 'bg-stone-800 border-stone-700 text-stone-500 cursor-not-allowed' : 'bg-orange-600 border-orange-700 text-stone-50 hover:bg-orange-500'}`}>
-              {session ? 'Submit your picks' : 'Sign in to submit your picks'}
-            </button>
+            {!session ? (
+              <button
+                onClick={() => window.location.href = '/api/auth/signin?callbackUrl=' + encodeURIComponent(window.location.pathname)}
+                className="w-full text-xl uppercase px-4 py-3 rounded-md font-lostIsland tracking-wider border bg-orange-600 border-orange-700 text-stone-50 hover:bg-orange-500"
+              >
+                Sign in to submit your picks
+              </button>
+            ) : !tribeId ? (
+              <div className="w-full text-center text-lg text-orange-400 py-3 font-lostIsland tracking-wider">
+                You must draft a tribe this season to participate in Pick Em.
+              </div>
+            ) : (
+              <button
+                onClick={openPickEmModal}
+                disabled={locked}
+                className={`w-full text-xl uppercase px-4 py-3 rounded-md font-lostIsland tracking-wider border ${locked
+                  ? 'bg-stone-800 border-stone-700 text-stone-500 cursor-not-allowed'
+                  : 'bg-orange-600 border-orange-700 text-stone-50 hover:bg-orange-500'}`}
+              >
+                Submit your picks
+              </button>
+            )}
           </div>
         </div>
 

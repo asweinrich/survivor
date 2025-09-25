@@ -39,7 +39,7 @@ export default function YourTribePage() {
   const [loading, setLoading] = useState(true);
   const [recycleConfetti, setRecycleConfetti] = useState(true);
 
-  const season = 48;
+  const season = 49;
 
 
   // Fetch tribe data from the API
@@ -204,18 +204,18 @@ export default function YourTribePage() {
 
                     // Define positions for proper spacing (preserving your original alignment)
                     const positions = [
-                      "-translate-x-[155px] z-20 scale-85 space-y-11", // Far left
-                      "-translate-x-[95px] z-30 scale-90 space-y-11",    // Left
-                      "-translate-x-[28px] -translate-y-[30px] z-40 scale-85", // Center (sole survivor)
-                      "translate-x-[40px] z-30 scale-90 space-y-11",      // Right
-                      "translate-x-[100px] z-20 scale-85 space-y-11",     // Mid-right
-                      "translate-x-[155px] z-10 scale-75 space-y-14",     // Far right
+                      "-translate-x-[155px] translate-y-[0px] z-20 scale-85 space-y-11", // Far left
+                      "-translate-x-[95px] translate-y-[10px] z-30 scale-90 space-y-11",    // Left
+                      "-translate-x-[28px] translate-y-[10px] z-40 scale-90", // Center (sole survivor)
+                      "translate-x-[40px] translate-y-[10px] z-30 scale-90 space-y-11",      // Right
+                      "translate-x-[100px] translate-y-[0px] z-20 scale-85 space-y-11",     // Mid-right
+                      "translate-x-[155px] -translate-y-[10px] z-10 scale-75 space-y-14",     // Far right
                     ];
 
                     return (
-                      <div className="relative flex justify-center items-end w-full h-[25rem] pt-12 overflow-hidden">
+                      <div className="relative flex justify-center items-end w-full h-[17rem] pt-12 overflow-hidden">
                         <img 
-                          className="absolute w-full -top-6 h-96"
+                          className="absolute w-full -top-6 h-72"
                           src="/imgs/graphics/tropical-graphic.png"
                           style={{
                               maskImage: "linear-gradient(to bottom, rgba(0,0,0,0.55) 65%, rgba(0,0,0,0) 100%)",
@@ -231,19 +231,19 @@ export default function YourTribePage() {
                           return (
                             <div
                               key={contestant.id}
-                              className={`absolute top-12 flex flex-col items-center ${positions[index]}`}
+                              className={`absolute top-6 flex flex-col items-center ${positions[index]}`}
                             >
                               <img
-                                src={`/imgs/48/full-body/${contestant.name}.png`}
+                                src={`/imgs/49/${contestant.name}.png`}
                                 alt={contestant.name}
-                                className={`object-contain ${
+                                className={`object-contain border-stone-950 rounded-full border-4 scale-120  ${
                                   index === 2
-                                    ? "h-[20rem] drop-shadow-[-2px_0px_18px_rgba(255,223,0,1)]"
-                                    : "h-[16rem] drop-shadow-[1px_2px_3px_rgba(0,0,0,1)]"
+                                    ? "h-[7rem] drop-shadow-[-2px_0px_10px_rgba(255,223,0,1)]"
+                                    : "h-[5rem]"
                                 }`}
                               />
                               <div 
-                                className="relative text-center border-y-4 border-2 border-stone-900 mt-4 px-1.5 py-1 font-lostIsland tracking-wide"
+                                className="relative text-center border-2 rounded-lg border-stone-900 mt-4 px-1.5 py-1 font-lostIsland tracking-wide"
                                 style={{
                                   textShadow: "1px 1px 1px rgba(0, 0, 0, 1)",
                                   backgroundImage: primaryTribe
@@ -271,7 +271,7 @@ export default function YourTribePage() {
                                 </p>
                               </div>
                               {index === 2 && (
-                                <p className="text-sm px-1.5 py-1 rounded-lg bg-yellow-900 text-yellow-300 font-lostIsland tracking-wider lowercase max-w-18 wrap text-center leading-none mt-1">Predicted Winner</p>
+                                <p className="mt-2 px-1.5 py-1 rounded-lg bg-yellow-800 border border-stone-900 text-yellow-300 font-lostIsland tracking-wider lowercase max-w-18 wrap text-center leading-none">Predicted Winner</p>
                               )}
                             </div>
                           );
@@ -287,11 +287,11 @@ export default function YourTribePage() {
                 <p className="italic text-3xl mb-4 pe-2">And this challenge is on!</p>
                 <p className="text-lg mb-8">Your tribe is chosen. Now, let the game begin.</p>
                 <p className="leading-tight border-t border-stone-300 pt-8">Good luck this season and don't forget to&nbsp;
-                  <a className="underline text-orange-400 hover:text-orange-600" target="_blank" href={"https://venmo.com/Andrew-Weinrich?txn=pay&amount=20.00&note="+tribe.tribeName}>
+                  <a className="underline text-orange-400 hover:text-orange-600" target="_blank" href={"https://venmo.com/Andrew-w-scott?txn=pay&amount=20.00&note="+tribe.tribeName}>
                     pay Your $20 Entry Fee on Venmo!
                   </a>
                 </p>
-                <p className="my-4 leading-tight">Tribe entry fees are due before the 2nd episode airs on March 5, 2025.</p>
+                <p className="my-4 leading-tight">Tribe entry fees are due before the 2nd episode airs on October 1st, 2025.</p>
               </div>
 
             </>

@@ -11,7 +11,7 @@ export async function POST(req: Request) {
 
     const { email, name, tribeName, color, emoji, tribeArray } = body;
 
-    const season = 48;
+    const season = 49;
 
     if (!email || !name || !tribeName || !color || !emoji || !season || !tribeArray) {
       return NextResponse.json({ message: 'Missing required fields' }, { status: 400 });

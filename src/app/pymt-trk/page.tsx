@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { Pie } from 'react-chartjs-2';
 import { Chart, ArcElement, Tooltip, Legend } from 'chart.js';
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
 Chart.register(ArcElement, Tooltip, Legend);
 
@@ -15,19 +17,34 @@ type PlayerTribe = {
 };
 
 export default function ManagePayments() {
+  const { data: session, status } = useSession();
+  const router = useRouter();
+
+  // All hooks must be declared before any return or conditional logic!
   const [playerTribes, setPlayerTribes] = useState<PlayerTribe[]>([]);
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
 
   const tribeCost = 20;
 
+  // Restrict access: only asweinrich@gmail.com can view
+  useEffect(() => {
+    if (status === 'loading') return; // Wait for session to load
+    if (
+      status === 'unauthenticated' ||
+      (status === 'authenticated' && session?.user?.email?.toLowerCase() !== 'asweinrich@gmail.com')
+    ) {
+      router.replace('/');
+    }
+  }, [session, status, router]);
 
   // Fetch the list of player tribes on mount
   useEffect(() => {
+    if (status !== 'authenticated' || session?.user?.email?.toLowerCase() !== 'asweinrich@gmail.com') return;
     async function fetchPlayerTribes() {
       setLoading(true);
       try {
-        const res = await fetch('/api/player-tribes/48');
+        const res = await fetch('/api/player-tribes/49');
         const data = await res.json();
 
         // Ensure that 'paid' is always either true or false
@@ -44,7 +61,7 @@ export default function ManagePayments() {
       }
     }
     fetchPlayerTribes();
-  }, []);
+  }, [status, session]);
 
   // Update the local state when a checkbox is toggled
   const handleCheckboxChange = (id: number, checked: boolean) => {
@@ -96,6 +113,15 @@ export default function ManagePayments() {
       },
     ],
   };
+
+  // Don't render until authenticated and correct user
+  if (
+    status === 'loading' ||
+    status === 'unauthenticated' ||
+    (status === 'authenticated' && session?.user?.email?.toLowerCase() !== 'asweinrich@gmail.com')
+  ) {
+    return null;
+  }
 
   return (
     <div className="min-h-screen bg-stone-900 text-stone-200 p-0">
@@ -159,7 +185,6 @@ export default function ManagePayments() {
                   <div className="flex flex-col">
                     <span className="text-lg">{tribe.tribeName}</span>
                     <span className="">{tribe.playerName}</span>
-
                   </div>
                   <label className="flex items-center space-x-2">
                     <input

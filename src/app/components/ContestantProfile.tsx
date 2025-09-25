@@ -424,14 +424,14 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
           >
             Stats
           </button>
-          <button
+          {/* <button
             onClick={() => setActiveTab("overview")}
             className={`text-xl tracking-wider py-2 w-full ${
               activeTab === "overview" ? "text-orange-400 border-b-4 border-orange-400" : "text-stone-300 border-b-4 border-stone-800"
             }`}
           >
             Overview
-          </button>
+          </button>  */}
         </div>
         
         {/* Content */}

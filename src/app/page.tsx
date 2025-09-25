@@ -11,7 +11,7 @@ const HomePage = () => {
   const season = 48;
 
   useEffect(() => {
-    const targetDate = new Date("2025-09-24T16:00:00-08:00"); // PST (UTC-8)
+    const targetDate = new Date("2025-10-01T16:00:00-08:00"); // PST (UTC-8)
     const updateCountdown = () => {
       const now = new Date();
       const timeLeft = targetDate.getTime() - now.getTime();
@@ -69,8 +69,8 @@ const HomePage = () => {
         <span className="">Join the WhatsApp group to meet your competition and to get the best Survivor Fantasy experience - come say hi!</span>
       </div>
 
-      <div className="text-center py-3 px-4 mt-3 mx-3 rounded-xl">
-        <h2 className="text-2xl uppercase text-stone-300 mb-4">Season 49 Countdown</h2>
+      {/*<div className="text-center py-3 px-4 mt-3 mx-3 rounded-xl">
+        <h2 className="text-2xl uppercase text-stone-300 mb-4">Tribes due in</h2>
         <div className="flex flex-row  max-w-96 justify-center items-center space-x-6 lowercase tracking-wider bg-stone-800 border border-stone-700 mx-auto p-4 rounded-xl">
           <div className="text-center">
             <div className="text-3xl">{countdown.days}</div>
@@ -90,7 +90,7 @@ const HomePage = () => {
           </div>
         </div>
       </div>
-
+      */}
 
 
 

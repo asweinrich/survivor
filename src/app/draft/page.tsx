@@ -601,7 +601,7 @@ export default function Draft() {
                     className="me-3 h-8 w-8"
                   />
                   <label htmlFor="acknowledge" className="font-inter text-sm tracking-wider leading-tight">
-                    I acknowledge I need to pay Andrew my tribe's entry fee by the March 5, 2025 @ 7:00 PST or else my tribe will be removed from this season's competition
+                    I acknowledge I need to pay Andrew my tribe's entry fee by Wednesday October 1st, 2025 @ 5:00 PM PST or else my tribe will be ineligible for prizes in this season's competition
                   </label>
                 </div>
 

@@ -100,7 +100,7 @@ const HomePage = () => {
         </p>
 
         <a href="/draft" className="w-full max-w-5xl mx-auto">
-        <button className="opacity-40 w-full p-3 text-2xl uppercase bg-gradient-to-tr from-orange-500 to-orange-700 hover:from-orange-600 hover:to-orange-800 rounded-lg text-white">
+        <button className="w-full p-3 text-2xl uppercase bg-gradient-to-tr from-orange-500 to-orange-700 hover:from-orange-600 hover:to-orange-800 rounded-lg text-white">
           Draft Your Tribe
         </button>
         </a>

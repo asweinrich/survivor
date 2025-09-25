@@ -24,7 +24,7 @@ async function fetchPickemLeaderboard(season: string) {
 }
 
 export default function Leaderboard() {
-  const [season, setSeason] = useState('48');
+  const [season, setSeason] = useState('49');
   const [expandedTribes, setExpandedTribes] = useState<number[]>([]);
   const [modalVisible, setModalVisible] = useState(false);
   const [focusContestant, setFocusContestant] = useState(0);

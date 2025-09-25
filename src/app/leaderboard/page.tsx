@@ -142,7 +142,7 @@ export default function Leaderboard() {
 
                 const list = soleSurvivor ? [soleSurvivor, ...rest] : rest;
 
-                return list.map((contestant, idx) => {
+                return list.map((contestant: Contestant, idx: number) => {
                   const statusBorder = getStatusBorder(contestant, revealSpoilers);
                   const isSoleSlot = idx === 0;
 

@@ -26,12 +26,11 @@ type Tribe = {
 export default function StatsPage() {
   const [statsContestants, setStatsContestants] = useState<StatsContestant[]>([]);
   const [castContestants, setCastContestants] = useState<{ id: number; tribes: number[] }[]>([]);
-  const [tribes, setTribes] = useState<Tribe[]>([]);
   const [loading, setLoading] = useState(false);
   // You can make the season dynamic as needed
   const season = "49";
 
-  const { tribesX } = useSeasonData(season)
+  const { tribes } = useSeasonData(season)
 
   useEffect(() => {
     async function fetchData() {
@@ -48,9 +47,9 @@ export default function StatsPage() {
         const castData = await castRes.json();
         setCastContestants(castData);
         // Fetch tribes data
-        const tribesRes = await fetch(`/api/show-tribes/${season}`);
-        const tribesData = await tribesRes.json();
-        setTribes(tribesData);
+        // const tribesRes = await fetch(`/api/show-tribes/${season}`);
+        // const tribesData = await tribesRes.json();
+        // setTribes(tribesData);
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {

@@ -477,7 +477,12 @@ export default function WeeklyPickEms() {
                       </div>
                       <div className="ms-3">
                         <div className="text-lg font-lostIsland leading-none pb-1">{tribe.tribeName}</div>
-                        <div className="text-stone-400 font-lostIsland leading-tight">{tribe.playerName}</div>
+                        <div className="text-stone-400 font-lostIsland leading-tight mb-0.5">{tribe.playerName}</div>
+                        {!tribe.paid && (
+                          <span className="inline-block font-lostIsland text-xs lowercase bg-red-900 text-red-300 px-2 py-0.5 -ms-0.5 rounded-full">
+                            Ineligible for Prizes
+                          </span>
+                        )}
                       </div>
                     </div>
                     <div className="flex items-center ms-auto me-0 gap-2">

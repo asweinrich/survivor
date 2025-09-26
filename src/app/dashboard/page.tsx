@@ -10,9 +10,13 @@ import season47Scores from "../scoring/47scores.json";
 import UserHeader from "../components/UserHeader";
 import { useSpoiler } from "../../context/SpoilerContext"; 
 import { redirect } from "next/navigation";
+import TribePickemSummary from '../components/TribePickemSummary';
+import { hexToRgba } from '@/lib/utils/color';
 
 
 const SEASONS = [49, 48, 47];
+const PICKEM_MIN_SEASON = 49; 
+
 
 type Contestant = {
   id: number;
@@ -38,6 +42,33 @@ export default function DashboardPage() {
   const { revealSpoilers } = useSpoiler();
   const [loading, setLoading] = useState(true);
   const [userEmail, setUserEmail] = useState<string>("");
+
+  const [pickemLeaderboard, setPickemLeaderboard] = useState<any[]>([]);
+  const [pickemTribeDetails, setPickemTribeDetails] = useState<any[]>([]);
+  const [pickemLoading, setPickemLoading] = useState(true);
+  const [expandedPickemTribes, setExpandedPickemTribes] = useState<number[]>([]);
+
+  useEffect(() => {
+    async function fetchPickemData() {
+      setPickemLoading(true);
+      try {
+        // Use current season or allow user to select
+        const season = 49; // or your logic
+        const [leaderboardRes, tribeDetailsRes] = await Promise.all([
+          fetch(`/api/pickem-leaderboard?season=${season}`),
+          fetch(`/api/pickem-tribe-details?season=${season}`),
+        ]);
+        setPickemLeaderboard(await leaderboardRes.json());
+        setPickemTribeDetails(await tribeDetailsRes.json());
+      } catch (e) {
+        setPickemLeaderboard([]);
+        setPickemTribeDetails([]);
+      } finally {
+        setPickemLoading(false);
+      }
+    }
+    fetchPickemData();
+  }, []);
 
   useEffect(() => {
     async function fetchData() {
@@ -172,7 +203,36 @@ export default function DashboardPage() {
 
 
 
+  const userPickemTribes = useMemo(() => {
+    // Build a map for quick lookup of pickem scores by tribe id
+    const pickemMap = new Map<number, any>();
+    pickemLeaderboard.forEach((t: any) => {
+      pickemMap.set(t.id, t);
+    });
 
+    return playerTribes
+      .filter(
+        (tribe: any) =>
+          tribe.playerEmail === userEmail &&
+          tribe.season >= PICKEM_MIN_SEASON // Only pick-em seasons!
+      )
+      // ...rest of your mapping/sorting logic as before...
+      .map((tribe, i, arr) => ({
+        ...tribe,
+        rank: i === 0 ? 1 : arr[i - 1].pickemPoints === tribe.pickemPoints ? arr[i - 1].rank : i + 1,
+      }));
+  }, [playerTribes, pickemLeaderboard, userEmail]);
+
+  const WEEK_QUESTION_MATRIX = [
+    { week: 2, numQuestions: 3 },
+    // Add more weeks as needed, or import if shared
+  ];
+
+  const togglePickemDropdown = (id: number) => {
+    setExpandedPickemTribes(prev =>
+      prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id]
+    );
+  };
 
 
 
@@ -184,7 +244,69 @@ export default function DashboardPage() {
           tribeCount={sortedUserTribes.length}
         />
 
-        <h1 className="text-2xl font-lostIsland uppercase mb-2 px-2">Your Tribes</h1>
+
+
+        <div className="flex mb-2 mt-6 px-2 font-lostIsland">
+          <h1 className="text-2xl uppercase">Your Picks</h1>
+          <a href="/pick-em" className="ms-auto border border-stone-500 lowercase bg-orange-500/90 rounded-lg px-3 py-1 text-lg">Go to Pick Em Contest</a>
+        </div>
+        <div className="mb-6">
+          {pickemLoading ? (
+            <div className="flex flex-col justify-center items-center py-10">
+              <ArrowPathIcon className="w-10 h-10 animate-spin text-stone-200" />
+              <p className="font-lostIsland text-xl lowercase my-4 tracking-wider">Loading...</p>
+            </div>
+          ) : userPickemTribes.length === 0 ? (
+            <div className="text-stone-400 p-4 font-lostIsland text-lg">No pick em activity.</div>
+          ) : (
+            userPickemTribes.map((tribe) => {
+              const details = pickemTribeDetails.find((t) => t.id === tribe.id);
+              const expanded = expandedPickemTribes.includes(tribe.id);
+              return (
+                <div key={tribe.id} className="py-2 px-1 mb-3 rounded-lg border border-stone-700 bg-stone-800">
+                  <div className="flex items-center justify-start cursor-pointer" onClick={() => togglePickemDropdown(tribe.id)}>
+                    <div className="flex items-center w-8 font-lostIsland text-2xl me-1.5">
+                      <span className="mx-auto">{tribe.rank}</span>
+                    </div>
+                    <div className="flex items-center">
+                      <div className="w-12 h-12 rounded-full border border-stone-700 flex items-center justify-center text-3xl" style={{ backgroundColor: hexToRgba(tribe.color, 0.95) }}>
+                        {tribe.emoji}
+                      </div>
+                      <div className="ms-3">
+                        <div className="text-lg font-lostIsland leading-tight">{tribe.tribeName}</div>
+                        <div className="text-stone-400 font-lostIsland leading-tight">{tribe.playerName}</div>
+                        {!tribe.paid && (
+                          <span className="inline-block font-lostIsland text-xs lowercase bg-red-900 text-red-300 px-2 py-0.5 -ms-0.5 rounded-full">
+                            Ineligible for Prizes
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                    <div className="flex items-center ms-auto me-0">
+                      <span className="text-2xl font-lostIsland tracking-wide mr-1.5">
+                        {tribe.pickemPoints}
+                      </span>
+                      <ChevronDownIcon className={`w-4 h-4 stroke-3 me-2 transition-transform ${expanded ? "rotate-180" : ""}`} />
+                    </div>
+                  </div>
+                  {expanded && (
+                    <div className="px-2 mt-3">
+                      <TribePickemSummary
+                        pickemWeeks={details?.pickemWeeks ?? []}
+                        weekQuestionMatrix={WEEK_QUESTION_MATRIX}
+                      />
+                    </div>
+                  )}
+                </div>
+              );
+            })
+          )}
+        </div>
+
+
+
+
+        <h1 className="text-2xl font-lostIsland uppercase my-2 px-2">Your Tribes</h1>
          
         <div className="">  
 

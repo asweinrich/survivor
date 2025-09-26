@@ -25,7 +25,7 @@ export function ScoringSummary({
     <div className="py-3 border-t border-stone-700/70 font-lostIsland lowercase text-stone-300">
 
       {breakdown.length === 0 ? (
-        <div className="text-stone-400 text-sm">No scored picks for this tribe.</div>
+        <div className="text-stone-400 text-sm">Loading...</div>
       ) : (
         <ul className="">
           {breakdown.map((item, idx) => {

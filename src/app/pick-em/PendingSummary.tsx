@@ -37,7 +37,7 @@ export function PendingSummary({
   return (
     <div className="py-3 border-t border-stone-700/70 font-lostIsland lowercase text-stone-300">
       {breakdown.length === 0 ? (
-        <div className="text-stone-400 text-sm">No picks for this tribe.</div>
+        <div className="text-stone-400 text-sm">Loading...</div>
       ) : (
         <ul>
           {breakdown.map((item, idx) => {

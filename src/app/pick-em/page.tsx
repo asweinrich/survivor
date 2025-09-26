@@ -26,6 +26,8 @@ import { LargeTribeBadges, TribeBadges } from '@/lib/utils/tribes'
 import { rankAndScorePlayerTribes } from '@/lib/utils/score'
 import { ScoringSummary } from './ScoringSummary';
 import { PendingSummary } from './PendingSummary';
+import { AvailablePickEmsSummary } from './AvailablePickEmsSummary'
+
 
 // ---- Page ------------------------------------------------------------
 export default function WeeklyPickEms() {
@@ -194,6 +196,23 @@ export default function WeeklyPickEms() {
 
   const locked = countdown.days === 0 && countdown.hours === 0 && countdown.minutes === 0 && countdown.seconds === 0
 
+  useEffect(() => {
+    async function fetchMarkets() {
+      try {
+        const res = await fetch(`/api/pick-ems/list?season=${season}&week=${week}`, { cache: 'no-store' });
+        if (!res.ok) throw new Error('Failed to load pick-ems.');
+        const data = await res.json();
+        const list = Array.isArray(data?.pickEms) ? data.pickEms : [];
+        setMarkets(list);
+        // If you want to reset selections on week change, you can also:
+        // setSelections(data?.existingSelections ?? {});
+      } catch (e) {
+        setMarkets([]);
+      }
+    }
+    fetchMarkets();
+  }, [season, week]);
+
   const fetchTribeSummary = async (tribeId: number) => {
     setTribeSummaryLoading((prev) => ({ ...prev, [tribeId]: true }))
     setTribeSummaryError((prev) => ({ ...prev, [tribeId]: null }))
@@ -224,21 +243,7 @@ export default function WeeklyPickEms() {
     }
     if (locked) return
     setPeModalOpen(true)
-    setPeLoading(true)
     setPeError(null)
-    try {
-      const res = await fetch(`/api/pick-ems/list?season=${season}&week=${week}`, { cache: 'no-store' })
-      if (!res.ok) throw new Error('Failed to load pick-ems.')
-      const data = await res.json()
-      const list = Array.isArray(data?.pickEms) ? data.pickEms : []
-      setMarkets(list)
-      const existing = data?.existingSelections ?? {}
-      setSelections(existing)
-    } catch (e: any) {
-      setPeError(e?.message || 'Error loading pick-ems.')
-    } finally {
-      setPeLoading(false)
-    }
   }
   const closePickEmModal = () => {
     setPeModalOpen(false)
@@ -374,6 +379,14 @@ export default function WeeklyPickEms() {
                 </div>
               )}
             </div>
+
+            <AvailablePickEmsSummary
+              markets={markets}
+              tribes={tribes}
+              contestants={contestants}
+              week={week}
+            />
+
             {!session ? (
               <button
                 onClick={() => window.location.href = '/api/auth/signin?callbackUrl=' + encodeURIComponent(window.location.pathname)}

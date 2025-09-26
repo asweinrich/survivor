@@ -46,6 +46,7 @@ export default function WeeklyPickEms() {
   const [tribeSummaries, setTribeSummaries] = useState<Record<number, Array<{ question: string; option: any }>>>({})
   const [tribeSummaryLoading, setTribeSummaryLoading] = useState<Record<number, boolean>>({})
   const [tribeSummaryError, setTribeSummaryError] = useState<Record<number, string | null>>({})
+  const [showModalDetails, setShowModalDetails] = useState(false)
 
   const [scoringBreakdowns, setScoringBreakdowns] = useState<Record<number, PickEmScoreBreakdown[]>>({});
   const [scoringScores, setScoringScores] = useState<Record<number, number>>({});
@@ -554,19 +555,46 @@ export default function WeeklyPickEms() {
             <div className="w-full max-w-3xl h-[92%] overflow-y-auto bg-stone-800 rounded-t-xl shadow-lg animate-slide-up relative font-lostIsland" onClick={(e) => e.stopPropagation()}>
               <button className="text-stone-400 hover:text-stone-200 absolute top-3 right-4" onClick={closePickEmModal}>✕</button>
               <div className="p-0">
-                <h2 className="pt-8 pb-4 text-3xl tracking-wider uppercase text-center">Week {week} Picks</h2>
-                <div className="p-4 border-y-2 border-stone-700 text-stone-300 lowercase">
-                  <p className="mb-3">
-                    Select one answer per question. 
-                    <br/>
-                    Answer as many or as few questions as you like.
-                  </p>
-                  <p className="mb-3">
-                    The <span className="text-green-400">green points</span> are the points you gain if your guess is correct. The <span className="text-red-400">red points</span> are how many points you lose if your guess is incorrect. 
-                  </p>
-                  <p className="">
-                    You can clear / reset your picks at the bottom of the form. 
-                  </p>
+                <h2 className="pt-8 pb-4 text-3xl tracking-wider uppercase text-center">Week {week} Pick Ems</h2>
+                
+                <div className="flex flex-col lowercase w-full p-3 border-y-2 border-stone-700 text-stone-300 tracking-wider leading-tight">
+                  <button
+                    type="button"
+                    onClick={() => setShowModalDetails((open) => !open)}
+                    className="flex items-center justify-between w-full focus:outline-none"
+                    aria-expanded={showModalDetails}
+                    aria-controls="sign-in-help-details"
+                  >
+                    <span className="mb-0 px-1 text-base uppercase text-stone-200">Instructions</span>
+                    {/* Caret SVG */}
+                    <svg
+                      className={`w-5 h-5 ml-2 transition-transform ${showModalDetails ? "rotate-180" : ""}`}
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
+                  {showModalDetails && (
+                    <div className="flex flex-col mt-3 px-1">
+                      <p className="mb-3">
+                        Select one answer per question. 
+                      </p>
+                      <p className="mb-3">
+                        Answer as many or as few questions as you like. You don't have to answer them all.
+                      </p>
+                      <p className="mb-3">
+                        The <span className="text-green-400">green points</span> are the points you gain if your guess is correct. The <span className="text-red-400">red points</span> are how many points you lose if your guess is incorrect. 
+                      </p>
+                      <p className="mb-3">
+                       Points won or lost on Pick-Ems count toward your Pick Em leaderboard score, not your tribe score.
+                      </p>
+                      <p className="">
+                        You can clear / reset your picks at the bottom of the form. 
+                      </p>  
+                    </div>
+                  )}
                 </div>
 
                 <div className="flex py-6">
@@ -659,7 +687,7 @@ export default function WeeklyPickEms() {
                                             <div className="flex-row mt-2 text-xl tracking-wider">
                                               <span className="text-green-400">+{opt.pointValue}</span>
                                               <span className="text-stone-500 mx-2">|</span>
-                                              <span className="text-red-400">-{opt.pointValue / 4}</span>
+                                              <span className="text-red-400">-{opt.pointValue / 2}</span>
                                             </div>
                                           )}
                                         </div>
@@ -747,7 +775,7 @@ export default function WeeklyPickEms() {
                                           <div className="text-xl tracking-wider">
                                             <span className="text-green-400">+{opt.pointValue}</span>
                                             <span className="text-stone-500 mx-2">|</span>
-                                            <span className="text-red-400">-{opt.pointValue / 4}</span>
+                                            <span className="text-red-400">-{opt.pointValue / 2}</span>
                                           </div>
                                         )}
                                       </button>

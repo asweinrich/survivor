@@ -66,7 +66,7 @@ export function MedTribeBadges({ tribeIds, tribes }: { tribeIds: number[]; tribe
         return (
           <span
           key={id}
-          className="inline-block border border-black px-3 py-0.5 text-2xl tracking-wider rounded-lg me-1 lowercase font-lostIsland"
+          className="inline-block border-2 border-black px-3 py-0.5 text-2xl tracking-wider rounded-lg me-1 lowercase font-lostIsland"
           style={{
             backgroundColor: hexToRgba(tribe.color, 0.2),
             color: tribe.color,

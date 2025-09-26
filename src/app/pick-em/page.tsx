@@ -599,7 +599,7 @@ export default function WeeklyPickEms() {
 
                 <div className="flex py-6">
                   {session ? (
-                    tribeId ? (
+                    tribeId && tribe ? (
                       <div className="flex w-full px-4 items-center">
                         <div key={tribe.id} className="w-full py-3 px-3 rounded-lg border border-stone-700 bg-stone-800">
                           <div className="flex items-center justify-start">

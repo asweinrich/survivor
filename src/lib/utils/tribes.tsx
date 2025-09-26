@@ -40,7 +40,7 @@ export function LargeTribeBadges({ tribeIds, tribes }: { tribeIds: number[]; tri
         return (
           <span
           key={id}
-          className="inline-block border border-black px-3 py-1 text-3xl tracking-wider rounded-lg me-1 lowercase font-lostIsland"
+          className="inline-block border-2 border-black px-3 py-1 text-3xl tracking-wider rounded-lg me-1 lowercase font-lostIsland"
           style={{
             backgroundColor: hexToRgba(tribe.color, 0.2),
             color: tribe.color,

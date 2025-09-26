@@ -237,10 +237,6 @@ export default function WeeklyPickEms() {
     setExpandedTribes((prev) => (prev.includes(tribeId) ? prev.filter((id) => id !== tribeId) : [...prev, tribeId]))
 
   const openPickEmModal = async () => {
-    if (!session) {
-      window.location.href = '/api/auth/signin?callbackUrl=' + encodeURIComponent(window.location.pathname)
-      return
-    }
     if (locked) return
     setPeModalOpen(true)
     setPeError(null)
@@ -304,9 +300,14 @@ export default function WeeklyPickEms() {
   }
 
   const tribeId = playerTribes.find(pt => pt.playerId === (players.find(p => p.email?.toLowerCase() === userEmail?.toLowerCase())?.id) && String(pt.season) === String(season))?.id;
-
-
-  console.log(userEmail)
+  const tribe = playerTribes.find(
+    pt =>
+      pt.playerId === (
+        players.find(p => p.email?.toLowerCase() === userEmail?.toLowerCase())?.id
+      ) &&
+      String(pt.season) === String(season)
+  );
+  const isUserSubmitted = tribe ? submittedSet.has(tribe.id) : false;
 
   // ---- Render --------------------------------------------------------
   return (
@@ -380,35 +381,17 @@ export default function WeeklyPickEms() {
               )}
             </div>
 
-            <AvailablePickEmsSummary
-              markets={markets}
-              tribes={tribes}
-              contestants={contestants}
-              week={week}
-            />
+            
 
-            {!session ? (
-              <button
-                onClick={() => window.location.href = '/api/auth/signin?callbackUrl=' + encodeURIComponent(window.location.pathname)}
-                className="w-full text-xl uppercase px-4 py-3 rounded-md font-lostIsland tracking-wider border bg-orange-600 border-orange-700 text-stone-50 hover:bg-orange-500"
-              >
-                Sign in to submit your picks
-              </button>
-            ) : !tribeId ? (
-              <div className="w-full text-center text-lg text-orange-400 py-3 font-lostIsland tracking-wider">
-                You must draft a tribe this season to participate in Pick Em.
-              </div>
-            ) : (
-              <button
-                onClick={openPickEmModal}
-                disabled={locked}
-                className={`w-full text-xl uppercase px-4 py-3 rounded-md font-lostIsland tracking-wider border ${locked
-                  ? 'bg-stone-800 border-stone-700 text-stone-500 cursor-not-allowed'
-                  : 'bg-orange-600 border-orange-700 text-stone-50 hover:bg-orange-500'}`}
-              >
-                Submit your picks
-              </button>
-            )}
+            <button
+              onClick={openPickEmModal}
+              disabled={locked}
+              className={`w-full text-xl uppercase px-4 py-3 rounded-md font-lostIsland tracking-wider border ${locked
+                ? 'bg-stone-800 border-stone-700 text-stone-500 cursor-not-allowed'
+                : 'bg-orange-600 border-orange-700 text-stone-50 hover:bg-orange-500'}`}
+            >
+              Submit your picks
+            </button>
           </div>
         </div>
 
@@ -585,6 +568,57 @@ export default function WeeklyPickEms() {
                     You can clear / reset your picks at the bottom of the form. 
                   </p>
                 </div>
+
+                <div className="flex py-6">
+                  {session ? (
+                    tribeId ? (
+                      <div className="flex w-full px-4 items-center">
+                        <div key={tribe.id} className="w-full py-3 px-3 rounded-lg border border-stone-700 bg-stone-800">
+                          <div className="flex items-center justify-start">
+                            <div className="flex items-center">
+                              <div className="w-12 h-12 rounded-full border border-stone-700 flex items-center justify-center text-2xl" style={{ backgroundColor: hexToRgba(tribe.color, 0.75) }}>
+                                {tribe.emoji}
+                              </div>
+                              <div className="ms-3">
+                                <div className="text-lg font-lostIsland leading-none pb-1">{tribe.tribeName}</div>
+                                <div className="text-stone-400 font-lostIsland leading-tight mb-0.5">{tribe.playerName}</div>
+                                {!tribe.paid && (
+                                  <span className="inline-block font-lostIsland text-xs lowercase bg-red-900 text-red-300 px-2 py-0.5 -ms-0.5 rounded-full">
+                                    Ineligible for Prizes
+                                  </span>
+                                )}
+                              </div>
+                            </div>
+                            <div className="flex items-center ms-auto me-0 gap-2">
+                              {isUserSubmitted ? (
+                                <span className="tracking-wider inline-flex items-center gap-1 text-orange-300 font-lostIsland uppercase bg-orange-900/60 px-2 py-1 rounded-lg" title="Locked In">
+                                  locked in
+                                </span>
+                              ) : (
+                                <span className="tracking-wider inline-flex items-center gap-1 text-gray-300 font-lostIsland uppercase bg-gray-600/60 px-2 py-1 rounded-lg" title="Passed (no picks this week)">
+                                  passed
+                                </span>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    ) : (
+                      // Signed in, but no tribe drafted
+                      <div className="text-orange-400 font-lostIsland lowercase tracking-wider leading-tight text-center px-4">
+                        You must have a tribe drafted this season in order to submit picks.
+                      </div>
+                    )
+                  ) : (
+                    // Not signed in
+                    <button
+                      onClick={() => window.location.href = '/api/auth/signin?callbackUrl=' + encodeURIComponent(window.location.pathname)}
+                      className="text-xl mx-auto lowercase px-4 pb-2 pt-1.5 rounded-md font-lostIsland tracking-wider border bg-orange-600 border-orange-700 text-stone-50 hover:bg-orange-500"
+                    >
+                      Sign in to submit picks
+                    </button>
+                  )}
+                </div>
                                 
                 {peError && <div className="mb-4 mx-6 p-3 rounded-lg border border-red-700 bg-red-900/30 text-red-200">{peError}</div>}
                 {peLoading ? (
@@ -596,7 +630,7 @@ export default function WeeklyPickEms() {
                   <div className="p-6 text-center text-2xl lowercase text-stone-300">No picks have been posted for this week yet.</div>
                 ) : (
                   <form onSubmit={(e) => { e.preventDefault(); if (!locked) submitPicks() }}>
-                    <div className="space-y-12 py-4">
+                    <div className="space-y-12 mb-12">
                       {markets.map((mkt) => (
                         <div key={mkt.id} className="border-y-2 border-stone-700 px-4 pt-6 pb-8 bg-stone-900">
                           <div className="relative text-xl mb-2 text-stone-200 tracking-wider leading-tight uppercase">
@@ -744,13 +778,45 @@ export default function WeeklyPickEms() {
                     </div>
 
                     {/* Footer buttons: row 1 = Cancel + Clear; row 2 = Submit */}
-                    <div className="py-6 mt-8 flex items-center justify-center gap-3 bg-stone-900 border-t-2 border-stone-700">
-                      <button type="button" onClick={closePickEmModal} className="w-40 uppercase px-4 py-2 rounded-md border border-stone-700 bg-stone-800 text-stone-200 hover:bg-stone-700">Cancel</button>
-                      <button type="button" onClick={clearPicks} disabled={peLoading} className={`w-40 uppercase px-4 py-2 rounded-md border tracking-wider ${peLoading ? 'bg-stone-800 border-stone-700 text-stone-500 cursor-not-allowed' : 'bg-stone-800 border-stone-700 text-stone-200 hover:bg-stone-700'}`}>Clear picks</button>
+                    {(!(session && tribeId)) && (
+                      <div className="text-sm text-stone-400 text-center p-4">
+                        You must be signed in and have drafted a tribe for this season to make or edit picks.
+                      </div>
+                    )}
+                    <div className="py-6 flex items-center justify-center gap-3 bg-stone-900 border-t-2 border-stone-700">
+                      <button
+                        type="button"
+                        onClick={closePickEmModal}
+                        className="w-40 uppercase px-4 py-2 rounded-md border border-stone-700 bg-stone-800 text-stone-200 hover:bg-stone-700"
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        type="button"
+                        onClick={clearPicks}
+                        disabled={peLoading || locked || !(session && tribeId)}
+                        className={`w-40 uppercase px-4 py-2 rounded-md border tracking-wider 
+                          ${(peLoading || locked || !(session && tribeId))
+                            ? 'bg-stone-800 border-stone-700 text-stone-500 cursor-not-allowed'
+                            : 'bg-stone-800 border-stone-700 text-stone-50 hover:bg-stone-700'}`}
+                      >
+                        Clear Picks
+                      </button>
                     </div>
                     <div className="pb-10 flex items-center justify-center bg-stone-900 border-b border-stone-700">
-                      <button type="submit" disabled={locked || peLoading} className={`w-[min(92%,28rem)] px-4 py-3 rounded-md border text-2xl uppercase tracking-wider ${locked || peLoading ? 'bg-stone-800 border-stone-700 text-stone-500 cursor-not-allowed' : 'bg-orange-600 border-orange-700 text-stone-50 hover:bg-orange-500'}`}>{locked ? 'Locked' : 'Submit Picks'}</button>
+                      <button
+                        type="submit"
+                        disabled={locked || peLoading || !(session && tribeId)}
+                        className={`w-[min(92%,28rem)] px-4 py-3 rounded-md border text-2xl uppercase tracking-wider 
+                          ${(locked || peLoading || !(session && tribeId))
+                            ? 'bg-stone-800 border-stone-700 text-stone-500 cursor-not-allowed'
+                            : 'bg-orange-600 border-orange-700 text-stone-50 hover:bg-orange-500'}`}
+                      >
+                        Submit your picks
+                      </button>
                     </div>
+                    
+
                   </form>
                 )}
               </div>

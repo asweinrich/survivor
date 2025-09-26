@@ -157,7 +157,7 @@ export default function Leaderboard() {
               <span className="mx-auto">{tribe.rank}</span>
             </div>
             <div className="flex items-center">
-              <div className="w-12 h-12 rounded-full border border-stone-700 flex items-center justify-center text-3xl" style={{ backgroundColor: hexToRgba(tribe.color, 0.75) }}>
+              <div className="w-12 h-12 rounded-full border border-stone-700 flex items-center justify-center text-3xl" style={{ backgroundColor: hexToRgba(tribe.color, 0.95) }}>
                 {tribe.emoji}
               </div>
               <div className="ms-3">

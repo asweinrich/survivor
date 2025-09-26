@@ -241,6 +241,31 @@ export default function WeeklyPickEms() {
     if (locked) return
     setPeModalOpen(true)
     setPeError(null)
+    setPeLoading(true);
+    try {
+      // Make sure tribeId is set to the user's tribe for the current season!
+      if (tribeId) {
+        const res = await fetch(`/api/pick-ems/summary?season=${season}&week=${week}&tribeId=${tribeId}`, { cache: 'no-store' });
+        if (res.ok) {
+          const data = await res.json();
+          const picks = Array.isArray(data?.picks) ? data.picks : [];
+          // Map: pickEmId => optionId
+          const selectionsMap: Record<number, number> = {};
+          picks.forEach((p: any) => {
+            const pickEmId = p.pickEmId ?? p.pickEm?.id ?? p.pickEm ?? p.questionId;
+            const optionId = p.option?.id ?? p.selected?.id ?? p.selection?.id ?? p.option ?? p.selected ?? p.selection;
+            if (pickEmId != null && optionId != null) {
+              selectionsMap[Number(pickEmId)] = Number(optionId);
+            }
+          });
+          setSelections(selectionsMap);
+        }
+      }
+    } catch (err) {
+      // Optional: setPeError('Could not fetch picks');
+    } finally {
+      setPeLoading(false);
+    }
   }
   const closePickEmModal = () => {
     setPeModalOpen(false)

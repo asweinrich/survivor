@@ -14,6 +14,7 @@ import { getStatusBorder } from '@/lib/utils/status';
 import { formatVotedOutOrder } from '@/lib/utils/format';
 import { rankAndScorePlayerTribes, type ScoredPlayerTribe } from '@/lib/utils/score';
 import { useSeasonData } from '@/lib/hooks/useSeasonData';
+import TribePickemSummary from '../components/TribePickemSummary';
 
 // You may want to replace this with SWR or your own fetching logic if you want SSR/caching.
 async function fetchPickemLeaderboard(season: string) {
@@ -34,7 +35,31 @@ export default function Leaderboard() {
   const [pickemLeaderboard, setPickemLeaderboard] = useState<any[]>([]);
   const [pickemLoading, setPickemLoading] = useState(false);
 
+  const [pickemTribeDetails, setPickemTribeDetails] = useState<any[]>([]);
+  const [pickemTribeLoading, setPickemTribeLoading] = useState(false);
+
   const { playerTribes, contestants, tribes, loading } = useSeasonData(season);
+
+  const WEEK_QUESTION_MATRIX = [
+    { week: 2, numQuestions: 3 },
+    //{ week: 3, numQuestions: 4 },
+    // Add more weeks as needed
+  ];
+
+  async function fetchPickemTribeDetails(season: string) {
+    const res = await fetch(`/api/pickem-tribe-details?season=${season}`);
+    if (!res.ok) return [];
+    return res.json();
+  }
+
+  useEffect(() => {
+    if (leaderboardType === 'pickem' && Number(season) >= 49) {
+      setPickemTribeLoading(true);
+      fetchPickemTribeDetails(season)
+        .then(data => setPickemTribeDetails(data))
+        .finally(() => setPickemTribeLoading(false));
+    }
+  }, [leaderboardType, season]);
 
   useEffect(() => {
     if (Number(season) < 49 && leaderboardType === 'pickem') {
@@ -66,6 +91,40 @@ export default function Leaderboard() {
 
   const closeModal = () => { setModalVisible(false); setFocusContestant(0); };
   const activateModal = (id: number) => { setFocusContestant(id); setModalVisible(true); };
+
+  const pickemTribes = useMemo(() => {
+    // Build a map for quick lookup of pickem scores by tribe id
+    const pickemMap = new Map<number, any>();
+    pickemLeaderboard.forEach((t: any) => {
+      pickemMap.set(t.id, t);
+    });
+
+    // Always show all drafted tribes; attach pickemPoints if available, else 0
+    const allTribes = playerTribes.map((tribe: any) => {
+      const pickemData = pickemMap.get(tribe.id);
+      return {
+        ...tribe,
+        pickemPoints: pickemData?.pickemPoints ?? 0,
+        rank: 0 // We'll set rank below
+      };
+    });
+
+    // Sort by pickemPoints descending, then assign rank
+    allTribes.sort((a, b) => b.pickemPoints - a.pickemPoints);
+
+    // Assign competition ranks
+    let currentRank = 1;
+    for (let i = 0; i < allTribes.length; i++) {
+      if (i > 0 && allTribes[i].pickemPoints === allTribes[i - 1].pickemPoints) {
+        allTribes[i].rank = allTribes[i - 1].rank;
+      } else {
+        allTribes[i].rank = currentRank;
+      }
+      currentRank = i + 2; // always pushes the "potential" rank forward
+    }
+
+    return allTribes;
+  }, [playerTribes, pickemLeaderboard]);
 
   // Main leaderboard rendering function (tribe or pickem)
   function renderLeaderboard(data: any[], isPickem: boolean) {
@@ -129,7 +188,15 @@ export default function Leaderboard() {
           {expandedTribes.includes(tribe.id) && (
             <div className="px-2 mt-3">
               {isPickem ? (
-                <div className="text-stone-400 text-sm italic mb-3">Pick'em details coming soon.</div>
+                (() => {
+                  const tribeDetails = pickemTribeDetails.find(t => t.id === tribe.id);
+                  return (
+                    <TribePickemSummary
+                      pickemWeeks={tribeDetails?.pickemWeeks ?? []}
+                      weekQuestionMatrix={WEEK_QUESTION_MATRIX}
+                    />
+                  );
+                })()
               ) : (() => {
                 const ids = tribe.tribeArray;
                 if (!ids?.length) return null;
@@ -313,7 +380,7 @@ export default function Leaderboard() {
         <div className="px-2">
           {leaderboardType === 'tribe'
             ? renderLeaderboard(rankedTribes, false)
-            : renderLeaderboard(pickemLeaderboard, true)
+            : renderLeaderboard(pickemTribes, true)
           }
         </div>
 

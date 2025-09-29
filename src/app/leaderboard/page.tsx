@@ -328,7 +328,7 @@ export default function Leaderboard() {
           <p className="font-lostIsland lowercase mb-3 text-stone-300/90 leading-tight">
             {leaderboardType === 'tribe'
               ? <>Tap the <IdentificationIcon className="inline mx-1.5 w-5 h-5 stroke-2 text-stone-300" /> icon to view detailed contestant stats.</>
-              : <>Make your weekly picks <a href="/pick-em" className="text-blue-400 underline">here</a>.</>
+              : <>Make your weekly picks <a href="/pick-em" className="text-blue-400 underline">here</a>.<br/><br/></>
             }
           </p>
           {season === '47' && (
@@ -355,18 +355,18 @@ export default function Leaderboard() {
 
 
         {Number(season) >= 49 && (
-          <div className="flex items-center overflow-hidden tracking-wider mb-6 w-fit mx-auto rounded-xl justify-center font-lostIsland uppercase ">
+          <div className="flex items-center overflow-hidden tracking-wider mb-8 w-auto mx-4 rounded-xl text-2xl font-lostIsland lowercase ">
             <button
-              className={`w-32 px-4 py-2 ${
-                leaderboardType === 'tribe' ? 'bg-orange-500/90 text-white' : 'bg-stone-800 text-stone-300'
+              className={`w-1/2 p-3 ${
+                leaderboardType === 'tribe' ? 'bg-orange-500/75 text-stone-100' : 'bg-stone-800 text-stone-300'
               }`}
               onClick={() => setLeaderboardType('tribe')}
             >
               TRIBES
             </button>
             <button
-              className={`w-32 px-4 py-2 ${
-                leaderboardType === 'pickem' ? 'bg-blue-500/90 text-white' : 'bg-stone-800 text-stone-300'
+              className={`w-1/2 p-3 ${
+                leaderboardType === 'pickem' ? 'bg-blue-500/60 text-stone-100' : 'bg-stone-800 text-stone-300'
               }`}
               onClick={() => setLeaderboardType('pickem')}
             >
@@ -374,6 +374,13 @@ export default function Leaderboard() {
             </button>
           </div>
         )}
+
+
+        <div className="flex px-2 text-lg lowercase bg-stone-800 border-b-2 border-stone-700 py-2 mb-3 text-stone-400 font-lostIsland">
+          <span className="mx-2 w-20">rank</span>
+          <span className="mx-2">tribe</span>
+          <span className="ms-auto w-16">score</span>
+        </div>
 
         
 

@@ -248,7 +248,7 @@ export default function DashboardPage() {
 
         <div className="flex mb-2 mt-6 px-2 font-lostIsland">
           <h1 className="text-2xl uppercase">Your Picks</h1>
-          <a href="/pick-em" className="ms-auto border border-stone-500 lowercase bg-orange-500/90 rounded-lg px-3 py-1 text-lg">Go to Pick Em Contest</a>
+          <a href="/pick-em" className="ms-auto border border-stone-950 lowercase bg-orange-500/75 rounded-lg px-3 py-1 text-lg">Go to Pick Em Contest</a>
         </div>
         <div className="mb-6">
           {pickemLoading ? (

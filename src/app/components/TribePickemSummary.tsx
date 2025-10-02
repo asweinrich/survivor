@@ -109,7 +109,7 @@ export default function TribePickemSummary({
             {/* Middle column: Picks */}
             <div className="flex flex-row gap-2 flex-1 justify-start ps-6">
               {picks.map((pick, idx) => (
-                <span key={idx} className="relative flex items-center justify-center">
+                <span key={idx} className="relative flex items-center justify-center bg-black rounded-full">
                   {pick ? (
                     pick.answered ? (
                       pick.pending ? (

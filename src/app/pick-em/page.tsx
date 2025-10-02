@@ -9,6 +9,7 @@ import {
   ChevronRightIcon,
   ArrowPathIcon,
   InformationCircleIcon,
+  NoSymbolIcon,
 } from '@heroicons/react/24/outline'
 import {
   CheckCircleIcon,
@@ -498,13 +499,16 @@ export default function WeeklyPickEms() {
                         {tribe.emoji}
                       </div>
                       <div className="ms-3">
-                        <div className="text-lg font-lostIsland leading-none pb-1">{tribe.tribeName}</div>
+                        <div className="flex items-center text-lg font-lostIsland leading-tight">
+                          {tribe.tribeName}
+                          {!tribe.paid && (
+                            <span className="relative inline-flex items-center justify-center w-5 h-5 ms-1.5 mb-0.5 rounded-full bg-red-900">
+                              <NoSymbolIcon className="absolute z-20 inset-0 w-full h-full text-red-400 opacity-60" />
+                              <span className="relative z-10 text-red-400 text-xs font-inter">$</span>
+                            </span>
+                          )}
+                        </div>
                         <div className="text-stone-400 font-lostIsland leading-tight mb-0.5">{tribe.playerName}</div>
-                        {!tribe.paid && (
-                          <span className="inline-block font-lostIsland text-xs lowercase bg-red-900 text-red-300 px-2 py-0.5 -ms-0.5 rounded-full">
-                            Ineligible for Prizes
-                          </span>
-                        )}
                       </div>
                     </div>
                     <div className="flex items-center ms-auto me-0 gap-2">

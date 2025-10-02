@@ -337,6 +337,47 @@ export default function WeeklyPickEms() {
   );
   const isUserSubmitted = tribe ? submittedSet.has(tribe.id) : false;
 
+
+  function getSortedTribes() {
+    // Each tribe: isSubmitted (made picks) or not (passed)
+    const tribesWithStatus = rankedTribes.map(tribe => {
+      const isSubmitted = submittedSet.has(tribe.id);
+      return {
+        ...tribe,
+        isSubmitted,
+        tribeName: tribe.tribeName?.toLowerCase() || '', // for alpha sort
+        score: scoringScores[tribe.playerId] ?? 0
+      }
+    });
+
+    // Split into "locked in" (made picks) and "passed" (no picks)
+    const lockedIn = tribesWithStatus.filter(t => t.isSubmitted);
+    const passed = tribesWithStatus.filter(t => !t.isSubmitted);
+
+    if (scored) {
+      // Sort lockedIn by score DESC, then tribeName ASC
+      lockedIn.sort((a, b) => {
+        if (b.score !== a.score) return b.score - a.score;
+        return a.tribeName.localeCompare(b.tribeName);
+      });
+      // Sort passed alphabetically
+      passed.sort((a, b) => a.tribeName.localeCompare(b.tribeName));
+    } else {
+      // Not scored: sort lockedIn by tribeName ASC
+      lockedIn.sort((a, b) => a.tribeName.localeCompare(b.tribeName));
+      // Sort passed alphabetically
+      passed.sort((a, b) => a.tribeName.localeCompare(b.tribeName));
+    }
+
+    // Locked in go first, then passed
+    return [...lockedIn, ...passed];
+  }
+
+
+
+
+
+
   // ---- Render --------------------------------------------------------
   return (
     <div className="min-h-screen bg-stone-900 text-stone-200 p-0">
@@ -468,7 +509,7 @@ export default function WeeklyPickEms() {
               <p className="font-lostIsland text-lg my-2 tracking-wider">No tribes have been drafted for this season yet.</p>
             </div>
           ) : (
-            rankedTribes.map((tribe) => {
+            getSortedTribes().map((tribe) => {
               const isSubmitted = submittedSet.has(tribe.id)
               const pendingBreakdown = (tribeSummaries[tribe.id] ?? []).map((item: any) => {
                 const opt = item.option || {};

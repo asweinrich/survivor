@@ -10,8 +10,7 @@ import type { Contestant } from '@/lib/types';
  *    • Others   → A→Z by first name
  * - If spoilers are shown:
  *    • Season 50 → by first pastSeason.seasonNumber (if provided)
- *    • Season 49 → group in-play players by identical tribeArray values,
- *                  others follow standard ordering
+ *    • Season 49 → by points DESC, then by tribes (grouped only as tie-breaker), then name
  *    • Others   → inPlay first, then points DESC, then voteOutOrder DESC
  */
 export function sortContestants(
@@ -49,20 +48,18 @@ export function sortContestants(
   }
 
   if (season === '49') {
-    const inPlay = list.filter(c => c.inPlay);
-    const outPlay = list.filter(c => !c.inPlay);
-
-    const grouped = inPlay.sort((a, b) => {
-      const aKey = a.tribes?.join('-') ?? '';
-      const bKey = b.tribes?.join('-') ?? '';
-      if (aKey < bKey) return -1;
-      if (aKey > bKey) return 1;
-      return (b.points ?? 0) - (a.points ?? 0); // tie-breaker
+    // Sort by points DESC, then by first tribe id ASC, then by name ASC
+    return list.sort((a, b) => {
+      const pointDiff = (b.points ?? 0) - (a.points ?? 0);
+      if (pointDiff !== 0) return pointDiff;
+      // Next, by tribe group (lowest tribe id, or '')
+      const aTribeKey = Array.isArray(a.tribes) && a.tribes.length > 0 ? a.tribes.join('-') : '';
+      const bTribeKey = Array.isArray(b.tribes) && b.tribes.length > 0 ? b.tribes.join('-') : '';
+      if (aTribeKey < bTribeKey) return -1;
+      if (aTribeKey > bTribeKey) return 1;
+      // Finally, by name
+      return a.name.localeCompare(b.name);
     });
-
-    const others = outPlay.sort((a, b) => (b.voteOutOrder ?? 0) - (a.voteOutOrder ?? 0));
-
-    return [...grouped, ...others];
   }
 
   // DEFAULT

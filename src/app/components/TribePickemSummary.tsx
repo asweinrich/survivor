@@ -29,8 +29,6 @@ export default function TribePickemSummary({
   // Build a map for easy lookup
   const weekMap = Object.fromEntries((pickemWeeks ?? []).map(w => [w.week, w]));
 
-
-
   return (
     <div className="flex flex-col pt-2">
       {weekQuestionMatrix.map(({ week, numQuestions }) => {
@@ -49,17 +47,14 @@ export default function TribePickemSummary({
 
         // Passed if no picks for this week (not submitted)
         const isPassed = !(weekData && weekData.picks && weekData.picks.length);
-
-        // Scored if all picks are answered (none pending) and at least one pick
+        // Consider "scored" if weekData exists and none of the picks are pending
         const isSubmitted = !isPassed;
-        const scored =
-          isSubmitted &&
-          picks.every(
-            pick =>
-              pick &&
-              pick.answered &&
-              !pick.pending
-          );
+        // New logic: consider the week "scored" if weekData exists and none of the picks are pending
+        const isScored = isSubmitted && picks.length > 0 && picks.every(
+          pick => pick && pick.answered && !pick.pending
+        );
+        // But ALSO, if weekData.score !== undefined/null, treat as scored (for partial answers)
+        const hasScoredPoints = isSubmitted && typeof weekData?.score === 'number';
 
         // Score styling logic (duplicating pick-em page)
         let scoreElem;
@@ -73,22 +68,12 @@ export default function TribePickemSummary({
               passed
             </span>
           );
-        } else if (!scored) {
-          // Locked in
-          scoreElem = (
-            <span
-              className="text-sm tracking-wider inline-flex items-center gap-1 text-orange-300 font-lostIsland uppercase bg-orange-900/60 px-2 py-1 rounded-lg"
-              title="Locked In"
-            >
-              locked in
-            </span>
-          );
-        } else {
-          // Scored
+        } else if (hasScoredPoints) {
+          // Show score regardless of number of questions answered
           const points = weekData?.score ?? 0;
           let textColor = "text-green-300";
           let bgColor = "bg-green-900/60";
-          let displayPoints = `${points}`;
+          let displayPoints = `${points} pts`;
           if (points < 0) {
             textColor = "text-red-300";
             bgColor = "bg-red-900/60";
@@ -102,6 +87,16 @@ export default function TribePickemSummary({
               title="Scored"
             >
               {displayPoints}
+            </span>
+          );
+        } else {
+          // Locked in (not yet scored)
+          scoreElem = (
+            <span
+              className="text-sm tracking-wider inline-flex items-center gap-1 text-orange-300 font-lostIsland uppercase bg-orange-900/60 px-2 py-1 rounded-lg"
+              title="Locked In"
+            >
+              locked in
             </span>
           );
         }

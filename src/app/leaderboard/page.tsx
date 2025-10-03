@@ -42,6 +42,7 @@ export default function Leaderboard() {
 
   const WEEK_QUESTION_MATRIX = [
     { week: 2, numQuestions: 3 },
+    { week: 3, numQuestions: 5 },
     //{ week: 3, numQuestions: 4 },
     // Add more weeks as needed
   ];

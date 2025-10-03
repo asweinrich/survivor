@@ -47,13 +47,19 @@ export default function TribePickemSummary({
 
         // Passed if no picks for this week (not submitted)
         const isPassed = !(weekData && weekData.picks && weekData.picks.length);
-        // Consider "scored" if weekData exists and none of the picks are pending
         const isSubmitted = !isPassed;
-        // New logic: consider the week "scored" if weekData exists and none of the picks are pending
+
+        // A pick is pending if it was answered and is still pending
+        const anyPending = isSubmitted && picks.some(
+          pick => pick && pick.answered && pick.pending
+        );
+
+        // Scored if all picks are answered and none are pending
         const isScored = isSubmitted && picks.length > 0 && picks.every(
           pick => pick && pick.answered && !pick.pending
         );
-        // But ALSO, if weekData.score !== undefined/null, treat as scored (for partial answers)
+
+        // Week has a score if weekData.score is a number
         const hasScoredPoints = isSubmitted && typeof weekData?.score === 'number';
 
         // Score styling logic (duplicating pick-em page)
@@ -68,8 +74,18 @@ export default function TribePickemSummary({
               passed
             </span>
           );
+        } else if (anyPending) {
+          // Locked in (some picks pending)
+          scoreElem = (
+            <span
+              className="text-sm tracking-wider inline-flex items-center gap-1 text-orange-300 font-lostIsland uppercase bg-orange-900/60 px-2 py-1 rounded-lg"
+              title="Locked In"
+            >
+              locked in
+            </span>
+          );
         } else if (hasScoredPoints) {
-          // Show score regardless of number of questions answered
+          // Show score
           const points = weekData?.score ?? 0;
           let textColor = "text-green-300";
           let bgColor = "bg-green-900/60";
@@ -90,7 +106,7 @@ export default function TribePickemSummary({
             </span>
           );
         } else {
-          // Locked in (not yet scored)
+          // Fallback
           scoreElem = (
             <span
               className="text-sm tracking-wider inline-flex items-center gap-1 text-orange-300 font-lostIsland uppercase bg-orange-900/60 px-2 py-1 rounded-lg"
@@ -107,7 +123,7 @@ export default function TribePickemSummary({
             <div className="w-16 text-center font-lostIsland lowercase text-stone-300 text-xl">Week {week}</div>
 
             {/* Middle column: Picks */}
-            <div className="flex flex-row gap-2 flex-1 justify-start ps-6">
+            <div className="flex flex-row gap-2 flex-1 justify-start ps-3">
               {picks.map((pick, idx) => (
                 <span key={idx} className="relative flex items-center justify-center bg-black rounded-full">
                   {pick ? (

@@ -34,7 +34,7 @@ import { AvailablePickEmsSummary } from './AvailablePickEmsSummary'
 // ---- Page ------------------------------------------------------------
 export default function WeeklyPickEms() {
   const [season, setSeason] = useState('49')
-  const [week, setWeek] = useState<number>(2)
+  const [week, setWeek] = useState<number>(3)
   const [expandedTribes, setExpandedTribes] = useState<number[]>([])
   const [submittedSet, setSubmittedSet] = useState<Set<number>>(new Set())
   const [lockAt, setLockAt] = useState<Date | null>(null)
@@ -73,7 +73,7 @@ export default function WeeklyPickEms() {
   )
 
   const MIN_WEEK = 2
-  const MAX_WEEK = 2
+  const MAX_WEEK = 3
 
   const rankedTribes = useMemo(() => {
     const ranked = rankAndScorePlayerTribes(playerTribes, season, contestantMap) as Array<PlayerTribe & { rank: number }>
@@ -183,6 +183,8 @@ export default function WeeklyPickEms() {
     return () => clearInterval(interval)
 
   }, [lockAt])
+
+
 
   // ---- FIXED: Display lockAt in PT for user clarity, but do NOT use it for countdown ----
   const lockAtPTString = lockAt
@@ -336,6 +338,12 @@ export default function WeeklyPickEms() {
       String(pt.season) === String(season)
   );
   const isUserSubmitted = tribe ? submittedSet.has(tribe.id) : false;
+
+  useEffect(() => {
+    if (tribeId && submittedSet.has(tribeId) && !tribeSummaries[tribeId]) {
+      fetchTribeSummary(tribeId);
+    }
+  }, [tribeId, week, season, submittedSet, peModalOpen]);
 
 
   function getSortedTribes() {

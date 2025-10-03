@@ -496,6 +496,84 @@ export default function WeeklyPickEms() {
           </div>
         )}
 
+        {/* User's Pick Em Summary */}
+        {session && tribeId && tribe && (
+          <div className="mb-4 px-4 border-t border-stone-700 pt-4">
+            <div className="flex items-center mb-3">
+              <h2 className="font-lostIsland text-xl uppercase">Your Week {week} Picks</h2>
+              <span className="ms-auto">
+                {/* If scored, show points */}
+                {submittedSet.has(tribeId) ? (
+                  scored ? (() => {
+                    const points = scoringScores[tribe.playerId] ?? 0;
+                    let textColor = "text-green-300";
+                    let bgColor = "bg-green-900/60";
+                    let displayPoints = `${points} pts`;
+                    if (points < 0) {
+                      textColor = "text-red-300";
+                      bgColor = "bg-red-900/60";
+                    } else if (points === 0) {
+                      textColor = "text-stone-300";
+                      bgColor = "bg-stone-700/50";
+                    }
+                    return (
+                      <span className={`inline-flex items-center gap-1 font-lostIsland text-xl lowercase tracking-wider px-2 py-1 rounded-lg ${textColor} ${bgColor}`} title="Scored">
+                        {displayPoints}
+                      </span>
+                    );
+                  })() : (
+                    // Not scored, but submitted: locked in
+                    <span className="tracking-wider inline-flex items-center gap-1 text-orange-300 font-lostIsland uppercase bg-orange-900/60 px-2 py-1 rounded-lg" title="Locked In">
+                      locked in
+                    </span>
+                  )
+                ) : (
+                  // Not submitted: passed
+                  <span className="tracking-wider inline-flex items-center gap-1 text-gray-300 font-lostIsland uppercase bg-gray-600/60 px-2 py-1 rounded-lg" title="Passed (no picks this week)">
+                    passed
+                  </span>
+                )}
+              </span>
+            </div>
+            <div className="">
+              {submittedSet.has(tribeId) ? (
+                scored ? (
+                  <ScoringSummary
+                    breakdown={scoringBreakdowns[tribe.playerId] || []}
+                    score={scoringScores[tribe.playerId] || 0}
+                    tribes={tribes}
+                    contestants={contestants}
+                  />
+                ) : (
+                  <PendingSummary
+                    breakdown={(tribeSummaries[tribeId] ?? []).map((item: any) => {
+                      const opt = item.option || {};
+                      return {
+                        question: item.question ?? 'Question',
+                        type: opt.type ?? 'text',
+                        label: opt.label ?? opt.value ?? '',
+                        value: opt.value,
+                        pickEmId: opt.pickEmId ?? tribe.id,
+                        isCorrect: undefined,
+                        points: undefined,
+                        ...(opt.pointValue && { pointValue: opt.pointValue }),
+                      };
+                    })}
+                    score={0}
+                    tribes={tribes}
+                    contestants={contestants}
+                  />
+                )
+              ) : (
+                <div className="flex items-center justify-center py-6 text-stone-400 text-lg font-lostIsland uppercase">
+                  <FireIcon className="w-6 h-6 me-3" />
+                  <span>No picks submitted for week {week}</span>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
         {/* Leaderboard-style list of tribes with status icons */}
         <div className="p-4 border-t border-stone-500">
           <h2 className="font-lostIsland text-xl uppercase mb-4">Tribe Picks</h2>

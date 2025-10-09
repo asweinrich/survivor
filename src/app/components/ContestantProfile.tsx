@@ -234,6 +234,8 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
       return `3rd Place`
     } else if(votedOutOrder === 600) {
       return `Lost Fire Making`
+    } else if(votedOutOrder === 700) {
+      return `Medically Removed`
     } else {
       return `${getOrdinalSuffix(votedOutOrder)} person voted out`;
     }
@@ -331,28 +333,28 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
                 <TribeBadges tribeIds={contestant.tribes} tribes={tribes as Tribe[]} />
               </p>
             )}
-            <div className="flex text-sm">
+            <div className="flex text-sm uppercase">
               {contestant.inPlay && (<>
                 <FireIcon className="h-5 w-5 text-orange-400 me-1" />
-                <div className="text-stone-300 lowercase font-lostIsland tracking-wider">In Play</div>
+                <div className="pt-0.5 text-stone-300 uppercase font-lostIsland tracking-wider">In Play</div>
               </>)}
               {(!contestant.inPlay && contestant.voteOutOrder === 903) && (<>
                 <TrophyIcon className="h-5 w-5 text-yellow-400 me-2" />
-                <div className="text-stone-200 lowercase font-lostIsland tracking-wider">
+                <div className="pt-0.5 text-stone-200 uppercase font-lostIsland tracking-wider">
                   {formatVotedOutOrder(contestant.voteOutOrder)}
                 </div>
                 
               </>)}
               {(!contestant.inPlay && contestant.voteOutOrder === 902) && (<>
                 <TrophyIcon className="h-5 w-5 text-zinc-400 me-2" />
-                <div className="text-stone-200 lowercase font-lostIsland tracking-wider">
+                <div className="pt-0.5 text-stone-200 uppercase font-lostIsland tracking-wider">
                   {formatVotedOutOrder(contestant.voteOutOrder)}
                 </div>
                 
               </>)}
               {(!contestant.inPlay && contestant.voteOutOrder === 901) && (<>
                 <TrophyIcon className="h-5 w-5 text-amber-600 me-2" />
-                <div className="text-stone-200 lowercase font-lostIsland tracking-wider">
+                <div className="pt-0.5 text-stone-200 uppercase font-lostIsland tracking-wider">
                   {formatVotedOutOrder(contestant.voteOutOrder)}
                 </div>
                 
@@ -360,7 +362,7 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
               {(!contestant.inPlay && contestant.voteOutOrder < 900) && (
                <>
                 <FireIcon className="h-5 w-5 text-white opacity-60 me-1" />
-                <div className="text-stone-400 lowercase font-lostIsland tracking-wider">
+                <div className="pt-0.5 text-stone-400 uppercase font-lostIsland tracking-wider">
                   {formatVotedOutOrder(contestant.voteOutOrder)}
                 </div>
                 

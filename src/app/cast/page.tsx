@@ -135,7 +135,7 @@ export default function CastPage() {
                       {contestant.inPlay ? (
                         <>
                           <FireIcon className="h-5 w-5 text-orange-400 me-1" />
-                          <div className="text-stone-300 lowercase font-lostIsland tracking-wider">
+                          <div className="text-stone-300 uppercase pt-0.5 font-lostIsland tracking-wider">
                             In Play
                           </div>
                         </>
@@ -152,14 +152,14 @@ export default function CastPage() {
                                     : 'text-amber-600'
                                 }`}
                               />
-                              <div className="text-stone-200 lowercase font-lostIsland tracking-wider mt-1">
+                              <div className="text-stone-200 uppercase pt-0.5 font-lostIsland tracking-wider mt-1">
                                 {formatVotedOutOrder(contestant.voteOutOrder)}
                               </div>
                             </>
                           ) : (
                             <>
                               <FireIcon className="h-5 w-5 text-white opacity-60 me-1" />
-                              <div className="text-stone-400 lowercase font-lostIsland tracking-wider">
+                              <div className="text-stone-400 uppercase pt-0.5 font-lostIsland tracking-wider">
                                 {formatVotedOutOrder(contestant.voteOutOrder)}
                               </div>
                             </>
@@ -168,7 +168,7 @@ export default function CastPage() {
                       )}
                     </>
                   ) : (
-                    <div className="text-stone-400 lowercase font-lostIsland tracking-wider ps-1">
+                    <div className="text-stone-400 uppercase pt-0.5 font-lostIsland tracking-wider ps-1">
                       Status Hidden
                     </div>
                   )}

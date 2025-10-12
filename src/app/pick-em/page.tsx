@@ -34,7 +34,7 @@ import { AvailablePickEmsSummary } from './AvailablePickEmsSummary'
 // ---- Page ------------------------------------------------------------
 export default function WeeklyPickEms() {
   const [season, setSeason] = useState('49')
-  const [week, setWeek] = useState<number>(3)
+  const [week, setWeek] = useState<number>(4)
   const [expandedTribes, setExpandedTribes] = useState<number[]>([])
   const [submittedSet, setSubmittedSet] = useState<Set<number>>(new Set())
   const [lockAt, setLockAt] = useState<Date | null>(null)
@@ -73,7 +73,7 @@ export default function WeeklyPickEms() {
   )
 
   const MIN_WEEK = 2
-  const MAX_WEEK = 3
+  const MAX_WEEK = 4
 
   const rankedTribes = useMemo(() => {
     const ranked = rankAndScorePlayerTribes(playerTribes, season, contestantMap) as Array<PlayerTribe & { rank: number }>
@@ -896,8 +896,16 @@ export default function WeeklyPickEms() {
                                         <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
                                           {arr.map(({ opt, name, img }) => {
                                             const selected = selections[mkt.id] === opt.id
+                                            const isInactive = opt.pointValue === 0
                                             return (
-                                              <button key={opt.id} type="button" disabled={locked} onClick={() => handleSelect(mkt.id, opt.id)} className={`${baseBtn} ${selected ? activeBtn : idleBtn} p-3 flex flex-col items-center`} title={opt.pointValue ? `+${opt.pointValue} pts` : ''}>
+                                              <button 
+                                                key={opt.id} 
+                                                type="button" 
+                                                disabled={locked || isInactive} 
+                                                onClick={() => !isInactive && handleSelect(mkt.id, opt.id)}
+                                                className={`${baseBtn} ${selected ? activeBtn : idleBtn} ${isInactive ? 'opacity-60 cursor-not-allowed' : ''}`}
+                                                title={isInactive ? 'This option is not available this week' : undefined}
+                                              >
                                                 <img src={`/imgs/${img}.png`} alt={name} className="h-22 w-22 object-cover rounded-full border-2 p-1 border-stone-500" />
                                                 <div className="mt-1.5 flex flex-col items-center">
                                                   <div className="text-xl uppercase text-stone-200">{firstName(name)}</div>

@@ -34,7 +34,7 @@ import { AvailablePickEmsSummary } from './AvailablePickEmsSummary'
 // ---- Page ------------------------------------------------------------
 export default function WeeklyPickEms() {
   const [season, setSeason] = useState('49')
-  const [week, setWeek] = useState<number>(4)
+  const [week, setWeek] = useState<number>(5)
   const [expandedTribes, setExpandedTribes] = useState<number[]>([])
   const [submittedSet, setSubmittedSet] = useState<Set<number>>(new Set())
   const [lockAt, setLockAt] = useState<Date | null>(null)
@@ -73,7 +73,7 @@ export default function WeeklyPickEms() {
   )
 
   const MIN_WEEK = 2
-  const MAX_WEEK = 4
+  const MAX_WEEK = 5
 
   const rankedTribes = useMemo(() => {
     const ranked = rankAndScorePlayerTribes(playerTribes, season, contestantMap) as Array<PlayerTribe & { rank: number }>
@@ -827,7 +827,7 @@ export default function WeeklyPickEms() {
 
                           {(() => {
                             const marketType = mkt.options?.[0]?.type ?? 'text'
-                            const baseBtn = 'transition rounded-lg border-2 '
+                            const baseBtn = 'transition rounded-lg border-2 p-2'
                             const idleBtn = 'border-stone-700 bg-stone-800 text-stone-300 hover:bg-stone-700'
                             const activeBtn = 'border-orange-500 bg-orange-600/20 text-stone-100'
 
@@ -865,7 +865,7 @@ export default function WeeklyPickEms() {
                                 const first = firstName(name)
                                 const tribeIdsRaw: any = (c as any)?.tribeIds ?? (c as any)?.tribes ?? ((c as any)?.tribeId != null ? [(c as any).tribeId] : [])
                                 const tribeIds: number[] = Array.isArray(tribeIdsRaw) ? tribeIdsRaw.map((t: any) => Number(t)).filter((n: any) => Number.isFinite(n)) : []
-                                const primaryTribeId: number | null = tribeIds.length ? tribeIds[0] : null
+                                const primaryTribeId: number | null = tribeIds.length ? tribeIds[tribeIds.length - 1] : null
                                 return { opt, c, name, img, first, tribeIds, primaryTribeId }
                               })
                               const byTribe = new Map<number | null, typeof optionsAug>()

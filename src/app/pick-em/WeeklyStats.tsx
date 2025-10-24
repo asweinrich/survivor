@@ -158,7 +158,7 @@ export function WeeklyStats({
                       // If question type is 'tribe', attempt to use the tribe's color(s)
                       let startColor: string
                       let endColor: string
-                      if ((q.type).toLowerCase() === 'tribe') {
+                      if ((q.type ?? '').toLowerCase() === 'tribe') {
                         const tribeId = Number(opt.label)
                         const t = Array.isArray(tribes) ? (tribes as Tribe[]).find((x) => Number(x.id) === tribeId) : undefined
                         if (t && t.color) {
@@ -177,7 +177,7 @@ export function WeeklyStats({
 
                       let labelNode: React.ReactNode = opt.label
 
-                      if ((q.type).toLowerCase() === 'tribe') {
+                      if ((q.type ?? '').toLowerCase() === 'tribe') {
 
                         const tribeId = Number(opt.label)
                         labelNode = (
@@ -185,7 +185,7 @@ export function WeeklyStats({
                             <TribeBadges tribeIds={[tribeId]} tribes={Array.isArray(tribes) ? tribes : []} />
                           </div>
                         )
-                      } else if ((q.type).toLowerCase() === 'contestant') {
+                      } else if ((q.type ?? '').toLowerCase() === 'contestant') {
                         const cid = Number(opt.label)
                         const c = contestantMap[cid]
                         const img = c?.img ?? 'placeholder'

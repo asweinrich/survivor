@@ -12,6 +12,7 @@ import { useSpoiler } from "../../context/SpoilerContext";
 import { redirect } from "next/navigation";
 import TribePickemSummary from '../components/TribePickemSummary';
 import { hexToRgba } from '@/lib/utils/color';
+import { formatVotedOutOrder } from '@/lib/utils/format';
 
 
 const SEASONS = [49, 48, 47];
@@ -162,20 +163,7 @@ export default function DashboardPage() {
         return `${number}th`;
     }
   }
-
-  function formatVotedOutOrder(votedOutOrder: number): string {
-    if(votedOutOrder === 903) {
-      return `Sole Survivor`;
-    } else if(votedOutOrder === 902) {
-      return `2nd Place`;
-    } else if(votedOutOrder === 901) {
-      return `3rd Place`;
-    } else if(votedOutOrder === 600) {
-      return `Lost Fire Making`;
-    } else {
-      return `${getOrdinalSuffix(votedOutOrder)} person voted out`;
-    }
-  }
+  
 
   const { rankedTribes, sortedUserTribes } = useMemo(() => {
     const ranked: any[] = [];
@@ -410,44 +398,38 @@ export default function DashboardPage() {
                             <div className="flex items-center leading-tight">
                               {revealSpoilers ? (
                                 <>
-                                  {contestant.inPlay && (
+                                  {contestant.inPlay ? (
                                     <>
                                       <FireIcon className="h-5 w-5 text-orange-400 me-1" />
-                                      <div className="text-stone-300 lowercase font-lostIsland tracking-wider">
+                                      <div className="text-stone-300 uppercase pt-0.5 font-lostIsland tracking-wider">
                                         In Play
                                       </div>
                                     </>
-                                  )}
-                                  {(!contestant.inPlay && contestant.voteOutOrder === 903) && (
+                                  ) : (
                                     <>
-                                      <TrophyIcon className="h-5 w-5 text-yellow-400 me-2" />
-                                      <div className="text-stone-200 lowercase font-lostIsland tracking-wider mt-1">
-                                        {formatVotedOutOrder(contestant.voteOutOrder)}
-                                      </div>
-                                    </>
-                                  )}
-                                  {(!contestant.inPlay && contestant.voteOutOrder === 902) && (
-                                    <>
-                                      <TrophyIcon className="h-5 w-5 text-zinc-400 me-2" />
-                                      <div className="text-stone-200 lowercase font-lostIsland tracking-wider mt-1">
-                                        {formatVotedOutOrder(contestant.voteOutOrder)}
-                                      </div>
-                                    </>
-                                  )}
-                                  {(!contestant.inPlay && contestant.voteOutOrder === 901) && (
-                                    <>
-                                      <TrophyIcon className="h-5 w-5 text-amber-600 me-2" />
-                                      <div className="text-stone-200 lowercase font-lostIsland tracking-wider mt-1">
-                                        {formatVotedOutOrder(contestant.voteOutOrder)}
-                                      </div>
-                                    </>
-                                  )}
-                                  {(!contestant.inPlay && contestant.voteOutOrder < 900) && (
-                                    <>
-                                      <FireIcon className="h-5 w-5 text-white opacity-60 me-1" />
-                                      <div className="text-stone-400 lowercase font-lostIsland tracking-wider">
-                                        {formatVotedOutOrder(contestant.voteOutOrder)}
-                                      </div>
+                                      {contestant.voteOutOrder >= 900 ? (
+                                        <>
+                                          <TrophyIcon
+                                            className={`h-5 w-5 me-2 ${
+                                              contestant.voteOutOrder === 903
+                                                ? 'text-yellow-400'
+                                                : contestant.voteOutOrder === 902
+                                                ? 'text-zinc-400'
+                                                : 'text-amber-600'
+                                            }`}
+                                          />
+                                          <div className="text-stone-200 uppercase pt-0.5 font-lostIsland tracking-wider mt-1">
+                                            {formatVotedOutOrder(contestant.voteOutOrder)}
+                                          </div>
+                                        </>
+                                      ) : (
+                                        <>
+                                          <FireIcon className="h-5 w-5 text-white opacity-60 me-1" />
+                                          <div className="text-stone-400 uppercase pt-0.5 font-lostIsland tracking-wider">
+                                            {formatVotedOutOrder(contestant.voteOutOrder)}
+                                          </div>
+                                        </>
+                                      )}
                                     </>
                                   )}
                                 </>

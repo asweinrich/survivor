@@ -29,6 +29,7 @@ import { rankAndScorePlayerTribes } from '@/lib/utils/score'
 import { ScoringSummary } from './ScoringSummary';
 import { PendingSummary } from './PendingSummary';
 import { AvailablePickEmsSummary } from './AvailablePickEmsSummary'
+import { WeeklyStats } from './WeeklyStats'
 
 
 // ---- Page ------------------------------------------------------------
@@ -61,6 +62,9 @@ export default function WeeklyPickEms() {
   const { revealSpoilers } = useSpoiler()
   const { playerTribes, contestants, tribes, players, loading } = useSeasonData(season)
   const [tooltip, setTooltip] = useState<number | null>(null);
+  const [userPicksOpen, setUserPicksOpen] = useState(false);
+  const [weeklyStatsOpen, setWeeklyStatsOpen] = useState(false);
+
 
 
   const contestantMap = useMemo(
@@ -507,10 +511,22 @@ export default function WeeklyPickEms() {
         {/* User's Pick Em Summary */}
         {session && tribeId && tribe && (
           <div className="mb-4 px-4 border-t border-stone-700 pt-4">
-            <div className="flex items-center mb-3">
+            <div
+              className="flex items-center mb-3 cursor-pointer"
+              role="button"
+              tabIndex={0}
+              onClick={() => setUserPicksOpen((v) => !v)}
+              onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setUserPicksOpen((v) => !v) } }}
+              aria-expanded={userPicksOpen}
+            >
               <h2 className="font-lostIsland text-xl uppercase">Your Week {week} Picks</h2>
-              <span className="ms-auto">
-                {/* If scored, show points */}
+              <button
+                type="button"
+                onClick={(e) => { e.stopPropagation(); setUserPicksOpen((v) => !v) }}
+                aria-expanded={userPicksOpen}
+                className="ms-auto inline-flex items-center gap-2"
+              >
+                {/* Status badge or score */}
                 {submittedSet.has(tribeId) ? (
                   scored ? (() => {
                     const points = scoringScores[tribe.playerId] ?? 0;
@@ -527,60 +543,97 @@ export default function WeeklyPickEms() {
                     return (
                       <span className={`inline-flex items-center gap-1 font-lostIsland text-xl lowercase tracking-wider px-2 py-1 rounded-lg ${textColor} ${bgColor}`} title="Scored">
                         {displayPoints}
+                        <ChevronDownIcon className={`w-4 h-4 transition-transform ${userPicksOpen ? 'rotate-180' : ''}`} />
                       </span>
                     );
                   })() : (
                     // Not scored, but submitted: locked in
                     <span className="tracking-wider inline-flex items-center gap-1 text-orange-300 font-lostIsland uppercase bg-orange-900/60 px-2 py-1 rounded-lg" title="Locked In">
                       locked in
+                      <ChevronDownIcon className={`w-4 h-4 transition-transform ${userPicksOpen ? 'rotate-180' : ''}`} />
                     </span>
                   )
                 ) : (
                   // Not submitted: passed
                   <span className="tracking-wider inline-flex items-center gap-1 text-gray-300 font-lostIsland uppercase bg-gray-600/60 px-2 py-1 rounded-lg" title="Passed (no picks this week)">
                     passed
+                    <ChevronDownIcon className={`w-4 h-4 transition-transform ${userPicksOpen ? 'rotate-180' : ''}`} />
                   </span>
                 )}
-              </span>
+              </button>
             </div>
-            <div className="">
-              {submittedSet.has(tribeId) ? (
-                scored ? (
-                  <ScoringSummary
-                    breakdown={scoringBreakdowns[tribe.playerId] || []}
-                    score={scoringScores[tribe.playerId] || 0}
-                    tribes={tribes}
-                    contestants={contestants}
-                  />
+
+            {/* Collapsible content: show picks when userPicksOpen is true */}
+            {userPicksOpen && (
+              <div className="">
+                {submittedSet.has(tribeId) ? (
+                  scored ? (
+                    <ScoringSummary
+                      breakdown={scoringBreakdowns[tribe.playerId] || []}
+                      score={scoringScores[tribe.playerId] || 0}
+                      tribes={tribes}
+                      contestants={contestants}
+                    />
+                  ) : (
+                    <PendingSummary
+                      breakdown={(tribeSummaries[tribeId] ?? []).map((item: any) => {
+                        const opt = item.option || {};
+                        return {
+                          question: item.question ?? 'Question',
+                          type: opt.type ?? 'text',
+                          label: opt.label ?? opt.value ?? '',
+                          value: opt.value,
+                          pickEmId: opt.pickEmId ?? tribe.id,
+                          isCorrect: undefined,
+                          points: undefined,
+                          ...(opt.pointValue && { pointValue: opt.pointValue }),
+                        };
+                      })}
+                      score={0}
+                      tribes={tribes}
+                      contestants={contestants}
+                    />
+                  )
                 ) : (
-                  <PendingSummary
-                    breakdown={(tribeSummaries[tribeId] ?? []).map((item: any) => {
-                      const opt = item.option || {};
-                      return {
-                        question: item.question ?? 'Question',
-                        type: opt.type ?? 'text',
-                        label: opt.label ?? opt.value ?? '',
-                        value: opt.value,
-                        pickEmId: opt.pickEmId ?? tribe.id,
-                        isCorrect: undefined,
-                        points: undefined,
-                        ...(opt.pointValue && { pointValue: opt.pointValue }),
-                      };
-                    })}
-                    score={0}
-                    tribes={tribes}
-                    contestants={contestants}
-                  />
-                )
-              ) : (
-                <div className="flex items-center justify-center py-6 text-stone-400 text-lg font-lostIsland uppercase">
-                  <FireIcon className="w-6 h-6 me-3" />
-                  <span>No picks submitted for week {week}</span>
-                </div>
-              )}
-            </div>
+                  <div className="flex items-center justify-center py-6 text-stone-400 text-lg font-lostIsland uppercase">
+                    <FireIcon className="w-6 h-6 me-3" />
+                    <span>No picks submitted for week {week}</span>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         )}
+
+        {/* Weekly Stats for Pick ems */}
+        <div className="mb-4 px-4 border-t border-stone-700 pt-4">
+          <div
+            className="flex items-center mb-3 cursor-pointer"
+            role="button"
+            tabIndex={0}
+            onClick={() => setWeeklyStatsOpen((v) => !v)}
+            onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setWeeklyStatsOpen((v) => !v) } }}
+            aria-expanded={weeklyStatsOpen}
+          >
+            <h2 className="font-lostIsland text-xl uppercase">Week {week} Stats</h2>
+            <button
+              type="button"
+              onClick={(e) => { e.stopPropagation(); setWeeklyStatsOpen((v) => !v) }}
+              aria-expanded={weeklyStatsOpen}
+              className="ms-auto inline-flex items-center gap-2 px-2"
+            >
+              <ChevronDownIcon className={`w-4 h-4 transition-transform ${weeklyStatsOpen ? 'rotate-180' : ''}`} />
+            </button>
+          </div>
+
+          {/* Collapsible content: show picks when userPicksOpen is true */}
+          {weeklyStatsOpen && (
+            <div className="">
+              <WeeklyStats season={season} week={week} tribes={tribes} contestants={contestants} />
+            </div>
+          )}
+        </div>
+        
 
         {/* Leaderboard-style list of tribes with status icons */}
         <div className="p-4 border-t border-stone-500">

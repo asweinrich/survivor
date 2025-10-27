@@ -35,7 +35,7 @@ import { WeeklyStats } from './WeeklyStats'
 // ---- Page ------------------------------------------------------------
 export default function WeeklyPickEms() {
   const [season, setSeason] = useState('49')
-  const [week, setWeek] = useState<number>(5)
+  const [week, setWeek] = useState<number>(6)
   const [expandedTribes, setExpandedTribes] = useState<number[]>([])
   const [submittedSet, setSubmittedSet] = useState<Set<number>>(new Set())
   const [lockAt, setLockAt] = useState<Date | null>(null)
@@ -77,7 +77,7 @@ export default function WeeklyPickEms() {
   )
 
   const MIN_WEEK = 2
-  const MAX_WEEK = 5
+  const MAX_WEEK = 6
 
   const rankedTribes = useMemo(() => {
     const ranked = rankAndScorePlayerTribes(playerTribes, season, contestantMap) as Array<PlayerTribe & { rank: number }>
@@ -889,10 +889,27 @@ export default function WeeklyPickEms() {
                                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                                   {mkt.options.map((opt) => {
                                     const selected = selections[mkt.id] === opt.id
+                                    const isNoTribe = Number(opt.value) === 999
+
                                     return (
-                                      <button key={opt.id} type="button" disabled={locked} onClick={() => handleSelect(mkt.id, opt.id)} className={`${baseBtn} ${selected ? activeBtn : idleBtn} p-3 pb-2 text-left`} title={opt.pointValue ? `+${opt.pointValue} pts` : ''}>
+                                      <button
+                                        key={opt.id}
+                                        type="button"
+                                        disabled={locked}
+                                        onClick={() => handleSelect(mkt.id, opt.id)}
+                                        className={`${baseBtn} ${selected ? activeBtn : idleBtn} p-3 pb-2 text-left`}
+                                        title={opt.pointValue ? `+${opt.pointValue} pts` : ''}
+                                      >
                                         <div className="flex flex-col items-center">
-                                          <LargeTribeBadges tribeIds={[Number(opt.value)]} tribes={tribes as Tribe[]} />
+                                          {isNoTribe ? (
+                                            // Render a special "No tribe" badge when value is 999
+                                            <div className="rounded-lg border-2 border-stone-900 flex items-center justify-center bg-stone-700 text-stone-300/80 px-3 py-2">
+                                              <span className="uppercase tracking-wider text-xl">No tribe</span>
+                                            </div>
+                                          ) : (
+                                            <LargeTribeBadges tribeIds={[Number(opt.value)]} tribes={tribes as Tribe[]} />
+                                          )}
+
                                           {opt.pointValue != null && (
                                             <div className="flex-row mt-2 text-xl tracking-wider">
                                               <span className="text-green-400">+{opt.pointValue}</span>
@@ -988,7 +1005,7 @@ export default function WeeklyPickEms() {
                                     const selected = selections[mkt.id] === opt.id
                                     return (
                                       <button key={opt.id} type="button" disabled={locked} onClick={() => handleSelect(mkt.id, opt.id)} className={`${baseBtn} ${selected ? activeBtn : idleBtn} px-4 py-2 text-center`} title={opt.pointValue ? `+${opt.pointValue} pts` : ''}>
-                                        <div className="text-4xl lowercase tracking-wider mb-2">{String(opt.label || opt.value)}</div>
+                                        <div className="text-3xl lowercase tracking-wider mb-2">{String(opt.label || opt.value)}</div>
                                         {opt.pointValue != null && (
                                           <div className="text-xl tracking-wider">
                                             <span className="text-green-400">+{opt.pointValue}</span>

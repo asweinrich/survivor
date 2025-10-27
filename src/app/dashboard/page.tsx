@@ -216,6 +216,7 @@ export default function DashboardPage() {
     { week: 3, numQuestions: 5 },
     { week: 4, numQuestions: 4 },
     { week: 5, numQuestions: 5 },
+    { week: 6, numQuestions: 5 },
     // Add more weeks as needed, or import if shared
   ];
 

@@ -37,7 +37,17 @@ export function AvailablePickEmsSummary({
                 {mkt.options.map((opt) => {
                   let display: React.ReactNode = null;
                   if (opt.type === 'tribe') {
-                    display = <MedTribeBadges tribeIds={[Number(opt.value)]} tribes={tribes} />;
+                    const tribeId = Number(opt.value);
+                    // special "no tribe" id = 999 -> render unified "No tribe" badge
+                    if (tribeId === 999) {
+                      display = (
+                        <div className="w-20 rounded-lg border-2 border-stone-900 flex items-center justify-center bg-stone-700 text-stone-300/80 px-1 py-1">
+                          <span className="uppercase tracking-wider text-sm">No tribe</span>
+                        </div>
+                      );
+                    } else {
+                      display = <MedTribeBadges tribeIds={[tribeId]} tribes={tribes} />;
+                    }
                   } else if (opt.type === 'contestant') {
                     const c: Contestant | undefined = contestantMap[Number(opt.value)];
                     const name = c?.name ?? opt.label;

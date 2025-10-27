@@ -48,7 +48,16 @@ export function PendingSummary({
             // Render selection by type (like summary route)
             let selectionDisplay: React.ReactNode = null;
             if (type === 'tribe') {
-              selectionDisplay = <MedTribeBadges tribeIds={[Number(opt.label)]} tribes={tribes as Tribe[]} />;
+              const tribeId = Number(opt.label);
+              if (tribeId === 999) {
+                selectionDisplay = (
+                  <div className="w-20 rounded-lg border-2 border-stone-900 flex items-center justify-center bg-stone-700 text-stone-300/80 px-1 py-1">
+                    <span className="uppercase tracking-wider text-sm">No tribe</span>
+                  </div>
+                );
+              } else {
+                selectionDisplay = <MedTribeBadges tribeIds={[tribeId]} tribes={tribes as Tribe[]} />;
+              }
             } else if (type === 'contestant') {
               const c: Contestant | undefined = contestantMap[Number(opt.label)];
               const name = c?.name ?? opt.label;

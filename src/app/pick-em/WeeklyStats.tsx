@@ -178,13 +178,16 @@ export function WeeklyStats({
                       let labelNode: React.ReactNode = opt.label
 
                       if ((q.type ?? '').toLowerCase() === 'tribe') {
-
                         const tribeId = Number(opt.label)
-                        labelNode = (
-                          <div className="inline-block">
-                            <TribeBadges tribeIds={[tribeId]} tribes={Array.isArray(tribes) ? tribes : []} />
-                          </div>
-                        )
+                        if (tribeId === 999) {
+                          labelNode = (
+                            <div className="w-20 rounded-lg border-2 border-stone-900 flex items-center justify-center bg-stone-700 text-stone-300/80 px-1 py-1">
+                              <span className="uppercase tracking-wider text-sm">No tribe</span>
+                            </div>
+                          )
+                        } else {
+                          labelNode = <TribeBadges tribeIds={[tribeId]} tribes={tribes as Tribe[]} />
+                        }
                       } else if ((q.type ?? '').toLowerCase() === 'contestant') {
                         const cid = Number(opt.label)
                         const c = contestantMap[cid]

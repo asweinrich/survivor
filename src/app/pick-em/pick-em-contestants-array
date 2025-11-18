@@ -8,53 +8,47 @@
   {
     "id": 1,
     "type": "contestant",
-    "value": 62,
+    "value": 63,
     "pointValue": 500
   },
   {
     "id": 2,
     "type": "contestant",
-    "value": 63,
+    "value": 66,
     "pointValue": 500
   },
   {
     "id": 3,
     "type": "contestant",
-    "value": 66,
+    "value": 68,
     "pointValue": 500
   },
   {
     "id": 4,
     "type": "contestant",
-    "value": 68,
+    "value": 72,
     "pointValue": 500
   },
   {
     "id": 5,
     "type": "contestant",
-    "value": 72,
+    "value": 74,
     "pointValue": 500
   },
   {
     "id": 6,
     "type": "contestant",
-    "value": 74,
+    "value": 75,
     "pointValue": 500
   },
   {
     "id": 7,
     "type": "contestant",
-    "value": 75,
-    "pointValue": 500
-  },
-  {
-    "id": 8,
-    "type": "contestant",
     "value": 77,
     "pointValue": 500
   },
   {
-    "id": 9,
+    "id": 8,
     "type": "contestant",
     "value": 78,
     "pointValue": 500

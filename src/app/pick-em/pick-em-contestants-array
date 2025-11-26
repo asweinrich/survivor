@@ -46,11 +46,5 @@
     "type": "contestant",
     "value": 77,
     "pointValue": 500
-  },
-  {
-    "id": 8,
-    "type": "contestant",
-    "value": 78,
-    "pointValue": 500
   }
 ]

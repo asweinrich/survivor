@@ -50,6 +50,7 @@ export default function Leaderboard() {
     { week: 8, numQuestions: 4 },
 		{ week: 9, numQuestions: 4 },
     { week: 10, numQuestions: 4 },
+    { week: 11, numQuestions: 5 },
     //{ week: 3, numQuestions: 4 },
     // Add more weeks as needed
   ];

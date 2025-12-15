@@ -3,36 +3,30 @@
     "id": 0,
     "type": "contestant",
     "value": 63,
-    "pointValue": 1000
+    "pointValue": 600
   },
   {
     "id": 1,
     "type": "contestant",
     "value": 66,
-    "pointValue": 600
+    "pointValue": 2500
   },
   {
     "id": 2,
     "type": "contestant",
     "value": 68,
-    "pointValue": 1000
+    "pointValue": 400
   },
   {
     "id": 3,
     "type": "contestant",
     "value": 74,
-    "pointValue": 800
+    "pointValue": 1500
   },
   {
     "id": 4,
     "type": "contestant",
-    "value": 75,
-    "pointValue": 600
-  },
-  {
-    "id": 5,
-    "type": "contestant",
     "value": 77,
-    "pointValue": 600
+    "pointValue": 1800
   }
 ]

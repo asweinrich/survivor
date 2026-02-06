@@ -1,4 +1,4 @@
-import type { Contestant } from '@/lib/types';
+import type { Contestant } from '../types';
 
 /**
  * Sort contestants based on season + spoiler state.
@@ -13,6 +13,7 @@ import type { Contestant } from '@/lib/types';
  *    • Season 49 → by points DESC, then by tribes (grouped only as tie-breaker), then name
  *    • Others   → inPlay first, then points DESC, then voteOutOrder DESC
  */
+
 export function sortContestants(
   contestants: Contestant[],
   season: string,

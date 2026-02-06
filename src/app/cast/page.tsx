@@ -17,7 +17,7 @@ import { TribeBadges } from '@/lib/utils/tribes';                // badge helper
 import { PastSeasonBadges } from '@/lib/utils/pastSeasons';      // badge helper
 
 export default function CastPage() {
-  const [season, setSeason] = useState('49');
+  const [season, setSeason] = useState('50');
   const [modalVisible, setModalVisible] = useState(false);
   const [focusContestant, setFocusContestant] = useState(0);
   const { revealSpoilers } = useSpoiler();
@@ -117,16 +117,10 @@ export default function CastPage() {
                   </span>
                 </div>
 
-                {/* Show Past Season badges for S50, otherwise show tribe badges */}
-                {Number(season) === 50 && contestant.pastSeasons ? (
-                  <div className="flex gap-1 items-start my-0.5 -mx-1">
-                    <PastSeasonBadges pastSeasons={contestant.pastSeasons} />
-                  </div>
-                ) : (
-                  <div className="flex flex-row items-center my-0.5 -mx-1">
-                    <TribeBadges tribeIds={contestant.tribes} tribes={tribes as Tribe[]} />
-                  </div>
-                )}
+                <div className="flex flex-row items-center my-0.5 -mx-1">
+                  <TribeBadges tribeIds={contestant.tribes} tribes={tribes as Tribe[]} />
+                </div>
+                
 
                 {/* Status line */}
                 <div className="flex items-center text-sm">

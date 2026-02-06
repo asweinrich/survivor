@@ -87,6 +87,23 @@ model WeeklyRecap {
   created_at DateTime @default(now())
 }
 
+model WeeklyScore {
+  id           Int      @id @default(autoincrement())
+  contestantId Int
+  season       Int
+  week         Int
+  category     String   // schemaKey from values.json (e.g., "immunityWins", "madeMerge")
+  type         String   // "boolean" | "count" | "scalar"
+  value        Float    @default(0) // 1/0 for boolean, N for counts, scalar/multiplier if needed
+  points       Int      // derived at write time from values.json: base * value
+  createdAt    DateTime @default(now())
+
+  @@index([season, week])
+  @@index([contestantId, season])
+  @@index([season, category])
+  @@unique([contestantId, season, week, category])
+}
+
 model TribalCouncilVote {
   id        Int      @id @default(autoincrement())
   council   Int

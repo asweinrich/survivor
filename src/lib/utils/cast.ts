@@ -23,10 +23,7 @@ export function sortContestants(
 
   // HIDDEN SPOILERS
   if (!revealSpoilers) {
-    if (season === '50') {
-      return list.sort((a, b) => (a.id ?? 0) - (b.id ?? 0));
-    }
-    if (season === '49') {
+    if (season >= '49') {
       // group players by tribes if they exist
       return list.sort((a, b) => {
         const aKey = a.tribes?.length ? a.tribes.join('-') : '';
@@ -40,15 +37,9 @@ export function sortContestants(
   }
 
   // SHOWN SPOILERS
-  if (season === '50') {
-    return list.sort((a, b) => {
-      const aFirst = a.pastSeasons?.[0]?.seasonNumber ?? 999;
-      const bFirst = b.pastSeasons?.[0]?.seasonNumber ?? 999;
-      return aFirst - bFirst;
-    });
-  }
+ 
 
-  if (season === '49') {
+  if (season >= '49') {
     // Sort by points DESC, then by first tribe id ASC, then by name ASC
     return list.sort((a, b) => {
       const pointDiff = (b.points ?? 0) - (a.points ?? 0);

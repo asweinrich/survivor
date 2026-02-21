@@ -8,7 +8,7 @@ type Anchor = { year: number; month: number; day: number }; // month: 1-12
 // Configure your season anchors (Week 1 lock). Fill real dates.
 const SEASON_WEEK1_ANCHORS: Record<number, Anchor> = {
   49: { year: 2025, month: 9, day: 24 }, 
-  // 50: { year: 2025, month: X, day: Y },
+  50: { year: 2026, month: 2, day: 25 },
 };
 
 function buildPTDate(parts: Anchor, hour = 17, minute = 0) {

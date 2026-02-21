@@ -34,8 +34,8 @@ import { WeeklyStats } from './WeeklyStats'
 
 // ---- Page ------------------------------------------------------------
 export default function WeeklyPickEms() {
-  const [season, setSeason] = useState('49')
-  const [week, setWeek] = useState<number>(13)
+  const [season, setSeason] = useState('50')
+  const [week, setWeek] = useState<number>(2)
   const [expandedTribes, setExpandedTribes] = useState<number[]>([])
   const [submittedSet, setSubmittedSet] = useState<Set<number>>(new Set())
   const [lockAt, setLockAt] = useState<Date | null>(null)
@@ -77,7 +77,7 @@ export default function WeeklyPickEms() {
   )
 
   const MIN_WEEK = 2
-  const MAX_WEEK = 13
+  const MAX_WEEK = 2
 
   const rankedTribes = useMemo(() => {
     const ranked = rankAndScorePlayerTribes(playerTribes, season, contestantMap) as Array<PlayerTribe & { rank: number }>
@@ -421,7 +421,7 @@ export default function WeeklyPickEms() {
         {/* Season / Week / CTA / Countdown */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6 my-8 px-4">
           <div className="flex items-center gap-4">
-            <span className="font-lostIsland tracking-wider py-1.5 px-3 border border-stone-700 text-lg rounded-md bg-stone-800 text-stone-200">Season 49</span>
+            <span className="font-lostIsland tracking-wider py-1.5 px-3 border border-stone-700 text-lg rounded-md bg-stone-800 text-stone-200">Season 50</span>
             <div className="py-1 flex items-center font-lostIsland rounded-md border border-stone-700 bg-stone-800">
               <button className="p-1 hover:bg-stone-700 disabled:opacity-40" onClick={() => setWeek((w) => Math.max(MIN_WEEK, w - 1))} disabled={week <= MIN_WEEK} aria-label="Previous week">
                 <ChevronLeftIcon className="w-4 h-4" />

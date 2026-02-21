@@ -8,10 +8,10 @@ const HomePage = () => {
   const [countdown, setCountdown] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
 
 
-  const season = 48;
+  const season = 50;
 
   useEffect(() => {
-    const targetDate = new Date("2025-10-01T16:00:00-08:00"); // PST (UTC-8)
+    const targetDate = new Date("2026-02-25T16:00:00-08:00"); // PST (UTC-8)
     const updateCountdown = () => {
       const now = new Date();
       const timeLeft = targetDate.getTime() - now.getTime();
@@ -65,12 +65,12 @@ const HomePage = () => {
 
       <div className="w-full flex flex-col max-w-5xl mx-auto px-4 py-6 text-center text-lg tracking-wider lowercase border-y-2 border-stone-600">
         <span className="mb-3">Welcome back to Survivor Fantasy!</span>
-        <span className="mb-3">This website is a place where you can draft a fantasy tribe, track contestants and scores, and make weekly predictions.</span>
+        <span className="mb-3">This website is a place where you can draft a fantasy tribe, track contestant scores, and make weekly predictions.</span>
         <span className=""><a target="_blank" href="https://chat.whatsapp.com/FpRMxQLhp0U848l309PL1T" className="text-emerald-500 hover:text-emerald-700 underline">Join the WhatsApp group</a> to meet your competition and to get the best Survivor Fantasy experience - come say hi!</span>
       </div>
 
-      {/*<div className="text-center py-3 px-4 mt-3 mx-3 rounded-xl">
-        <h2 className="text-2xl uppercase text-stone-300 mb-4">Tribe Drafting Closes in...</h2>
+      <div className="text-center py-3 px-4 mt-3 mx-3 rounded-xl">
+        <h2 className="text-2xl uppercase text-stone-300 mb-4">Season 50 Tribe Drafting Begins in</h2>
         <div className="flex flex-row  max-w-96 justify-center items-center space-x-6 lowercase tracking-wider bg-stone-800 border border-stone-700 mx-auto p-4 rounded-xl">
           <div className="text-center">
             <div className="text-3xl">{countdown.days}</div>
@@ -89,15 +89,15 @@ const HomePage = () => {
             <div className="text-stone-400">Seconds</div>
           </div>
         </div>
-      </div>*/}
+      </div>
       
 
 
 
-      <div className="flex flex-col justify-center w-full p-4">
-        <p className="text-stone-300 text-lg px-4 lowercase tracking-wider leading-tight text-center">
+     <div className="flex flex-col justify-center w-full p-4">
+       {/*  <p className="text-stone-300 text-lg px-4 lowercase tracking-wider leading-tight text-center">
           Tribe drafting for Season 49 has ended.
-        </p>
+        </p>*/}
 
         {/*<a href="/draft" className="w-full max-w-5xl mx-auto">
         <button className="w-full p-3 text-2xl uppercase bg-gradient-to-tr from-orange-500 to-orange-700 hover:from-orange-600 hover:to-orange-800 rounded-lg text-white">
@@ -125,7 +125,7 @@ const HomePage = () => {
 
         <a href="/cast">
           <div className="flex items-center bg-stone-800 rounded-lg p-0 hover:bg-stone-700 overflow-hidden">
-            <div className="bg-gradient-to-tr from-yellow-500 to-yellow-700 p-3 me-1"><UserGroupIcon className="w-8 h-8" /></div><h3 className="p-3 text-xl uppercase">Season 49 Cast</h3>
+            <div className="bg-gradient-to-tr from-yellow-500 to-yellow-700 p-3 me-1"><UserGroupIcon className="w-8 h-8" /></div><h3 className="p-3 text-xl uppercase">Season 50 Cast</h3>
           </div>
         </a> 
         

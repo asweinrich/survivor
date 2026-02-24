@@ -73,7 +73,7 @@ const FaqPage = () => {
                 When do I draft my tribe?
               </p>
               <p className="font-inter text-stone-300 tracking-wider">
-                You can draft your tribe any time between the airing of the 1st and 2nd episodes of Season 49. Tribe 'drafting' will be open from Wednesday September 24th at 10:00PM PT until Wednesday October 1st at 5:00PM PT.
+                You can draft your tribe any time between the airing of the 1st and 2nd episodes of Season 50. Tribe 'drafting' will be open from Wednesday February 25th at 10:00PM PT until Wednesday March 4th at 5:00PM PT.
               </p>
             </div>
 
@@ -82,7 +82,7 @@ const FaqPage = () => {
                 Can I update my tribe after I've drafted?
               </p>
               <p className="font-inter text-stone-300 tracking-wider">
-                No. Unfortunately you do not have the ability to make edits to your tribe after you've submitted your picks. So take your time and make sure you pick with intention! If you absolutely, direly need to make a change before tribes are locked on Wednesday October 1st, please reach out to me (Andrew Scott) in the WhatsApp. 
+                No. Unfortunately you do not have the ability to make edits to your tribe after you've submitted your picks. So take your time and make sure you pick with intention! If you absolutely, direly need to make a change before tribes are locked on Wednesday March 4th, please reach out to me (Andrew Scott) in the WhatsApp. 
               </p>  
             </div>
 

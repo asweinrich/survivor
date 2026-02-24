@@ -71,7 +71,7 @@ const RulesPage = () => {
               Welcome to the unofficial best Survivor Fantasy League! Just like on Survivor, it’s all about strategy, intuition, and outlasting the competition.
             </p>
             <p className="mb-4 text-stone-300 tracking-wider font-inter">
-              Here’s how it works: First, you draft a tribe of 6 contestants from the upcoming season (Season 49!). You'll then pick one of them who you think will win it all. Your job is to pick the players you think will dominate challenges, survive tribal councils, and make it to the end. Each contestant earns points based on their performance throughout the season. Think of it like crafting your own Survivor dream team, and every episode is another chance to earn points and climb the leaderboard.
+              Here’s how it works: First, you draft a tribe of 6 contestants from the upcoming season (Season 50!). You'll then pick one of them who you think will win it all. Your job is to pick the players you think will dominate challenges, survive tribal councils, and make it to the end. Each contestant earns points based on their performance throughout the season. Think of it like crafting your own Survivor dream team, and every episode is another chance to earn points and climb the leaderboard.
             </p>
             <p className="mb-4 text-stone-300 tracking-wider font-inter">
               At the end of the season, the top three tribes with the most points will split the prize pool. Whether you’re a die-hard fan, a casual watcher, or simply here to vibe and have a good time, this is your shot to outwit, outplay, and outlast!
@@ -97,10 +97,10 @@ const RulesPage = () => {
             <div id="picking-tribe" className="mb-8">
                 <h3 className="text-lg mb-2 font-semibold font-inter text-stone-300">Picking Your Tribe</h3>
               <p className="font-inter text-stone-300 tracking-wider mb-2">
-                Drafting your tribe is simple. Head to the <a href="/draft" className="underline text-orange-500 hover:text-orange-400">draft page</a> between September 24th and October 1st to enter your email address, name, tribe info, and to choose 6 contestants who you think will dominate this season. After you submit your 6 tribe members, you will be prompted to confirm your picks and select one contestant who you think will walk away as sole survivor. Once you've drafted your tribe, it's time to sit back and watch the season unfold!
+                Drafting your tribe is simple. Head to the <a href="/draft" className="underline text-orange-500 hover:text-orange-400">draft page</a> between February 25th and March 4th to enter your email address, name, tribe info, and to choose 6 contestants who you think will dominate this season. After you submit your 6 tribe members, you will be prompted to confirm your picks and select one contestant who you think will walk away as sole survivor. Once you've drafted your tribe, it's time to sit back and watch the season unfold!
               </p>
               <p className="font-inter text-stone-300 tracking-wider mb-2"><em>
-                Just like last season, each tribe is required to pay a $20 entry fee to compete for prizes. This goes towards the prize pot to be distributed at the conclusion of Season 49.  
+                Just like last season, each tribe is required to pay a $20 entry fee to compete for prizes. This goes towards the prize pot to be distributed at the conclusion of Season 50.  
               </em></p>
             </div>
             <div className="border-b-2 border-stone-700 w-full mt-16"></div>

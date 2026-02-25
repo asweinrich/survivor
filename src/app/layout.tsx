@@ -68,7 +68,7 @@ function Navbar() {
           {/*<a href="/recaps" className="hover:opacity-70">Weekly Recaps</a>*/}
           <a href="/how-to-play" className="hover:opacity-70">How to Play</a>
           <a href="/faq" className="hover:opacity-70">FAQ</a>
-          <span className="opacity-50 px-4 py-1 bg-gradient-to-r from-orange-500 to-orange-700 rounded text-white">Draft</span>
+          <a href="/draft"><span className="px-4 py-1 bg-gradient-to-r from-orange-500 to-orange-700 rounded text-white">Draft</span></a>
           <AuthButton />
           
         </div>
@@ -106,7 +106,7 @@ function Navbar() {
           {/*<a href="/recaps" className="hover:opacity-70">Weekly Recaps</a>*/}
           <a href="/how-to-play" className="hover:opacity-70">How To Play</a>
           <a href="/faq" className="hover:opacity-70">FAQ</a>
-          <span className="opacity-50 px-4 py-2 bg-gradient-to-r from-orange-500 to-orange-700 rounded-lg text-white">Draft</span>
+          <a href="/faq"><span className="px-4 py-2 bg-gradient-to-r from-orange-500 to-orange-700 rounded-lg text-white">Draft</span></a>
           <AuthButton />
         </nav>
       </div>

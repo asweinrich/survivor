@@ -55,7 +55,11 @@ export function scoreTribe(
   contestantMap: Record<number, Contestant>
 ): ScoredPlayerTribe {
   if (season === "47") {
-    // ... unchanged ...
+    const perContestant = (tribe.tribeArray ?? []).map((id) => ({
+      id,
+      name: contestantMap[id]?.name,
+      points: contestantMap[id]?.points ?? 0
+    }));
     const base = tribe.pastScore || 0;
     const breakdown: ScoreBreakdown = {
       base,

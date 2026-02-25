@@ -70,7 +70,7 @@ const HomePage = () => {
       </div>
 
       <div className="text-center py-3 px-4 mt-3 mx-3 rounded-xl">
-        <h2 className="text-2xl uppercase text-stone-300 mb-4">Season 50 Tribe Drafting Begins in</h2>
+        <h2 className="text-2xl uppercase text-stone-300 mb-4">Season 50 Countdown</h2>
         <div className="flex flex-row  max-w-96 justify-center items-center space-x-6 lowercase tracking-wider bg-stone-800 border border-stone-700 mx-auto p-4 rounded-xl">
           <div className="text-center">
             <div className="text-3xl">{countdown.days}</div>
@@ -96,7 +96,7 @@ const HomePage = () => {
 
      <div className="flex flex-col justify-center w-full p-4">
        {/*  <p className="text-stone-300 text-lg px-4 lowercase tracking-wider leading-tight text-center">
-          Tribe drafting for Season 49 has ended.
+          Tribe drafting for Season 50 is open.
         </p>*/}
 
         {/*<a href="/draft" className="w-full max-w-5xl mx-auto">

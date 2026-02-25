@@ -11,7 +11,7 @@ const HomePage = () => {
   const season = 50;
 
   useEffect(() => {
-    const targetDate = new Date("2026-02-25T16:00:00-08:00"); // PST (UTC-8)
+    const targetDate = new Date("2026-02-25T17:00:00-08:00"); // PST (UTC-8)
     const updateCountdown = () => {
       const now = new Date();
       const timeLeft = targetDate.getTime() - now.getTime();

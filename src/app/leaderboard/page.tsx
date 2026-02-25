@@ -41,19 +41,7 @@ export default function Leaderboard() {
   const { playerTribes, contestants, tribes, loading } = useSeasonData(season);
 
   const WEEK_QUESTION_MATRIX = [
-    { week: 2, numQuestions: 3 },
-    { week: 3, numQuestions: 5 },
-    { week: 4, numQuestions: 4 },
-    { week: 5, numQuestions: 5 },
-    { week: 6, numQuestions: 5 },
-    { week: 7, numQuestions: 3 },
-    { week: 8, numQuestions: 4 },
-		{ week: 9, numQuestions: 4 },
-    { week: 10, numQuestions: 4 },
-    { week: 11, numQuestions: 5 },
-    { week: 12, numQuestions: 4 },
-    { week: 13, numQuestions: 5 },
-    //{ week: 3, numQuestions: 4 },
+    { week: 2, numQuestions: 5 },
     // Add more weeks as needed
   ];
 

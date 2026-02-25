@@ -57,10 +57,10 @@ export default function Draft() {
     color: getRandomColor(),
   });
 
-  const season = 49;
+  const season = 50;
 
   //disable draft until it opens
-  const status = false;
+  const status = true;
 
   const [emojiPickerVisible, setEmojiPickerVisible] = useState(false);
 
@@ -275,7 +275,7 @@ export default function Draft() {
               <a href="/cast" className="text-orange-400 hover:text-orange-600">
                 cast
               </a>{' '}
-              page to to see Season 49's contestants.
+              page to to see Season 50's contestants.
             </p>
           </div>
         </div>
@@ -309,7 +309,7 @@ export default function Draft() {
               contestant details.
             </p>
             <p className="mt-3 text-green-200 text-center bg-green-800 rounded-lg p-1 leading-tight">
-              Tribe drafting is open until Wednesday, October 1st at 5:00 PM PST.
+              Tribe drafting is open until Wednesday, March 4th at 5:00 PM PST.
             </p>
           </div>
 
@@ -601,7 +601,7 @@ export default function Draft() {
                     className="me-3 h-8 w-8"
                   />
                   <label htmlFor="acknowledge" className="font-inter text-sm tracking-wider leading-tight">
-                    I acknowledge I need to pay Andrew my tribe's entry fee by Wednesday October 1st, 2025 @ 5:00 PM PST or else my tribe will be ineligible for prizes in this season's competition
+                    I acknowledge I need to pay Andrew my tribe's entry fee by Wednesday March 4th, 2026 @ 5:00 PM PST or else my tribe will be ineligible for prizes in this season's competition
                   </label>
                 </div>
 

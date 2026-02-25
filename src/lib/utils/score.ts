@@ -42,28 +42,20 @@ export function calculateScoreForSeason(
 
   const base = tribe.tribeArray.reduce((sum, id) => sum + (contestantMap[id]?.points ?? 0), 0);
   const predictedId = tribe.tribeArray[0];
-  const winnerBonus = contestantMap[predictedId]?.soleSurvivor ? 200 : 0;
+
+  const winnerBonusValue = Number(season) >= 50 ? 500 : 200;
+  const winnerBonus = contestantMap[predictedId]?.soleSurvivor ? winnerBonusValue : 0;
+
   return base + winnerBonus;
 }
 
-/**
- * Produce a rich scoring breakdown for a single tribe.
- * - S47: uses `pastScore` as base; no bonuses; perContestant is derived from map when available
- * - S48+: sums contestant points + applies +200 predicted winner bonus if applicable
- */
 export function scoreTribe(
   tribe: PlayerTribe,
   season: string,
   contestantMap: Record<number, Contestant>
 ): ScoredPlayerTribe {
   if (season === "47") {
-    // Still generate a per-contestant snapshot where possible (for UI)
-    const perContestant = (tribe.tribeArray ?? []).map((id) => ({
-      id,
-      name: contestantMap[id]?.name,
-      points: contestantMap[id]?.points ?? 0
-    }));
-
+    // ... unchanged ...
     const base = tribe.pastScore || 0;
     const breakdown: ScoreBreakdown = {
       base,
@@ -91,7 +83,9 @@ export function scoreTribe(
 
   const predictedId = tribe.tribeArray[0];
   const predictedIsWinner = !!contestantMap[predictedId]?.soleSurvivor;
-  const predictedWinnerBonus = predictedIsWinner ? 200 : 0;
+
+  const winnerBonusValue = Number(season) >= 50 ? 500 : 200;
+  const predictedWinnerBonus = predictedIsWinner ? winnerBonusValue : 0;
 
   const breakdown: ScoreBreakdown = {
     base,

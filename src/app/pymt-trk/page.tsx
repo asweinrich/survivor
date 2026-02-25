@@ -44,7 +44,7 @@ export default function ManagePayments() {
     async function fetchPlayerTribes() {
       setLoading(true);
       try {
-        const res = await fetch('/api/player-tribes/49');
+        const res = await fetch('/api/player-tribes/50');
         const data = await res.json();
 
         // Ensure that 'paid' is always either true or false

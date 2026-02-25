@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import Image from "next/image";
 import { InformationCircleIcon } from '@heroicons/react/24/outline';
-import scoringValues from '../scoring/values.json';
+import scoringValues from '../scoring/values50.json';
 
 
 const RulesPage = () => {
@@ -168,7 +168,7 @@ const RulesPage = () => {
                       Correct Sole Survivor Pick
                     </td>
 
-                    <td className="p-2 border border-stone-700">200</td>
+                    <td className="p-2 border border-stone-700">500</td>
                   </tr>
                   {scoringValues.map((score, index) => (
                     <tr key={index}>
@@ -202,7 +202,7 @@ const RulesPage = () => {
               </table>
             </div>
             <p className="mt-4 mb-8 text-stone-300 tracking-wider font-inter">
-              This scoring system rewards key milestones in Survivor. Do you have the Sole Survivor on your tribe? That could land you 500 points! Making the merge? That’s a solid 100 points for each pick. And don’t underestimate the smaller categories like winning challenges or simply surviving episodes - they can add up quickly! Remember, if one of your contestants gets voted out, you won't earn additional points from them, so choose wisely. It’s all about balancing bold moves with smart picks.
+              This scoring system rewards key milestones in Survivor. Do you have the Sole Survivor on your tribe? That could land you 500 points! Making the merge? That’s a solid 200 points for each pick. And don’t underestimate the smaller categories like winning challenges or simply surviving episodes - they can add up quickly! Remember, if one of your contestants gets voted out, you won't earn additional points from them, so choose wisely. It’s all about balancing bold moves with smart picks.
             </p>
             <h3 className="text-lg font-inter mb-2 font-semibold">Pick Em Scoring</h3>
             <p className="mb-4 text-stone-300 tracking-wider font-inter">

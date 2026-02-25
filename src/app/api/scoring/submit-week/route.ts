@@ -35,7 +35,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'No entries provided' }, { status: 400 });
     }
 
-    const mod = await import('@/app/scoring/values.json');
+    const mod = await import('@/app/scoring/values50.json');
     const categories = ((mod as any).default || mod) as ScoringCategory[];
     const catMap = new Map<string, ScoringCategory>();
     categories.forEach((c) => catMap.set(c.schemaKey, c));

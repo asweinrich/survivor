@@ -187,10 +187,10 @@ export default function Leaderboard() {
                 {/* Only show winner bonus on standard leaderboard */}
                 {revealSpoilers && hasWinnerBonus && (
                   <div className="lowercase bg-yellow-900 text-yellow-300 text-xs font-lostIsland px-2 py-0.5 -ms-1 rounded-full">
-                    Predicted Winner Bonus +200
+                    Predicted Winner Bonus +{Number(season) >= 50 ? 500 : 200}
                   </div>
                 )}
-                
+                                
               </div>
             </div>
             <div className="flex items-center ms-auto me-0">

@@ -7,7 +7,7 @@ type ScoringCategory = {
 };
 
 async function loadCategories(): Promise<ScoringCategory[]> {
-  const mod = await import('@/app/scoring/values.json');
+  const mod = await import('@/app/scoring/values50.json');
   return (mod.default || mod) as ScoringCategory[];
 }
 

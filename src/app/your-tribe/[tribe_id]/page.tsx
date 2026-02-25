@@ -39,7 +39,7 @@ export default function YourTribePage() {
   const [loading, setLoading] = useState(true);
   const [recycleConfetti, setRecycleConfetti] = useState(true);
 
-  const season = 49;
+  const season = 50;
 
 
   // Fetch tribe data from the API
@@ -234,7 +234,7 @@ export default function YourTribePage() {
                               className={`absolute top-6 flex flex-col items-center ${positions[index]}`}
                             >
                               <img
-                                src={`/imgs/49/${contestant.name}.png`}
+                                src={`/imgs/50/${contestant.name}.png`}
                                 alt={contestant.name}
                                 className={`object-contain border-stone-950 rounded-full border-4 scale-120  ${
                                   index === 2
@@ -252,12 +252,7 @@ export default function YourTribePage() {
 
                                 }}
                               >
-                                {index === 2 && (
-                                  <TrophyIcon 
-                                    className="absolute -top-3.5 -right-1.5 w-6 h-6 text-yellow-400 drop-shadow-custom" 
-                                    
-                                  />
-                                )}
+                                
                                 <p
                                   className={`min-w-14 text-sm uppercase ${
                                     index === 2 ? "!text-lg" : ""
@@ -291,7 +286,7 @@ export default function YourTribePage() {
                     pay Your $20 Entry Fee on Venmo!
                   </a>
                 </p>
-                <p className="my-4 leading-tight">Tribe entry fees are due before the 2nd episode airs on October 1st, 2025.</p>
+                <p className="my-4 leading-tight">Tribe entry fees are due before the 2nd episode airs on March 4th, 2026.</p>
               </div>
 
             </>

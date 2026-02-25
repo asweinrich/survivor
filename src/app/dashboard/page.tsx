@@ -16,7 +16,7 @@ import { formatVotedOutOrder } from '@/lib/utils/format';
 
 
 const SEASONS = [49, 48, 47];
-const PICKEM_MIN_SEASON = 49; 
+const PICKEM_MIN_SEASON = 50; 
 
 
 type Contestant = {

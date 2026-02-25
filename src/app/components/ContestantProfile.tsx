@@ -517,7 +517,7 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
                 {contestant.season >= 50 && weeklyTotalsLoading && (
                   <div className="flex flex-col justify-center items-center py-6 border-b border-stone-600">
                     <ArrowPathIcon className="w-6 h-6 animate-spin text-stone-200" />
-                    <p className="font-lostIsland text-base lowercase mt-2 tracking-wider">Loading weekly totals...</p>
+                    <p className="font-lostIsland text-base lowercase mt-2 tracking-wider">Loading point totals...</p>
                   </div>
                 )}
 

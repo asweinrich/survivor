@@ -1,13 +1,12 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { CheckIcon, PlusIcon, IdentificationIcon } from '@heroicons/react/24/outline';
 import ContestantProfile from '../components/ContestantProfile';
 import EmojiPicker from 'emoji-picker-react';
 import Image from "next/image";
 import { useRouter } from 'next/navigation';
 import { LargeTribeBadges, TribeBadges } from '@/lib/utils/tribes'
-
 
 type Contestant = {
   id: number;
@@ -35,7 +34,6 @@ export default function Draft() {
   const [selectedSoleSurvivor, setSelectedSoleSurvivor] = useState<number | null>(null);
   const [finalSubmitting, setFinalSubmitting] = useState(false);
   const [acknowledged, setAcknowledged] = useState(false);
-
 
   const router = useRouter();
 
@@ -220,7 +218,7 @@ export default function Draft() {
       })
       .join(', ');
     }
-    
+
   };
 
   // Compute the drafted contestants array for use in the confirmation modal
@@ -228,10 +226,103 @@ export default function Draft() {
     .map((id) => contestants.find((c) => c.id === id))
     .filter((c): c is Contestant => Boolean(c));
 
-
   function getFirstName(fullName: string): string {
     return fullName.trim().split(' ')[0];
   }
+
+  // NEW: Build groups by tribe
+  const contestantsByTribe = useMemo(() => {
+    const tribeIdSet = new Set(tribes.map((t) => t.id));
+    const groups: Array<{ tribe: Tribe | null; contestants: Contestant[] }> = [];
+
+    // Tribes in the order returned by /api/show-tribes
+    tribes.forEach((t) => {
+      const list = contestants
+        .filter((c) => Array.isArray(c.tribes) && c.tribes.includes(t.id))
+        .sort((a, b) => a.name.localeCompare(b.name));
+
+      groups.push({ tribe: t, contestants: list });
+    });
+
+    // Unassigned group: contestants with no tribes OR tribe ids not in the tribes list
+    const unassigned = contestants
+      .filter((c) => {
+        const ids = Array.isArray(c.tribes) ? c.tribes : [];
+        if (ids.length === 0) return true;
+        return ids.every((id) => !tribeIdSet.has(id));
+      })
+      .sort((a, b) => a.name.localeCompare(b.name));
+
+    if (unassigned.length > 0) {
+      groups.push({ tribe: null, contestants: unassigned });
+    }
+
+    return groups;
+  }, [contestants, tribes]);
+
+  const renderContestantCard = (contestant: Contestant) => (
+    <div
+      key={contestant.id}
+      className={`flex flex-row items-center p-2 mb-0.5 bg-stone-800 border-4 rounded-xl ${
+        draftPicks.includes(contestant.id) ? 'border-green-500' : 'border-stone-700'
+      } ${!contestant.inPlay ? 'opacity-60' : ''}`}
+    >
+      {/* Image */}
+      <div
+        className={`flex items-center mx-auto justify-center w-20 h-20 p-1 rounded-full border-4 ${
+          draftPicks.includes(contestant.id) ? 'border-green-400' : 'border-stone-400'
+        } relative`}
+      >
+        <img
+          src={`/imgs/${contestant.img}.png`}
+          alt={contestant.name}
+          className="w-full object-cover rounded-full overflow-hidden"
+        />
+      </div>
+
+      {/* Contestant Info */}
+      <div className="flex flex-col flex-grow ps-1">
+        <div className="flex flex-row items-center px-2 mb-1">
+          <span className="uppercase text-lg font-lostIsland tracking-wider leading-tight">
+            {contestant.name}
+          </span>
+        </div>
+        <div className="flex flex-row items-center px-2">
+          <IdentificationIcon
+            className="w-7 h-7 text-stone-300 stroke-2 me-1.5 hover:cursor-pointer"
+            onClick={() => activateModal(contestant.id)}
+          />
+          <TribeBadges tribeIds={[Number(contestant.tribes)]} tribes={tribes as Tribe[]} />
+        </div>
+        <div className="flex flex-row">
+          {!contestant.inPlay && (
+            <span className="ml-2 text-xs bg-red-500 text-white px-2 py-0.5 rounded lowercase">
+              1ST VOTED OUT
+            </span>
+          )}
+        </div>
+      </div>
+
+      <div className="mx-1">
+        <span
+          className={`border-4 rounded-lg w-12 h-12 flex justify-center items-center ${
+            draftPicks.includes(contestant.id) ? 'border-green-400' : 'border-stone-400'
+          } bg-stone-800 ${!contestant.inPlay ? 'cursor-not-allowed opacity-60' : 'hover:cursor-pointer'}`}
+          onClick={() => {
+            if (contestant.inPlay) {
+              updatePicks(contestant.id);
+            }
+          }}
+        >
+          {draftPicks.includes(contestant.id) ? (
+            <CheckIcon className="w-8 h-8 stroke-3 text-green-400" />
+          ) : (
+            <PlusIcon className="w-8 h-8 stroke-3 text-stone-400" />
+          )}
+        </span>
+      </div>
+    </div>
+  );
 
   return (
     <div className="min-h-screen bg-stone-900 text-stone-200 p-0">
@@ -292,7 +383,7 @@ export default function Draft() {
               <a href="/faq" className="text-orange-400 hover:text-orange-600">
                 FAQ
               </a>{' '}
-              before drafting your tribe! Tribes cannot be updated after you submit your picks. 
+              before drafting your tribe! Tribes cannot be updated after you submit your picks.
             </p>
             <p className="mb-3">
               Tap
@@ -402,65 +493,13 @@ export default function Draft() {
 
               <div className="relative mt-4">
                 <p className="mb-6 text-xl mx-auto text-center">Contestant List</p>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 px-1 mb-8">
-                  {contestants.map((contestant) => (
-                    <div
-                      key={contestant.id}
-                      className={`flex flex-row items-center p-2 mb-0.5 bg-stone-800 border-4 rounded-xl ${
-                        draftPicks.includes(contestant.id) ? 'border-green-500' : 'border-stone-700'
-                      } ${!contestant.inPlay ? 'opacity-60' : ''}`}
-                    >
-                      {/* Image */}
-                      <div
-                        className={`flex items-center mx-auto justify-center w-20 h-20 p-1 rounded-full border-4 ${
-                          draftPicks.includes(contestant.id) ? 'border-green-400' : 'border-stone-400'
-                        } relative`}
-                      >
-                        <img
-                          src={`/imgs/${contestant.img}.png`}
-                          alt={contestant.name}
-                          className="w-full object-cover rounded-full overflow-hidden"
-                        />
-                      </div>
-                      {/* Contestant Info */}
-                      <div className="flex flex-col flex-grow ps-1">
-                        <div className="flex flex-row items-center px-2 mb-1">
-                          <span className="uppercase text-lg font-lostIsland tracking-wider leading-tight">
-                            {contestant.name}
-                          </span>
-                        </div>
-                        <div className="flex flex-row items-center px-2">
-                          <IdentificationIcon
-                            className="w-7 h-7 text-stone-300 stroke-2 me-1.5 hover:cursor-pointer"
-                            onClick={() => activateModal(contestant.id)}
-                          />
-                          <TribeBadges tribeIds={[Number(contestant.tribes)]} tribes={tribes as Tribe[]} />
-                        </div>
-                        <div className="flex flex-row">
-                          {!contestant.inPlay && (
-                            <span className="ml-2 text-xs bg-red-500 text-white px-2 py-0.5 rounded lowercase">
-                              1ST VOTED OUT
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                      <div className="mx-1">
-                        <span
-                          className={`border-4 rounded-lg w-12 h-12 flex justify-center items-center ${
-                            draftPicks.includes(contestant.id) ? 'border-green-400' : 'border-stone-400'
-                          } bg-stone-800 ${!contestant.inPlay ? 'cursor-not-allowed opacity-60' : 'hover:cursor-pointer'}`}
-                          onClick={() => {
-                            if (contestant.inPlay) {
-                              updatePicks(contestant.id);
-                            }
-                          }}
-                        >
-                          {draftPicks.includes(contestant.id) ? (
-                            <CheckIcon className="w-8 h-8 stroke-3 text-green-400" />
-                          ) : (
-                            <PlusIcon className="w-8 h-8 stroke-3 text-stone-400" />
-                          )}
-                        </span>
+
+                {/* NEW: Grouped by tribe (no tribe headers) */}
+                <div className="px-1 mb-8 space-y-6">
+                  {contestantsByTribe.map(({ tribe, contestants }) => (
+                    <div key={tribe?.id ?? 'unassigned'}>
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                        {contestants.map(renderContestantCard)}
                       </div>
                     </div>
                   ))}
@@ -541,8 +580,8 @@ export default function Draft() {
                     <span
                       style={{ backgroundColor: form.color }}
                       className="inline-block w-12 h-12 text-center text-2xl p-2 rounded-full"
-                    >{form.emoji}</span> 
-                    <span className="text-2xl ms-3 font-lostIsland tracking-wider">{form.tribeName}</span> 
+                    >{form.emoji}</span>
+                    <span className="text-2xl ms-3 font-lostIsland tracking-wider">{form.tribeName}</span>
                   </p>
                   <p className="font-lostIsland tracking-wider text-xl leading-none ps-1">
                     {form.name}
@@ -550,21 +589,21 @@ export default function Draft() {
                   <p className="font-lostIsland tracking-wider text-lg leading-tight opacity-80 ps-1">
                     {form.email}
                   </p>
-                  
+
                 </div>
                 <div>
                   <p className="mb-4 font-lostIsland uppercase tracking-wider text-center text-xl">Chose Your Sole Survivor</p>
                   <div className="grid grid-cols-3 gap-2">
                     {draftedContestants.map((contestant) => (
-                      <div 
-                        key={contestant.id} 
+                      <div
+                        key={contestant.id}
                         className="w-28 h-28 relative"
                         onClick={() => {
                           if (contestant.inPlay) setSelectedSoleSurvivor(contestant.id);
                         }}
                       >
                         <div
-                          
+
                           className={`cursor-pointer p-2 border-4 rounded-full flex flex-col items-center ${
                             !contestant.inPlay ? 'opacity-60 pointer-events-none' : ''
                           } ${
@@ -576,9 +615,9 @@ export default function Draft() {
                             alt={contestant.name}
                             className="w-24 object-cover rounded-full"
                           />
-                          
+
                         </div>
-                        <p 
+                        <p
                           className={`absolute -bottom-1 left-0 border-2 border-stone-800 right-0 rounded-lg text-stone-100 bg-stone-700 text-stone-100 text-center font-lostIsland tracking-wider text-lg leading-tight p-1 ${
                             selectedSoleSurvivor === contestant.id ? 'bg-yellow-500' : 'bg-stone-700'
                           }`}
@@ -590,7 +629,7 @@ export default function Draft() {
                     ))}
                   </div>
                 </div>
-                
+
                 {/* New Checkbox Section */}
                 <div className="flex items-center mt-4">
                   <input

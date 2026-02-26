@@ -297,7 +297,7 @@ export default function Draft() {
         <div className="flex flex-row">
           {!contestant.inPlay && (
             <span className="ml-2 text-xs bg-red-500 text-white px-2 py-0.5 rounded lowercase">
-              1ST VOTED OUT
+              Contestant Not in play
             </span>
           )}
         </div>

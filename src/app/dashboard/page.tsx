@@ -15,7 +15,7 @@ import { hexToRgba } from '@/lib/utils/color';
 import { formatVotedOutOrder } from '@/lib/utils/format';
 
 
-const SEASONS = [49, 48, 47];
+const SEASONS = [50, 49, 48, 47];
 const PICKEM_MIN_SEASON = 50; 
 
 

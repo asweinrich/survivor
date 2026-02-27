@@ -28,7 +28,7 @@ export default function StatsPage() {
   const [castContestants, setCastContestants] = useState<{ id: number; tribes: number[] }[]>([]);
   const [loading, setLoading] = useState(false);
   // You can make the season dynamic as needed
-  const season = "49";
+  const season = "50";
 
   const { tribes } = useSeasonData(season)
 
@@ -124,7 +124,7 @@ export default function StatsPage() {
                       className="flex items-center space-x-4 border-y border-stone-500 py-3"
                     >
                       <Image
-                        src={`/imgs/49/${contestant.name}.png`}
+                        src={`/imgs/50/${contestant.name}.png`}
                         alt={contestant.name}
                         width={60}
                         height={60}

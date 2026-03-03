@@ -24,13 +24,9 @@ export function PendingSummary({
   // Helper for points display
   function getPointsDisplay(opt: any) {
     // Contestant type: wrong = pointValue/4, others wrong = pointValue/2
-    if (opt.pointValue != null) {
-      if (opt.type === 'contestant') {
-        return `+${opt.pointValue} / -${Math.round(opt.pointValue / 4)}`;
-      } else {
-        return `+${opt.pointValue} / -${Math.round(opt.pointValue / 2)}`;
+      if (opt.pointValue != null) {
+        return `+${opt.pointValue} / -50`;
       }
-    }
     return '';
   }
 

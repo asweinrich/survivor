@@ -1,18 +1,7 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 
-function getPenalty(pointValue: number, type: string) {
-  if (!pointValue || !type) return 0;
-  switch (type.toLowerCase()) {
-    case 'tribe':
-    case 'boolean':
-      return Math.floor(pointValue / 2);
-    case 'contestant':
-      return Math.floor(pointValue / 4);
-    default:
-      return 0;
-  }
-}
+const WRONG_PICK_PENALTY = 50;
 
 export async function GET(req: Request) {
   try {
@@ -96,7 +85,7 @@ export async function GET(req: Request) {
       if (isCorrect) {
         points = pointValue;
       } else {
-        points = -getPenalty(pointValue, type);
+        points = -WRONG_PICK_PENALTY;
       }
 
       // Find the playerTribeId for this pick's playerId

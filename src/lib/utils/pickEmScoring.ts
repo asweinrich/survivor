@@ -7,6 +7,8 @@ type PickEmConfig = {
   // add other fields if needed
 };
 
+const WRONG_PICK_PENALTY = 50;
+
 export function computePickEmScore(
   pick: PickSubmission,
   pickEm: PickEmConfig
@@ -28,12 +30,6 @@ export function computePickEmScore(
   if (isCorrect) {
     return pV;
   } else {
-    if (option.type === 'contestant') {
-      return -Math.round(pV / 4);
-    } else if (option.type === 'tribe' || option.type === 'boolean') {
-      return -Math.round(pV / 2);
-    } else {
-      return -Math.round(pV / 4);
-    }
+    return -WRONG_PICK_PENALTY;
   }
 }

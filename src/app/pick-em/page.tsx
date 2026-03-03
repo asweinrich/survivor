@@ -914,7 +914,7 @@ export default function WeeklyPickEms() {
                                             <div className="flex-row mt-2 text-xl tracking-wider">
                                               <span className="text-green-400">+{opt.pointValue}</span>
                                               <span className="text-stone-500 mx-2">|</span>
-                                              <span className="text-red-400">-{opt.pointValue / 2}</span>
+                                              <span className="text-red-400">-50</span>
                                             </div>
                                           )}
                                         </div>
@@ -984,7 +984,7 @@ export default function WeeklyPickEms() {
                                                   <div className="text-lg">
                                                     <span className="text-green-400">+{opt.pointValue}</span>
                                                     <span className="text-stone-500 mx-2">|</span>
-                                                    <span className="text-red-400">-{opt.pointValue / 4}</span>
+                                                    <span className="text-red-400">-50</span>
                                                   </div>
                                                 )}
                                               </button>
@@ -1010,7 +1010,7 @@ export default function WeeklyPickEms() {
                                           <div className="text-xl tracking-wider">
                                             <span className="text-green-400">+{opt.pointValue}</span>
                                             <span className="text-stone-500 mx-2">|</span>
-                                            <span className="text-red-400">-{opt.pointValue / 2}</span>
+                                            <span className="text-red-400">-50</span>
                                           </div>
                                         )}
                                       </button>

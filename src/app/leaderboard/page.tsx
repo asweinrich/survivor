@@ -40,10 +40,14 @@ export default function Leaderboard() {
 
   const { playerTribes, contestants, tribes, loading } = useSeasonData(season);
 
+  const [prevContestants, setPrevContestants] = useState<Contestant[]>([]);
+
   const WEEK_QUESTION_MATRIX = [
     { week: 2, numQuestions: 3 },
     // Add more weeks as needed
   ];
+
+  const CURRENT_WEEK = 2;
 
   async function fetchPickemTribeDetails(season: string) {
     const res = await fetch(`/api/pickem-tribe-details?season=${season}`);
@@ -66,6 +70,17 @@ export default function Leaderboard() {
     }
   }, [season, leaderboardType]);
 
+  useEffect(() => {
+  if (CURRENT_WEEK <= 1 || Number(season) < 50) {
+    setPrevContestants([]);
+    return;
+  }
+  fetch(`/api/cast/${season}?week=${CURRENT_WEEK - 1}`)
+    .then(r => r.json())
+    .then(setPrevContestants)
+    .catch(() => setPrevContestants([]));
+}, [season]);
+
   // Fetch pickem leaderboard when needed
   useMemo(() => {
     if (leaderboardType === 'pickem' && Number(season) >= 49) {
@@ -81,9 +96,30 @@ export default function Leaderboard() {
     [contestants]
   );
 
+  const prevContestantMap = useMemo(
+    () => prevContestants.reduce<Record<number, Contestant>>((acc, c) => { acc[c.id] = c; return acc; }, {}),
+    [prevContestants]
+  );
+
   const rankedTribes = useMemo(() => {
     return rankAndScorePlayerTribes(playerTribes, season, contestantMap);
   }, [playerTribes, season, contestantMap]) as Array<ScoredPlayerTribe & { rank: number }>;
+
+  const prevRankedTribes = useMemo(() => {
+    if (!prevContestants.length) return [];
+    return rankAndScorePlayerTribes(playerTribes, season, prevContestantMap) as Array<ScoredPlayerTribe & { rank: number }>;
+  }, [playerTribes, season, prevContestantMap, prevContestants]);
+
+  const rankChangeMap = useMemo(() => {
+    const map = new Map<number, number>();
+    if (!prevRankedTribes.length) return map;
+    const prevRankById = new Map(prevRankedTribes.map(t => [t.id, t.rank]));
+    for (const tribe of rankedTribes) {
+      const prev = prevRankById.get(tribe.id);
+      if (prev !== undefined) map.set(tribe.id, prev - tribe.rank);
+    }
+    return map;
+  }, [rankedTribes, prevRankedTribes]);
 
   const toggleDropdown = (tribeId: number) =>
     setExpandedTribes((prev) => prev.includes(tribeId) ? prev.filter((id) => id !== tribeId) : [...prev, tribeId]);
@@ -152,8 +188,20 @@ export default function Leaderboard() {
       return (
         <div key={tribe.id} className="py-2 px-1 mb-2 rounded-lg border border-stone-700 bg-stone-800">
           <div className="flex items-center justify-start" onClick={() => toggleDropdown(tribe.id)}>
-            <div className="flex items-center w-8 font-lostIsland text-2xl me-1.5">
-              <span className="mx-auto">{tribe.rank}</span>
+            <div className="flex flex-col items-center w-8 font-lostIsland me-1.5">
+              <span className="text-2xl mx-auto leading-none mb-1.5">{tribe.rank}</span>
+              {!isPickem && (() => {
+                const change = rankChangeMap.get(tribe.id);
+                if (change === undefined || change === 0) return (
+                  <span className="text-stone-600 text-xs font-lostIsland leading-none">—</span>
+                );
+                if (change > 0) return (
+                  <span className="text-green-400 text-xs font-lostIsland leading-none tracking-wider">▲{change}</span>
+                );
+                return (
+                  <span className="text-red-400 text-xs font-lostIsland leading-none tracking-wider">▼{Math.abs(change)}</span>
+                );
+              })()}
             </div>
             <div className="flex items-center">
               <div className="w-12 h-12 rounded-full border border-stone-700 flex items-center justify-center text-3xl" style={{ backgroundColor: hexToRgba(tribe.color, 0.95) }}>

@@ -13,6 +13,11 @@ export async function GET(req: Request, { params }: { params: Promise<{ season: 
       return NextResponse.json({ error: 'Invalid season parameter' }, { status: 400 });
     }
 
+    // Optional ?week=N param — if provided, only sum scores up to and including that week
+    const { searchParams } = new URL(req.url);
+    const weekParam = searchParams.get('week');
+    const weekCap = weekParam !== null ? parseInt(weekParam, 10) : null;
+
     // Fetch contestants for season
     const contestants = await prisma.contestant.findMany({
       where: { season: seasonInt },
@@ -27,11 +32,14 @@ export async function GET(req: Request, { params }: { params: Promise<{ season: 
       return NextResponse.json({ error: 'No contestants found for this season' }, { status: 404 });
     }
 
-    // S50+: weekly scoring (sum WeeklyScore.points to-date)
+    // S50+: weekly scoring (sum WeeklyScore.points to-date, optionally capped at a week)
     if (seasonInt >= 50) {
       const weeklyTotals = await prisma.weeklyScore.groupBy({
         by: ['contestantId'],
-        where: { season: seasonInt },
+        where: {
+          season: seasonInt,
+          ...(weekCap !== null ? { week: { lte: weekCap } } : {}),
+        },
         _sum: { points: true },
       });
 
@@ -47,7 +55,7 @@ export async function GET(req: Request, { params }: { params: Promise<{ season: 
       return NextResponse.json(updatedContestants);
     }
 
-    // S49 and earlier: derive from contestant columns + values.json
+    // S49 and earlier: derive from contestant columns + values.json (no week cap support)
     const updatedContestants = contestants.map((contestant) => {
       const totalPoints = scoringCategories.reduce((total, category) => {
         const value = contestant[category.schemaKey as keyof typeof contestant];

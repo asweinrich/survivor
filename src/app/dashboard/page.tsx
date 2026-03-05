@@ -198,6 +198,8 @@ export default function DashboardPage() {
       pickemMap.set(t.id, t);
     });
 
+    
+
     return playerTribes
       .filter(
         (tribe: any) =>

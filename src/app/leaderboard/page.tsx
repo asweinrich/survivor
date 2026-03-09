@@ -44,10 +44,11 @@ export default function Leaderboard() {
 
   const WEEK_QUESTION_MATRIX = [
     { week: 2, numQuestions: 3 },
+    { week: 3, numQuestions: 4 },
     // Add more weeks as needed
   ];
 
-  const CURRENT_WEEK = 2;
+  const CURRENT_WEEK = 3;
 
   async function fetchPickemTribeDetails(season: string) {
     const res = await fetch(`/api/pickem-tribe-details?season=${season}`);

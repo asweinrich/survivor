@@ -54,7 +54,7 @@ export default function DashboardPage() {
       setPickemLoading(true);
       try {
         // Use current season or allow user to select
-        const season = 49; // or your logic
+        const season = 50; // or your logic
         const [leaderboardRes, tribeDetailsRes] = await Promise.all([
           fetch(`/api/pickem-leaderboard?season=${season}`),
           fetch(`/api/pickem-tribe-details?season=${season}`),
@@ -215,6 +215,7 @@ export default function DashboardPage() {
 
   const WEEK_QUESTION_MATRIX = [
     { week: 2, numQuestions: 3 },
+    { week: 3, numQuestions: 4 },
     // Add more weeks as needed, or import if shared
   ];
 

@@ -2,31 +2,127 @@
   {
     "id": 0,
     "type": "contestant",
-    "value": 63,
-    "pointValue": 600
+    "value": 38,
+    "pointValue": 1000
   },
   {
     "id": 1,
     "type": "contestant",
-    "value": 66,
-    "pointValue": 2500
+    "value": 39,
+    "pointValue": 1000
   },
   {
     "id": 2,
     "type": "contestant",
-    "value": 68,
-    "pointValue": 400
+    "value": 40,
+    "pointValue": 1000
   },
   {
     "id": 3,
     "type": "contestant",
-    "value": 74,
-    "pointValue": 1500
+    "value": 41,
+    "pointValue": 1000
   },
   {
     "id": 4,
     "type": "contestant",
-    "value": 77,
-    "pointValue": 1800
+    "value": 42,
+    "pointValue": 1000
+  },
+  {
+    "id": 5,
+    "type": "contestant",
+    "value": 43,
+    "pointValue": 1000
+  },
+  {
+    "id": 6,
+    "type": "contestant",
+    "value": 44,
+    "pointValue": 1000
+  },
+  {
+    "id": 7,
+    "type": "contestant",
+    "value": 45,
+    "pointValue": 1000
+  },
+  {
+    "id": 8,
+    "type": "contestant",
+    "value": 46,
+    "pointValue": 1000
+  },
+  {
+    "id": 9,
+    "type": "contestant",
+    "value": 47,
+    "pointValue": 1000
+  },
+  {
+    "id": 10,
+    "type": "contestant",
+    "value": 48,
+    "pointValue": 1000
+  },
+  {
+    "id": 11,
+    "type": "contestant",
+    "value": 49,
+    "pointValue": 1000
+  },
+  {
+    "id": 12,
+    "type": "contestant",
+    "value": 50,
+    "pointValue": 1000
+  },
+  {
+    "id": 13,
+    "type": "contestant",
+    "value": 51,
+    "pointValue": 1000
+  },
+  {
+    "id": 14,
+    "type": "contestant",
+    "value": 52,
+    "pointValue": 1000
+  },
+  {
+    "id": 15,
+    "type": "contestant",
+    "value": 53,
+    "pointValue": 1000
+  },
+  {
+    "id": 16,
+    "type": "contestant",
+    "value": 54,
+    "pointValue": 1000
+  },
+  {
+    "id": 17,
+    "type": "contestant",
+    "value": 55,
+    "pointValue": 1000
+  },
+  {
+    "id": 18,
+    "type": "contestant",
+    "value": 56,
+    "pointValue": 1000
+  },
+  {
+    "id": 19,
+    "type": "contestant",
+    "value": 58,
+    "pointValue": 1000
+  },
+  {
+    "id": 20,
+    "type": "contestant",
+    "value": 59,
+    "pointValue": 1000
   }
 ]

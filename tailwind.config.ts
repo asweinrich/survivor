@@ -32,6 +32,15 @@ export default {
       dropShadow: {
         'custom': '1px 1px 0px rgba(0, 0, 0, 1)',
       },
+      animation: {
+        marquee: "marquee 10s linear infinite",
+      },
+      keyframes: {
+        marquee: {
+          "0%": { transform: "translateX(100vw)" },
+          "100%": { transform: "translateX(-100%)" },
+        },
+      },
     },
   },
   plugins: [],

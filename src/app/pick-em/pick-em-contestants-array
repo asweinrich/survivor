@@ -86,41 +86,35 @@
   {
     "id": 14,
     "type": "contestant",
-    "value": 52,
+    "value": 53,
     "pointValue": 1000
   },
   {
     "id": 15,
     "type": "contestant",
-    "value": 53,
+    "value": 54,
     "pointValue": 1000
   },
   {
     "id": 16,
     "type": "contestant",
-    "value": 54,
+    "value": 55,
     "pointValue": 1000
   },
   {
     "id": 17,
     "type": "contestant",
-    "value": 55,
+    "value": 56,
     "pointValue": 1000
   },
   {
     "id": 18,
     "type": "contestant",
-    "value": 56,
-    "pointValue": 1000
-  },
-  {
-    "id": 19,
-    "type": "contestant",
     "value": 58,
     "pointValue": 1000
   },
   {
-    "id": 20,
+    "id": 19,
     "type": "contestant",
     "value": 59,
     "pointValue": 1000

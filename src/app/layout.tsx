@@ -9,6 +9,8 @@ import { SessionProvider } from 'next-auth/react';
 import { useSession, signIn, signOut } from 'next-auth/react';
 import { SpoilerProvider } from '../context/SpoilerContext'; 
 import { useSpoiler } from '../context/SpoilerContext';
+import ScrollerModal from "./components/ScrollerModal";
+
 
 
 
@@ -34,6 +36,7 @@ export default function RootLayout({
         <SessionProvider>
           <SpoilerProvider>
             <Navbar />
+            <ScrollerModal />
             <Analytics />
             {children}
           </SpoilerProvider>

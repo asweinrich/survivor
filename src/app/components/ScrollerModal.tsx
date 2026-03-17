@@ -60,7 +60,7 @@ const scrollerItems = [
 ];
 
 export default function ScrollerModal() {
-  const [selectedItem, setSelectedItem] = useState<{ id: number; text: string; message: string } | null>(null);
+  const [selectedItem, setSelectedItem] = useState<typeof scrollerItems[0] | null>(null);
 
   return (
     <>

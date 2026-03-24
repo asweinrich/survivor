@@ -110,12 +110,6 @@
   {
     "id": 18,
     "type": "contestant",
-    "value": 58,
-    "pointValue": 1000
-  },
-  {
-    "id": 19,
-    "type": "contestant",
     "value": 59,
     "pointValue": 1000
   }

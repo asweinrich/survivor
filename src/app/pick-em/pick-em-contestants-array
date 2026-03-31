@@ -50,65 +50,53 @@
   {
     "id": 8,
     "type": "contestant",
-    "value": 46,
+    "value": 47,
     "pointValue": 1000
   },
   {
     "id": 9,
     "type": "contestant",
-    "value": 47,
+    "value": 48,
     "pointValue": 1000
   },
   {
     "id": 10,
     "type": "contestant",
-    "value": 48,
+    "value": 49,
     "pointValue": 1000
   },
   {
     "id": 11,
     "type": "contestant",
-    "value": 49,
+    "value": 50,
     "pointValue": 1000
   },
   {
     "id": 12,
     "type": "contestant",
-    "value": 50,
+    "value": 51,
     "pointValue": 1000
   },
   {
     "id": 13,
     "type": "contestant",
-    "value": 51,
+    "value": 54,
     "pointValue": 1000
   },
   {
     "id": 14,
     "type": "contestant",
-    "value": 53,
+    "value": 55,
     "pointValue": 1000
   },
   {
     "id": 15,
     "type": "contestant",
-    "value": 54,
-    "pointValue": 1000
-  },
-  {
-    "id": 16,
-    "type": "contestant",
-    "value": 55,
-    "pointValue": 1000
-  },
-  {
-    "id": 17,
-    "type": "contestant",
     "value": 56,
     "pointValue": 1000
   },
   {
-    "id": 18,
+    "id": 16,
     "type": "contestant",
     "value": 59,
     "pointValue": 1000
@@ -116,3 +104,29 @@
 ]
 
 
+
+
+Who will win the Immunity Challenge?
+It looks like we will get a tribe-grouped individual immunity challenge this week. Who will win the Immunity Challenge and take home the immunity necklace? If the Immunity challenge ends up being a tribal immunity challenge where an individual immunity necklace is not awarded, all contestants on the winning tribe will qualify as a hit. 
+
+Who will Jeff call on to speak first at Tribal Council?
+After everyone sits down at Tribal Council, who will Jeff call on first to speak?
+
+Will Jeff say "You gotta dig deep!"?
+At any point this episode, will we hear Jeff tell the contestants they have to dig deep? Any phrase where Jeff says "dig deep" will count. 
+[
+  {
+    "id": 0,
+    "type": "boolean",
+    "label": "Yes",
+    "value": "TRUE",
+    "pointValue": 400
+  },
+  {
+    "id": 1,
+    "type": "boolean",
+    "label": "No",
+    "value": "FALSE",
+    "pointValue": 400
+  }
+]

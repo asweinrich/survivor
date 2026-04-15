@@ -49,6 +49,7 @@ export async function GET(req: Request) {
       select: {
         id: true,
         question: true,
+        description: true,
         options: true, // stored as JSON in many schemas
       },
     })
@@ -127,6 +128,7 @@ export async function GET(req: Request) {
       return {
         id: pe.id,
         question: pe.question ?? `Question ${pe.id}`,
+        description: pe.description ?? `Description ${pe.id}`,
         type: questionType,
         total: totalParticipants,
         options,

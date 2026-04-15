@@ -140,7 +140,7 @@ export function WeeklyStats({
                       <div className="font-lostIsland uppercase text-sm tracking-wider text-stone-200 mb-1">
                         {q.question}
                       </div>
-                      <div className="text-xs text-stone-300 lowercase font-lostIsland tracking-wider leading-tight">
+                      <div className="text-xs text-stone-300 leading-tight mb-1.5">
                         {q.description ?? "--"}
                       </div>
                       <div className="text-xs text-stone-400 uppercase font-lostIsland tracking-wider">

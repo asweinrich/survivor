@@ -62,23 +62,17 @@
   {
     "id": 10,
     "type": "contestant",
-    "value": 50,
+    "value": 51,
     "pointValue": 1000
   },
   {
     "id": 11,
     "type": "contestant",
-    "value": 51,
-    "pointValue": 1000
-  },
-  {
-    "id": 12,
-    "type": "contestant",
     "value": 56,
     "pointValue": 1000
   },
   {
-    "id": 13,
+    "id": 12,
     "type": "contestant",
     "value": 59,
     "pointValue": 1000
@@ -92,9 +86,9 @@ Who will win the Immunity Challenge?
 
 Who will win the Immunity Challenge and take home the immunity necklace?  
 
-Will Jonathan address Jeff as 'Mr. Jeff'?
+Will Coach share a Haiku?
 
-Jonathan loves his manners. He frequently refers to Jeff as "Mr. Jeff." Will he do so this episode? The weekly recap or 'Next time on Survivor' segments do not count. 
+Last week Coach was all about the Haiku's. Will he share one with the tribe this week?
 
 
 [
@@ -103,105 +97,35 @@ Jonathan loves his manners. He frequently refers to Jeff as "Mr. Jeff." Will he 
     "type": "boolean",
     "label": "Yes",
     "value": "TRUE",
-    "pointValue": 200
+    "pointValue": 500
   },
   {
     "id": 1,
     "type": "boolean",
     "label": "No",
     "value": "FALSE",
-    "pointValue": 400
+    "pointValue": 250
   }
 ]
 
 
-Who will attend the Reward this week?
+How many people will receive votes at Tribal Council?
 
-Which contestant do you think will go on reward this week? They don't necessarily have to win a challenge, they just have to go on the reward. If there is no reward, no choices will be scored as correct. 
+How many contestants will receive votes (that count) at Tribal? If someone plays an immunity idol, votes for the protected person do not count. If Jeff says "does not count", the vote won't count. If there are multiple tribal councils, this will be the sum of people receiving votes at all tribal councils during the episode. 
 
 [
   {
     "id": 0,
-    "type": "contestant",
-    "value": 39,
-    "pointValue": 500
+    "type": "boolean",
+    "label": "3 or Less",
+    "value": "TRUE",
+    "pointValue": 400
   },
   {
     "id": 1,
-    "type": "contestant",
-    "value": 40,
-    "pointValue": 500
-  },
-  {
-    "id": 2,
-    "type": "contestant",
-    "value": 41,
-    "pointValue": 500
-  },
-  {
-    "id": 3,
-    "type": "contestant",
-    "value": 42,
-    "pointValue": 500
-  },
-  {
-    "id": 4,
-    "type": "contestant",
-    "value": 43,
-    "pointValue": 500
-  },
-  {
-    "id": 5,
-    "type": "contestant",
-    "value": 44,
-    "pointValue": 500
-  },
-  {
-    "id": 6,
-    "type": "contestant",
-    "value": 45,
-    "pointValue": 500
-  },
-  {
-    "id": 7,
-    "type": "contestant",
-    "value": 47,
-    "pointValue": 500
-  },
-  {
-    "id": 8,
-    "type": "contestant",
-    "value": 48,
-    "pointValue": 500
-  },
-  {
-    "id": 9,
-    "type": "contestant",
-    "value": 49,
-    "pointValue": 500
-  },
-  {
-    "id": 10,
-    "type": "contestant",
-    "value": 50,
-    "pointValue": 500
-  },
-  {
-    "id": 11,
-    "type": "contestant",
-    "value": 51,
-    "pointValue": 500
-  },
-  {
-    "id": 12,
-    "type": "contestant",
-    "value": 56,
-    "pointValue": 500
-  },
-  {
-    "id": 13,
-    "type": "contestant",
-    "value": 59,
-    "pointValue": 500
+    "type": "boolean",
+    "label": "4 or More",
+    "value": "FALSE",
+    "pointValue": 400
   }
 ]

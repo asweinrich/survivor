@@ -24,6 +24,7 @@ type StatOption = {
 type QuestionStat = {
   id: number
   question: string
+  description: string
   type?: string
   total?: number
   options: StatOption[]
@@ -71,6 +72,7 @@ export function WeeklyStats({
           ? data.questions.map((qq: any) => ({
               id: Number(qq.id ?? qq.questionId ?? Math.random()),
               question: qq.question ?? qq.title ?? `Question ${qq.id ?? ''}`,
+              description: qq.description ?? `Description ${qq.id ?? ''}`,
               type: qq.type ?? qq.questionType ?? undefined,
               total: Number(
                 qq.total ??
@@ -137,6 +139,9 @@ export function WeeklyStats({
                     <div>
                       <div className="font-lostIsland uppercase text-sm tracking-wider text-stone-200 mb-1">
                         {q.question}
+                      </div>
+                      <div className="text-xs text-stone-300 leading-tight mb-1.5">
+                        {q.description ?? "--"}
                       </div>
                       <div className="text-xs text-stone-400 uppercase font-lostIsland tracking-wider">
                         {q.total ?? 0} Picks

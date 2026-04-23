@@ -294,7 +294,7 @@ const RulesPage = () => {
                     <td className="p-2 border border-stone-700">
                       <span className="flex items-center justify-between w-full">
                         <span className="mx-1.5">25%</span>
-                        <span className="text-blue-400 mx-1.5">$62</span>
+                        <span className="text-blue-400 mx-1.5">$140</span>
                       </span>
                     </td>
                   </tr>
@@ -310,7 +310,7 @@ const RulesPage = () => {
                     <td className="p-2 border border-stone-700">
                       <span className="flex items-center justify-between w-full">
                         <span className="mx-1.5">18%</span>
-                        <span className="text-blue-400 mx-1.5">$45</span>
+                        <span className="text-blue-400 mx-1.5">$100</span>
                       </span>
                     </td>
                   </tr>
@@ -326,7 +326,7 @@ const RulesPage = () => {
                     <td className="p-2 border border-stone-700">
                       <span className="flex items-center justify-between w-full">
                         <span className="mx-1.5">11%</span>
-                        <span className="text-blue-400 mx-1.5">$27</span>
+                        <span className="text-blue-400 mx-1.5">$60</span>
                       </span>
                     </td>
                   </tr>
@@ -342,7 +342,7 @@ const RulesPage = () => {
                     <td className="p-2 border border-stone-700">
                       <span className="flex items-center justify-between w-full">
                         <span className="mx-1.5">6%</span>
-                        <span className="text-blue-400 mx-1.5">$15</span>
+                        <span className="text-blue-400 mx-1.5">$35</span>
                       </span>
                     </td>
                   </tr>

@@ -259,7 +259,7 @@ const RulesPage = () => {
                     </th>
                     <th className="p-2 border border-stone-700">
                       <span className="flex items-center justify-between w-full">
-                        <span className="mx-1.5">Pick-Em</span>
+                        <span className="mx-1.5">Pick Em</span>
                         <span className="text-blue-400 mx-1.5">$560</span>
                       </span>
                     </th>

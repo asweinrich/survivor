@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { computePickEmScore } from '@/lib/utils/pickEmScoring';
+import { computePickEmResult } from '@/lib/utils/pickEmScoring';
 import { PickEmScoreBreakdown } from '@/lib/types';
 
 export async function GET(req: Request) {
@@ -46,23 +46,30 @@ export async function GET(req: Request) {
         : [];
 
       // Handle empty/null answers: do not score or penalize
-      const validAnswers = Array.isArray(pickEm.answers) && pickEm.answers.length > 0 && pickEm.answers.some(a => typeof a === "number");
-      const answers = pickEm.answers as number[];
-      const isCorrect = validAnswers
-        ? answers.includes(option.id)
-        : false;
-      const points = validAnswers
-        ? computePickEmScore(
+      const validAnswers =
+        Array.isArray(pickEm.answers) &&
+        pickEm.answers.length > 0 &&
+        pickEm.answers.some(a => typeof a === "number");
+
+      const result = validAnswers
+        ? computePickEmResult(
             { optionId: option.id },
-            { id: pickEm.id, options: filteredOptions, answers: pickEm.answers }
+            { id: pickEm.id, options: filteredOptions, answers: pickEm.answers as number[] }
           )
-        : 0;
+        : { points: 0, status: "pending" as const };
+
+      const invalidated = result.status === "invalidated";
+      const isCorrect =
+        invalidated ? undefined : (result.status === "correct" ? true : result.status === "incorrect" ? false : undefined);
+
+      const points = result.points;
 
       // Only include breakdown if the pickEm has valid answers
       if (validAnswers) {
         const breakdown: PickEmScoreBreakdown = {
           pickEmId: pickEm.id,
           optionId: option.id,
+          invalidated,
           isCorrect,
           points,
           value: option.value,

@@ -4,6 +4,7 @@ type Pick = {
   answered: boolean;
   pending?: boolean;
   isCorrect?: boolean;
+  invalidated?: boolean;
 };
 
 type PickemWeek = {
@@ -130,6 +131,8 @@ export default function TribePickemSummary({
                     pick.answered ? (
                       pick.pending ? (
                         <QuestionMarkCircleIcon className="w-7 h-7 text-stone-400" title="Pending" />
+                      ) : pick.invalidated ? (
+                        <MinusCircleIcon className="w-7 h-7 text-amber-400" title="Invalidated" />
                       ) : pick.isCorrect ? (
                         <CheckCircleIcon className="w-7 h-7 text-green-400" title="Correct" />
                       ) : (

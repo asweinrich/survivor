@@ -53,7 +53,8 @@ export type UserBadge = {
 export type PickEmScoreBreakdown = {
   pickEmId: number;
   optionId: number;
-  isCorrect: boolean;
+  isCorrect?: boolean;      
+  invalidated?: boolean;
   points: number;
   value: number;
   question: string;
@@ -67,3 +68,5 @@ export type Player = {
   email: string;
   // Add any other relevant fields here!
 };
+
+invalidated?: boolean;

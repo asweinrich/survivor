@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/solid';
+import { CheckCircleIcon, XCircleIcon, MinusCircleIcon } from '@heroicons/react/24/solid';
 import { MedTribeBadges } from '@/lib/utils/tribes';
 import type { Tribe, Contestant, PickEmScoreBreakdown } from '@/lib/types';
 
@@ -32,6 +32,7 @@ export function ScoringSummary({
             // The option object from backend (mirroring summary route)
             const opt = item ?? {};
             const type = opt.type ?? 'text';
+            const isInvalidated = !!item.invalidated;
 
             // Render selection by type (like summary route)
             let selectionDisplay: React.ReactNode = null;
@@ -67,25 +68,40 @@ export function ScoringSummary({
                 {/* Question & selection */}
                 <span className="text-stone-300 flex flex-col text-lg lowercase tracking-wider leading-tight">
                   <span className="">{item.question ?? `Question ${item.pickEmId}`}</span>
-                  <span className={item.isCorrect ? "text-green-400" : "text-red-400"}>
-                    {item.points > 0 ? `Correct: +${item.points}` : `Incorrect: ${item.points}`}
+
+                  <span
+                    className={
+                      isInvalidated
+                        ? "text-amber-400"
+                        : item.isCorrect
+                          ? "text-green-400"
+                          : "text-red-400"
+                    }
+                  >
+                    {isInvalidated
+                      ? "Nullified: No points gained or lost"
+                      : item.points > 0
+                        ? `Correct: +${item.points}`
+                        : `Incorrect: ${item.points}`
+                    }
                   </span>
                 </span>
-                {/* Correct/wrong icon & points */}
+
+                {/* Correct/wrong/invalidated icon & points */}
                 <span className="flex flex-col items-center gap-2">
                   <span className="relative w-20 text-center">
                     {selectionDisplay}
                     <span className="absolute -top-1 -right-1 z-10 bg-black rounded-full w-7 h-7"></span>
                     <span className="absolute -top-1 -right-1 z-20">
-                      {item.isCorrect ? (
+                      {isInvalidated ? (
+                        <MinusCircleIcon className="w-7 h-7 text-amber-400" title="Nullified" />
+                      ) : item.isCorrect ? (
                         <CheckCircleIcon className="w-7 h-7 text-green-400" title="Correct" />
                       ) : (
                         <XCircleIcon className="w-7 h-7 text-red-400" title="Incorrect" />
                       )}
                     </span>
                   </span>
-                  
-                  
                 </span>
               </li>
             );

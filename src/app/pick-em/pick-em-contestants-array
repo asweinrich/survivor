@@ -50,23 +50,17 @@
   {
     "id": 8,
     "type": "contestant",
-    "value": 50,
+    "value": 51,
     "pointValue": 1000
   },
   {
     "id": 9,
     "type": "contestant",
-    "value": 51,
-    "pointValue": 1000
-  },
-  {
-    "id": 10,
-    "type": "contestant",
     "value": 56,
     "pointValue": 1000
   },
   {
-    "id": 11,
+    "id": 10,
     "type": "contestant",
     "value": 59,
     "pointValue": 1000

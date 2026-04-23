@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { isPickEmInvalidated } from '@/lib/utils/pickEmScoring';
 
 const WRONG_PICK_PENALTY = 50;
 
@@ -79,10 +80,18 @@ export async function GET(req: Request) {
       if (!option) continue;
 
       const pointValue = typeof option.pointValue === "number" ? option.pointValue : 0;
-      const type = typeof option.type === "string" ? option.type : "";
+
+      // NEW: invalidation (Option A)
+      const invalidated = isPickEmInvalidated({
+        id: pickEm.id,
+        options,
+        answers,
+      });
 
       let points = 0;
-      if (isCorrect) {
+      if (invalidated) {
+        points = 0;
+      } else if (isCorrect) {
         points = pointValue;
       } else {
         points = -WRONG_PICK_PENALTY;

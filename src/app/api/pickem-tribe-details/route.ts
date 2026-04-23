@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { isPickEmInvalidated } from '@/lib/utils/pickEmScoring';
 
 const WRONG_PICK_PENALTY = 50;
 
@@ -86,20 +87,31 @@ export async function GET(req: Request) {
           const option = options.find((opt) => opt && typeof opt === "object" && "id" in opt && opt.id === pick.selection);
 
           const pointValue = typeof option?.pointValue === "number" ? option.pointValue : 0;
-          const type = typeof option?.type === "string" ? option.type : "";
 
           let points = 0;
-          let answered = pick.selection !== undefined && pick.selection !== null;
-          let pending = !answers.length; // true if not yet scored
+          const answered = pick.selection !== undefined && pick.selection !== null;
+          const pending = !answers.length; // true if not yet scored
+
+          const invalidated = !pending && isPickEmInvalidated({
+            id: pickEm.id,
+            options,
+            answers,
+          });
+
           if (answered && !pending) {
-            points = isCorrect ? pointValue : -WRONG_PICK_PENALTY;
+            if (invalidated) {
+              points = 0;
+            } else {
+              points = isCorrect ? pointValue : -WRONG_PICK_PENALTY;
+            }
           }
 
           return {
             questionId: pick.pickId,
             answered,
             pending,
-            isCorrect: answered && !pending ? isCorrect : undefined,
+            invalidated,
+            isCorrect: answered && !pending && !invalidated ? isCorrect : undefined,
             points,
           };
         });

@@ -228,62 +228,229 @@ const RulesPage = () => {
               Wanna know what you're playing for? When the final torch is snuffed and the dust settles, the top Tribe and Pick Em scores get to split the prize pool money. Here’s how it pays out:
             </p>
             <p className="font-inter text-stone-300 tracking-wider mb-4">
-              Every player’s $20 entry fee fills the prize pool. At the end of the season, <span className="text-orange-400">75%</span> of the prize pool goes to the top 3 tribe scores, and <span className="text-blue-400">25%</span> goes to the top 3 Pick Em scores. 
+              Every player’s $20 entry fee fills the prize pool. At the end of the season, <span className="text-orange-400">75%</span> of the prize pool goes to the top 10 tribe scores, and <span className="text-blue-400">25%</span> goes to the top 5 Pick Em scores. 
             </p>
             <p className="font-inter text-stone-300 tracking-wider mb-4">
-              In both categories, prizes are awarded among the top three finishers using a 60%, 30%, 10% split.
+              Prizes are awarded among the top finishers using these percentages:
             </p>
+
+
             <div className="overflow-x-auto mb-4 ">
-              <table className="w-full text-left text-stone-300 font-inter border-collapse\">
+              <table className="w-full text-left text-stone-300 font-inter border-collapse">
                 <thead>
+                  {/* NEW: grouped header row */}
+                  <tr className="bg-stone-800 text-stone-100">
+                    <th className="p-2 border border-stone-700 text-center" colSpan={3}>
+                      <span className="flex items-center justify-between w-full">
+                        <span className="">Season 50 Prize Pools</span>
+                        <span className="text-green-400 mx-1.5">$2240</span>
+                      </span>
+                    </th>
+                  </tr>
+
+                  {/* Existing header row (shortened text) */}
                   <tr className="bg-stone-800 text-stone-100">
                     <th className="p-2 border border-stone-700">Place</th>
-                    <th className="p-2 border border-stone-700">Prize Pool Percentage</th>
+                    <th className="p-2 border border-stone-700">
+                      <span className="flex items-center justify-between w-full">
+                        <span className="mx-1.5">Tribe</span>
+                        <span className="text-orange-400 mx-1.5">$1680</span>
+                      </span>
+                    </th>
+                    <th className="p-2 border border-stone-700">
+                      <span className="flex items-center justify-between w-full">
+                        <span className="mx-1.5">Pick-Em</span>
+                        <span className="text-blue-400 mx-1.5">$560</span>
+                      </span>
+                    </th>
                   </tr>
                 </thead>
+
                 <tbody>
                   <tr>
-                    <td className="p-2 border border-stone-700">1st Place</td>
-                    <td className="p-2 border border-stone-700">60%</td>
+                    <td className="p-2 border border-stone-700">1st</td>
+                    <td className="p-2 border border-stone-700">
+                      <span className="flex items-center justify-between w-full">
+                        <span className="mx-1.5">25%</span>
+                        <span className="text-orange-400 mx-1.5">$420</span>
+                      </span>
+                    </td>
+                    <td className="p-2 border border-stone-700">
+                      <span className="flex items-center justify-between w-full">
+                        <span className="mx-1.5">40%</span>
+                        <span className="text-blue-400 mx-1.5">$225</span>
+                      </span>
+                    </td>
                   </tr>
+
                   <tr>
-                    <td className="p-2 border border-stone-700">2nd Place</td>
-                    <td className="p-2 border border-stone-700">30%</td>
+                    <td className="p-2 border border-stone-700">2nd</td>
+                    <td className="p-2 border border-stone-700">
+                      <span className="flex items-center justify-between w-full">
+                        <span className="mx-1.5">18%</span>
+                        <span className="text-orange-400 mx-1.5">$300</span>
+                      </span>
+                    </td>
+                    <td className="p-2 border border-stone-700">
+                      <span className="flex items-center justify-between w-full">
+                        <span className="mx-1.5">25%</span>
+                        <span className="text-blue-400 mx-1.5">$62</span>
+                      </span>
+                    </td>
                   </tr>
+
                   <tr>
-                    <td className="p-2 border border-stone-700">3rd Place</td>
-                    <td className="p-2 border border-stone-700">10%</td>
+                    <td className="p-2 border border-stone-700">3rd</td>
+                    <td className="p-2 border border-stone-700">
+                      <span className="flex items-center justify-between w-full">
+                        <span className="mx-1.5">14%</span>
+                        <span className="text-orange-400 mx-1.5">$235</span>
+                      </span>
+                    </td>
+                    <td className="p-2 border border-stone-700">
+                      <span className="flex items-center justify-between w-full">
+                        <span className="mx-1.5">18%</span>
+                        <span className="text-blue-400 mx-1.5">$45</span>
+                      </span>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td className="p-2 border border-stone-700">4th</td>
+                    <td className="p-2 border border-stone-700">
+                      <span className="flex items-center justify-between w-full">
+                        <span className="mx-1.5">11%</span>
+                        <span className="text-orange-400 mx-1.5">$185</span>
+                      </span>
+                    </td>
+                    <td className="p-2 border border-stone-700">
+                      <span className="flex items-center justify-between w-full">
+                        <span className="mx-1.5">11%</span>
+                        <span className="text-blue-400 mx-1.5">$27</span>
+                      </span>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td className="p-2 border border-stone-700">5th</td>
+                    <td className="p-2 border border-stone-700">
+                      <span className="flex items-center justify-between w-full">
+                        <span className="mx-1.5">9%</span>
+                        <span className="text-orange-400 mx-1.5">$150</span>
+                      </span>
+                    </td>
+                    <td className="p-2 border border-stone-700">
+                      <span className="flex items-center justify-between w-full">
+                        <span className="mx-1.5">6%</span>
+                        <span className="text-blue-400 mx-1.5">$15</span>
+                      </span>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td className="p-2 border border-stone-700">6th</td>
+                    <td className="p-2 border border-stone-700">
+                      <span className="flex items-center justify-between w-full">
+                        <span className="mx-1.5">7%</span>
+                        <span className="text-orange-400 mx-1.5">$120</span>
+                      </span>
+                    </td>
+                    <td
+                      className="p-2 border border-stone-700 text-stone-500"
+                      style={{
+                        backgroundImage:
+                          "repeating-linear-gradient(135deg, rgba(120,113,108,0.35) 0px, rgba(120,113,108,0.35) 2px, rgba(0,0,0,0) 2px, rgba(0,0,0,0) 6px)",
+                      }}
+                      title="Pick-Em payouts only apply to Top 5"
+                    >
+                      &nbsp;
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td className="p-2 border border-stone-700">7th</td>
+                    <td className="p-2 border border-stone-700">
+                      <span className="flex items-center justify-between w-full">
+                        <span className="mx-1.5">6%</span>
+                        <span className="text-orange-400 mx-1.5">$100</span>
+                      </span>
+                    </td>
+                    <td
+                      className="p-2 border border-stone-700 text-stone-500"
+                      style={{
+                        backgroundImage:
+                          "repeating-linear-gradient(135deg, rgba(120,113,108,0.35) 0px, rgba(120,113,108,0.35) 2px, rgba(0,0,0,0) 2px, rgba(0,0,0,0) 6px)",
+                      }}
+                      title="Pick-Em payouts only apply to Top 5"
+                    >
+                      &nbsp;
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td className="p-2 border border-stone-700">8th</td>
+                    <td className="p-2 border border-stone-700">
+                      <span className="flex items-center justify-between w-full">
+                        <span className="mx-1.5">5%</span>
+                        <span className="text-orange-400 mx-1.5">$85</span>
+                      </span>
+                    </td>
+                    <td
+                      className="p-2 border border-stone-700 text-stone-500"
+                      style={{
+                        backgroundImage:
+                          "repeating-linear-gradient(135deg, rgba(120,113,108,0.35) 0px, rgba(120,113,108,0.35) 2px, rgba(0,0,0,0) 2px, rgba(0,0,0,0) 6px)",
+                      }}
+                      title="Pick-Em payouts only apply to Top 5"
+                    >
+                      &nbsp;
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td className="p-2 border border-stone-700">9th</td>
+                    <td className="p-2 border border-stone-700">
+                      <span className="flex items-center justify-between w-full">
+                        <span className="mx-1.5">3%</span>
+                        <span className="text-orange-400 mx-1.5">$50</span>
+                      </span>
+                    </td>
+                    <td
+                      className="p-2 border border-stone-700 text-stone-500"
+                      style={{
+                        backgroundImage:
+                          "repeating-linear-gradient(135deg, rgba(120,113,108,0.35) 0px, rgba(120,113,108,0.35) 2px, rgba(0,0,0,0) 2px, rgba(0,0,0,0) 6px)",
+                      }}
+                      title="Pick-Em payouts only apply to Top 5"
+                    >
+                      &nbsp;
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td className="p-2 border border-stone-700">10th</td>
+                    <td className="p-2 border border-stone-700">
+                      <span className="flex items-center justify-between w-full">
+                        <span className="mx-1.5">2%</span>
+                        <span className="text-orange-400 mx-1.5">$35</span>
+                      </span>
+                    </td>
+                    <td
+                      className="p-2 border border-stone-700 text-stone-500"
+                      style={{
+                        backgroundImage:
+                          "repeating-linear-gradient(135deg, rgba(120,113,108,0.35) 0px, rgba(120,113,108,0.35) 2px, rgba(0,0,0,0) 2px, rgba(0,0,0,0) 6px)",
+                      }}
+                      title="Pick-Em payouts only apply to Top 5"
+                    >
+                      &nbsp;
+                    </td>
                   </tr>
                 </tbody>
               </table>
             </div>
 
-            <div className="py-4"><em>
-              <h4 className="text-lg font-semibold text-stone-100 mb-2 font-inter">Example with 50 Players</h4>
-              <p className="font-inter text-stone-300 tracking-wider">
-                <span className="block mb-3">Total Prize Pool: 50 players × $20 = <span className="text-lime-300">$1000</span></span>
-                <span className="block mb-3">Tribe Prize Pool (75%): 
-                  <span className="text-orange-500"> $750</span>
-                  <br/>
-                  60% / 30% / 10% - 
-                  <span className="text-orange-400"> $450 </span> 
-                  / 
-                  <span className="text-orange-300"> $225 </span> 
-                  / 
-                  <span className="text-orange-200"> $75 </span>
-                </span>
-                <span className="block mb-3">Pick Em Prize Pool (25%): 
-                  <span className="text-blue-500"> $250</span>
-                  <br/>
-                  60% / 30% / 10% - 
-                  <span className="text-blue-400"> $150 </span> 
-                  / 
-                  <span className="text-blue-300"> $75 </span> 
-                  / 
-                  <span className="text-blue-200"> $25 </span>
-                </span>
-              </p></em>
-            </div>
+            
 
             <p className="mt-2 font-inter text-stone-300 tracking-wider">
               But let’s not forget, this game is about more than just money! It’s about bragging rights, epic moments, and proving you have what it takes to outpick everyone else. So bring your A-game, and may the best tribe win!

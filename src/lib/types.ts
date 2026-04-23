@@ -69,4 +69,3 @@ export type Player = {
   // Add any other relevant fields here!
 };
 
-invalidated?: boolean;

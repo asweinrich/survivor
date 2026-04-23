@@ -415,7 +415,7 @@ export default function WeeklyPickEms() {
           <p className="mb-3">These do not impact your Fantasy Tribe score!</p>
           <p className="mb-3">Picks are included with your tribe entry and default each week to a status of <span className="text-stone-300/80">Passed</span>. If you submit picks, your status will update to <span className="text-orange-300/80">Locked In</span>. Picks will be scored following each episode.</p>
           <p className="mb-3">Picks can be submitted up until the start of that week's episode, or each Wednesday at 5PM Pacific, 7PM Central, 8PM Eastern. </p>
-          <p className="mb-3">25% of the overall prize pool will go to the final top 3 Pick Em scores! See the full info about Pick Ems and prizes <a href="/how-to-play#prizes" className="text-blue-400 underline">here</a>.</p>
+          <p className="mb-3">See the full info about Pick Ems and prizes <a href="/how-to-play#prizes" className="text-blue-400 underline">here</a>.</p>
         </div>
 
         {/* Season / Week / CTA / Countdown */}

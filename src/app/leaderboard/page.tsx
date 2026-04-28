@@ -169,6 +169,99 @@ export default function Leaderboard() {
     return allTribes;
   }, [playerTribes, pickemLeaderboard]);
 
+
+  // Season 50 prize amounts by finishing place (1-indexed)
+  const TRIBE_PRIZES = [420, 300, 235, 185, 150, 120, 100, 85, 50, 35]; // top 10
+  const PICKEM_PRIZES = [225, 140, 100, 60, 35]; // top 5
+
+  function formatPayout(amount: number) {
+    // Round to cents, then show decimals only when needed
+    const rounded = Math.round(amount * 100) / 100;
+    const isWhole = Math.abs(rounded - Math.round(rounded)) < 1e-9;
+    return isWhole ? `$${Math.round(rounded)}` : `$${rounded.toFixed(2)}`;
+  }
+
+  function payoutBarClass(place: number) {
+    // place is 1-indexed "competition place" (start place of the tie group)
+    if (place === 1) return 'bg-amber-400/90'; // gold
+    if (place === 2) return 'bg-zinc-300';   // silver
+    if (place === 3) return 'bg-amber-700';   // bronze
+
+    // 4+ fade darker green as place increases
+    const greens = [
+      'bg-green-500', // 4
+      'bg-green-600',  // 5
+      'bg-green-700',  // 6
+      'bg-green-800',  // 7
+      'bg-green-900',  // 8
+      'bg-green-950',  // 9+
+    ];
+    const idx = Math.min(Math.max(place - 4, 0), greens.length - 1);
+    return greens[idx];
+  }
+
+  type PayoutInfo = {
+    payoutText: string;
+    barClass: string;
+    place: number; // starting place of tie group
+  };
+
+
+  function buildPayoutMap(
+  items: any[],
+  isPickem: boolean
+  ): Map<number, PayoutInfo> {
+    const prizes = isPickem ? PICKEM_PRIZES : TRIBE_PRIZES;
+    const maxPaidPlaces = prizes.length;
+
+    const eligible = items.filter((t) => !!t.paid);
+    const map = new Map<number, PayoutInfo>();
+
+    let i = 0;
+    let place = 1; // "eligible competition place"
+    while (i < eligible.length) {
+      const item = eligible[i];
+      const score = isPickem ? item.pickemPoints : item.score;
+
+      // find tie group among eligible only
+      let j = i;
+      while (j < eligible.length) {
+        const s = isPickem ? eligible[j].pickemPoints : eligible[j].score;
+        if (s !== score) break;
+        j++;
+      }
+
+      const groupSize = j - i;
+      const startPlace = place;
+      const endPlace = place + groupSize - 1;
+
+      // Only pay if the tie group starts within the prize-paying range
+      if (startPlace <= maxPaidPlaces) {
+        // Combine prizes for all covered places within range, then split across the tied eligible tribes
+        let total = 0;
+        for (let p = startPlace; p <= Math.min(endPlace, maxPaidPlaces); p++) {
+          total += prizes[p - 1];
+        }
+        const perTribe = total / groupSize;
+
+        const info: PayoutInfo = {
+          payoutText: formatPayout(perTribe),
+          barClass: payoutBarClass(startPlace), // color based on eligible place
+          place: startPlace,
+        };
+
+        for (let k = i; k < j; k++) {
+          map.set(eligible[k].id, info);
+        }
+      }
+
+      i = j;
+      place = endPlace + 1;
+    }
+
+    return map;
+  }
+
   // Main leaderboard rendering function (tribe or pickem)
   function renderLeaderboard(data: any[], isPickem: boolean) {
     if (loading || (isPickem && pickemLoading)) {
@@ -189,160 +282,183 @@ export default function Leaderboard() {
       );
     }
 
+    const payoutMap = buildPayoutMap(data, isPickem);
+
     return data.map((tribe: any) => {
       // For pickem leaderboard, use pickemPoints instead of score
       const score = isPickem ? tribe.pickemPoints : tribe.score;
       const hasWinnerBonus = !isPickem && !!contestantMap[tribe.tribeArray?.[0]]?.soleSurvivor;
       return (
-        <div key={tribe.id} className="py-2 px-1 mb-2 rounded-lg border border-stone-700 bg-stone-800">
-          <div className="flex items-center justify-start" onClick={() => toggleDropdown(tribe.id)}>
-            <div className="flex flex-col items-center w-8 font-lostIsland me-1.5">
-              <span className="text-2xl mx-auto leading-none mb-1.5">{tribe.rank}</span>
-              {!isPickem && (() => {
-                const change = rankChangeMap.get(tribe.id);
-                if (change === undefined || change === 0) return (
-                  <span className="text-stone-600 text-xs font-lostIsland leading-none">—</span>
-                );
-                if (change > 0) return (
-                  <span className="text-green-400 text-xs font-lostIsland leading-none tracking-wider">▲{change}</span>
-                );
-                return (
-                  <span className="text-red-400 text-xs font-lostIsland leading-none tracking-wider">▼{Math.abs(change)}</span>
-                );
-              })()}
-            </div>
-            <div className="flex items-center">
-              <div className="w-12 h-12 rounded-full border border-stone-700 flex items-center justify-center text-3xl" style={{ backgroundColor: hexToRgba(tribe.color, 0.95) }}>
-                {tribe.emoji}
-              </div>
-              <div className="ms-3">
-                <div className="flex items-center text-lg font-lostIsland leading-tight">
-                  {tribe.tribeName}
-                  {!tribe.paid && (
-                    <span className="relative inline-flex items-center justify-center w-5 h-5 ms-1.5 mb-0.5 rounded-full bg-red-900">
-                      <NoSymbolIcon className="absolute z-20 inset-0 w-full h-full text-red-400" />
-                      <CurrencyDollarIcon className="absolute z-10 inset-0 w-full h-full text-red-200" />
-                    </span>
-                  )}
+        <div key={tribe.id} className="mb-2 overflow-hidden">
+          <div
+            key={tribe.id}
+            className="rounded-lg border border-stone-700 bg-stone-800"
+          >
+            <div className="py-2 px-1">
+              <div className="flex items-center justify-start" onClick={() => toggleDropdown(tribe.id)}>
+                <div className="flex flex-col items-center w-8 font-lostIsland me-1.5">
+                  <span className="text-2xl mx-auto leading-none mb-1.5">{tribe.rank}</span>
+                  {!isPickem && (() => {
+                    const change = rankChangeMap.get(tribe.id);
+                    if (change === undefined || change === 0) return (
+                      <span className="text-stone-600 text-xs font-lostIsland leading-none">—</span>
+                    );
+                    if (change > 0) return (
+                      <span className="text-green-400 text-xs font-lostIsland leading-none tracking-wider">▲{change}</span>
+                    );
+                    return (
+                      <span className="text-red-400 text-xs font-lostIsland leading-none tracking-wider">▼{Math.abs(change)}</span>
+                    );
+                  })()}
                 </div>
-                <div className="flex items-center text-stone-400 font-lostIsland leading-tight">
-                  {tribe.playerName}
-                </div>
-                {/* Only show winner bonus on standard leaderboard */}
-                {revealSpoilers && hasWinnerBonus && (
-                  <div className="lowercase bg-yellow-900 text-yellow-300 text-xs font-lostIsland px-2 py-0.5 -ms-1 rounded-full">
-                    Predicted Winner Bonus +{Number(season) >= 50 ? 500 : 200}
+                <div className="flex items-center">
+                  <div className="w-12 h-12 rounded-full border border-stone-700 flex items-center justify-center text-3xl" style={{ backgroundColor: hexToRgba(tribe.color, 0.95) }}>
+                    {tribe.emoji}
                   </div>
-                )}
-                                
-              </div>
-            </div>
-            <div className="flex items-center ms-auto me-0">
-              <span className="text-2xl font-lostIsland tracking-wide mr-1.5">
-                {score}
-              </span>
-              <ChevronDownIcon className={`w-4 h-4 stroke-3 cursor-pointer ${expandedTribes.includes(tribe.id) ? 'rotate-180' : ''}`} />
-            </div>
-          </div>
-
-          {/* Expanded dropdown */}
-          {expandedTribes.includes(tribe.id) && (
-            <div className="px-2 mt-3">
-              {isPickem ? (
-                (() => {
-                  const tribeDetails = pickemTribeDetails.find(t => t.id === tribe.id);
-                  return (
-                    <TribePickemSummary
-                      pickemWeeks={tribeDetails?.pickemWeeks ?? []}
-                      weekQuestionMatrix={WEEK_QUESTION_MATRIX}
-                    />
-                  );
-                })()
-              ) : (() => {
-                const ids = tribe.tribeArray;
-                if (!ids?.length) return null;
-
-                const soleSurvivor = contestants.find((c) => c.id === ids[0]);
-                const rest = ids.slice(1)
-                  .map((id: number) => contestants.find((c) => c && c.id === id))
-                  .filter((c: Contestant | undefined): c is Contestant => !!c)
-                  .sort((a: Contestant, b: Contestant) => (a.inPlay === b.inPlay ? a.name.localeCompare(b.name) : a.inPlay ? -1 : 1));
-
-                const list = soleSurvivor ? [soleSurvivor, ...rest] : rest;
-
-                return list.map((contestant: Contestant, idx: number) => {
-                  const statusBorder = getStatusBorder(contestant, revealSpoilers);
-                  const isSoleSlot = idx === 0;
-
-                  return (
-                    <div key={`${tribe.id}-${contestant.id}`} className="flex items-center py-2 border-b border-stone-700">
-                      <div className="relative">
-                        <img
-                          src={`/imgs/${contestant.img}.png`}
-                          alt={contestant.name}
-                          className={`h-14 w-14 object-cover me-2 border-2 rounded-full p-1 ${statusBorder}`}
-                        />
+                  <div className="ms-3">
+                    <div className="flex items-center text-lg font-lostIsland leading-tight">
+                      {tribe.tribeName}
+                      {!tribe.paid && (
+                        <span className="relative inline-flex items-center justify-center w-5 h-5 ms-1.5 mb-0.5 rounded-full bg-red-900">
+                          <NoSymbolIcon className="absolute z-20 inset-0 w-full h-full text-red-400" />
+                          <CurrencyDollarIcon className="absolute z-10 inset-0 w-full h-full text-red-200" />
+                        </span>
+                      )}
+                    </div>
+                    <div className="flex items-center text-stone-400 font-lostIsland leading-tight">
+                      {tribe.playerName}
+                    </div>
+                    {/* Only show winner bonus on standard leaderboard */}
+                    {revealSpoilers && hasWinnerBonus && (
+                      <div className="lowercase bg-yellow-900 text-yellow-300 text-xs font-lostIsland px-2 py-0.5 -ms-1 rounded-full">
+                        Predicted Winner Bonus +{Number(season) >= 50 ? 500 : 200}
                       </div>
-                      <div className="flex-grow">
-                        <div className="text-lg font-lostIsland leading-tight ps-0.5">{contestant.name}</div>
-                        {isSoleSlot && (
-                          <span className="inline-block text-xs tracking-wider font-lostIsland uppercase px-1.5 pt-0.5 rounded-lg bg-yellow-900 text-yellow-300">
-                            Predicted Winner
-                          </span>
-                        )}
-                        <div className="flex items-center leading-tight">
-                          {revealSpoilers ? (
-                            <>
-                              {contestant.inPlay && (
+                    )}
+                                    
+                  </div>
+                </div>
+                <div className="flex items-center ms-auto me-0">
+                  <span className="text-2xl font-lostIsland tracking-wide mr-1.5">
+                    {score}
+                  </span>
+                  <ChevronDownIcon className={`w-4 h-4 stroke-3 cursor-pointer ${expandedTribes.includes(tribe.id) ? 'rotate-180' : ''}`} />
+                </div>
+              </div>
+
+              {/* Expanded dropdown */}
+              {expandedTribes.includes(tribe.id) && (
+                <div className="px-2 mt-3">
+                  {isPickem ? (
+                    (() => {
+                      const tribeDetails = pickemTribeDetails.find(t => t.id === tribe.id);
+                      return (
+                        <TribePickemSummary
+                          pickemWeeks={tribeDetails?.pickemWeeks ?? []}
+                          weekQuestionMatrix={WEEK_QUESTION_MATRIX}
+                        />
+                      );
+                    })()
+                  ) : (() => {
+                    const ids = tribe.tribeArray;
+                    if (!ids?.length) return null;
+
+                    const soleSurvivor = contestants.find((c) => c.id === ids[0]);
+                    const rest = ids.slice(1)
+                      .map((id: number) => contestants.find((c) => c && c.id === id))
+                      .filter((c: Contestant | undefined): c is Contestant => !!c)
+                      .sort((a: Contestant, b: Contestant) => (a.inPlay === b.inPlay ? a.name.localeCompare(b.name) : a.inPlay ? -1 : 1));
+
+                    const list = soleSurvivor ? [soleSurvivor, ...rest] : rest;
+
+                    return list.map((contestant: Contestant, idx: number) => {
+                      const statusBorder = getStatusBorder(contestant, revealSpoilers);
+                      const isSoleSlot = idx === 0;
+
+                      return (
+                        <div key={`${tribe.id}-${contestant.id}`} className="flex items-center py-2 border-b border-stone-700">
+                          <div className="relative">
+                            <img
+                              src={`/imgs/${contestant.img}.png`}
+                              alt={contestant.name}
+                              className={`h-14 w-14 object-cover me-2 border-2 rounded-full p-1 ${statusBorder}`}
+                            />
+                          </div>
+                          <div className="flex-grow">
+                            <div className="text-lg font-lostIsland leading-tight ps-0.5">{contestant.name}</div>
+                            {isSoleSlot && (
+                              <span className="inline-block text-xs tracking-wider font-lostIsland uppercase px-1.5 pt-0.5 rounded-lg bg-yellow-900 text-yellow-300">
+                                Predicted Winner
+                              </span>
+                            )}
+                            <div className="flex items-center leading-tight">
+                              {revealSpoilers ? (
                                 <>
-                                  <FireIcon className="h-5 w-5 text-orange-400 me-1" />
-                                  <div className="text-stone-300 lowercase font-lostIsland tracking-wider">In Play</div>
-                                </>
-                              )}
-                              {!contestant.inPlay && (
-                                <>
-                                  {contestant.voteOutOrder >= 900 ? (
+                                  {contestant.inPlay && (
                                     <>
-                                      <TrophyIcon
-                                        className={`h-5 w-5 me-2 ${
-                                          contestant.voteOutOrder === 903 ? 'text-yellow-400'
-                                          : contestant.voteOutOrder === 902 ? 'text-zinc-400'
-                                          : 'text-amber-600'
-                                        }`}
-                                      />
-                                      <div className="text-stone-200 lowercase font-lostIsland tracking-wider mt-1">
-                                        {formatVotedOutOrder(contestant.voteOutOrder)}
-                                      </div>
+                                      <FireIcon className="h-5 w-5 text-orange-400 me-1" />
+                                      <div className="text-stone-300 lowercase font-lostIsland tracking-wider">In Play</div>
                                     </>
-                                  ) : (
+                                  )}
+                                  {!contestant.inPlay && (
                                     <>
-                                      <FireIcon className="h-5 w-5 text-white opacity-60 me-1" />
-                                      <div className="text-stone-400 lowercase font-lostIsland tracking-wider">
-                                        {formatVotedOutOrder(contestant.voteOutOrder)}
-                                      </div>
+                                      {contestant.voteOutOrder >= 900 ? (
+                                        <>
+                                          <TrophyIcon
+                                            className={`h-5 w-5 me-2 ${
+                                              contestant.voteOutOrder === 903 ? 'text-yellow-400'
+                                              : contestant.voteOutOrder === 902 ? 'text-zinc-400'
+                                              : 'text-amber-600'
+                                            }`}
+                                          />
+                                          <div className="text-stone-200 lowercase font-lostIsland tracking-wider mt-1">
+                                            {formatVotedOutOrder(contestant.voteOutOrder)}
+                                          </div>
+                                        </>
+                                      ) : (
+                                        <>
+                                          <FireIcon className="h-5 w-5 text-white opacity-60 me-1" />
+                                          <div className="text-stone-400 lowercase font-lostIsland tracking-wider">
+                                            {formatVotedOutOrder(contestant.voteOutOrder)}
+                                          </div>
+                                        </>
+                                      )}
                                     </>
                                   )}
                                 </>
+                              ) : (
+                                <div className="text-stone-400 lowercase font-lostIsland tracking-wider ps-1">Status Hidden</div>
                               )}
-                            </>
-                          ) : (
-                            <div className="text-stone-400 lowercase font-lostIsland tracking-wider ps-1">Status Hidden</div>
-                          )}
+                            </div>
+                          </div>
+                          <div className="text-xl font-lostIsland text-stone-300">
+                            {revealSpoilers ? (contestant.points || 0) : '—'}
+                          </div>
+                          <IdentificationIcon
+                            className="w-6 h-6 ms-3 cursor-pointer text-stone-400 hover:text-stone-200"
+                            onClick={() => activateModal(contestant.id)}
+                          />
                         </div>
-                      </div>
-                      <div className="text-xl font-lostIsland text-stone-300">
-                        {revealSpoilers ? (contestant.points || 0) : '—'}
-                      </div>
-                      <IdentificationIcon
-                        className="w-6 h-6 ms-3 cursor-pointer text-stone-400 hover:text-stone-200"
-                        onClick={() => activateModal(contestant.id)}
-                      />
-                    </div>
-                  );
-                });
-              })()}
+                      );
+                    });
+                  })()}
+                </div>
+              )}
+
+              
             </div>
-          )}
+          </div>
+          {(() => {
+            const payout = payoutMap.get(tribe.id);
+            if (!payout) return null;
+
+            return (
+              <div className={`max-w-[96%] opacity-90 mx-auto rounded-b-lg ${payout.barClass}`}>
+                <div className="py-0.5 text-center text-lg font-lostIsland tracking-widest" style={{ textShadow: '2px 2px 0 #000'}}>
+                  {payout.payoutText}
+                </div>
+              </div>
+            );
+          })()}
         </div>
       );
     });

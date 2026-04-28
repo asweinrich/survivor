@@ -3,77 +3,74 @@
     "id": 0,
     "type": "contestant",
     "value": 39,
-    "pointValue": 1000
+    "pointValue": 1200
   },
   {
     "id": 1,
     "type": "contestant",
     "value": 40,
-    "pointValue": 1000
+    "pointValue": 1200
   },
   {
     "id": 2,
     "type": "contestant",
     "value": 41,
-    "pointValue": 1000
+    "pointValue": 1200
   },
   {
     "id": 3,
     "type": "contestant",
     "value": 43,
-    "pointValue": 1000
+    "pointValue": 1200
   },
   {
     "id": 4,
     "type": "contestant",
-    "value": 45,
-    "pointValue": 1000
+    "value": 47,
+    "pointValue": 1200
   },
   {
     "id": 5,
     "type": "contestant",
-    "value": 47,
-    "pointValue": 1000
+    "value": 48,
+    "pointValue": 1200
   },
   {
     "id": 6,
     "type": "contestant",
-    "value": 48,
-    "pointValue": 1000
+    "value": 49,
+    "pointValue": 1200
   },
   {
     "id": 7,
     "type": "contestant",
-    "value": 49,
-    "pointValue": 1000
+    "value": 51,
+    "pointValue": 1200
   },
   {
     "id": 8,
     "type": "contestant",
-    "value": 51,
-    "pointValue": 1000
+    "value": 56,
+    "pointValue": 1200
   },
   {
     "id": 9,
     "type": "contestant",
-    "value": 56,
-    "pointValue": 1000
-  },
-  {
-    "id": 10,
-    "type": "contestant",
     "value": 59,
-    "pointValue": 1000
+    "pointValue": 1200
   }
 ]
 
 
 
 
-Who will Jeff call on to speak first at Tribal Council?
+Who will claim the final item at the Survivor Auction?
 
-After everyone sits down at Tribal Council, who will Jeff call on first to speak? If for some reason there are multiple tribal councils, this only applies to the first tribal council. 
+Looks like we have the Survivor Auction this week! Which contestant will take home the final item offered at the auction? Who will be the last contestant to buy something? This counts for any food or advantages, or anything auctioned off last. If nobody claims the final item, the answer will be the contestant(s) who claimed the 2nd to last item (and so on). If multiple contestants somehow split the final item, all will count as correct. 
 
+Who will be the 1st Contestant to vote at Tribal Council?
+
+After all the discussion at tribal council when Jeff says "alright, it's time to vote", who will he dismiss first to go make their vote? The contestant doesn't have to actually vote (for example if they play a shot in the dark or something), they just have to be the first to stand up and walk over to the voting area. 
 
 
 
@@ -138,9 +135,9 @@ THE INTRO DOES NOT COUNT FOR THIS PICK EM. We often get transition shots or clip
 
 
 
-Will the reward include dessert?
+Will someone lie down in the hammock?
 
-Will this week's reward include a dessert component? Something sweet. For this pick to hit, one of the main components of the reward needs to be a dessert. 
+This season, we've had some of our most memorable scenes take place in the hammock at camp. During the episode, will somebody lie down in the hammock? The recap from last week and the preview for next week do not count - it has to be during the episode. A contestant must be lying down in the hammock, not just sitting in it. 
 
 [
   {
@@ -148,7 +145,7 @@ Will this week's reward include a dessert component? Something sweet. For this p
     "type": "boolean",
     "label": "Yes",
     "value": "TRUE",
-    "pointValue": 300
+    "pointValue": 500
   },
   {
     "id": 1,
@@ -160,9 +157,9 @@ Will this week's reward include a dessert component? Something sweet. For this p
 ]
 
 
-Will a boat visit the beach?
+Will anybody not know who Mr. Beast is? 
 
-Sometimes a random boat will bring an announcement or news to the beach. Will a boat of any sort bring news or a journey challenge opportunity to the beach in this episode? This does not count the contestants taking a boat to a challenge or location. The boat has to be bringing something to the contestants.  
+Looks like this is the Mr. Beast episode... Will there be a contestant who doesn't know who he is? The contestant could say in a confessional or to their tribe mates that they didn't know who Mr. Beast was, or that they hadn't heard of him before. I'm looking for something like "I had no idea who that was", "Who is this guy?", "Who is that?". YES means somebody will NOT recognize him, and say it. NO means everybody will recognize him. 
 
 [
   {
@@ -170,7 +167,7 @@ Sometimes a random boat will bring an announcement or news to the beach. Will a 
     "type": "boolean",
     "label": "Yes",
     "value": "TRUE",
-    "pointValue": 450
+    "pointValue": 600
   },
   {
     "id": 1,

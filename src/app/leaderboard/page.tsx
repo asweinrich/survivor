@@ -183,8 +183,8 @@ export default function Leaderboard() {
 
   function payoutBarClass(place: number) {
     // place is 1-indexed "competition place" (start place of the tie group)
-    if (place === 1) return 'bg-amber-400/90'; // gold
-    if (place === 2) return 'bg-zinc-300';   // silver
+    if (place === 1) return 'bg-yellow-500'; // gold
+    if (place === 2) return 'bg-zinc-400';   // silver
     if (place === 3) return 'bg-amber-700';   // bronze
 
     // 4+ fade darker green as place increases
@@ -452,8 +452,8 @@ export default function Leaderboard() {
             if (!payout) return null;
 
             return (
-              <div className={`max-w-[96%] opacity-90 mx-auto rounded-b-lg ${payout.barClass}`}>
-                <div className="py-0.5 text-center text-lg font-lostIsland tracking-widest" style={{ textShadow: '2px 2px 0 #000'}}>
+              <div className={`max-w-[96%] mx-auto rounded-b-lg ${payout.barClass}`}>
+                <div className="py-0.5 text-center text-xl font-lostIsland tracking-widest" style={{ textShadow: '2px 2px 0 #000'}}>
                   {payout.payoutText}
                 </div>
               </div>

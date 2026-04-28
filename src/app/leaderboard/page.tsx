@@ -183,18 +183,18 @@ export default function Leaderboard() {
 
   function payoutBarClass(place: number) {
     // place is 1-indexed "competition place" (start place of the tie group)
-    if (place === 1) return 'bg-yellow-500'; // gold
+    if (place === 1) return 'bg-yellow-500/90'; // gold
     if (place === 2) return 'bg-zinc-400';   // silver
-    if (place === 3) return 'bg-amber-700';   // bronze
+    if (place === 3) return 'bg-amber-600/80';   // bronze
 
     // 4+ fade darker green as place increases
     const greens = [
-      'bg-green-500', // 4
-      'bg-green-600',  // 5
-      'bg-green-700',  // 6
-      'bg-green-800',  // 7
-      'bg-green-900',  // 8
-      'bg-green-950',  // 9+
+      'bg-green-600', // 4
+      'bg-green-600/90',  // 5
+      'bg-green-600/80',  // 6
+      'bg-green-600/70',  // 7
+      'bg-green-600/60',  // 8
+      'bg-green-600/50',  // 9+
     ];
     const idx = Math.min(Math.max(place - 4, 0), greens.length - 1);
     return greens[idx];
@@ -452,8 +452,11 @@ export default function Leaderboard() {
             if (!payout) return null;
 
             return (
-              <div className={`max-w-[96%] mx-auto rounded-b-lg ${payout.barClass}`}>
-                <div className="py-0.5 text-center text-xl font-lostIsland tracking-widest" style={{ textShadow: '2px 2px 0 #000'}}>
+              <div className={`max-w-[96%] py-0.5 px-3 flex mx-auto justify-between rounded-b-lg ${payout.barClass}`}>
+                <div className="text-center text-xl leading-tight font-lostIsland tracking-widest">
+                  projected payout:
+                </div>
+                <div className="text-center text-xl font-lostIsland tracking-widest">
                   {payout.payoutText}
                 </div>
               </div>

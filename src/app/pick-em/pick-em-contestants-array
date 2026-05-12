@@ -3,65 +3,53 @@
     "id": 0,
     "type": "contestant",
     "value": 40,
-    "pointValue": 1000
-  },
-  {
-    "id": 1,
-    "type": "contestant",
-    "value": 41,
-    "pointValue": 1000
+    "pointValue": 1500
   },
   {
     "id": 2,
     "type": "contestant",
     "value": 43,
-    "pointValue": 1000
+    "pointValue": 1500
   },
   {
     "id": 3,
     "type": "contestant",
     "value": 47,
-    "pointValue": 1000
+    "pointValue": 1500
   },
   {
     "id": 4,
     "type": "contestant",
     "value": 48,
-    "pointValue": 1000
-  },
-  {
-    "id": 5,
-    "type": "contestant",
-    "value": 49,
-    "pointValue": 1000
+    "pointValue": 1500
   },
   {
     "id": 6,
     "type": "contestant",
     "value": 51,
-    "pointValue": 1000
+    "pointValue": 1500
   },
   {
     "id": 7,
     "type": "contestant",
     "value": 56,
-    "pointValue": 1000
+    "pointValue": 1500
   },
   {
     "id": 8,
     "type": "contestant",
     "value": 59,
-    "pointValue": 1000
+    "pointValue": 1500
   }
 ]
 
 
+Who will have the first confessional following the intro credits?
+This one is simple. After the intro credits, which contestant will have the first confessional where they are positioned in private, talking directly to the the camera/audience?
 
 
-Who will win the Immunity Challenge?
-
-Who will win the Immunity Challenge this week and take home the immunity necklace? A contestant MUST get the immunity necklace to hit on this one. If there are multiple Immunity Challenges, there may be multiple winners!
-
+Who will Jeff call on to speak first at Tribal Council?
+After everyone sits down at Tribal Council, who will Jeff call on first to speak? If for some reason there are multiple tribal councils, this only applies to the first tribal council.
 
 
 
@@ -125,6 +113,14 @@ THE INTRO DOES NOT COUNT FOR THIS PICK EM. We often get transition shots or clip
 
 
 
+Will an advantage or idol be obtained? 
+
+Will a contestant find and or obtain an immunity idol or an advantage? This counts for standard advantages and idols, as well as anything won through a journey or challenge. (Not rice). 
+
+
+Who will have the first confessional following the intro credits?
+This one is simple. After the intro credits, which contestant will have the first confessional where they are positioned in private, talking directly to the the camera/audience?
+
 
 Will the Immunity Challenge involve a puzzle?
 
@@ -152,7 +148,7 @@ Will this week's departing castaway be a guy or a girl? If there is a double eli
     "type": "boolean",
     "label": "Yes",
     "value": "TRUE",
-    "pointValue": 400
+    "pointValue": 600
   },
   {
     "id": 1,

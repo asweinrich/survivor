@@ -1,6 +1,251 @@
+
+Who will win the first Immunity Challenge of the Episode?
+
+We'll almost certainly get 2 Immunity Challenges this episode. Who will win the first one? 
+
+
 [
   {
     "id": 0,
+    "type": "contestant",
+    "value": 43,
+    "pointValue": 1800
+  },
+  {
+    "id": 1,
+    "type": "contestant",
+    "value": 48,
+    "pointValue": 1200
+  },
+  {
+    "id": 2,
+    "type": "contestant",
+    "value": 51,
+    "pointValue": 1200
+  },
+  {
+    "id": 3,
+    "type": "contestant",
+    "value": 56,
+    "pointValue": 1200
+  },
+  {
+    "id": 4,
+    "type": "contestant",
+    "value": 59,
+    "pointValue": 2000
+  }
+]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Who will be the SIA fan favorite? 
+
+Last episode, public voting opened up for the SIA fan favorite. All contestants from this season are fair game. Who will win the fan vote for the favorite contestant of Survivor 50?
+
+
+
+[
+  {
+    "id": 0,
+    "type": "contestant",
+    "value": 37,
+    "pointValue": 5000
+  },
+  {
+    "id": 1,
+    "type": "contestant",
+    "value": 38,
+    "pointValue": 2000
+  },
+  {
+    "id": 2,
+    "type": "contestant",
+    "value": 39,
+    "pointValue": 3000
+  },
+  {
+    "id": 3,
+    "type": "contestant",
+    "value": 40,
+    "pointValue": 400
+  },
+  {
+    "id": 4,
+    "type": "contestant",
+    "value": 41,
+    "pointValue": 700
+  },
+  {
+    "id": 5,
+    "type": "contestant",
+    "value": 42,
+    "pointValue": 1500
+  },
+  {
+    "id": 6,
+    "type": "contestant",
+    "value": 43,
+    "pointValue": 2000
+  },
+  {
+    "id": 7,
+    "type": "contestant",
+    "value": 44,
+    "pointValue": 4500
+  },
+  {
+    "id": 8,
+    "type": "contestant",
+    "value": 45,
+    "pointValue": 800
+  },
+  {
+    "id": 9,
+    "type": "contestant",
+    "value": 46,
+    "pointValue": 4500
+  },
+  {
+    "id": 10,
+    "type": "contestant",
+    "value": 47,
+    "pointValue": 600
+  },
+  {
+    "id": 11,
+    "type": "contestant",
+    "value": 48,
+    "pointValue": 1200
+  },
+  {
+    "id": 12,
+    "type": "contestant",
+    "value": 49,
+    "pointValue": 2000
+  },
+  {
+    "id": 13,
+    "type": "contestant",
+    "value": 50,
+    "pointValue": 2000
+  },
+  {
+    "id": 14,
+    "type": "contestant",
+    "value": 51,
+    "pointValue": 700
+  },
+  {
+    "id": 15,
+    "type": "contestant",
+    "value": 52,
+    "pointValue": 2000
+  },
+  {
+    "id": 16,
+    "type": "contestant",
+    "value": 53,
+    "pointValue": 4000
+  },
+  {
+    "id": 17,
+    "type": "contestant",
+    "value": 54,
+    "pointValue": 3500
+  },
+  {
+    "id": 18,
+    "type": "contestant",
+    "value": 55,
+    "pointValue": 2000
+  },
+  {
+    "id": 19,
+    "type": "contestant",
+    "value": 56,
+    "pointValue": 1000
+  },
+  {
+    "id": 20,
+    "type": "contestant",
+    "value": 57,
+    "pointValue": 4000
+  },
+  {
+    "id": 21,
+    "type": "contestant",
+    "value": 58,
+    "pointValue": 2500
+  },
+  {
+    "id": 22,
+    "type": "contestant",
+    "value": 59,
+    "pointValue": 800
+  },
+  {
+    "id": 23,
+    "type": "contestant",
+    "value": 60,
+    "pointValue": 4000
+  }
+]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Who will be the first Jury member to speak at the final tribal council?
+
+OUT OF THE JURY MEMBERS LISTED HERE, who will be the first to speak to/address the top 3 contestants? Please note, 2 more contestants will join the jury prior to the final tribal council, they will not count for this pick em! Listed Jury members only.  
+
+
+[
+  {
+    "id": 0,
+    "type": "contestant",
+    "value": 39,
+    "pointValue": 1500
+  },
+  {
+    "id": 1,
     "type": "contestant",
     "value": 40,
     "pointValue": 1500
@@ -8,216 +253,43 @@
   {
     "id": 2,
     "type": "contestant",
-    "value": 43,
+    "value": 41,
     "pointValue": 1500
   },
   {
     "id": 3,
+    "type": "contestant",
+    "value": 42,
+    "pointValue": 1500
+  },
+  {
+    "id": 4,
+    "type": "contestant",
+    "value": 44,
+    "pointValue": 1500
+  },
+  {
+    "id": 5,
+    "type": "contestant",
+    "value": 45,
+    "pointValue": 1500
+  },
+  {
+    "id": 6,
     "type": "contestant",
     "value": 47,
     "pointValue": 1500
   },
   {
-    "id": 4,
-    "type": "contestant",
-    "value": 48,
-    "pointValue": 1500
-  },
-  {
-    "id": 6,
-    "type": "contestant",
-    "value": 51,
-    "pointValue": 1500
-  },
-  {
     "id": 7,
     "type": "contestant",
-    "value": 56,
+    "value": 49,
     "pointValue": 1500
   },
   {
     "id": 8,
     "type": "contestant",
-    "value": 59,
+    "value": 50,
     "pointValue": 1500
-  }
-]
-
-
-Who will have the first confessional following the intro credits?
-This one is simple. After the intro credits, which contestant will have the first confessional where they are positioned in private, talking directly to the the camera/audience?
-
-
-Who will Jeff call on to speak first at Tribal Council?
-After everyone sits down at Tribal Council, who will Jeff call on first to speak? If for some reason there are multiple tribal councils, this only applies to the first tribal council.
-
-
-
-
-What will be the first animal shown on screen?
-
-THE INTRO DOES NOT COUNT FOR THIS PICK EM. We often get transition shots or clips of the episode featuring animals. What will be the first animal, if any, seen on screen this episode? Humans do not count and the animal must be clearly visibile AND THE FOCUS OF THE SHOT for this pick to hit (a bird flying in the background will not count, but a focus shot of a bird would count). The Sea Creature option includes sharks, dolphins, octopi, squid, whales, starfish, etc. But not crabs or crustaceans. 
-
-[
-  {
-    "id": 0,
-    "type": "boolean",
-    "label": "Fish",
-    "value": "NULL",
-    "pointValue": 300
-  },
-  {
-    "id": 1,
-    "type": "boolean",
-    "label": "Sea Creature",
-    "value": "NULL",
-    "pointValue": 500
-  },
-  {
-    "id": 2,
-    "type": "boolean",
-    "label": "Reptile",
-    "value": "NULL",
-    "pointValue": 400
-  },
-  {
-    "id": 3,
-    "type": "boolean",
-    "label": "Bird",
-    "value": "NULL",
-    "pointValue": 700
-  },
-  {
-    "id": 4,
-    "type": "boolean",
-    "label": "Mammal",
-    "value": "NULL",
-    "pointValue": 800
-  },
-  {
-    "id": 5,
-    "type": "boolean",
-    "label": "Crustacean",
-    "value": "NULL",
-    "pointValue": 500
-  },
-  {
-    "id": 6,
-    "type": "boolean",
-    "label": "No Animals",
-    "value": "NULL",
-    "pointValue": 2500
-  }
-]
-
-
-
-
-Will an advantage or idol be obtained? 
-
-Will a contestant find and or obtain an immunity idol or an advantage? This counts for standard advantages and idols, as well as anything won through a journey or challenge. (Not rice). 
-
-
-Who will have the first confessional following the intro credits?
-This one is simple. After the intro credits, which contestant will have the first confessional where they are positioned in private, talking directly to the the camera/audience?
-
-
-Will the Immunity Challenge involve a puzzle?
-
-The Immunity Challenges typically involve different skills and obstacles. Will this week's Individual Immunity Challenge involve solving a puzzle? If there is more than 1 Immunity Challenge, all *Immunity* Challenges will count towards this Pick Em. 
-
-
-Will the tribe make and/or eat rice at camp?
-
-During this week's episode, will we see any of the contestants making or eating rice at camp, on camera? We have to see it!
-
-
-Will an Immunity Idol be used at Tribal Council?
-
-Will any Immunity Idols be played at tribal council this week? This includes any immunity idols, but NOT advantages, shots in the dark, or anything besides an Immunity Idol.  
-
-
-Will a guy or girl be voted out? 
-
-Will this week's departing castaway be a guy or a girl? If there is a double elimination, both vote outs can potentially count. (The girl option is worth more becuase there are 5 guys vs. 4 girls remaining)
-
-
-[
-  {
-    "id": 0,
-    "type": "boolean",
-    "label": "Yes",
-    "value": "TRUE",
-    "pointValue": 600
-  },
-  {
-    "id": 1,
-    "type": "boolean",
-    "label": "No",
-    "value": "FALSE",
-    "pointValue": 400
-  }
-]
-
-
-[
-  {
-    "id": 0,
-    "type": "boolean",
-    "label": "Guy",
-    "value": "TRUE",
-    "pointValue": 400
-  },
-  {
-    "id": 1,
-    "type": "boolean",
-    "label": "Girl",
-    "value": "FALSE",
-    "pointValue": 500
-  }
-]
-
-
-Will anybody not know who Mr. Beast is? 
-
-Looks like this is the Mr. Beast episode... Will there be a contestant who doesn't know who he is? The contestant could say in a confessional or to their tribe mates that they didn't know who Mr. Beast was, or that they hadn't heard of him before. I'm looking for something like "I had no idea who that was", "Who is this guy?", "Who is that?". YES means somebody will NOT recognize him, and say it. NO means everybody will recognize him. 
-
-[
-  {
-    "id": 0,
-    "type": "boolean",
-    "label": "Yes",
-    "value": "TRUE",
-    "pointValue": 600
-  },
-  {
-    "id": 1,
-    "type": "boolean",
-    "label": "No",
-    "value": "FALSE",
-    "pointValue": 300
-  }
-]
-
-
-
-Will a guy or girl win the Immunity Challenge?
-
-Will this week's Immunity winner be a guy or a girl? If there is Immunity for both a guy and a girl, both options will count as correct. (The girl option is worth more becuase there are 6 guys vs. 5 girls.)
-
-[
-  {
-    "id": 0,
-    "type": "boolean",
-    "label": "Guy",
-    "value": "TRUE",
-    "pointValue": 400
-  },
-  {
-    "id": 1,
-    "type": "boolean",
-    "label": "Girl",
-    "value": "FALSE",
-    "pointValue": 500
   }
 ]

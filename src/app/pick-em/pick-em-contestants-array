@@ -293,3 +293,51 @@ OUT OF THE JURY MEMBERS LISTED HERE, who will be the first to speak to/address t
     "pointValue": 1500
   }
 ]
+
+
+
+
+Will any of the finalists cry during the Final Tribal Council? 
+
+During the final tribal council, while selling themselves to the jury, will any of the final 3 contestants cry? I need to see a tear or to see a tear get wiped away or something concrete for this one to hit. 
+
+[
+  {
+    "id": 0,
+    "type": "boolean",
+    "label": "Yes",
+    "value": "TRUE",
+    "pointValue": 1000
+  },
+  {
+    "id": 1,
+    "type": "boolean",
+    "label": "No",
+    "value": "FALSE",
+    "pointValue": 700
+  }
+]
+
+
+
+
+Will Rizo play his Immunity Idol at the first Tribal Council? 
+
+Rizo has, for the 2nd straight season, kept a known Immunity Idol for most of the season without playing it. The last time he can play the idol is when there are 5 contestants left (this will be the first tribal council of the episode). Will Rizo finally play his idol? 
+
+[
+  {
+    "id": 0,
+    "type": "boolean",
+    "label": "Yes",
+    "value": "TRUE",
+    "pointValue": 500
+  },
+  {
+    "id": 1,
+    "type": "boolean",
+    "label": "No",
+    "value": "FALSE",
+    "pointValue": 2500
+  }
+]

@@ -1,11 +1,11 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import { ArrowPathIcon } from '@heroicons/react/24/outline';
+import { ArrowPathIcon, ChevronDownIcon } from '@heroicons/react/24/outline';
 import { FireIcon, TrophyIcon } from '@heroicons/react/24/solid';
-import Image from 'next/image';
 
 import { useSpoiler } from '../../context/SpoilerContext';
+import { useSeason } from '../../context/SeasonContext';
 import ContestantProfile from '../components/ContestantProfile';
 
 import type { Contestant, Tribe } from '@/lib/types';
@@ -17,9 +17,10 @@ import { TribeBadges } from '@/lib/utils/tribes';                // badge helper
 import { PastSeasonBadges } from '@/lib/utils/pastSeasons';      // badge helper
 
 export default function CastPage() {
-  const [season, setSeason] = useState('50');
+  const { season } = useSeason();
   const [modalVisible, setModalVisible] = useState(false);
   const [focusContestant, setFocusContestant] = useState(0);
+  const [helpOpen, setHelpOpen] = useState(false);
   const { revealSpoilers } = useSpoiler();
 
   const { contestants, tribes, loading } = useSeasonData(season);
@@ -34,57 +35,46 @@ export default function CastPage() {
 
   return (
     <div className="min-h-screen bg-stone-900 text-stone-200 p-0">
-      {/* Header/Hero (kept as your original text/title layout) */}
-      <div className="relative w-full h-60 mb-12 p-0 text-center">
-        <div className="z-0">
-          <Image src="/imgs/graphics/home-graphic.png" alt="Survivor Background" fill style={{ objectFit: 'cover' }} />
-          <div
-            className="absolute inset-0 bg-gradient-to-b from-stone-900 via-transparent to-stone-900"
-            style={{ backgroundImage: "linear-gradient(to bottom, #1c1917 0%, transparent 33%, transparent 66%, #1c1917 100%)" }}
-          />
-        </div>
-        <h1 className="absolute -bottom-8 inset-x-0 z-10 text-4xl font-bold mb-2 text-stone-100 font-survivor tracking-wider">
-          Cast Rankings
-        </h1>
-        <div className="absolute inset-0 z-10 flex flex-row justify-center mx-auto items-center">
-          <Image src={`/imgs/${season}/logo.png`} alt={`Survivor Season ${season} Logo`} width={250} height={250} />
-        </div>
-      </div>
-
       <div className="max-w-6xl mx-auto">
-        {/* Original blurb/instructions preserved */}
-        <div className="lowercase text-stone-200 border-y border-stone-500 p-4 my-8 font-lostIsland tracking-wider">
-          <p className="mb-3">
-            Contestants are grouped by their tribe and in-play status and sorted by vote out order
-          </p>
-          <p className="">
-            Tap a contestant to view their full profile and stats
-          </p>
-          { season === '47' && 
-            <p className="mt-3 text-orange-300">
-              The scores displayed for the Season 47 cast did not impact the fantasy results. They are listed here for posterity.
-            </p>
-          }
-        </div>
-
-        {/* Season selector (unchanged) */}
-        <div className="flex justify-between mb-8 px-4">
-          <div className="font-lostIsland tracking-wider">
-            <select
-              id="season"
-              className="p-2 border border-stone-700 text-lg rounded-md bg-stone-800 text-stone-200"
-              value={season}
-              onChange={(e) => setSeason(e.target.value)}
+        {/* Title + help toggle row */}
+        <div className="border-b border-stone-500 font-lostIsland tracking-wider">
+          <div className="flex items-center justify-between p-4">
+            <h1 className="text-2xl font-bold text-stone-100 font-survivor tracking-wider">
+              Cast Rankings
+            </h1>
+            <button
+              type="button"
+              onClick={() => setHelpOpen((v) => !v)}
+              aria-expanded={helpOpen}
+              className="flex items-center gap-1.5 text-stone-300 lowercase text-sm shrink-0"
             >
-              <option value="50">Season 50</option>
-              <option value="49">Season 49</option>
-              <option value="48">Season 48</option>
-              <option value="47">Season 47</option>
-            </select>
+              <span>How this page works</span>
+              <ChevronDownIcon
+                className={`w-4 h-4 stroke-2 transition-transform ${helpOpen ? 'rotate-180' : ''}`}
+              />
+            </button>
           </div>
+
+          {helpOpen && (
+            <div className="lowercase text-stone-200 px-4 pb-4">
+              <p className="mb-3">
+                Contestants are grouped by their tribe and in-play status and sorted by vote out order
+              </p>
+              <p className="">
+                Tap a contestant to view their full profile and stats
+              </p>
+              {season === '47' && (
+                <p className="mt-3 text-orange-300">
+                  The scores displayed for the Season 47 cast did not impact the fantasy results. They are listed here for posterity.
+                </p>
+              )}
+            </div>
+          )}
         </div>
 
-        <div className="px-2">
+        {/* Season selector removed — now controlled from the site-wide nav */}
+
+        <div className="px-2 mt-8">
         {/* Loading Spinner */}
         {loading ? (
           <div className="flex flex-col justify-center items-center py-10">

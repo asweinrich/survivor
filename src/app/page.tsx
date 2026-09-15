@@ -11,7 +11,7 @@ const HomePage = () => {
   const season = 50;
 
   useEffect(() => {
-    const targetDate = new Date("2026-03-04T17:00:00-08:00"); // PST (UTC-8)
+    const targetDate = new Date("2026-09-23T17:00:00-07:00"); // PST (UTC-8)
     const updateCountdown = () => {
       const now = new Date();
       const timeLeft = targetDate.getTime() - now.getTime();
@@ -69,8 +69,8 @@ const HomePage = () => {
         <span className=""><a target="_blank" href="https://chat.whatsapp.com/FpRMxQLhp0U848l309PL1T" className="text-emerald-500 hover:text-emerald-700 underline">Join the WhatsApp group</a> to meet your competition and to get the best Survivor Fantasy experience - come say hi!</span>
       </div>
 
-      {/*<div className="text-center py-3 px-4 mt-3 mx-3 rounded-xl">
-        <h2 className="text-2xl uppercase text-stone-300 mb-4">Tribe Drafting Closes In...</h2>
+      {<div className="text-center py-3 px-4 mt-3 mx-3 rounded-xl">
+        <h2 className="text-2xl uppercase text-stone-300 mb-4">Season 51 Starts In...</h2>
         <div className="flex flex-row  max-w-96 justify-center items-center space-x-6 lowercase tracking-wider bg-stone-800 border border-stone-700 mx-auto p-4 rounded-xl">
           <div className="text-center">
             <div className="text-3xl">{countdown.days}</div>
@@ -89,14 +89,14 @@ const HomePage = () => {
             <div className="text-stone-400">Seconds</div>
           </div>
         </div>
-      </div>*/}
+      </div>}
       
 
 
 
      <div className="flex flex-col justify-center w-full p-4">
         <p className="text-stone-300 text-lg px-4 lowercase tracking-wider leading-tight text-center">
-          Tribe drafting for Season 50 has ended.
+          Tribe drafting for Season 51 will open at the conclusion of the first episode.
         </p>
 
         {/*<a href="/draft" className="w-full max-w-5xl mx-auto">

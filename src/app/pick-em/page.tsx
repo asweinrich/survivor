@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useMemo, useState } from 'react'
-import Image from 'next/image'
 import { useSession } from 'next-auth/react'
 import {
   ChevronDownIcon,
@@ -21,6 +20,7 @@ import {
 } from '@heroicons/react/24/solid'
 
 import { useSpoiler } from '../../context/SpoilerContext'
+import { useSeason } from '../../context/SeasonContext'
 import { useSeasonData } from '@/lib/hooks/useSeasonData'
 import { hexToRgba } from '@/lib/utils/color'
 import type { Tribe, Contestant, PlayerTribe, PickEmScoreBreakdown } from '@/lib/types'
@@ -31,15 +31,17 @@ import { PendingSummary } from './PendingSummary';
 import { AvailablePickEmsSummary } from './AvailablePickEmsSummary'
 import { WeeklyStats } from './WeeklyStats'
 
+const PICKEM_MIN_SEASON = 49;
 
 // ---- Page ------------------------------------------------------------
 export default function WeeklyPickEms() {
-  const [season, setSeason] = useState('50')
+  const { season } = useSeason()
   const [week, setWeek] = useState<number>(13)
   const [expandedTribes, setExpandedTribes] = useState<number[]>([])
   const [submittedSet, setSubmittedSet] = useState<Set<number>>(new Set())
   const [lockAt, setLockAt] = useState<Date | null>(null)
   const [countdown, setCountdown] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 })
+  const [helpOpen, setHelpOpen] = useState(false)
 
   const [peModalOpen, setPeModalOpen] = useState(false)
   const [peLoading, setPeLoading] = useState(false)
@@ -391,37 +393,56 @@ export default function WeeklyPickEms() {
 
 
   // ---- Render --------------------------------------------------------
+    // ---- Render --------------------------------------------------------
+  const pickEmsUnavailable = Number(season) < PICKEM_MIN_SEASON;
+
   return (
     <div className="min-h-screen bg-stone-900 text-stone-200 p-0">
-      
-      {/* Hero/Header */}
-      <div className="relative w-full h-60 mb-12 p-0 text-center">
-        <div className="z-0">
-          <Image src="/imgs/graphics/home-graphic.png" alt="Survivor Background" fill style={{ objectFit: 'cover' }} />
-          <div className="absolute inset-0 bg-gradient-to-b from-stone-900 via-transparent to-stone-900" />
-        </div>
-        <h1 className="absolute -bottom-8 inset-x-0 z-10 text-4xl font-bold mb-2 text-stone-100 font-survivor tracking-wider">
-          Weekly Pick em
-        </h1>
-        <div className="absolute inset-0 z-10 flex flex-row justify-center mx-auto items-center">
-          <Image src={`/imgs/${season}/logo.png`} alt={`Survivor Season ${season} Logo`} width={250} height={250} />
-        </div>
-      </div>
-
       <div className="max-w-6xl mx-auto">
-        {/* Top help / rules */}
-        <div className="lowercase text-stone-200 border-y border-stone-500 p-4 mt-8 font-lostIsland tracking-wider leading-tight">
-          <p className="mb-3">This is an optional side game that can help you feel like a winner, even if your tribe is a bust!</p>
-          <p className="mb-3">These do not impact your Fantasy Tribe score!</p>
-          <p className="mb-3">Picks are included with your tribe entry and default each week to a status of <span className="text-stone-300/80">Passed</span>. If you submit picks, your status will update to <span className="text-orange-300/80">Locked In</span>. Picks will be scored following each episode.</p>
-          <p className="mb-3">Picks can be submitted up until the start of that week's episode, or each Wednesday at 5PM Pacific, 7PM Central, 8PM Eastern. </p>
-          <p className="mb-3">See the full info about Pick Ems and prizes <a href="/how-to-play#prizes" className="text-blue-400 underline">here</a>.</p>
+        {/* Title + help toggle row */}
+        <div className="border-b border-stone-500 font-lostIsland tracking-wider">
+          <div className="flex items-center justify-between p-4">
+            <h1 className="text-2xl font-bold text-stone-100 font-survivor tracking-wider">
+              Weekly Pick Em
+            </h1>
+            <button
+              type="button"
+              onClick={() => setHelpOpen((v) => !v)}
+              aria-expanded={helpOpen}
+              className="flex items-center gap-1.5 text-stone-300 lowercase text-sm shrink-0"
+            >
+              <span>How this page works</span>
+              <ChevronDownIcon
+                className={`w-4 h-4 stroke-2 transition-transform ${helpOpen ? 'rotate-180' : ''}`}
+              />
+            </button>
+          </div>
+
+          {helpOpen && (
+            <div className="lowercase text-stone-200 px-4 pb-4 leading-tight">
+              <p className="mb-3">This is an optional side game that can help you feel like a winner, even if your tribe is a bust!</p>
+              <p className="mb-3">These do not impact your Fantasy Tribe score!</p>
+              <p className="mb-3">Picks are included with your tribe entry and default each week to a status of <span className="text-stone-300/80">Passed</span>. If you submit picks, your status will change to <span className="text-orange-300/80">Locked In</span>.</p>
+              <p className="mb-3">Picks can be submitted up until the start of that week's episode, or each Wednesday at 5PM Pacific, 7PM Central, 8PM Eastern. </p>
+              <p className="mb-3">See the full info about Pick Ems and prizes <a href="/how-to-play#prizes" className="text-blue-400 underline">here</a>.</p>
+            </div>
+          )}
         </div>
 
-        {/* Season / Week / CTA / Countdown */}
+        {pickEmsUnavailable ? (
+          <div className="flex flex-col items-center justify-center py-24 px-4 text-center">
+            <FireIcon className="w-10 h-10 text-stone-600 mb-4" />
+            <p className="font-lostIsland text-2xl lowercase tracking-wider text-stone-300">
+              No pick ems for this season
+            </p>
+          </div>
+        ) : (
+        <>
+        {/* Season selector removed — now controlled from the site-wide nav */}
+
+        {/* Week / CTA / Countdown */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6 my-8 px-4">
           <div className="flex items-center gap-4">
-            <span className="font-lostIsland tracking-wider py-1.5 px-3 border border-stone-700 text-lg rounded-md bg-stone-800 text-stone-200">Season 50</span>
             <div className="py-1 flex items-center font-lostIsland rounded-md border border-stone-700 bg-stone-800">
               <button className="p-1 hover:bg-stone-700 disabled:opacity-40" onClick={() => setWeek((w) => Math.max(MIN_WEEK, w - 1))} disabled={week <= MIN_WEEK} aria-label="Previous week">
                 <ChevronLeftIcon className="w-4 h-4" />
@@ -1085,6 +1106,8 @@ export default function WeeklyPickEms() {
               </div>
             </div>
           </div>
+        )}
+        </>
         )}
       </div>
     </div>

@@ -3,9 +3,9 @@
 import { useMemo, useState, useEffect } from 'react';
 import { ChevronDownIcon, IdentificationIcon, ArrowPathIcon, NoSymbolIcon, CurrencyDollarIcon } from '@heroicons/react/24/outline';
 import { FireIcon, TrophyIcon } from '@heroicons/react/24/solid';
-import Image from 'next/image';
 
 import { useSpoiler } from '../../context/SpoilerContext';
+import { useSeason } from '../../context/SeasonContext';
 import ContestantProfile from '../components/ContestantProfile';
 
 import type { Contestant, PlayerTribe, RankedPlayerTribe, Tribe } from '@/lib/types';
@@ -25,10 +25,11 @@ async function fetchPickemLeaderboard(season: string) {
 }
 
 export default function Leaderboard() {
-  const [season, setSeason] = useState('50');
+  const { season } = useSeason();
   const [expandedTribes, setExpandedTribes] = useState<number[]>([]);
   const [modalVisible, setModalVisible] = useState(false);
   const [focusContestant, setFocusContestant] = useState(0);
+  const [helpOpen, setHelpOpen] = useState(false);
   const { revealSpoilers } = useSpoiler();
 
   const [leaderboardType, setLeaderboardType] = useState<'tribe' | 'pickem'>('tribe');
@@ -172,99 +173,6 @@ export default function Leaderboard() {
     return allTribes;
   }, [playerTribes, pickemLeaderboard]);
 
-
-  // Season 50 prize amounts by finishing place (1-indexed)
-  const TRIBE_PRIZES = [420, 300, 235, 185, 150, 120, 100, 85, 50, 35]; // top 10
-  const PICKEM_PRIZES = [225, 140, 100, 60, 35]; // top 5
-
-  function formatPayout(amount: number) {
-    // Round to cents, then show decimals only when needed
-    const rounded = Math.round(amount * 100) / 100;
-    const isWhole = Math.abs(rounded - Math.round(rounded)) < 1e-9;
-    return isWhole ? `$${Math.round(rounded)}` : `$${rounded.toFixed(2)}`;
-  }
-
-  function payoutBarClass(place: number) {
-    // place is 1-indexed "competition place" (start place of the tie group)
-    if (place === 1) return 'bg-yellow-500/90'; // gold
-    if (place === 2) return 'bg-zinc-400';   // silver
-    if (place === 3) return 'bg-amber-600/80';   // bronze
-
-    // 4+ fade darker green as place increases
-    const greens = [
-      'bg-green-600', // 4
-      'bg-green-600/90',  // 5
-      'bg-green-600/80',  // 6
-      'bg-green-600/70',  // 7
-      'bg-green-600/60',  // 8
-      'bg-green-600/50',  // 9+
-    ];
-    const idx = Math.min(Math.max(place - 4, 0), greens.length - 1);
-    return greens[idx];
-  }
-
-  type PayoutInfo = {
-    payoutText: string;
-    barClass: string;
-    place: number; // starting place of tie group
-  };
-
-
-  function buildPayoutMap(
-  items: any[],
-  isPickem: boolean
-  ): Map<number, PayoutInfo> {
-    const prizes = isPickem ? PICKEM_PRIZES : TRIBE_PRIZES;
-    const maxPaidPlaces = prizes.length;
-
-    const eligible = items.filter((t) => !!t.paid);
-    const map = new Map<number, PayoutInfo>();
-
-    let i = 0;
-    let place = 1; // "eligible competition place"
-    while (i < eligible.length) {
-      const item = eligible[i];
-      const score = isPickem ? item.pickemPoints : item.score;
-
-      // find tie group among eligible only
-      let j = i;
-      while (j < eligible.length) {
-        const s = isPickem ? eligible[j].pickemPoints : eligible[j].score;
-        if (s !== score) break;
-        j++;
-      }
-
-      const groupSize = j - i;
-      const startPlace = place;
-      const endPlace = place + groupSize - 1;
-
-      // Only pay if the tie group starts within the prize-paying range
-      if (startPlace <= maxPaidPlaces) {
-        // Combine prizes for all covered places within range, then split across the tied eligible tribes
-        let total = 0;
-        for (let p = startPlace; p <= Math.min(endPlace, maxPaidPlaces); p++) {
-          total += prizes[p - 1];
-        }
-        const perTribe = total / groupSize;
-
-        const info: PayoutInfo = {
-          payoutText: formatPayout(perTribe),
-          barClass: payoutBarClass(startPlace), // color based on eligible place
-          place: startPlace,
-        };
-
-        for (let k = i; k < j; k++) {
-          map.set(eligible[k].id, info);
-        }
-      }
-
-      i = j;
-      place = endPlace + 1;
-    }
-
-    return map;
-  }
-
   // Main leaderboard rendering function (tribe or pickem)
   function renderLeaderboard(data: any[], isPickem: boolean) {
     if (loading || (isPickem && pickemLoading)) {
@@ -284,8 +192,6 @@ export default function Leaderboard() {
         </div>
       );
     }
-
-    const payoutMap = buildPayoutMap(data, isPickem);
 
     return data.map((tribe: any) => {
       // For pickem leaderboard, use pickemPoints instead of score
@@ -450,21 +356,6 @@ export default function Leaderboard() {
               
             </div>
           </div>
-          {(() => {
-            const payout = payoutMap.get(tribe.id);
-            if (!payout) return null;
-
-            return (
-              <div className={`max-w-[96%] py-0.5 px-3 flex mx-auto justify-between rounded-b-lg ${payout.barClass}`}>
-                <div className="text-center text-xl leading-tight font-lostIsland tracking-widest">
-                  projected payout:
-                </div>
-                <div className="text-center text-xl font-lostIsland tracking-widest">
-                  {payout.payoutText}
-                </div>
-              </div>
-            );
-          })()}
         </div>
       );
     });
@@ -472,74 +363,59 @@ export default function Leaderboard() {
 
   return (
     <div className="min-h-screen bg-stone-900 text-stone-200 p-0">
-      <div className="relative w-full h-60 mb-12 p-0 text-center">
-        <div className="z-0">
-          <Image src="/imgs/graphics/home-graphic.png" alt="Survivor Background" fill style={{ objectFit: 'cover' }} />
-          <div
-            className="absolute inset-0 bg-gradient-to-b from-stone-900 via-transparent to-stone-900"
-            style={{ backgroundImage: "linear-gradient(to bottom, #1c1917 0%, transparent 33%, transparent 66%, #1c1917 100%)" }}
-          />
-        </div>
-        <h1 className="absolute -bottom-8 inset-x-0 z-10 text-4xl font-bold mb-2 text-stone-100 font-survivor tracking-wider">
-          Leaderboard
-        </h1>
-        <div className="absolute inset-0 z-10 flex flex-row justify-center mx-auto items-center">
-          <Image src={`/imgs/${season}/logo.png`} alt={`Survivor Season ${season} Logo`} width={250} height={250} />
-        </div>
-      </div>
-
       <div className="max-w-6xl mx-auto">
-        <div className="lowercase text-stone-200 border-y border-stone-500 p-4 my-8 font-lostIsland tracking-wider">
-          <h2 className="font-lostIsland text-3xl lowercase mb-2">
-            {leaderboardType === 'tribe'
-              ? "Tribe Leaderboard"
-              : "Pick Em Leaderboard"
-            }
-          </h2>
-          <p className="font-lostIsland lowercase mb-3 text-stone-300/90 leading-tight">
-            {leaderboardType === 'tribe'
-              ? "Click a tribe to expand their lineup and see contestant points."
-              : "Click a tribe to expand their picks and see weekly points."
-            }
-          </p>
-          <p className="font-lostIsland lowercase mb-3 text-stone-300/90 leading-tight">
-            {leaderboardType === 'tribe'
-              ? "Rankings are based on total points earned by each tribe."
-              : "Pick Em Rankings are based on total pick em points for each tribe this season."
-            }
-          </p>
-          <p className="font-lostIsland lowercase mb-3 text-stone-300/90 leading-tight">
-            {leaderboardType === 'tribe'
-              ? <>Tap the <IdentificationIcon className="inline mx-1.5 w-5 h-5 stroke-2 text-stone-300" /> icon to view detailed contestant stats.</>
-              : <>Make your weekly picks <a href="/pick-em" className="text-blue-400 underline">here</a>.<br/><br/></>
-            }
-          </p>
-          {season === '47' && (
-            <p className="mt-3 text-orange-300">
-              Season 47 was scored using a different set of rules than the current season. The three contestants in a tribe represent that tribe's top 3 picks from Season 47.
-            </p>
+        {/* Title + help toggle row */}
+        <div className="border-b border-stone-500 font-lostIsland tracking-wider">
+          <div className="flex items-center justify-between p-4">
+            <h1 className="text-2xl font-bold text-stone-100 font-survivor tracking-wider">
+              {leaderboardType === 'tribe' ? 'Tribe Leaderboard' : 'Pick Em Leaderboard'}
+            </h1>
+            <button
+              type="button"
+              onClick={() => setHelpOpen((v) => !v)}
+              aria-expanded={helpOpen}
+              className="flex items-center gap-1.5 text-stone-300 lowercase text-sm shrink-0"
+            >
+              <span>information</span>
+              <ChevronDownIcon
+                className={`w-4 h-4 stroke-2 transition-transform ${helpOpen ? 'rotate-180' : ''}`}
+              />
+            </button>
+          </div>
+
+          {helpOpen && (
+            <div className="lowercase text-stone-200 px-4 pb-4">
+              <p className="font-lostIsland lowercase mb-3 text-stone-300/90 leading-tight">
+                {leaderboardType === 'tribe'
+                  ? "Click a tribe to expand their lineup and see contestant points."
+                  : "Click a tribe to expand their picks and see weekly points."
+                }
+              </p>
+              <p className="font-lostIsland lowercase mb-3 text-stone-300/90 leading-tight">
+                {leaderboardType === 'tribe'
+                  ? "Rankings are based on total points earned by each tribe."
+                  : "Pick Em Rankings are based on total pick em points for each tribe this season."
+                }
+              </p>
+              <p className="font-lostIsland lowercase mb-3 text-stone-300/90 leading-tight">
+                {leaderboardType === 'tribe'
+                  ? <>Tap the <IdentificationIcon className="inline mx-1.5 w-5 h-5 stroke-2 text-stone-300" /> icon to view detailed contestant stats.</>
+                  : <>Make your weekly picks <a href="/pick-em" className="text-blue-400 underline">here</a>.</>
+                }
+              </p>
+              {season === '47' && (
+                <p className="mt-3 text-orange-300">
+                  Season 47 was scored using a different set of rules than the current season. The three contestants in a tribe represent that tribe's top 3 picks from Season 47.
+                </p>
+              )}
+            </div>
           )}
         </div>
 
-        <div className="flex justify-between mb-8 px-4">
-          <div className="font-lostIsland tracking-wider">
-            <select
-              id="season"
-              className="p-2 border border-stone-700 text-lg rounded-md bg-stone-800 text-stone-200"
-              value={season}
-              onChange={(e) => setSeason(e.target.value)}
-            >
-              <option value="50">Season 50</option>
-              <option value="49">Season 49</option>
-              <option value="48">Season 48</option>
-              <option value="47">Season 47</option>
-            </select>
-          </div>
-        </div>
-
+        {/* Season selector removed — now controlled from the site-wide nav */}
 
         {Number(season) >= 49 && (
-          <div className="flex items-center overflow-hidden tracking-wider mb-8 w-auto mx-4 rounded-xl text-2xl font-lostIsland lowercase ">
+          <div className="flex items-center overflow-hidden tracking-wider mt-8 mb-8 w-auto mx-4 rounded-xl text-2xl font-lostIsland lowercase ">
             <button
               className={`w-1/2 p-3 ${
                 leaderboardType === 'tribe' ? 'bg-orange-500/75 text-stone-100' : 'bg-stone-800 text-stone-300'
@@ -559,8 +435,7 @@ export default function Leaderboard() {
           </div>
         )}
 
-
-        <div className="flex px-2 text-lg lowercase bg-stone-800 border-b-2 border-stone-700 py-2 mb-3 text-stone-400 font-lostIsland">
+        <div className={`flex px-2 text-lg lowercase bg-stone-800 border-b-2 border-stone-700 py-2 mb-3 text-stone-400 font-lostIsland ${Number(season) < 49 ? 'mt-8' : ''}`}>
           <span className="mx-2 w-20">rank</span>
           <span className="mx-2">tribe</span>
           <span className="ms-auto w-16">score</span>

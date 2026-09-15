@@ -10,7 +10,7 @@ type SpoilerContextType = {
 const SpoilerContext = createContext<SpoilerContextType | undefined>(undefined);
 
 export const SpoilerProvider = ({ children }: { children: ReactNode }) => {
-  const [revealSpoilers, setRevealSpoilers] = useState(false);
+  const [revealSpoilers, setRevealSpoilers] = useState(true);
 
   const toggleSpoilers = () => setRevealSpoilers((prev) => !prev);
 

@@ -1,7 +1,8 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
-import { PencilSquareIcon } from '@heroicons/react/24/solid';
+import { PencilSquareIcon, ArrowRightStartOnRectangleIcon } from '@heroicons/react/24/solid';
+import { signOut } from 'next-auth/react';
 // import Image from 'next/image'; // (unused in your snippet)
 
 import type { UserBadge } from '@/lib/types';
@@ -93,7 +94,7 @@ export default function UserHeader({ userEmail, tribeCount }: Props) {
       <div className="font-lostIsland border-2 border-stone-700 rounded bg-stone-800 w-full max-w-6xl p-3 flex-col items-center gap-4 mb-4">
         <div className="flex items-center gap-3">
           {/* Text Content */}
-          <div className="flex-col py-2">
+          <div className="flex-col py-2 flex-grow">
             {/* Name + Edit */}
             <div className="flex items-center gap-2">
               {isEditing ? (
@@ -138,6 +139,17 @@ export default function UserHeader({ userEmail, tribeCount }: Props) {
                   </button>
                 </>
               )}
+
+              {/* Sign out */}
+              <button
+                onClick={() => signOut()}
+                className="ms-auto flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-stone-600 text-red-300 hover:bg-stone-700 hover:text-red-200 text-sm lowercase tracking-wider"
+                aria-label="Sign out"
+                title="Sign out"
+              >
+                <ArrowRightStartOnRectangleIcon className="h-4 w-4" />
+                Sign out
+              </button>
             </div>
 
             {/* Validation / error */}

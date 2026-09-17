@@ -8,7 +8,6 @@ import ContestantProfile from "../components/ContestantProfile";
 import Image from "next/image";
 import season47Scores from "../scoring/47scores.json";
 import UserHeader from "../components/UserHeader";
-import { useSpoiler } from "../../context/SpoilerContext"; 
 import { redirect } from "next/navigation";
 import TribePickemSummary from '../components/TribePickemSummary';
 import { hexToRgba } from '@/lib/utils/color';
@@ -40,7 +39,7 @@ export default function DashboardPage() {
   const [seasonRanks, setSeasonRanks] = useState<any[]>([]);
   const [focusContestant, setFocusContestant] = useState(0);
   const [expandedTribes, setExpandedTribes] = useState<number[]>([]);
-  const { revealSpoilers } = useSpoiler();
+  const revealSpoilers = true;
   const [loading, setLoading] = useState(true);
   const [userEmail, setUserEmail] = useState<string>("");
 

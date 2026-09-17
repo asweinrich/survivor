@@ -49,9 +49,9 @@ function Navbar() {
   const { season } = useSeason();
 
   return (
-    <nav className="relative sticky top-0 z-30 bg-stone-900">
+    <nav className="relative sticky top-0 z-30 bg-stone-900 rounded-b-xl">
       {/* Background layers, clipped to the nav bounds */}
-      <div className="absolute inset-0 overflow-hidden">
+      <div className="absolute inset-0 overflow-hidden rounded-b-xl">
         {/* Season logo background (zoomed out a bit to show more of the image) */}
         <div
           className="absolute inset-0 bg-no-repeat bg-right me-24"
@@ -66,7 +66,7 @@ function Navbar() {
         <div className="absolute inset-0 bg-gradient-to-b from-stone-900/80 via-transparent to-stone-900/80" />
       </div>
 
-      <div className="relative z-10 max-w-6xl mx-auto text-white p-3 uppercase tracking-wider">
+      <div className="relative z-10 max-w-6xl mx-auto text-white p-3 uppercase tracking-wider rounded-b-xl">
         <div className="flex items-start justify-between">
           <div className="flex flex-col">
             <a href="/" className="text-3xl px-1 hover:opacity-70 font-survivor">Survivor Fantasy</a>

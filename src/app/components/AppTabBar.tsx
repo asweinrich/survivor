@@ -73,12 +73,12 @@ export default function AppTabBar() {
                 key={t.href}
                 href={t.href}
                 style={{ flexGrow: t.grow }}
-                className={`flex-shrink flex flex-col items-center justify-center py-1.5 rounded-full transition-colors duration-150 ${
+                className={`flex-shrink flex flex-col items-center justify-center py-2 rounded-full transition-colors duration-150 ${
                   active ? 'bg-white/15 text-stone-50' : 'text-stone-300 hover:text-stone-50 hover:bg-white/5'
                 }`}
               >
-                <Icon className="w-7 h-7 stroke-2" />
-                <span className="mt-1 font-lostIsland lowercase tracking-wide leading-none">{t.label}</span>
+                <Icon className="w-6 h-6 stroke-2" />
+                <span className="mt-0.5 text-sm font-lostIsland lowercase tracking-wide leading-none">{t.label}</span>
               </Link>
             );
           })}
@@ -92,7 +92,7 @@ export default function AppTabBar() {
                        shadow-[0_4px_16px_rgba(234,88,12,0.5)] hover:from-orange-600 hover:to-orange-800
                        transition-colors duration-150"
           >
-            <SparklesIconSolid className="w-7 h-7" />
+            <SparklesIconSolid className="w-6 h-6" />
             <span className="mt-0.5 text-[10px] uppercase tracking-wide leading-none">Draft</span>
           </Link>
           */}
@@ -100,8 +100,8 @@ export default function AppTabBar() {
           {isSignedIn ? (
             <Link
               href="/dashboard"
-              className="flex items-center justify-center w-14 h-14 rounded-full text-2xl shadow-md
-                         border border-white/40 transition-transform duration-150 hover:scale-105"
+              className="flex items-center justify-center w-14 h-14 rounded-full text-3xl shadow-md
+                         border-2 border-stone-950 transition-transform duration-150 hover:scale-105"
               style={{ backgroundColor: color || '#44403c' }}
               aria-label="Dashboard"
             >
@@ -110,12 +110,12 @@ export default function AppTabBar() {
           ) : (
             <Link
               href="/sign-in"
-              className="flex flex-col items-center justify-center w-14 h-14 py-1.5 rounded-full
+              className="flex flex-col items-center justify-center w-14 h-14 py-1.5 rounded-full border-2 border-stone-950
                          bg-gradient-to-tr from-blue-500 to-blue-700 text-white
                          shadow-[0_4px_16px_rgba(37,99,235,0.5)] hover:from-blue-600 hover:to-blue-800
                          transition-colors duration-150"
             >
-              <span className="mt-1 lowercase font-lostIsland tracking-wide text-center leading-none">Sign<br/>In</span>
+              <span className="mt-0.5 lowercase font-lostIsland tracking-wide text-center leading-none">Sign<br/>In</span>
             </Link>
           )}
         </div>

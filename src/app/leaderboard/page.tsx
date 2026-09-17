@@ -4,7 +4,6 @@ import { useMemo, useState, useEffect } from 'react';
 import { ChevronDownIcon, IdentificationIcon, ArrowPathIcon, NoSymbolIcon, CurrencyDollarIcon } from '@heroicons/react/24/outline';
 import { FireIcon, TrophyIcon } from '@heroicons/react/24/solid';
 
-import { useSpoiler } from '../../context/SpoilerContext';
 import { useSeason } from '../../context/SeasonContext';
 import ContestantProfile from '../components/ContestantProfile';
 
@@ -30,8 +29,8 @@ export default function Leaderboard() {
   const [modalVisible, setModalVisible] = useState(false);
   const [focusContestant, setFocusContestant] = useState(0);
   const [helpOpen, setHelpOpen] = useState(false);
-  const { revealSpoilers } = useSpoiler();
-
+  const revealSpoilers = true;
+  
   const [leaderboardType, setLeaderboardType] = useState<'tribe' | 'pickem'>('tribe');
   const [pickemLeaderboard, setPickemLeaderboard] = useState<any[]>([]);
   const [pickemLoading, setPickemLoading] = useState(false);

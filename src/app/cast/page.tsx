@@ -4,7 +4,6 @@ import { useMemo, useState } from 'react';
 import { ArrowPathIcon, ChevronDownIcon } from '@heroicons/react/24/outline';
 import { FireIcon, TrophyIcon } from '@heroicons/react/24/solid';
 
-import { useSpoiler } from '../../context/SpoilerContext';
 import { useSeason } from '../../context/SeasonContext';
 import ContestantProfile from '../components/ContestantProfile';
 
@@ -21,7 +20,7 @@ export default function CastPage() {
   const [modalVisible, setModalVisible] = useState(false);
   const [focusContestant, setFocusContestant] = useState(0);
   const [helpOpen, setHelpOpen] = useState(false);
-  const { revealSpoilers } = useSpoiler();
+  const revealSpoilers = true;
 
   const { contestants, tribes, loading } = useSeasonData(season);
 

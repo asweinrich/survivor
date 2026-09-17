@@ -19,7 +19,6 @@ import {
   FireIcon,
 } from '@heroicons/react/24/solid'
 
-import { useSpoiler } from '../../context/SpoilerContext'
 import { useSeason } from '../../context/SeasonContext'
 import { useSeasonData } from '@/lib/hooks/useSeasonData'
 import { hexToRgba } from '@/lib/utils/color'
@@ -61,7 +60,7 @@ export default function WeeklyPickEms() {
 
   const { data: session } = useSession()
   const userEmail = session?.user?.email || null;
-  const { revealSpoilers } = useSpoiler()
+  const revealSpoilers = true;
   const { playerTribes, contestants, tribes, players, loading } = useSeasonData(season)
   const [tooltip, setTooltip] = useState<number | null>(null);
   const [userPicksOpen, setUserPicksOpen] = useState(false);

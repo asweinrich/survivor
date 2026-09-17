@@ -6,7 +6,6 @@ import { useState } from 'react';
 import { Analytics } from "@vercel/analytics/react"
 import { SessionProvider } from 'next-auth/react';
 import { useSession, signIn, signOut } from 'next-auth/react';
-import { SpoilerProvider } from '../context/SpoilerContext'; 
 import { SeasonProvider, useSeason } from '../context/SeasonContext';
 import { useLatestTribe } from '@/lib/hooks/useLatestTribe';
 import { useUserInfo } from '@/lib/hooks/useUserInfo';
@@ -33,14 +32,12 @@ export default function RootLayout({
         className={`antialiased bg-stone-900 pb-24`}
       >
         <SessionProvider>
-          <SpoilerProvider>
-            <SeasonProvider>
-              <Navbar />
-              <AppTabBar />
-              <Analytics />
-              {children}
-            </SeasonProvider>
-          </SpoilerProvider>
+          <SeasonProvider>
+            <Navbar />
+            <AppTabBar />
+            <Analytics />
+            {children}
+          </SeasonProvider>
         </SessionProvider>
         
       </body>
@@ -49,18 +46,38 @@ export default function RootLayout({
 }
 
 function Navbar() {
-  return (
-    <nav className="max-w-6xl mx-auto bg-stone-900 text-white p-3 relative sticky top-0 z-30">
-      <div className="flex items-start justify-between uppercase tracking-wider">
-        <div className="flex flex-col">
-          <a href="/" className="text-3xl px-1 hover:opacity-70 font-survivor">Survivor Fantasy</a>
-          <div className="flex mt-1">
-            <SeasonSelector />
-          </div>
-        </div>
+  const { season } = useSeason();
 
-        <div className="flex items-center">
-          <AuthArea />
+  return (
+    <nav className="relative sticky top-0 z-30 bg-stone-900">
+      {/* Background layers, clipped to the nav bounds */}
+      <div className="absolute inset-0 overflow-hidden">
+        {/* Season logo background (zoomed out a bit to show more of the image) */}
+        <div
+          className="absolute inset-0 bg-no-repeat bg-right me-24"
+          style={{
+            backgroundImage: `url(/imgs/${season}/logo.png)`,
+            backgroundSize: '36%',
+          }}
+        />
+        {/* Gradient overlay: dark at edges, transparent-ish in the middle */}
+        <div className="absolute inset-0 bg-gradient-to-r from-stone-900 via-stone-900/0 to-stone-900/60" />
+        {/* Subtle vertical fade for text legibility top/bottom */}
+        <div className="absolute inset-0 bg-gradient-to-b from-stone-900/80 via-transparent to-stone-900/80" />
+      </div>
+
+      <div className="relative z-10 max-w-6xl mx-auto text-white p-3 uppercase tracking-wider">
+        <div className="flex items-start justify-between">
+          <div className="flex flex-col">
+            <a href="/" className="text-3xl px-1 hover:opacity-70 font-survivor">Survivor Fantasy</a>
+            <div className="flex -ms-1">
+              <SeasonSelector />
+            </div>
+          </div>
+
+          <div className="flex flex-col px-1">
+            <AuthArea />
+          </div>
         </div>
       </div>
     </nav>
@@ -80,7 +97,7 @@ function AuthArea() {
     return (
       <a
         href="/sign-in"
-        className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 lowercase tracking-wider"
+        className="bg-blue-600 text-white text-xl mt-1.5 font-lostIsland px-4 py-2 rounded-lg hover:bg-blue-700 uppercase tracking-wider"
       >
         Sign In
       </a>
@@ -96,13 +113,13 @@ function AuthArea() {
       >
         <div className="flex flex-col items-center">
           <div
-            className="w-10 h-10 rounded-full border-2 border-stone-700 flex items-center justify-center text-xl shadow-md"
+            className="w-12 h-12 rounded-full border-2 border-stone-700 flex items-center justify-center text-2xl shadow-md"
             style={{ backgroundColor: color || '#44403c' }}
           >
-            {emoji || '🏝️'}
+            {emoji || '🧑'}
           </div>
           {name && (
-            <span className="mt-0.5 max-w-[4.5rem] truncate text-[10px] normal-case font-lostIsland tracking-wide leading-none text-stone-300">
+            <span className="mt-1.5 max-w-[5rem] truncate text-[11px] normal-case font-lostIsland tracking-wide leading-none text-stone-300">
               {name}
             </span>
           )}
@@ -141,16 +158,11 @@ function SeasonSelector() {
 
   return (
     <label htmlFor="seasonSelector" className="flex items-center font-lostIsland lowercase text-sm">
-      <img
-        src={`/imgs/${season}/logo.png`}
-        alt={`Season ${season} logo`}
-        className="w-6 h-6 object-contain me-2 rounded-full"
-      />
       <select
         id="seasonSelector"
         value={season}
         onChange={(e) => setSeason(e.target.value)}
-        className="bg-stone-800 border border-stone-700 rounded-md px-2 py-1 text-stone-100 tracking-wider focus:outline-none focus:ring-1 focus:ring-orange-500"
+        className="bg-stone-900 rounded-md text-xl px-1 uppercase text-stone-400 tracking-wider focus:outline-none"
       >
         {availableSeasons.map((s) => (
           <option key={s} value={s}>

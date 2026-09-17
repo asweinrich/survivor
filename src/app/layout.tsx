@@ -96,18 +96,21 @@ function SeasonSelector() {
 
   return (
     <label htmlFor="seasonSelector" className="flex items-center font-lostIsland lowercase text-sm">
-      <select
-        id="seasonSelector"
-        value={season}
-        onChange={(e) => setSeason(e.target.value)}
-        className="bg-stone-900 shadow rounded-md border border-stone-700 text-base px-2 py-1 uppercase text-stone-300 tracking-wider focus:outline-none"
-      >
-        {availableSeasons.map((s) => (
-          <option key={s} value={s}>
-            Season {s}
-          </option>
-        ))}
-      </select>
+      <div className="relative flex items-center">
+        <select
+          id="seasonSelector"
+          value={season}
+          onChange={(e) => setSeason(e.target.value)}
+          className="appearance-none bg-stone-900 shadow rounded-md border border-stone-700 text-base ps-2 pe-6 py-1 uppercase text-stone-300 tracking-wider focus:outline-none"
+        >
+          {availableSeasons.map((s) => (
+            <option key={s} value={s}>
+              Season {s}
+            </option>
+          ))}
+        </select>
+        <ChevronDownIcon className="w-4 h-4 stroke-2 text-stone-300 absolute right-1.5 pointer-events-none" />
+      </div>
     </label>
   );
 }

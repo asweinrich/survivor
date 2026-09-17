@@ -54,23 +54,23 @@ function Navbar() {
       <div className="absolute inset-0 overflow-hidden">
         {/* Blurred full-bleed logo fill */}
         <div
-          className="absolute inset-0 bg-cover bg-center"
+          className="absolute inset-0 bg-cover bg-center scale-125"
           style={{
             backgroundImage: `url(/imgs/${season}/logo.png)`,
-            filter: 'blur(4px)',
+            filter: 'blur(6px)',
             opacity: 0.5,
           }}
         />
         {/* Crisp season logo background (zoomed out a bit to show more of the image) */}
         <div
-          className="absolute inset-0 bg-no-repeat bg-right me-1"
+          className="absolute inset-0 bg-no-repeat bg-right me-2"
           style={{
             backgroundImage: `url(/imgs/${season}/logo.png)`,
             backgroundSize: '38%',
           }}
         />
         {/* Gradient overlay: dark at edges, transparent-ish in the middle */}
-        <div className="absolute inset-0 bg-gradient-to-r from-stone-900/30 via-stone-900/10 to-stone-900/20" />
+        <div className="absolute inset-0 bg-gradient-to-r from-stone-900/40 via-stone-900/10 to-stone-900/20" />
         {/* Subtle vertical fade for text legibility top/bottom */}
         <div className="absolute inset-0 bg-gradient-to-b from-stone-900/30 via-transparent to-stone-900/30" />
       </div>
@@ -78,7 +78,7 @@ function Navbar() {
       <div className="relative z-10 max-w-6xl mx-auto text-white px-3 pt-3 pb-2 uppercase tracking-wider">
         <div className="flex items-start justify-between">
           <div className="flex flex-col">
-            <a href="/" style={{ textShadow: '3px 3px 0px rgba(0,0,0,1)' }} className="text-4xl px-1 hover:opacity-70 font-survivor">Survivor Fantasy</a>
+            <a href="/" style={{ textShadow: '3px 3px 0px rgba(0,0,0,1)' }} className="text-3xl px-1 hover:opacity-70 font-survivor">Survivor Fantasy</a>
             <div className="flex mt-0.5">
               <SeasonSelector />
             </div>

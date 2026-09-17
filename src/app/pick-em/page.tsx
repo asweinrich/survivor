@@ -35,7 +35,7 @@ const PICKEM_MIN_SEASON = 49;
 // ---- Page ------------------------------------------------------------
 export default function WeeklyPickEms() {
   const { season } = useSeason()
-  const [week, setWeek] = useState<number>(13)
+  const [week, setWeek] = useState<number>(2)
   const [expandedTribes, setExpandedTribes] = useState<number[]>([])
   const [submittedSet, setSubmittedSet] = useState<Set<number>>(new Set())
   const [lockAt, setLockAt] = useState<Date | null>(null)

@@ -9,6 +9,7 @@ type Anchor = { year: number; month: number; day: number }; // month: 1-12
 const SEASON_WEEK1_ANCHORS: Record<number, Anchor> = {
   49: { year: 2025, month: 9, day: 24 }, 
   50: { year: 2026, month: 2, day: 25 },
+  51: { year: 2026, month: 9, day: 23 },
 };
 
 function buildPTDate(parts: Anchor, hour = 17, minute = 0) {

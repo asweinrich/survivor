@@ -55,7 +55,7 @@ export default function Draft() {
     color: getRandomColor(),
   });
 
-  const season = 50;
+  const season = 51;
 
   //disable draft until it opens
   const status = false;
@@ -362,11 +362,7 @@ export default function Draft() {
         <div className="max-w-6xl mx-auto px-4 my-24">
           <div className="bg-stone-800 border border-stone-700 text-center p-4 rounded-lg">
             <p className="text-lg font-lostIsland tracking-wider">
-              The drafting period for Season {season} has ended. Tribes can be drafted anytime during the week between the 1st and 2nd episodes. Visit the{' '}
-              <a href="/cast" className="text-orange-400 hover:text-orange-600">
-                cast
-              </a>{' '}
-              page to to see Season 50's contestants.
+              The drafting period for Season {season} not started yet. Tribes can be drafted anytime during the week between the 1st and 2nd episodes. Visit the cast page to to see Season 51's contestants.
             </p>
           </div>
         </div>
@@ -400,7 +396,7 @@ export default function Draft() {
               contestant details.
             </p>
             <p className="mt-3 text-green-200 text-center bg-green-800 rounded-lg p-1 leading-tight">
-              Tribe drafting is open until Wednesday, March 4th at 5:00 PM PST.
+              Tribe drafting is open until Wednesday, September 30th at 5:00 PM PST.
             </p>
           </div>
 

@@ -49,27 +49,36 @@ function Navbar() {
   const { season } = useSeason();
 
   return (
-    <nav className="relative sticky top-0 z-30 bg-stone-900 rounded-b-xl">
+    <nav className="relative sticky top-0 z-30 bg-stone-900">
       {/* Background layers, clipped to the nav bounds */}
-      <div className="absolute inset-0 overflow-hidden rounded-b-xl">
-        {/* Season logo background (zoomed out a bit to show more of the image) */}
+      <div className="absolute inset-0 overflow-hidden">
+        {/* Blurred full-bleed logo fill */}
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{
+            backgroundImage: `url(/imgs/${season}/logo.png)`,
+            filter: 'blur(2px)',
+            opacity: 0.5,
+          }}
+        />
+        {/* Crisp season logo background (zoomed out a bit to show more of the image) */}
         <div
           className="absolute inset-0 bg-no-repeat bg-right me-24"
           style={{
             backgroundImage: `url(/imgs/${season}/logo.png)`,
-            backgroundSize: '36%',
+            backgroundSize: '45%',
           }}
         />
         {/* Gradient overlay: dark at edges, transparent-ish in the middle */}
-        <div className="absolute inset-0 bg-gradient-to-r from-stone-900 via-stone-900/0 to-stone-900/60" />
+        <div className="absolute inset-0 bg-gradient-to-r from-stone-900/50 via-stone-900/10 to-stone-900/50" />
         {/* Subtle vertical fade for text legibility top/bottom */}
-        <div className="absolute inset-0 bg-gradient-to-b from-stone-900/80 via-transparent to-stone-900/80" />
+        <div className="absolute inset-0 bg-gradient-to-b from-stone-900/30 via-transparent to-stone-900/30" />
       </div>
 
-      <div className="relative z-10 max-w-6xl mx-auto text-white p-3 uppercase tracking-wider rounded-b-xl">
+      <div className="relative z-10 max-w-6xl mx-auto text-white p-3 uppercase tracking-wider">
         <div className="flex items-start justify-between">
           <div className="flex flex-col">
-            <a href="/" className="text-3xl px-1 hover:opacity-70 font-survivor">Survivor Fantasy</a>
+            <a href="/" style={{ textShadow: '3px 3px 0px rgba(0,0,0,1)' }} className="text-3xl px-1 hover:opacity-70 font-survivor">Survivor Fantasy</a>
             <div className="flex -ms-1">
               <SeasonSelector />
             </div>
@@ -162,7 +171,7 @@ function SeasonSelector() {
         id="seasonSelector"
         value={season}
         onChange={(e) => setSeason(e.target.value)}
-        className="bg-stone-900 rounded-md text-xl px-1 uppercase text-stone-400 tracking-wider focus:outline-none"
+        className="bg-stone-900 shadow rounded-md border border-stone-700 text-xl px-1 uppercase text-stone-300 tracking-wider focus:outline-none"
       >
         {availableSeasons.map((s) => (
           <option key={s} value={s}>

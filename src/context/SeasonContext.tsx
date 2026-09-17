@@ -2,8 +2,8 @@
 
 import { createContext, useContext, useState, ReactNode } from 'react';
 
-export const AVAILABLE_SEASONS = ['50', '49', '48', '47'];
-export const CURRENT_SEASON = '50';
+export const AVAILABLE_SEASONS = ['51', '50', '49', '48', '47'];
+export const CURRENT_SEASON = '51';
 
 type SeasonContextType = {
   season: string;

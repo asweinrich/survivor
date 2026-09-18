@@ -54,7 +54,8 @@ export default function Leaderboard() {
 
   const [prevContestants, setPrevContestants] = useState<Contestant[]>([]);
 
-  const CURRENT_WEEK = 2;         // update this each week as Season 51 progresses
+  const CURRENT_WEEK = 2;     
+  const ACTIVE_SEASON = 51;    // update this each week as Season 51 progresses
 
   async function fetchPickemTribeDetails(season: string) {
     const res = await fetch(`/api/pickem-tribe-details?season=${season}`);
@@ -227,7 +228,7 @@ export default function Leaderboard() {
               <div className="flex items-center justify-start" onClick={() => toggleDropdown(tribe.id)}>
                 <div className="flex flex-col items-center w-8 font-lostIsland me-1.5">
                   <span className="text-2xl mx-auto leading-none mb-1.5">{tribe.rank}</span>
-                  {!isPickem && season === 51 && (() => {
+                  {!isPickem && String(season) === ACTIVE_SEASON && (() => {
                     const change = rankChangeMap.get(tribe.id);
                     if (change === undefined || change === 0) return (
                       <span className="text-stone-600 text-xs font-lostIsland leading-none">—</span>

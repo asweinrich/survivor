@@ -1,7 +1,7 @@
 'use client';
 
 import { useMemo, useState, useEffect } from 'react';
-import { ChevronDownIcon, IdentificationIcon, ArrowPathIcon, NoSymbolIcon, CurrencyDollarIcon } from '@heroicons/react/24/outline';
+import { ChevronDownIcon, IdentificationIcon, ArrowPathIcon, NoSymbolIcon, CurrencyDollarIcon, MagnifyingGlassIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { FireIcon, TrophyIcon } from '@heroicons/react/24/solid';
 
 import { useSeason } from '../../context/SeasonContext';
@@ -23,6 +23,15 @@ async function fetchPickemLeaderboard(season: string) {
   return res.json();
 }
 
+// Case-insensitive match against tribe name or player (display) name.
+function matchesSearch(item: any, query: string) {
+  const q = query.trim().toLowerCase();
+  if (!q) return true;
+  const tribeName = (item.tribeName || '').toLowerCase();
+  const playerName = (item.playerName || '').toLowerCase();
+  return tribeName.includes(q) || playerName.includes(q);
+}
+
 export default function Leaderboard() {
   const { season } = useSeason();
   const [expandedTribes, setExpandedTribes] = useState<number[]>([]);
@@ -30,39 +39,26 @@ export default function Leaderboard() {
   const [focusContestant, setFocusContestant] = useState(0);
   const [helpOpen, setHelpOpen] = useState(false);
   const revealSpoilers = true;
+  const [search, setSearch] = useState('');
+
   
   const [leaderboardType, setLeaderboardType] = useState<'tribe' | 'pickem'>('tribe');
   const [pickemLeaderboard, setPickemLeaderboard] = useState<any[]>([]);
   const [pickemLoading, setPickemLoading] = useState(false);
 
   const [pickemTribeDetails, setPickemTribeDetails] = useState<any[]>([]);
+  const [weekQuestionMatrix, setWeekQuestionMatrix] = useState<{ week: number; numQuestions: number }[]>([]);
   const [pickemTribeLoading, setPickemTribeLoading] = useState(false);
 
   const { playerTribes, contestants, tribes, loading } = useSeasonData(season);
 
   const [prevContestants, setPrevContestants] = useState<Contestant[]>([]);
 
-  const WEEK_QUESTION_MATRIX = [
-    { week: 2, numQuestions: 3 },
-    { week: 3, numQuestions: 4 },
-    { week: 4, numQuestions: 3 },
-    { week: 5, numQuestions: 4 },
-    { week: 6, numQuestions: 3 },
-    { week: 7, numQuestions: 3 },    
-    { week: 8, numQuestions: 3 },
-    { week: 9, numQuestions: 5 },
-    { week: 10, numQuestions: 4 },
-    { week: 11, numQuestions: 5 },
-    { week: 12, numQuestions: 3 },
-    { week: 13, numQuestions: 5 },
-    // Add more weeks as needed
-  ];
-
-  const CURRENT_WEEK = 13;
+  const CURRENT_WEEK = 2;         // update this each week as Season 51 progresses
 
   async function fetchPickemTribeDetails(season: string) {
     const res = await fetch(`/api/pickem-tribe-details?season=${season}`);
-    if (!res.ok) return [];
+    if (!res.ok) return { tribeDetails: [], weekQuestionMatrix: [] };
     return res.json();
   }
 
@@ -70,7 +66,10 @@ export default function Leaderboard() {
     if (leaderboardType === 'pickem' && Number(season) >= 49) {
       setPickemTribeLoading(true);
       fetchPickemTribeDetails(season)
-        .then(data => setPickemTribeDetails(data))
+        .then(({ tribeDetails, weekQuestionMatrix }) => {
+          setPickemTribeDetails(tribeDetails ?? []);
+          setWeekQuestionMatrix(weekQuestionMatrix ?? []);
+        })
         .finally(() => setPickemTribeLoading(false));
     }
   }, [leaderboardType, season]);
@@ -102,6 +101,8 @@ export default function Leaderboard() {
     }
   }, [leaderboardType, season]);
 
+
+
   const contestantMap = useMemo(
     () => contestants.reduce<Record<number, Contestant>>((acc, c) => { acc[c.id] = c; return acc; }, {}),
     [contestants]
@@ -131,6 +132,13 @@ export default function Leaderboard() {
     }
     return map;
   }, [rankedTribes, prevRankedTribes]);
+
+  const filteredRankedTribes = useMemo(
+    () => rankedTribes.filter((t) => matchesSearch(t, search)),
+    [rankedTribes, search]
+  );
+
+  
 
   const toggleDropdown = (tribeId: number) =>
     setExpandedTribes((prev) => prev.includes(tribeId) ? prev.filter((id) => id !== tribeId) : [...prev, tribeId]);
@@ -172,8 +180,13 @@ export default function Leaderboard() {
     return allTribes;
   }, [playerTribes, pickemLeaderboard]);
 
+  const filteredPickemTribes = useMemo(
+    () => pickemTribes.filter((t) => matchesSearch(t, search)),
+    [pickemTribes, search]
+  );
+
   // Main leaderboard rendering function (tribe or pickem)
-  function renderLeaderboard(data: any[], isPickem: boolean) {
+  function renderLeaderboard(data: any[], isPickem: boolean, hasUnfilteredData: boolean) {
     if (loading || (isPickem && pickemLoading)) {
       return (
         <div className="flex flex-col justify-center items-center py-10">
@@ -184,6 +197,14 @@ export default function Leaderboard() {
     }
 
     if (!data.length) {
+      if (hasUnfilteredData && search.trim()) {
+        return (
+          <div className="flex flex-col justify-center items-center py-10 px-4 text-center leading-tight">
+            <p className="font-lostIsland text-lg my-2 tracking-wider">No results found for &ldquo;{search.trim()}&rdquo;.</p>
+          </div>
+        );
+      }
+
       return (
         <div className="flex flex-col justify-center items-center py-10 px-4 text-center leading-tight">
           <p className="font-lostIsland text-lg my-2 tracking-wider">No tribes have been drafted for this season yet.</p>
@@ -206,7 +227,7 @@ export default function Leaderboard() {
               <div className="flex items-center justify-start" onClick={() => toggleDropdown(tribe.id)}>
                 <div className="flex flex-col items-center w-8 font-lostIsland me-1.5">
                   <span className="text-2xl mx-auto leading-none mb-1.5">{tribe.rank}</span>
-                  {!isPickem && (() => {
+                  {!isPickem && season === 51 && (() => {
                     const change = rankChangeMap.get(tribe.id);
                     if (change === undefined || change === 0) return (
                       <span className="text-stone-600 text-xs font-lostIsland leading-none">—</span>
@@ -262,7 +283,7 @@ export default function Leaderboard() {
                       return (
                         <TribePickemSummary
                           pickemWeeks={tribeDetails?.pickemWeeks ?? []}
-                          weekQuestionMatrix={WEEK_QUESTION_MATRIX}
+                          weekQuestionMatrix={weekQuestionMatrix}
                         />
                       );
                     })()
@@ -414,18 +435,22 @@ export default function Leaderboard() {
         {/* Season selector removed — now controlled from the site-wide nav */}
 
         {Number(season) >= 49 && (
-          <div className="flex items-center overflow-hidden tracking-wider mt-8 mb-8 w-auto mx-4 rounded-xl text-2xl font-lostIsland lowercase ">
+          <div className="flex items-center tracking-wider border border-stone-300/20 mt-8 mb-8 w-auto mx-4 rounded-xl text-2xl font-lostIsland lowercase ">
             <button
-              className={`w-1/2 p-3 ${
-                leaderboardType === 'tribe' ? 'bg-orange-500/75 text-stone-100' : 'bg-stone-800 text-stone-300'
+              className={`w-1/2 p-3 transition-shadow duration-150 rounded-s-xl ${
+                leaderboardType === 'tribe'
+                  ? 'bg-orange-500/75 text-stone-100 shadow-[0_4px_16px_rgba(234,88,12,0.5)]'
+                  : 'bg-stone-800 text-stone-300'
               }`}
               onClick={() => setLeaderboardType('tribe')}
             >
               TRIBES
             </button>
             <button
-              className={`w-1/2 p-3 ${
-                leaderboardType === 'pickem' ? 'bg-blue-500/60 text-stone-100' : 'bg-stone-800 text-stone-300'
+              className={`w-1/2 p-3 transition-shadow duration-150 rounded-e-xl ${
+                leaderboardType === 'pickem'
+                  ? 'bg-blue-500/60 text-stone-100 shadow-[0_4px_16px_rgba(37,99,235,0.5)]'
+                  : 'bg-stone-800 text-stone-300'
               }`}
               onClick={() => setLeaderboardType('pickem')}
             >
@@ -434,7 +459,31 @@ export default function Leaderboard() {
           </div>
         )}
 
-        <div className={`flex px-2 text-lg lowercase bg-stone-800 border-b-2 border-stone-700 py-2 mb-3 text-stone-400 font-lostIsland ${Number(season) < 49 ? 'mt-8' : ''}`}>
+        {/* Search — persists across Tribe / Pick Em tab switches */}
+        <div className={`px-4 ${Number(season) < 49 ? 'mt-4' : ''} mb-4`}>
+          <div className="flex items-center gap-2 bg-stone-800 border border-stone-700 rounded-lg px-3 py-2">
+            <MagnifyingGlassIcon className="w-5 h-5 text-stone-400 shrink-0" />
+            <input
+              type="text"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="Search tribe or player name..."
+              className="flex-1 min-w-0 bg-transparent outline-none text-stone-100 font-lostIsland tracking-wider placeholder:text-stone-500"
+            />
+            {search && (
+              <button
+                type="button"
+                onClick={() => setSearch('')}
+                aria-label="Clear search"
+                className="text-stone-400 hover:text-stone-200 shrink-0"
+              >
+                <XMarkIcon className="w-5 h-5" />
+              </button>
+            )}
+          </div>
+        </div>
+
+        <div className={`flex px-2 text-lg lowercase bg-stone-800 border-b-2 border-stone-700 py-2 mb-3 text-stone-400 font-lostIsland`}>
           <span className="mx-2 w-20">rank</span>
           <span className="mx-2">tribe</span>
           <span className="ms-auto w-16">score</span>
@@ -444,8 +493,8 @@ export default function Leaderboard() {
 
         <div className="px-2">
           {leaderboardType === 'tribe'
-            ? renderLeaderboard(rankedTribes, false)
-            : renderLeaderboard(pickemTribes, true)
+            ? renderLeaderboard(filteredRankedTribes, false, rankedTribes.length > 0)
+            : renderLeaderboard(filteredPickemTribes, true, pickemTribes.length > 0)
           }
         </div>
 

@@ -4,6 +4,10 @@ import { isPickEmInvalidated } from '@/lib/utils/pickEmScoring';
 
 const WRONG_PICK_PENALTY = 50;
 
+// Pick-ems always start at week 2 and run through week 13 for now.
+const MIN_WEEK = 2;
+const MAX_WEEK = 13;
+
 export async function GET(req: Request) {
   try {
     const { searchParams } = new URL(req.url);
@@ -35,6 +39,20 @@ export async function GET(req: Request) {
       }
     });
     const pickEmMap = Object.fromEntries(pickEms.map(pe => [pe.id, pe]));
+
+    // Build the real week -> number-of-questions matrix for this season, based on
+    // how many PickEm questions actually exist per week (0 if not posted yet).
+    const questionCountByWeek: Record<number, number> = {};
+    for (const pe of pickEms) {
+      questionCountByWeek[pe.week] = (questionCountByWeek[pe.week] || 0) + 1;
+    }
+    const weekQuestionMatrix = Array.from(
+      { length: MAX_WEEK - MIN_WEEK + 1 },
+      (_, i) => {
+        const week = MIN_WEEK + i;
+        return { week, numQuestions: questionCountByWeek[week] || 0 };
+      }
+    );
 
     // Get all Picks for these PickEms
     const allPickEmIds = pickEms.map(pe => pe.id);
@@ -137,7 +155,7 @@ export async function GET(req: Request) {
       };
     });
 
-    return NextResponse.json(tribeDetails);
+    return NextResponse.json({ tribeDetails, weekQuestionMatrix });
   } catch (error) {
     console.error('Error computing pick-em tribe details:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });

@@ -10,6 +10,8 @@ import {
   InformationCircleIcon,
   NoSymbolIcon,
   CurrencyDollarIcon,
+  MagnifyingGlassIcon,
+  XMarkIcon,
 } from '@heroicons/react/24/outline'
 import {
   CheckCircleIcon,
@@ -41,6 +43,7 @@ export default function WeeklyPickEms() {
   const [lockAt, setLockAt] = useState<Date | null>(null)
   const [countdown, setCountdown] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 })
   const [helpOpen, setHelpOpen] = useState(false)
+  const [search, setSearch] = useState('')
 
   const [peModalOpen, setPeModalOpen] = useState(false)
   const [peLoading, setPeLoading] = useState(false)
@@ -350,6 +353,14 @@ export default function WeeklyPickEms() {
     }
   }, [tribeId, week, season, submittedSet, peModalOpen]);
 
+  function matchesSearch(item: any, query: string) {
+    const q = query.trim().toLowerCase()
+    if (!q) return true
+    const tribeName = (item.tribeName || '').toLowerCase()
+    const playerName = (item.playerName || '').toLowerCase()
+    return tribeName.includes(q) || playerName.includes(q)
+  }
+
 
   function getSortedTribes() {
     // Each tribe: isSubmitted (made picks) or not (passed)
@@ -383,7 +394,8 @@ export default function WeeklyPickEms() {
     }
 
     // Locked in go first, then passed
-    return [...lockedIn, ...passed];
+    const combined = [...lockedIn, ...passed];
+    return combined.filter((t) => matchesSearch(t, search));
   }
 
 
@@ -658,6 +670,30 @@ export default function WeeklyPickEms() {
         {/* Leaderboard-style list of tribes with status icons */}
         <div className="p-4 border-t border-stone-500">
           <h2 className="font-lostIsland text-xl uppercase mb-4">Tribe Picks</h2>
+
+          <div className="mb-4">
+            <div className="flex items-center gap-2 bg-stone-800 border border-stone-700 rounded-lg px-3 py-2">
+              <MagnifyingGlassIcon className="w-5 h-5 text-stone-400 shrink-0" />
+              <input
+                type="text"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder="Search tribe or player name..."
+                className="flex-1 min-w-0 bg-transparent outline-none text-stone-100 font-lostIsland tracking-wider placeholder:text-stone-500"
+              />
+              {search && (
+                <button
+                  type="button"
+                  onClick={() => setSearch('')}
+                  aria-label="Clear search"
+                  className="text-stone-400 hover:text-stone-200 shrink-0"
+                >
+                  <XMarkIcon className="w-5 h-5" />
+                </button>
+              )}
+            </div>
+          </div>
+
           {loading ? (
             <div className="flex flex-col justify-center items-center py-10">
               <ArrowPathIcon className="w-10 h-10 animate-spin text-stone-200" />
@@ -666,6 +702,10 @@ export default function WeeklyPickEms() {
           ) : rankedTribes.length === 0 ? (
             <div className="flex flex-col justify-center items-center py-10 px-4 text-center leading-tight">
               <p className="font-lostIsland text-lg my-2 tracking-wider">No tribes have been drafted for this season yet.</p>
+            </div>
+          ) : getSortedTribes().length === 0 ? (
+            <div className="flex flex-col justify-center items-center py-10 px-4 text-center leading-tight">
+              <p className="font-lostIsland text-lg my-2 tracking-wider">No results found for &ldquo;{search.trim()}&rdquo;.</p>
             </div>
           ) : (
             getSortedTribes().map((tribe) => {

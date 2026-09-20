@@ -124,8 +124,9 @@ const HomePage = () => {
         </a>
 
         <a href="/cast">
-          <div className="flex items-center bg-stone-800 rounded-lg p-0 hover:bg-stone-700 overflow-hidden">
-            <div className="bg-gradient-to-tr from-yellow-500 to-yellow-700 p-3 me-1"><UserGroupIcon className="w-8 h-8" /></div><h3 className="p-3 text-xl uppercase">Season 50 Cast</h3>
+          <div className="flex items-center bg-stone-800 rounded-lg p-0 hover:bg-stone-700  relative">
+            <div className="absolute -top-1.5 -end-0.5 bg-orange-800/40 px-2 uppercase pt-0.5 rounded border-2 border-orange-400 text-orange-400">New!</div>
+            <div className="rounded-s-xl bg-gradient-to-tr from-yellow-500 to-yellow-700 p-3 me-1"><UserGroupIcon className="w-8 h-8" /></div><h3 className="p-3 text-xl uppercase">Season 51 Cast</h3>
           </div>
         </a> 
         

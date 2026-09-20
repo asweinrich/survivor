@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import Image from "next/image";
 import { InformationCircleIcon } from '@heroicons/react/24/outline';
-import scoringValues from '../scoring/values50.json';
+import scoringValues from '../scoring/values51.json';
 
 
 const RulesPage = () => {
@@ -51,7 +51,7 @@ const RulesPage = () => {
 
         {/* Jump to Navigation */}
         <nav className="sticky top-0 max-w-6xl mx-auto mb-8 p-4 bg-stone-800 border-y border-stone-700">
-          <ul className="text-lg flex flex-wrap justify-start text-orange-200 font-lostIsland tracking-wider lowercase">
+          <ul className="text-lg flex flex-wrap justify-start text-orange-200 font-lostIsland tracking-wide lowercase">
             <li><a href="#overview" className="hover:text-orange-400 pe-4">Overview</a></li>
             <li><a href="#your-tribe" className="hover:text-orange-400 pe-4">Your Tribe</a></li>
             <li><a href="#pick-ems" className="hover:text-orange-400 pe-4">Pick Em</a></li>
@@ -71,10 +71,10 @@ const RulesPage = () => {
               Welcome to the unofficial best Survivor Fantasy League! Just like on Survivor, it’s all about strategy, intuition, and outlasting the competition.
             </p>
             <p className="mb-4 text-stone-300 tracking-wider font-inter">
-              Here’s how it works: First, you draft a tribe of 6 contestants from the upcoming season (Season 50!). You'll then pick one of them who you think will win it all. Your job is to pick the players you think will dominate challenges, survive tribal councils, and make it to the end. Each contestant earns points based on their performance throughout the season. Think of it like crafting your own Survivor dream team, and every episode is another chance to earn points and climb the leaderboard.
+              Here’s how it works: First, you draft a tribe of 6 contestants from the upcoming season (Season 51!). You'll then pick one of them who you think will win it all. Your job is to pick the players you think will dominate challenges, survive tribal councils, and make it to the end. Each contestant earns points based on their performance throughout the season. Think of it like crafting your own Survivor dream team, and every episode is another chance to earn points and climb the leaderboard.
             </p>
             <p className="mb-4 text-stone-300 tracking-wider font-inter">
-              At the end of the season, the top three tribes with the most points will split the prize pool. Whether you’re a die-hard fan, a casual watcher, or simply here to vibe and have a good time, this is your shot to outwit, outplay, and outlast!
+              Whether you’re a die-hard fan, a casual watcher, or simply here to vibe and have a good time, this is your shot to outwit, outplay, and outlast!
             </p>
             <div className="border-b-2 border-stone-700 w-full mt-16"></div>
           </section>
@@ -97,19 +97,19 @@ const RulesPage = () => {
             <div id="picking-tribe" className="mb-8">
                 <h3 className="text-lg mb-2 font-semibold font-inter text-stone-300">Picking Your Tribe</h3>
               <p className="font-inter text-stone-300 tracking-wider mb-2">
-                Drafting your tribe is simple. Head to the <a href="/draft" className="underline text-orange-500 hover:text-orange-400">draft page</a> between February 25th and March 4th to enter your email address, name, tribe info, and to choose 6 contestants who you think will dominate this season. After you submit your 6 tribe members, you will be prompted to confirm your picks and select one contestant who you think will walk away as sole survivor. Once you've drafted your tribe, it's time to sit back and watch the season unfold!
+                Drafting your tribe is simple. Head to the <a href="/draft" className="underline text-orange-500 hover:text-orange-400">draft page</a> between September 23rd and September 30th to enter your phone number, name, tribe info, and to choose 6 contestants who you think will dominate this season. After you submit your 6 tribe members, you will be prompted to confirm your picks and select one contestant who you think will walk away as sole survivor. Once you've drafted your tribe, it's time to sit back and watch the season unfold!
               </p>
               <p className="font-inter text-stone-300 tracking-wider mb-2"><em>
-                Just like last season, each tribe is required to pay a $20 entry fee to compete for prizes. This goes towards the prize pot to be distributed at the conclusion of Season 50.  
+                Just like last season, each tribe is required to pay a $20 entry fee to compete for prizes. This goes towards the prize pot to be distributed at the conclusion of Season 51.  
               </em></p>
             </div>
             <div className="border-b-2 border-stone-700 w-full mt-16"></div>
           </section>
 
           <section id="pick-ems" className="px-4 pt-16 font-lostIsland tracking-wider">
-            <h2 className="text-2xl mb-4">Weekly Pick Em's <span className="ms-2 bg-orange-800/40 px-2 rounded border-2 border-orange-400 text-orange-400">New!</span></h2>
+            <h2 className="text-2xl mb-4">Weekly Pick Em's </h2>
             <p className="font-inter text-stone-300 tracking-wider mb-4">
-              This year you get a fun new game called Weekly Pick Em's! This is completely optional and included with your original entry fee, so there's no additional cost to play. Your Pick Em score is separate and independent of your standard tribe score. 
+              What's that? You want something more engaging week to week? Well look no further than Weekly Pick Em's! This is completely optional and included with your original entry fee, so there's no additional cost to play. Your Pick Em score is separate and independent of your standard tribe score. 
             </p>
             <p className="font-inter text-stone-300 tracking-wider mb-4">
               Each week, every player who has drafted a tribe receives an entry for that week's pick-em contest. You can pick who will win an immunity challenge, who might be voted out, and other key events. If you pick correctly, you'll earn a specific amount of points for your overall Pick Em score! But beware, picking carries risk and an incorrect pick will cost you some points.
@@ -153,7 +153,7 @@ const RulesPage = () => {
                         <InformationCircleIcon className="w-5 h-5 inline mb-0.5" />
                       </button>
                       {tooltip === -1 && (
-                        <div className="absolute text-sm bg-stone-700 border border-stone-900 text-stone-200 p-4 mt-2 rounded w-80">
+                        <div className="absolute text-sm bg-stone-900/40 backdrop-blur-2xl backdrop-saturate-150 border border-white/15 shadow-[0_8px_32px_rgba(0,0,0,0.35)] supports-[backdrop-filter]:bg-stone-900/30 text-stone-200 p-4 mt-2 rounded-2xl w-80">
                           <button
                             type="button"
                             className="absolute top-0 right-3 text-stone-400 hover:text-stone-200 text-2xl"
@@ -162,13 +162,13 @@ const RulesPage = () => {
                           >
                             ×
                           </button>
-                          Picking the correct Sole Survivor earns your tribe a 200 point bonus.
+                          Picking the correct Sole Survivor earns your tribe a 100 point bonus.
                         </div>
                       )}
-                      Correct Sole Survivor Pick
+                      Correct Sole Survivor Bonus
                     </td>
 
-                    <td className="p-2 border border-stone-700">500</td>
+                    <td className="p-2 border border-stone-700">100</td>
                   </tr>
                   {scoringValues.map((score, index) => (
                     <tr key={index}>
@@ -180,21 +180,21 @@ const RulesPage = () => {
                           <InformationCircleIcon className="w-5 h-5 inline mb-0.5" />
                         </button>
                         {tooltip === index && (
-                          <div className="absolute text-sm bg-stone-700 border border-stone-900 text-stone-200 p-4 mt-2 rounded w-80">
-                          <button
-                            type="button"
-                            className="absolute top-0 right-3 text-stone-400 hover:text-stone-200 text-2xl"
-                            onClick={() => setTooltip(null)}
-                            aria-label="Close help"
-                          >
-                            ×
-                          </button>
-                          {score.description}
+                          <div className="absolute text-sm bg-stone-900/40 backdrop-blur-2xl backdrop-saturate-150 border border-white/15 shadow-[0_8px_32px_rgba(0,0,0,0.35)] supports-[backdrop-filter]:bg-stone-900/30 text-stone-200 p-4 mt-2 rounded-2xl w-80">
+                            <button
+                              type="button"
+                              className="absolute top-0 right-3 text-stone-400 hover:text-stone-200 text-2xl"
+                              onClick={() => setTooltip(null)}
+                              aria-label="Close help"
+                            >
+                              ×
+                            </button>
+                            {score.description}
                           </div>
                         )}
                         {score.name}
                       </td>
-                      <td className="p-2 border border-stone-700">{score.points}</td>
+                      <td className={`p-2 border border-stone-700 ${score.points < 0 ? 'text-red-400' : ''}`}>{score.points}</td>
                       
                     </tr>
                   ))}
@@ -202,7 +202,7 @@ const RulesPage = () => {
               </table>
             </div>
             <p className="mt-4 mb-8 text-stone-300 tracking-wider font-inter">
-              This scoring system rewards key milestones in Survivor. Do you have the Sole Survivor on your tribe? That could land you 500 points! Making the merge? That’s a solid 200 points for each pick. And don’t underestimate the smaller categories like winning challenges or simply surviving episodes - they can add up quickly! Remember, if one of your contestants gets voted out, you won't earn additional points from them, so choose wisely. It’s all about balancing bold moves with smart picks.
+              This scoring system rewards key milestones in Survivor. Do you have the Sole Survivor on your tribe? That could land you 200 points! Making the merge? That’s a solid 150 points for each pick. And don’t underestimate the smaller categories like confessionals or simply surviving episodes - they can add up quickly! Remember, if one of your contestants gets voted out, you won't earn additional points from them, so choose wisely. It’s all about balancing bold moves with smart picks.
             </p>
             <h3 className="text-lg font-inter mb-2 font-semibold">Pick Em Scoring</h3>
             <p className="mb-4 text-stone-300 tracking-wider font-inter">
@@ -242,7 +242,7 @@ const RulesPage = () => {
                   <tr className="bg-stone-800 text-stone-100">
                     <th className="p-2 border border-stone-700 text-center" colSpan={3}>
                       <span className="flex items-center justify-between w-full">
-                        <span className="">Season 50 Prize Pools</span>
+                        <span className="">Example, Season 50 Prize Pool:</span>
                         <span className="text-green-400 mx-1.5">$2240</span>
                       </span>
                     </th>
@@ -253,13 +253,13 @@ const RulesPage = () => {
                     <th className="p-2 border border-stone-700">Place</th>
                     <th className="p-2 border border-stone-700">
                       <span className="flex items-center justify-between w-full">
-                        <span className="mx-1.5">Tribe</span>
+                        <span className="mx-1.5">Tribe (75%)</span>
                         <span className="text-orange-400 mx-1.5">$1680</span>
                       </span>
                     </th>
                     <th className="p-2 border border-stone-700">
                       <span className="flex items-center justify-between w-full">
-                        <span className="mx-1.5">Pick Em</span>
+                        <span className="mx-1.5">Pick Em (25%)</span>
                         <span className="text-blue-400 mx-1.5">$560</span>
                       </span>
                     </th>

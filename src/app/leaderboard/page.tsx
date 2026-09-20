@@ -436,7 +436,7 @@ export default function Leaderboard() {
         {/* Season selector removed — now controlled from the site-wide nav */}
 
         {Number(season) >= 49 && (
-          <div className="flex items-center tracking-wider border border-stone-300/20 mt-8 mb-8 w-auto mx-4 rounded-xl text-2xl font-lostIsland lowercase ">
+          <div className="flex items-center tracking-wider border border-stone-300/20 mt-4 mb-4 w-auto mx-4 rounded-xl text-2xl font-lostIsland lowercase ">
             <button
               className={`w-1/2 p-3 transition-shadow duration-150 rounded-s-xl ${
                 leaderboardType === 'tribe'

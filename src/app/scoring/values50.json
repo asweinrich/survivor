@@ -4,69 +4,85 @@
       "description": "Winning the game is the ultimate goal. 'Sole Survivor' is the most vital category and is worth the most points.",
       "points": 500,
       "schemaKey": "soleSurvivor",
-      "type": "boolean"
+      "type": "boolean",
+      "recapTemplate": "{name} won Sole Survivor!!"
     },
     {
       "name": "Final Three Bonus",
       "description": "Reaching the Final Three shows strategic success, endurance, and jury management.",
       "points": 250,
       "schemaKey": "top3",
-      "type": "boolean"
+      "type": "boolean",
+      "recapTemplate": "{name} made it to the Final Three!"
     },
     {
       "name": "Successful Fire Making",
       "description": "The fire making challenge directly determines the Final Three contestants in modern Survivor. The winner will prove that they have what it takes to perform under immense pressure.",
       "points": 200,
       "schemaKey": "madeFire",
-      "type": "boolean"
+      "type": "boolean",
+      "recapTemplate": "{name} won the fire making challenge!"
     },
     {
       "name": "Make the Merge",
       "description": "Making the merge is a critical milestone; it demonstrates strong social gameplay and tribal alliances up to that point.",
       "points": 200,
       "schemaKey": "madeMerge",
-      "type": "boolean"
+      "type": "boolean",
+      "recapTemplate": "{name} made the merge!!"
     },
     {
       "name": "Individual Immunity",
       "description": "Winning individual immunity shows physical prowess and helps players avoid elimination in key moments.",
       "points": 150,
       "schemaKey": "immunityWins",
-      "type": "count"
+      "type": "count",
+      "recapTemplate": "{name} won individual immunity!",
+      "recapTemplatePlural": "{name} won individual immunity {count} times!"
     },
     {
       "name": "Reward Challenge",
       "description": "Going on a reward provides resources, morale boosts, and key bonding opportunities, though it is not directly related to survival. Winning a reward challenge doesn't necessarily mean points here. A contestant must go on the reward in order to score these points.",
       "points": 75,
       "schemaKey": "rewards",
-      "type": "count"
+      "type": "count",
+      "recapTemplate": "{name} went on a reward!",
+      "recapTemplatePlural": "{name} went on {count} rewards!"
     },
     {
       "name": "Hidden Immunity Idol",
       "description": "Obtaining a hidden immunity idol can change the course of the game, offering massive strategic value. These points will be awarded to a contestant who finds and controls a hidden immunity idol. A contestant will still earn these points even if they never play the idol, or if the idol is played for another player.",
       "points": 100,
       "schemaKey": "hiddenIdols",
-      "type": "count"
+      "type": "count",
+      "recapTemplate": "{name} found a hidden immunity idol!",
+      "recapTemplatePlural": "{name} found {count} hidden immunity idols!"
     },
     {
       "name": "Survive an Episode",
       "description": "Progressing through episodes gradually earns points, though it’s less impactful than major game milestones.",
       "points": 25,
       "schemaKey": "episodes",
-      "type": "count"
+      "type": "count",
+      "recapTemplate": "{name} survived the episode.",
+      "recapTemplatePlural": "{name} survived {count} episodes."
     },
     {
       "name": "Tribal Immunity",
       "description": "Tribal immunity prevents contestants from facing elimination. It’s critical pre-merge but less impactful after. Tribal Immunity points will only be awarded to the tribe that gets 1st place in a tribal immunity challenge. Contestants are eligible for these points even if they sit out of the challenge to make numbers even.",
       "points": 50,
       "schemaKey": "tribalWins",
-      "type": "count"
+      "type": "count",
+      "recapTemplate": "{name}'s tribe won the immunity challenge!",
+      "recapTemplatePlural": "{name}'s tribe won the immunity challenge {count} times!"
     },
     {
       "name": "Advantage",
       "description": "Finding or using an advantage can help, but it doesn't always guarantee safety or success. Advantages will be awarded similar to hidden immunity idols. Points will be given to the player(s) who obtain and control the advantage. Beware advantages DO count for this category.",
       "points": 50,
       "schemaKey": "advantages",
-      "type": "count"
+      "type": "count",
+      "recapTemplate": "{name} found an advantage!",
+      "recapTemplatePlural": "{name} found {count} advantages!"
     }
 ]

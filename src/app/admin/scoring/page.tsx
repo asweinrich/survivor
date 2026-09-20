@@ -3,7 +3,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import Image from 'next/image';
 import { useSession } from 'next-auth/react';
-import scoringValues from '@/app/scoring/values.json';
 
 type Contestant = {
   id: number;
@@ -23,8 +22,8 @@ type ScoringCategory = {
 };
 
 const ADMIN_EMAIL = 'asweinrich@gmail.com';
-const USE_WEEKLY_FROM_SEASON = 50;
-const ALLOWED_SEASONS = [50];
+const USE_WEEKLY_FROM_SEASON = 51;
+const ALLOWED_SEASONS = [50, 51];
 const ALLOWED_WEEKS = Array.from({ length: 13 }, (_, i) => i + 1);
 
 function inferTypeForKey(schemaKey: string): 'boolean' | 'count' {
@@ -55,12 +54,8 @@ export default function AdminWeeklyScoringPage() {
   // Status updates: contestantId -> { inPlay, voteOutOrder }
   const [statusEntries, setStatusEntries] = useState<Record<number, { inPlay: boolean; voteOutOrder: number | null }>>({});
 
-  const categories: (ScoringCategory & { type: 'boolean' | 'count' | 'scalar' })[] = useMemo(() => {
-    return (scoringValues as ScoringCategory[]).map((c) => ({
-      ...c,
-      type: (c.type as any) || inferTypeForKey(c.schemaKey),
-    }));
-  }, []);
+  const [categories, setCategories] = useState<(ScoringCategory & { type: 'boolean' | 'count' | 'scalar' })[]>([]);
+  
 
   async function fetchContestantsForSeason(s: number) {
     const res = await fetch(`/api/cast/${s}`, { cache: 'no-store' });
@@ -157,6 +152,24 @@ export default function AdminWeeklyScoringPage() {
       return a.name.localeCompare(b.name);
     });
   }, [contestants, scores]);
+
+  useEffect(() => {
+    let ignore = false;
+    (async () => {
+      try {
+        const res = await fetch(`/api/scoring/categories?season=${season}`, { cache: 'no-store' });
+        const data = await res.json();
+        const list = (data?.categories ?? []).map((c: ScoringCategory) => ({
+          ...c,
+          type: (c.type as any) || inferTypeForKey(c.schemaKey),
+        }));
+        if (!ignore) setCategories(list);
+      } catch {
+        if (!ignore) setCategories([]);
+      }
+    })();
+    return () => { ignore = true; };
+  }, [season]);
 
   const setEntry = (contestantId: number, categoryKey: string, val: number) => {
     setEntries((prev) => ({

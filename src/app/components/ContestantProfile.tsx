@@ -40,8 +40,9 @@ type ScoringCategory = {
   points: number;
   schemaKey: string;
   type?: 'boolean' | 'count' | 'scalar';
+  recapTemplate?: string;
+  recapTemplatePlural?: string;
 };
-
 type Recap = {
   id: number;
   headline: string;
@@ -58,6 +59,19 @@ type PastSeason = {
 type WeeklyTotalsByCategoryRow = {
   category: string; // schemaKey
   _sum: { value: number | null; points?: number | null };
+};
+
+type WeeklyRecapEvent = {
+  week: number;
+  category: string;
+  type: string;
+  value: number;
+  points: number;
+};
+
+type WeeklyRecapWeek = {
+  week: number;
+  events: WeeklyRecapEvent[];
 };
 
 // Legacy list retained (kept as close as possible to your existing UI expectations)
@@ -98,6 +112,8 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
   const [weeklyTotalsLoading, setWeeklyTotalsLoading] = useState(false);
 
   const isSeason50Plus = (contestant?.season ?? 0) >= 50;
+  const [weeklyRecap, setWeeklyRecap] = useState<WeeklyRecapWeek[]>([]);
+  const [weeklyRecapLoading, setWeeklyRecapLoading] = useState(false);
 
   // Fetch contestant details + rank
   useEffect(() => {
@@ -135,6 +151,22 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
         setPowerRank('--');
       });
   }, [contestantId]);
+
+  useEffect(() => {
+    if (!contestant || contestant.season < 50) {
+      setWeeklyRecap([]);
+      return;
+    }
+    setWeeklyRecapLoading(true);
+    fetch(`/api/scoring/contestant-weeks?contestantId=${contestant.id}&season=${contestant.season}`)
+      .then((res) => res.json())
+      .then((data) => setWeeklyRecap(Array.isArray(data?.weeks) ? data.weeks : []))
+      .catch((error) => {
+        console.error('Error fetching weekly recap:', error);
+        setWeeklyRecap([]);
+      })
+      .finally(() => setWeeklyRecapLoading(false));
+  }, [contestant]);
 
   // Fetch tribes + recaps + roster%
   useEffect(() => {
@@ -184,28 +216,37 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
     }
   }, [contestant]);
 
-  // Load values50.json scoring categories for S50+
+  // Load per-season scoring categories for S50+ (fetches values50.json, values51.json, etc.)
   useEffect(() => {
     if (!contestant) return;
 
     if (contestant.season >= 50) {
-      (async () => {
-        try {
-          const mod = await import('@/app/scoring/values50.json');
-          const cats = (mod.default || mod) as Array<{ name: string; points: number; schemaKey: string; type?: string }>;
+       fetch(`/api/scoring/categories?season=${contestant.season}`)
+        .then((res) => res.json())
+        .then((data) => {
+          const cats = (data?.categories ?? []) as Array<{
+            name: string;
+            points: number;
+            schemaKey: string;
+            type?: string;
+            recapTemplate?: string;
+            recapTemplatePlural?: string;
+          }>;
           setScoringCategories50(
             cats.map((c) => ({
               name: c.name,
               points: c.points,
               schemaKey: c.schemaKey,
               type: (c.type === 'boolean' ? 'boolean' : 'count') as 'boolean' | 'count',
+              recapTemplate: c.recapTemplate,
+              recapTemplatePlural: c.recapTemplatePlural,
             }))
           );
-        } catch (e) {
-          console.error('Failed to load values50.json', e);
+        })
+        .catch((e) => {
+          console.error('Failed to load scoring categories', e);
           setScoringCategories50([]);
-        }
-      })();
+        });
     } else {
       setScoringCategories50(null);
     }
@@ -371,6 +412,41 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
     ));
   }
 
+  const categoryBySchemaKey = useMemo(() => {
+    const m = new Map<string, ScoringCategory>();
+    categoriesForStats.forEach((c) => m.set(c.schemaKey, c));
+    return m;
+  }, [categoriesForStats]);
+
+  function buildRecapSentence(ev: WeeklyRecapEvent): { text: string; points: number } | null {
+    const cat = categoryBySchemaKey.get(ev.category) as (ScoringCategory & { recapTemplate?: string; recapTemplatePlural?: string }) | undefined;
+    const name = (contestant?.name || '').split(' ')[0] || contestant?.name || 'This contestant';
+    const points = ev.points;
+
+    let template: string | undefined;
+    if (ev.type === 'count' && ev.value > 1 && cat?.recapTemplatePlural) {
+      template = cat.recapTemplatePlural;
+    } else if (cat?.recapTemplate) {
+      template = cat.recapTemplate;
+    } else if (cat?.recapTemplatePlural) {
+      template = cat.recapTemplatePlural;
+    }
+
+    if (!template) {
+      // Generic fallback if no template is defined for this category yet
+      const label = cat?.name || ev.category;
+      template = ev.type === 'count'
+        ? `{name} had {count}x ${label}.`
+        : `{name} triggered ${label}.`;
+    }
+
+    const text = template
+      .replace(/{name}/g, name)
+      .replace(/{count}/g, String(ev.value));
+
+    return { text, points };
+  }
+
   return (
     <>
       {contestant ? (
@@ -482,6 +558,18 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
             >
               Stats
             </button>
+            {contestant.season >= 50 && (
+              <button
+                onClick={() => setActiveTab('recap')}
+                className={`text-xl tracking-wider py-2 w-full ${
+                  activeTab === 'recap'
+                    ? 'text-orange-400 border-b-4 border-orange-400'
+                    : 'text-stone-300 border-b-4 border-stone-800'
+                }`}
+              >
+                Activity
+              </button>
+            )}
           </div>
 
           {/* Content */}
@@ -557,6 +645,9 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
                     return null; // null => "??"
                   })();
 
+                  const pointsTotal = Math.round((countToDisplay ?? 0) * category.points);
+                  const isNegative = pointsTotal < 0;
+
                   return (
                     <div key={category.schemaKey} className="flex justify-between items-center px-5 py-3 border-b border-stone-600">
                       <span className="text-stone-300 me-auto text-lg">{category.name}</span>
@@ -565,8 +656,8 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
                         {shouldShowBooleanBadge ? renderBooleanBadge(booleanValueForBadge) : <span>{String(countToDisplay ?? 0)}</span>}
                       </span>
 
-                      <span className="text-orange-400 text-xl w-16 text-end pe-2">
-                        {Math.round((countToDisplay ?? 0) * category.points)}
+                      <span className={`text-xl w-16 text-end pe-2 ${isNegative ? 'text-red-400' : 'text-orange-400'}`}>
+                        {pointsTotal}
                       </span>
                     </div>
                   );
@@ -580,6 +671,53 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
                 </p>
               </div>
             )}
+
+
+            {activeTab === 'recap' && (
+              <div className="pb-4">
+                {weeklyRecapLoading && (
+                  <div className="flex flex-col justify-center items-center py-6 border-b border-stone-600">
+                    <ArrowPathIcon className="w-6 h-6 animate-spin text-stone-200" />
+                    <p className="font-lostIsland text-base lowercase mt-2 tracking-wider">Loading weekly recap...</p>
+                  </div>
+                )}
+
+                {!weeklyRecapLoading && weeklyRecap.length === 0 && (
+                  <div className="flex flex-col p-5 border-b border-stone-600 tracking-wide">
+                    <span className="text-stone-300 me-auto text-xl text-center w-full my-5">No weekly events yet</span>
+                  </div>
+                )}
+
+                {!weeklyRecapLoading && weeklyRecap.map(({ week, events }) => (
+                  <div key={week} className="border-b border-stone-600">
+                    <div className="px-5 pt-4 pb-2 text-stone-400 uppercase text-sm tracking-wider font-lostIsland">
+                      Week {week}
+                    </div>
+                    <div className="px-5 pb-3 flex flex-col gap-1.5">
+                      {events.map((ev, idx) => {
+                        const sentence = buildRecapSentence(ev);
+                        if (!sentence) return null;
+                        const isNegative = sentence.points < 0;
+                        return (
+                          <div key={`${week}-${ev.category}-${idx}`} className="flex items-start justify-between gap-3">
+                            <span className="text-stone-200 text-base leading-tight">{sentence.text}</span>
+                            <span className={`shrink-0 text-base font-lostIsland tracking-wider ${isNegative ? 'text-red-400' : 'text-green-400'}`}>
+                              {sentence.points > 0 ? '+' : ''}{sentence.points} pts
+                            </span>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+
+
+
+
+
+            
           </div>
         </div>
       ) : (

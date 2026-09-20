@@ -1,20 +1,11 @@
 import { prisma } from '@/lib/prisma';
+import { loadCategoriesForSeason, inferTypeForKey } from '@/lib/scoring/categories';
 
 type ScoringCategory = {
   schemaKey: string;
   points: number;
   type?: 'boolean' | 'count' | 'scalar';
 };
-
-async function loadCategories(): Promise<ScoringCategory[]> {
-  const mod = await import('@/app/scoring/values50.json');
-  return (mod.default || mod) as ScoringCategory[];
-}
-
-function inferTypeForKey(schemaKey: string): 'boolean' | 'count' {
-  const booleanKeys = new Set(['soleSurvivor', 'top3', 'madeFire', 'madeMerge']);
-  return booleanKeys.has(schemaKey) ? 'boolean' : 'count';
-}
 
 export async function awardEvent(params: {
   contestantId: number;
@@ -24,7 +15,8 @@ export async function awardEvent(params: {
   type?: 'boolean' | 'count' | 'scalar';
   value: number; // 1/0 for boolean; N for counts
 }) {
-  const cats = await loadCategories();
+  const cats = await loadCategoriesForSeason(params.season);
+
   const cat = cats.find((c) => c.schemaKey === params.categoryKey);
   if (!cat) throw new Error(`Unknown category ${params.categoryKey}`);
 

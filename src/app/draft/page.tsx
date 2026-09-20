@@ -58,7 +58,7 @@ export default function Draft() {
   const season = 51;
 
   //disable draft until it opens
-  const status = false;
+  const status = true;
 
   const [emojiPickerVisible, setEmojiPickerVisible] = useState(false);
 
@@ -501,7 +501,7 @@ export default function Draft() {
                   ))}
                 </div>
 
-                <div className="sticky bottom-0 p-4 pt-3 bg-stone-700 rounded-t-xl mx-1">
+                <div className="sticky bottom-0 p-4 pt-3 bg-stone-700 rounded-t-xl mx-1" style={{"zIndex": 50}}>
                   <div className="mb-2">
                     <div className="flex flex-row justify-around items-center mb-3">
                       <label htmlFor="tribeArray" className="flex grow text-lg leading-tight">

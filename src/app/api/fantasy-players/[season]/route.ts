@@ -19,7 +19,7 @@ export async function GET(req: Request, { params }: { params: Promise<{ season: 
     });
 
     // Use a Map to dedupe players by id
-    const playerMap = new Map<number, { id: number; email: string; name: string }>();
+    const playerMap = new Map<number, { id: number; email: string | null; name: string }>();
     playerTribes.forEach(pt => {
       if (pt.player) {
         playerMap.set(pt.player.id, {

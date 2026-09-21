@@ -73,7 +73,7 @@ const FaqPage = () => {
                 When do I draft my tribe?
               </p>
               <p className="font-inter text-stone-300 tracking-wider">
-                You can draft your tribe any time between the airing of the 1st and 2nd episodes of Season 50. Tribe 'drafting' will be open from Wednesday February 25th at 10:00PM PT until Wednesday March 4th at 5:00PM PT.
+                You can draft your tribe any time between the airing of the 1st and 2nd episodes of Season 51. Tribe 'drafting' will be open from Wednesday September 23rd at 10:00PM PT until Wednesday September 30th at 5:00PM PT.
               </p>
             </div>
 
@@ -117,7 +117,7 @@ const FaqPage = () => {
                 What happens if there is a tie?
               </p>
               <p className="font-inter text-stone-300 tracking-wider">
-                If two or more tribes are tied for any of the top 3 places at the end of the season, the prize for that place along with the prize for the next place(s) will be evenly distributed among those tied. For example, if two tribes tie for 1st place, they will split the combined 90% of the pot for 1st and 2nd place, and the next hightest scoring tribe would get 3rd place and receive 10% of the pot. 
+                If two or more tribes are tied for any of the top places at the end of the season, the prize for that place along with the prize for the next place(s) will be evenly distributed among those tied. For example, if two tribes tie for 1st place, they will split the combined percentage of the pot for 1st and 2nd place, and the next hightest scoring tribe would get 3rd place and receive that percentage of the pot and so on. 
               </p>  
             </div>
 

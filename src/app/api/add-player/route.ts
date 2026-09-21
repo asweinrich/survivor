@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
+import { toE164 } from '@/lib/twilio';
+import { verifyPhoneVerificationToken } from '@/lib/verifyToken';
 
 const prisma = new PrismaClient();
 
@@ -9,48 +11,57 @@ export async function POST(req: Request) {
     const body = await req.json();
     console.log('Request Body:', body);
 
-    const { email, name, tribeName, color, emoji, tribeArray } = body;
+    const { phone, verificationToken, name, tribeName, color, emoji, tribeArray } = body;
 
-    const season = 50;
+    const season = 51;
 
-    if (!email || !name || !tribeName || !color || !emoji || !season || !tribeArray) {
+    if (!phone || !verificationToken || !name || !tribeName || !color || !emoji || !season || !tribeArray) {
       return NextResponse.json({ message: 'Missing required fields' }, { status: 400 });
+    }
+
+    const formattedPhone = toE164(phone);
+
+    if (!formattedPhone) {
+      return NextResponse.json({ message: 'Invalid phone number format' }, { status: 400 });
+    }
+
+    // Server-side proof of ownership: the client can only get a valid
+    // verificationToken by successfully checking a code with Twilio first.
+    if (!verifyPhoneVerificationToken(verificationToken, formattedPhone)) {
+      return NextResponse.json({ message: 'Phone verification expired or invalid. Please verify again.' }, { status: 401 });
     }
 
     // Check if the player already exists
     let player = await prisma.player.findUnique({
-      where: { email },
+      where: { phone: formattedPhone },
     });
 
     if (!player) {
-      // Create a new player if they don't exist
       player = await prisma.player.create({
         data: {
-          email,
+          phone: formattedPhone,
           name,
           passwordHash: '',
-          playerTribes: [], // Initialize as empty
+          playerTribes: [],
         },
       });
     }
 
-    // Add a new PlayerTribe
     const newPlayerTribe = await prisma.playerTribe.create({
       data: {
         playerId: player.id,
         tribeName,
-        tribeArray, // Array of contestant IDs
+        tribeArray,
         color,
         emoji,
         season
       },
     });
 
-    // Update the player's playerTribes field
     await prisma.player.update({
       where: { id: player.id },
       data: {
-        playerTribes: [...player.playerTribes, newPlayerTribe.id], // Add the new PlayerTribe ID
+        playerTribes: [...player.playerTribes, newPlayerTribe.id],
       },
     });
 
@@ -58,8 +69,8 @@ export async function POST(req: Request) {
       message: 'Player and PlayerTribe updated successfully',
       tribeId: newPlayerTribe.id 
     });
-  } catch (error) {
+  } catch (error: any) {
     console.error(error);
-    return NextResponse.json({ message: 'Internal server error' }, { status: 500 });
+    return NextResponse.json({ message: error?.message || 'Internal server error' }, { status: 500 });
   }
 }

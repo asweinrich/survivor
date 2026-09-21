@@ -39,7 +39,7 @@ export default function YourTribePage() {
   const [loading, setLoading] = useState(true);
   const [recycleConfetti, setRecycleConfetti] = useState(true);
 
-  const season = 50;
+  const season = 51;
 
 
   // Fetch tribe data from the API
@@ -213,9 +213,9 @@ export default function YourTribePage() {
                     ];
 
                     return (
-                      <div className="relative flex justify-center items-end w-full h-[17rem] pt-12 overflow-hidden">
+                      <div className="relative flex justify-center items-end w-full h-[20rem] pt-12 overflow-hidden">
                         <img 
-                          className="absolute w-full -top-6 h-72"
+                          className="absolute w-full -top-6 h-96"
                           src="/imgs/graphics/tropical-graphic.png"
                           style={{
                               maskImage: "linear-gradient(to bottom, rgba(0,0,0,0.55) 65%, rgba(0,0,0,0) 100%)",
@@ -231,19 +231,19 @@ export default function YourTribePage() {
                           return (
                             <div
                               key={contestant.id}
-                              className={`absolute top-6 flex flex-col items-center ${positions[index]}`}
+                              className={`absolute top-4 flex flex-col items-center ${positions[index]}`}
                             >
                               <img
-                                src={`/imgs/50/${contestant.name}.png`}
+                                src={`/imgs/51/full-body/${contestant.name}.png`}
                                 alt={contestant.name}
-                                className={`object-contain border-stone-950 rounded-full border-4 scale-120  ${
+                                className={` scale-150 mt-6 ${
                                   index === 2
-                                    ? "h-[7rem] drop-shadow-[-2px_0px_10px_rgba(255,223,0,1)]"
-                                    : "h-[5rem]"
+                                    ? "h-[14rem] drop-shadow-[-2px_0px_10px_rgba(255,223,0,1)]"
+                                    : "h-[10rem]"
                                 }`}
                               />
                               <div 
-                                className="relative text-center border-2 rounded-lg border-stone-900 mt-4 px-1.5 py-1 font-lostIsland tracking-wide"
+                                className="relative text-center border-2 rounded-lg border-stone-900 px-1.5 py-1 font-lostIsland tracking-wide"
                                 style={{
                                   textShadow: "1px 1px 1px rgba(0, 0, 0, 1)",
                                   backgroundImage: primaryTribe

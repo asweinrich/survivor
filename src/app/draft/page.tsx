@@ -35,6 +35,14 @@ export default function Draft() {
   const [finalSubmitting, setFinalSubmitting] = useState(false);
   const [acknowledged, setAcknowledged] = useState(false);
 
+  const [otpSent, setOtpSent] = useState(false);
+  const [otpCode, setOtpCode] = useState('');
+  const [sendingCode, setSendingCode] = useState(false);
+  const [verifyingCode, setVerifyingCode] = useState(false);
+  const [otpVerified, setOtpVerified] = useState(false);
+  const [verificationToken, setVerificationToken] = useState('');
+  const [otpError, setOtpError] = useState('');
+
   const router = useRouter();
 
   const getRandomColor = () => {
@@ -48,7 +56,7 @@ export default function Draft() {
 
   // Form state
   const [form, setForm] = useState({
-    email: '',
+    phone: '',
     name: '',
     tribeName: '',
     emoji: '',
@@ -169,10 +177,11 @@ export default function Draft() {
   const handleFinalSubmit = async () => {
     if (!selectedSoleSurvivor) return;
     setFinalSubmitting(true);
-    // Reorder the tribe array so that the sole survivor is first
+    setOtpError('');
     const newTribeArray = [selectedSoleSurvivor, ...draftPicks.filter(id => id !== selectedSoleSurvivor)];
     const data = {
-      email: form.email,
+      phone: form.phone,
+      verificationToken,
       name: form.name,
       tribeName: form.tribeName,
       color: form.color,
@@ -190,21 +199,67 @@ export default function Draft() {
         body: JSON.stringify(data),
       });
       if (!response.ok) {
-        const errorMessage = `Server returned ${response.status}: ${response.statusText}`;
-        console.error(errorMessage);
-        alert(errorMessage);
+        const errorData = await response.json().catch(() => ({}));
+        setOtpError(errorData?.message || `Server returned ${response.status}`);
         setFinalSubmitting(false);
         return;
       }
       const result = await response.json();
-      // Redirect to the newly created tribe page using the returned tribe ID.
       router.push(`/your-tribe/${result.tribeId || result.id}`);
     } catch (error) {
       console.error('Error during final submission:', error);
-      alert('An error occurred during final submission.');
+      setOtpError('An error occurred during final submission.');
       setFinalSubmitting(false);
     }
   };
+
+  const handleSendCode = async () => {
+    if (!form.phone) return;
+    setSendingCode(true);
+    setOtpError('');
+    try {
+      const res = await fetch('/api/auth/phone/send-code', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phone: form.phone }),
+      });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data?.message || 'Failed to send code');
+      }
+      setOtpSent(true);
+    } catch (err: any) {
+      setOtpError(err.message || 'Failed to send code');
+    } finally {
+      setSendingCode(false);
+    }
+  };
+
+  const handleVerifyCode = async () => {
+    if (!form.phone || otpCode.length !== 6) return;
+    setVerifyingCode(true);
+    setOtpError('');
+    try {
+      const res = await fetch('/api/auth/phone/verify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phone: form.phone, code: otpCode }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        throw new Error(data?.message || 'Invalid or expired code');
+      }
+      setOtpVerified(true);
+      setVerificationToken(data.verificationToken);
+    } catch (err: any) {
+      setOtpVerified(false);
+      setVerificationToken('');
+      setOtpError(err.message || 'Invalid or expired code');
+    } finally {
+      setVerifyingCode(false);
+    }
+  };
+
 
   // Helper to get the names of drafted contestants (for the textarea preview)
   const getTribeNames = () => {
@@ -228,6 +283,14 @@ export default function Draft() {
 
   function getFirstName(fullName: string): string {
     return fullName.trim().split(' ')[0];
+  }
+
+  // Format a raw/E.164 phone number as (XXX) XXX-XXXX for display only.
+  // Storage/submission always uses the raw digits / E.164 format.
+  function formatPhoneDisplay(phone: string): string {
+    const digits = phone.replace(/\D/g, '').slice(-10); // last 10 digits, ignores leading +1
+    if (digits.length !== 10) return phone; // fallback if incomplete/invalid
+    return `${digits.slice(0, 3)}-${digits.slice(3, 6)}-${digits.slice(6)}`;
   }
 
   // NEW: Build groups by tribe
@@ -404,15 +467,18 @@ export default function Draft() {
           <form className="mb-0 bg-stone-900 rounded-lg font-lostIsland tracking-wider uppercase" onSubmit={handleSubmit}>
             <div className="flex flex-col px-2">
               <div className="mb-4 px-4">
-                <label htmlFor="email" className="block text-lg mb-1.5">
-                  Email Address
+                <label htmlFor="phone" className="block text-lg mb-1.5">
+                  Phone Number
                 </label>
                 <input
-                  type="email"
-                  id="email"
-                  name="email"
+                  type="tel"
+                  id="phone"
+                  name="phone"
+                  inputMode="tel"
+                  autoComplete="tel"
+                  placeholder="(555) 555-5555"
                   className="w-full p-2 bg-stone-700 rounded text-lg"
-                  value={form.email}
+                  value={form.phone}
                   onChange={handleInputChange}
                   required
                 />
@@ -532,7 +598,7 @@ export default function Draft() {
                   <button
                     type="submit"
                     disabled={
-                      !form.email ||
+                      !form.phone ||
                       !form.name ||
                       !form.tribeName ||
                       !form.color ||
@@ -542,7 +608,7 @@ export default function Draft() {
 
                     }
                     className={`w-full py-2 rounded text-lg uppercase ${
-                      form.email &&
+                      form.phone &&
                       form.name &&
                       form.tribeName &&
                       form.color &&
@@ -583,12 +649,11 @@ export default function Draft() {
                     {form.name}
                   </p>
                   <p className="font-lostIsland tracking-wider text-lg leading-tight opacity-80 ps-1">
-                    {form.email}
+                    {formatPhoneDisplay(form.phone)}
                   </p>
-
                 </div>
                 <div>
-                  <p className="mb-4 font-lostIsland uppercase tracking-wider text-center text-xl">Chose Your Sole Survivor</p>
+                  <p className="mb-4 font-lostIsland uppercase tracking-wider text-center text-xl">Choose Your Sole Survivor</p>
                   <div className="grid grid-cols-3 gap-2">
                     {draftedContestants.map((contestant) => (
                       <div
@@ -626,6 +691,81 @@ export default function Draft() {
                   </div>
                 </div>
 
+                {/* Phone Verification Section */}
+                <div className="mt-4 pt-4 border-t border-stone-600">
+                  <p className="mb-3 font-lostIsland uppercase tracking-wider text-center text-lg">
+                    Verify Your Phone Number
+                  </p>
+
+                  {otpVerified ? (
+                    <div className="p-2 rounded border font-lostIsland border-green-700 bg-green-900/30 text-green-200 text-center tracking-wider lowercase">
+                      ✓ Phone verified
+                    </div>
+                  ) : (
+                    <>
+                      <p className="text-sm text-stone-300 tracking-wider leading-tight text-center mb-3">
+                        We'll text a 6-digit code to {formatPhoneDisplay(form.phone)} to confirm it's really you.
+                      </p>
+
+                      {!otpSent ? (
+                        <button
+                          type="button"
+                          onClick={handleSendCode}
+                          disabled={sendingCode || !form.phone}
+                          className={`w-full py-2 rounded text-lg uppercase font-lostIsland tracking-wider ${
+                            sendingCode || !form.phone
+                              ? 'bg-gray-500 text-gray-300 cursor-not-allowed'
+                              : 'bg-blue-600 text-white hover:bg-blue-700'
+                          }`}
+                        >
+                          {sendingCode ? 'Sending...' : 'Send Code'}
+                        </button>
+                      ) : (
+                        <div className="flex flex-col gap-2">
+                          <input
+                            type="text"
+                            inputMode="numeric"
+                            maxLength={6}
+                            placeholder="6-digit code"
+                            value={otpCode}
+                            onChange={(e) => {
+                              setOtpCode(e.target.value.replace(/\D/g, ''));
+                              setOtpError('');
+                            }}
+                            className="px-4 py-2 rounded text-black font-lostIsland w-full text-center text-xl tracking-widest lowercase"
+                          />
+                          <button
+                            type="button"
+                            onClick={handleVerifyCode}
+                            disabled={verifyingCode || otpCode.length !== 6}
+                            className={`w-full py-2 rounded text-lg uppercase font-lostIsland tracking-wider ${
+                              verifyingCode || otpCode.length !== 6
+                                ? 'bg-gray-500 text-gray-300 cursor-not-allowed'
+                                : 'bg-green-600 text-white hover:bg-green-700'
+                            }`}
+                          >
+                            {verifyingCode ? 'Verifying...' : 'Verify Code'}
+                          </button>
+                          <button
+                            type="button"
+                            onClick={handleSendCode}
+                            disabled={sendingCode}
+                            className="text-xs text-orange-400 hover:text-orange-300 tracking-wider underline"
+                          >
+                            {sendingCode ? 'Resending...' : "Didn't get it? Resend code"}
+                          </button>
+                        </div>
+                      )}
+                    </>
+                  )}
+
+                  {otpError && (
+                    <div className="mt-2 p-2 rounded border border-red-700 bg-red-900/30 text-red-200 text-sm text-center">
+                      {otpError}
+                    </div>
+                  )}
+                </div>
+
                 {/* New Checkbox Section */}
                 <div className="flex items-center mt-4">
                   <input
@@ -636,7 +776,7 @@ export default function Draft() {
                     className="me-3 h-8 w-8"
                   />
                   <label htmlFor="acknowledge" className="font-inter text-sm tracking-wider leading-tight">
-                    I acknowledge I need to pay Andrew my tribe's entry fee by Wednesday March 4th, 2026 @ 5:00 PM PST or else my tribe will be ineligible for prizes in this season's competition
+                    I acknowledge I need to pay Andrew my tribe's entry fee by Wednesday September 30th, 2026 @ 5:00 PM PT or else my tribe will be ineligible for prizes in this season's competition
                   </label>
                 </div>
 
@@ -649,9 +789,9 @@ export default function Draft() {
                   </button>
                   <button
                     onClick={handleFinalSubmit}
-                    disabled={!selectedSoleSurvivor || finalSubmitting || !acknowledged}
+                    disabled={!selectedSoleSurvivor || finalSubmitting || !acknowledged || !otpVerified}
                     className={`px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 ${
-                      (!selectedSoleSurvivor || finalSubmitting || !acknowledged) &&
+                      (!selectedSoleSurvivor || finalSubmitting || !acknowledged || !otpVerified) &&
                       "opacity-50 cursor-not-allowed"
                     }`}
                   >

@@ -54,6 +54,22 @@ export async function POST(req: Request) {
       const contestantId = Number(e?.contestantId);
       const categoryKey = String(e?.category || '');
       if (!contestantId || !categoryKey) continue;
+      
+      // Status snapshot: always 0 points, just tracks voteOutOrder for the week
+      if (categoryKey === 'statusEvent') {
+        const value = Number(e?.value ?? 0);
+        rows.push({
+          contestantId,
+          season,
+          week,
+          category: 'statusEvent',
+          type: 'scalar',
+          value: Number.isFinite(value) ? value : 0,
+          points: 0,
+        });
+        continue;
+      }
+
       const cat = catMap.get(categoryKey);
       if (!cat) {
         return NextResponse.json({ error: `Unknown category ${categoryKey}` }, { status: 400 });

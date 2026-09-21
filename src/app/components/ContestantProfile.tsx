@@ -447,6 +447,20 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
     return { text, points };
   }
 
+  function buildStatusSentence(voteOutOrder: number): string | null {
+    const name = (contestant?.name || '').split(' ')[0] || contestant?.name || 'This contestant';
+
+    if (voteOutOrder === 903) return `${name} was the Sole Survivor!`;
+    if (voteOutOrder === 902) return `${name} finished in second place.`;
+    if (voteOutOrder === 901) return `${name} finished in third place.`;
+    if (voteOutOrder === 600) return `${name} lost the fire-making challenge and was eliminated.`;
+    if (voteOutOrder === 700) return `${name} was medically evacuated from the game.`;
+    if (voteOutOrder > 0 && voteOutOrder < 900) {
+      return `${name} was the ${getOrdinalSuffix(voteOutOrder)} person voted out.`;
+    }
+    return null;
+  }
+
   return (
     <>
       {contestant ? (
@@ -688,28 +702,51 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
                   </div>
                 )}
 
-                {!weeklyRecapLoading && weeklyRecap.map(({ week, events }) => (
-                  <div key={week} className="border-b border-stone-600">
-                    <div className="px-5 pt-4 pb-2 text-stone-400 uppercase text-sm tracking-wider font-lostIsland">
-                      Week {week}
-                    </div>
-                    <div className="px-5 pb-3 flex flex-col gap-1.5">
-                      {events.map((ev, idx) => {
-                        const sentence = buildRecapSentence(ev);
-                        if (!sentence) return null;
-                        const isNegative = sentence.points < 0;
-                        return (
-                          <div key={`${week}-${ev.category}-${idx}`} className="flex items-start justify-between gap-3">
-                            <span className="text-stone-200 text-base leading-tight">{sentence.text}</span>
-                            <span className={`shrink-0 text-base font-lostIsland tracking-wider ${isNegative ? 'text-red-400' : 'text-green-400'}`}>
-                              {sentence.points > 0 ? '+' : ''}{sentence.points} pts
-                            </span>
+                {!weeklyRecapLoading && weeklyRecap.map(({ week, events }) => {
+                  const statusEvent = events.find((e) => e.category === 'statusEvent' && e.value > 0);
+                  const scoreEvents = events
+                    .filter((e) => e.category !== 'statusEvent')
+                    .sort((a, b) => b.points - a.points);
+
+                  return (
+                    <div key={week} className="border-b border-stone-600 py-5">
+                      <div className="px-5 mb-3 w-full text-center text-orange-400/90 uppercase text-base font-medium tracking-wider font-inter">
+                        Episode {week}
+                      </div>
+
+                      {statusEvent && (
+                        <div className="px-5 mb-3 text-center">
+                          <div className="text-stone-100 text-sm font-inter leading-tight">
+                            {buildStatusSentence(statusEvent.value)}
                           </div>
-                        );
-                      })}
+                        </div>
+                      )}
+
+                      <div className="px-5 flex flex-col gap-1.5">
+                        {scoreEvents.map((ev, idx) => {
+                          const sentence = buildRecapSentence(ev);
+                          if (!sentence) return null;
+                          const isNegative = sentence.points < 0;
+                          return (
+                            <div key={`${week}-${ev.category}-${idx}`} className="flex items-center justify-center gap-3 mb-2">
+                              <div className="text-stone-100 text-sm font-inter text-center">
+                                {sentence.text}
+                                <span
+                                  className={`inline-block whitespace-nowrap shrink-0 text-sm ps-3 font-inter tracking-wider font-medium ${
+                                    isNegative ? 'text-red-400' : 'text-green-400'
+                                  }`}
+                                >
+                                  {sentence.points > 0 ? '+' : ''}
+                                  {sentence.points} pts
+                                </span>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             )}
 

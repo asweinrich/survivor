@@ -237,6 +237,20 @@ export default function AdminWeeklyScoringPage() {
         });
       });
 
+      // Status snapshot for this week (0 points, just tracks voteOutOrder per week)
+      sortedContestants.forEach((c) => {
+        const st = statusEntries[c.id] || { inPlay: c.inPlay, voteOutOrder: c.voteOutOrder ?? null };
+        const statusValue = st.voteOutOrder != null ? Number(st.voteOutOrder) : 0;
+        payloads.push({
+          contestantId: c.id,
+          season,
+          week,
+          category: 'statusEvent',
+          type: 'scalar',
+          value: statusValue,
+        });
+      });      
+
       // 1) Submit weekly scoring matrix (overwrite semantics)
       {
         const resp = await fetch('/api/scoring/submit-week', {
@@ -467,14 +481,32 @@ export default function AdminWeeklyScoringPage() {
                                   title={`+${cat.points}`}
                                 />
                               ) : (
-                                <input
-                                  type="number"
-                                  min={0}
-                                  value={curr}
-                                  onChange={(e) => setEntry(c.id, cat.schemaKey, Number(e.target.value))}
-                                  className="w-14 px-1 py-0.5 rounded-md bg-stone-800 border border-stone-700 text-stone-200 text-right"
-                                  title={`+${cat.points} each`}
-                                />
+                                <div className="inline-flex items-stretch gap-1" title={`+${cat.points} each`}>
+                                  <input
+                                    type="text"
+                                    readOnly
+                                    value={curr}
+                                    className="w-10 px-1 py-0.5 rounded-md bg-stone-800 border border-stone-700 text-stone-200 text-right cursor-default select-none"
+                                  />
+                                  <div className="flex flex-col">
+                                    <button
+                                      type="button"
+                                      onClick={() => setEntry(c.id, cat.schemaKey, Math.max(0, Number(curr) + 1))}
+                                      className="flex items-center justify-center w-5 h-3.5 rounded-t-md bg-stone-700 border border-stone-600 border-b-0 text-stone-200 hover:bg-stone-600 leading-none text-xs"
+                                      aria-label={`Increase ${cat.name}`}
+                                    >
+                                      +
+                                    </button>
+                                    <button
+                                      type="button"
+                                      onClick={() => setEntry(c.id, cat.schemaKey, Math.max(0, Number(curr) - 1))}
+                                      className="flex items-center justify-center w-5 h-3.5 rounded-b-md bg-stone-700 border border-stone-600 text-stone-200 hover:bg-stone-600 leading-none text-xs"
+                                      aria-label={`Decrease ${cat.name}`}
+                                    >
+                                      −
+                                    </button>
+                                  </div>
+                                </div>
                               )}
                             </td>
                           );

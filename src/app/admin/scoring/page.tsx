@@ -238,9 +238,16 @@ export default function AdminWeeklyScoringPage() {
       });
 
       // Status snapshot for this week (0 points, just tracks voteOutOrder per week)
+      // Only write it the week the status actually changes vs. what's currently saved on Contestant,
+      // so it doesn't get re-recorded on every subsequent week's submission.
       sortedContestants.forEach((c) => {
         const st = statusEntries[c.id] || { inPlay: c.inPlay, voteOutOrder: c.voteOutOrder ?? null };
-        const statusValue = st.voteOutOrder != null ? Number(st.voteOutOrder) : 0;
+        const previousVoteOutOrder = c.voteOutOrder ?? null;
+        const nextVoteOutOrder = st.voteOutOrder ?? null;
+
+        if (nextVoteOutOrder === previousVoteOutOrder) return; // no change this week, skip
+
+        const statusValue = nextVoteOutOrder != null ? Number(nextVoteOutOrder) : 0;
         payloads.push({
           contestantId: c.id,
           season,
@@ -249,7 +256,7 @@ export default function AdminWeeklyScoringPage() {
           type: 'scalar',
           value: statusValue,
         });
-      });      
+      });     
 
       // 1) Submit weekly scoring matrix (overwrite semantics)
       {

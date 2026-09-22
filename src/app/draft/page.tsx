@@ -43,6 +43,8 @@ export default function Draft() {
   const [verificationToken, setVerificationToken] = useState('');
   const [otpError, setOtpError] = useState('');
 
+  const [smsConsent, setSmsConsent] = useState(false);
+
   const router = useRouter();
 
   const getRandomColor = () => {
@@ -66,7 +68,7 @@ export default function Draft() {
   const season = 51;
 
   //disable draft until it opens
-  const status = false;
+  const status = true;
 
   const [emojiPickerVisible, setEmojiPickerVisible] = useState(false);
 
@@ -188,6 +190,7 @@ export default function Draft() {
       emoji: form.emoji,
       season,
       tribeArray: newTribeArray,
+      smsConsent,
     };
 
     try {
@@ -764,6 +767,21 @@ export default function Draft() {
                       {otpError}
                     </div>
                   )}
+                </div>
+
+                {/* SMS Consent Section (required for Twilio A2P 10DLC registration) */}
+                <div className="flex items-start mt-4">
+                  <input
+                    type="checkbox"
+                    id="smsConsent"
+                    checked={smsConsent}
+                    onChange={(e) => setSmsConsent(e.target.checked)}
+                    className="me-3 mt-1 h-8 w-8"
+                  />
+                  <label htmlFor="smsConsent" className="font-inter text-sm tracking-wider leading-tight">
+                    By checking this box, I consent to receive text messages from Survivor Fantasy
+                    at the phone number provided, including a draft confirmation, weekly recaps, and pick em reminders. Message and data rates may apply. You can use STOP to opt out. Consent is not a condition of participation.
+                  </label>
                 </div>
 
                 {/* New Checkbox Section */}

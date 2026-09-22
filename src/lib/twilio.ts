@@ -3,6 +3,7 @@ import twilio from 'twilio';
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
 const verifyServiceSid = process.env.TWILIO_VERIFY_SERVICE_SID;
+const fromPhoneNumber = process.env.TWILIO_PHONE_NUMBER;
 
 if (!accountSid || !authToken || !verifyServiceSid) {
   console.warn(
@@ -35,4 +36,25 @@ export function toE164(rawPhone: string): string | null {
   }
 
   return null;
+}
+
+// Sends a plain SMS (not a Verify code) from your Twilio number.
+// Used for things like draft confirmations, not OTP codes.
+export async function sendSms(to: string, body: string) {
+  if (!fromPhoneNumber) {
+    console.warn('TWILIO_PHONE_NUMBER is not set. Skipping SMS send.');
+    return null;
+  }
+
+  try {
+    return await twilioClient.messages.create({
+      to,
+      from: fromPhoneNumber,
+      body,
+    });
+  } catch (error) {
+    // Don't let a failed confirmation text break the draft submission itself.
+    console.error('Failed to send confirmation SMS:', error);
+    return null;
+  }
 }

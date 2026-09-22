@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
-import { toE164 } from '@/lib/twilio';
+import { toE164, sendSms } from '@/lib/twilio';
 import { verifyPhoneVerificationToken } from '@/lib/verifyToken';
 
 const prisma = new PrismaClient();
@@ -11,7 +11,7 @@ export async function POST(req: Request) {
     const body = await req.json();
     console.log('Request Body:', body);
 
-    const { phone, verificationToken, name, tribeName, color, emoji, tribeArray } = body;
+    const { phone, verificationToken, name, tribeName, color, emoji, tribeArray, smsConsent } = body;
 
     const season = 51;
 
@@ -20,6 +20,8 @@ export async function POST(req: Request) {
     }
 
     const formattedPhone = toE164(phone);
+
+    const PAYMENT_LINK = 'https://venmo.com/YOUR-VENMO-HANDLE'; // TODO: swap in real link
 
     if (!formattedPhone) {
       return NextResponse.json({ message: 'Invalid phone number format' }, { status: 400 });
@@ -43,6 +45,7 @@ export async function POST(req: Request) {
           name,
           passwordHash: '',
           playerTribes: [],
+          smsConsentAt: new Date(),
         },
       });
     }
@@ -64,6 +67,14 @@ export async function POST(req: Request) {
         playerTribes: [...player.playerTribes, newPlayerTribe.id],
       },
     });
+
+    if (smsConsent) {
+      await sendSms(
+        formattedPhone,
+        `You're in, ${name}! Your tribe "${tribeName}" is drafted for Season ${season}. ` +
+        `Pay your $20 entry fee here: ${PAYMENT_LINK}`
+      );
+    }
 
     return NextResponse.json({ 
       message: 'Player and PlayerTribe updated successfully',

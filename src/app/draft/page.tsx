@@ -68,7 +68,7 @@ export default function Draft() {
   const season = 51;
 
   //disable draft until it opens
-  const status = true;
+  const status = false;
 
   const [emojiPickerVisible, setEmojiPickerVisible] = useState(false);
 
@@ -636,7 +636,7 @@ export default function Draft() {
               onClick={() => setConfirmationModalVisible(false)}
             >
               <div
-                className="bg-stone-800 rounded-lg p-4 w-full max-w-3xl max-h-[90vh] overflow-y-auto relative"
+                className="bg-stone-800 rounded-lg p-4 w-full max-w-3xl max-h-[90vh] pb-24 overflow-y-auto relative"
                 onClick={(e) => e.stopPropagation()}
               >
                 <h2 className="text-xl tracking-wider text-center uppercase mb-2 font-lostIsland">Confirm Your Tribe</h2>

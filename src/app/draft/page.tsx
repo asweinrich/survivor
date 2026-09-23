@@ -636,7 +636,7 @@ export default function Draft() {
               onClick={() => setConfirmationModalVisible(false)}
             >
               <div
-                className="bg-stone-800 rounded-lg p-4 w-full max-w-3xl relative"
+                className="bg-stone-800 rounded-lg p-4 w-full max-w-3xl max-h-[90vh] overflow-y-auto relative"
                 onClick={(e) => e.stopPropagation()}
               >
                 <h2 className="text-xl tracking-wider text-center uppercase mb-2 font-lostIsland">Confirm Your Tribe</h2>

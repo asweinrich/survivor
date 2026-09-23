@@ -10,12 +10,13 @@ import { darkenColor } from '@/lib/utils/color';
 import { useUserInfo } from '@/lib/hooks/useUserInfo';
 
 type Props = {
-  userEmail: string;
+  userEmail?: string;
+  userPhone?: string;
   tribeCount: number;
 };
 
-export default function UserHeader({ userEmail, tribeCount }: Props) {
-  const { name, badges, allBadges } = useUserInfo(userEmail);
+export default function UserHeader({ userEmail, userPhone, tribeCount }: Props) {
+  const { name, badges, allBadges } = useUserInfo({ email: userEmail, phone: userPhone });
 
   const [isEditing, setIsEditing] = useState(false);
   const [displayName, setDisplayName] = useState('');

@@ -7,18 +7,19 @@ type UserInfo = {
   allBadges: UserBadge[];
 };
 
-export function useUserInfo(userEmail: string) {
+export function useUserInfo(identifier: { email?: string; phone?: string }) {
   const [data, setData] = useState<UserInfo>({ name: '', badges: [], allBadges: [] });
+  const { email, phone } = identifier;
 
   useEffect(() => {
-    if (!userEmail) return;
+    if (!email && !phone) return;
     const ac = new AbortController();
 
     (async () => {
       const res = await fetch('/api/user-info', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: userEmail }),
+        body: JSON.stringify({ email, phone }),
         signal: ac.signal,
       });
       const json = await res.json();
@@ -34,7 +35,7 @@ export function useUserInfo(userEmail: string) {
     })();
 
     return () => ac.abort();
-  }, [userEmail]);
+  }, [email, phone]);
 
   return data;
 }

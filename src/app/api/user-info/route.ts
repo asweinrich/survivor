@@ -2,14 +2,14 @@ import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 
 export async function POST(req: Request) {
-  const { email } = await req.json();
+  const { email, phone } = await req.json();
 
-  if (!email) {
-    return NextResponse.json({ error: 'Email required' }, { status: 400 });
+  if (!email && !phone) {
+    return NextResponse.json({ error: 'Email or phone required' }, { status: 400 });
   }
 
   const player = await prisma.player.findUnique({
-    where: { email },
+    where: email ? { email } : { phone },
     select: {
       name: true,
       badges: true,

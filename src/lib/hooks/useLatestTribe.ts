@@ -16,7 +16,7 @@ export function useLatestTribe(userPhone?: string | null) {
   });
 
   useEffect(() => {
-    if (!userEmail) return;
+    if (!userPhone) return;
     const ac = new AbortController();
 
     (async () => {

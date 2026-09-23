@@ -285,6 +285,7 @@ export default function DashboardPage() {
       <div className="max-w-6xl mx-auto p-3">
         <UserHeader
           userEmail={userEmail ?? ""}
+          userPhone={userPhone ?? ""}
           tribeCount={sortedUserTribes.length}
         />
 

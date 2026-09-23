@@ -21,7 +21,7 @@ import { useLatestTribe } from '@/lib/hooks/useLatestTribe';
 export default function AppTabBar() {
   const pathname = usePathname();
   const { data: session, status } = useSession();
-  const { color, emoji } = useLatestTribe(session?.user?.email);
+  const { color, emoji } = useLatestTribe((session?.user as any)?.phone);
 
   const tabs = [
     { href: '/', label: 'Home', icon: HomeIcon, iconActive: HomeIconSolid, exact: true, grow: 4 },

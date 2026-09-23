@@ -14,8 +14,8 @@ import { hexToRgba } from '@/lib/utils/color';
 import { formatVotedOutOrder } from '@/lib/utils/format';
 
 
-const SEASONS = [50, 49, 48, 47];
-const PICKEM_MIN_SEASON = 50; 
+const SEASONS = [51, 50, 49, 48, 47];
+const PICKEM_MIN_SEASON = 51; 
 
 
 type Contestant = {
@@ -41,7 +41,14 @@ export default function DashboardPage() {
   const [expandedTribes, setExpandedTribes] = useState<number[]>([]);
   const revealSpoilers = true;
   const [loading, setLoading] = useState(true);
+  const [userPhone, setUserPhone] = useState<string>("");
   const [userEmail, setUserEmail] = useState<string>("");
+
+  const [showLinkPrompt, setShowLinkPrompt] = useState(false);
+  const [showLinkForm, setShowLinkForm] = useState(false);
+  const [linkEmailInput, setLinkEmailInput] = useState("");
+  const [linkSending, setLinkSending] = useState(false);
+  const [linkMessage, setLinkMessage] = useState("");
 
   const [pickemLeaderboard, setPickemLeaderboard] = useState<any[]>([]);
   const [pickemTribeDetails, setPickemTribeDetails] = useState<any[]>([]);
@@ -77,8 +84,16 @@ export default function DashboardPage() {
       if (!session) {
         redirect("/sign-in");
       }
+      const phone = (session?.user as any)?.phone || "";
       const email = session?.user?.email || "";
+      setUserPhone(phone);
       setUserEmail(email);
+
+      // Link-email prompt visibility: hide if already linked, or if the
+      // user previously dismissed it via "don't show this again".
+      const dismissed =
+        typeof window !== "undefined" && localStorage.getItem("linkEmailPromptDismissed") === "true";
+      setShowLinkPrompt(!email && !dismissed);
 
       let allTribes: any[] = [];
       let allContestants: any[] = [];
@@ -182,11 +197,11 @@ export default function DashboardPage() {
     }
 
     const sortedUserTribes = ranked
-      .filter((tribe) => tribe.playerEmail === userEmail)
+      .filter((tribe) => tribe.playerPhone === userPhone)
       .sort((a, b) => b.season - a.season);
 
     return { rankedTribes: ranked, sortedUserTribes };
-  }, [playerTribes, calculateScore, userEmail]);
+  }, [playerTribes, calculateScore, userPhone]);
 
 
 
@@ -202,7 +217,7 @@ export default function DashboardPage() {
     return playerTribes
       .filter(
         (tribe: any) =>
-          tribe.playerEmail === userEmail &&
+          tribe.playerPhone === userPhone &&
           tribe.season >= PICKEM_MIN_SEASON // Only pick-em seasons!
       )
       // ...rest of your mapping/sorting logic as before...
@@ -210,7 +225,7 @@ export default function DashboardPage() {
         ...tribe,
         rank: i === 0 ? 1 : arr[i - 1].pickemPoints === tribe.pickemPoints ? arr[i - 1].rank : i + 1,
       }));
-  }, [playerTribes, pickemLeaderboard, userEmail]);
+  }, [playerTribes, pickemLeaderboard, userPhone]);
 
   const WEEK_QUESTION_MATRIX = [
     { week: 2, numQuestions: 3 },
@@ -234,6 +249,32 @@ export default function DashboardPage() {
     );
   };
 
+  const handleLinkEmailSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLinkMessage("");
+    setLinkSending(true);
+    try {
+      const res = await fetch("/api/link-email/request", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: linkEmailInput }),
+      });
+      await res.json().catch(() => ({}));
+      // Always the same message regardless of match — avoids leaking
+      // whether an email has played before.
+      setLinkMessage("If that email has past tribes, we've sent a link to verify and transfer them. Check your inbox.");
+    } catch {
+      setLinkMessage("If that email has past tribes, we've sent a link to verify and transfer them. Check your inbox.");
+    } finally {
+      setLinkSending(false);
+    }
+  };
+
+  const dismissLinkPrompt = () => {
+    localStorage.setItem("linkEmailPromptDismissed", "true");
+    setShowLinkPrompt(false);
+  };
+
 
 
   return (
@@ -244,7 +285,58 @@ export default function DashboardPage() {
           tribeCount={sortedUserTribes.length}
         />
 
+        {showLinkPrompt && (
+          <div className="mt-4 mb-2 p-3 rounded-lg border border-stone-700 bg-stone-800 font-lostIsland">
+            <p className="text-center lowercase tracking-wider mb-3">
+              Played Survivor Fantasy before with an email address? Link your past tribes here.
+            </p>
 
+            {!showLinkForm ? (
+              <div className="flex gap-2">
+                <button
+                  onClick={() => setShowLinkForm(true)}
+                  className="flex-1 py-2 rounded text-lg uppercase font-lostIsland tracking-wider bg-orange-600 text-white hover:bg-orange-700"
+                >
+                  Link My Tribes
+                </button>
+                <button
+                  onClick={dismissLinkPrompt}
+                  className="flex-1 py-2 rounded text-lg uppercase font-lostIsland tracking-wider bg-gray-600 text-gray-200 hover:bg-gray-700"
+                >
+                  Don't Show Again
+                </button>
+              </div>
+            ) : (
+              <form onSubmit={handleLinkEmailSubmit} className="flex flex-col gap-3">
+                <input
+                  type="email"
+                  required
+                  value={linkEmailInput}
+                  onChange={(e) => setLinkEmailInput(e.target.value)}
+                  placeholder="your-old-email@example.com"
+                  className="px-4 py-2 rounded text-black w-full"
+                />
+                <button
+                  type="submit"
+                  disabled={linkSending}
+                  className={`w-full py-2 rounded text-lg uppercase font-lostIsland tracking-wider ${
+                    linkSending
+                      ? 'bg-gray-500 text-gray-300 cursor-not-allowed'
+                      : 'bg-blue-600 text-white hover:bg-blue-700'
+                  }`}
+                >
+                  {linkSending ? "Sending..." : "Send Verification Link"}
+                </button>
+
+                {linkMessage && (
+                  <div className="p-2 rounded border font-lostIsland border-green-700 bg-green-900/30 text-green-200 text-center tracking-wider lowercase">
+                    {linkMessage}
+                  </div>
+                )}
+              </form>
+            )}
+          </div>
+        )}
 
         <div className="flex mb-2 mt-6 px-2 font-lostIsland">
           <h1 className="text-2xl uppercase">Your Picks</h1>

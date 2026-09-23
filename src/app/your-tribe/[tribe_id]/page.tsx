@@ -286,7 +286,7 @@ export default function YourTribePage() {
                     pay Your $20 Entry Fee on Venmo!
                   </a>
                 </p>
-                <p className="my-4 leading-tight">Tribe entry fees are due before the 2nd episode airs on March 4th, 2026.</p>
+                <p className="my-4 leading-tight">Tribe entry fees are due before the 2nd episode airs on September 30th, 2026.</p>
               </div>
 
             </>

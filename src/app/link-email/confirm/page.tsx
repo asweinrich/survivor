@@ -1,9 +1,9 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 
-export default function LinkEmailConfirmPage() {
+function ConfirmContent() {
   const searchParams = useSearchParams();
   const token = searchParams.get('token');
 
@@ -63,5 +63,21 @@ export default function LinkEmailConfirmPage() {
         </>
       )}
     </div>
+  );
+}
+
+export default function LinkEmailConfirmPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-stone-900 text-white flex items-center justify-center font-lostIsland">
+          <svg className="w-10 h-10 animate-spin text-stone-200" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+          </svg>
+        </div>
+      }
+    >
+      <ConfirmContent />
+    </Suspense>
   );
 }

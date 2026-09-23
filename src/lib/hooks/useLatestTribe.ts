@@ -7,7 +7,7 @@ type LatestTribe = {
   season: number | null;
 };
 
-export function useLatestTribe(userEmail?: string | null) {
+export function useLatestTribe(userPhone?: string | null) {
   const [data, setData] = useState<LatestTribe>({
     color: null,
     emoji: null,

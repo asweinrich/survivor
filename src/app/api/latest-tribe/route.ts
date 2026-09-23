@@ -3,14 +3,14 @@ import { prisma } from '@/lib/prisma';
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
-  const email = searchParams.get('email');
+  const phone = searchParams.get('phone');
 
-  if (!email) {
-    return NextResponse.json({ message: 'Email required' }, { status: 400 });
-  }
+  if (!email && !phone) {
+    return NextResponse.json({ message: 'Email or phone required' }, { status: 400 });
+   }
 
   const player = await prisma.player.findUnique({
-    where: { email },
+    where: email ? { email } : { phone: phone! },
     select: { id: true },
   });
 

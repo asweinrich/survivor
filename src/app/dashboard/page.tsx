@@ -66,7 +66,10 @@ export default function DashboardPage() {
           fetch(`/api/pickem-tribe-details?season=${season}`),
         ]);
         setPickemLeaderboard(await leaderboardRes.json());
-        setPickemTribeDetails(await tribeDetailsRes.json());
+        const tribeDetailsJson = await tribeDetailsRes.json();
+        setPickemTribeDetails(
+          Array.isArray(tribeDetailsJson) ? tribeDetailsJson : tribeDetailsJson?.tribeDetails ?? []
+        );
       } catch (e) {
         setPickemLeaderboard([]);
         setPickemTribeDetails([]);

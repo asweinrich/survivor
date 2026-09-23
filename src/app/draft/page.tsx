@@ -68,7 +68,7 @@ export default function Draft() {
   const season = 51;
 
   //disable draft until it opens
-  const status = false;
+  const status = true;
 
   const [emojiPickerVisible, setEmojiPickerVisible] = useState(false);
 

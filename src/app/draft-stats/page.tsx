@@ -278,7 +278,7 @@ export default function DraftStatsPage() {
     if (
       status === 'unauthenticated' ||
       (status === 'authenticated' &&
-        session?.user?.email?.toLowerCase() !== 'asweinrich@gmail.com')
+        (session?.user as any)?.phone !== process.env.NEXT_PUBLIC_ADMIN_PHONE)
     ) {
       router.replace('/');
     }

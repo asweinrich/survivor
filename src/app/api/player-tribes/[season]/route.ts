@@ -35,6 +35,7 @@ export async function GET(req: Request, { params }: { params: Promise<{ season: 
       playerId: tribe.playerId,
       playerName: tribe.player?.name || 'Unknown Player',
       playerEmail: tribe.player?.email || null,
+      playerPhone: tribe.player?.phone || null,
       paid: tribe.paid,
       pastScore: tribe.pastScore,
       season: tribe.season,

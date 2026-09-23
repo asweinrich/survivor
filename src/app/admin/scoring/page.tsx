@@ -21,7 +21,7 @@ type ScoringCategory = {
   type?: 'boolean' | 'count' | 'scalar';
 };
 
-const ADMIN_EMAIL = 'asweinrich@gmail.com';
+const ADMIN_PHONE = process.env.NEXT_PUBLIC_ADMIN_PHONE || '';
 const USE_WEEKLY_FROM_SEASON = 51;
 const ALLOWED_SEASONS = [50, 51];
 const ALLOWED_WEEKS = Array.from({ length: 13 }, (_, i) => i + 1);
@@ -35,7 +35,7 @@ export default function AdminWeeklyScoringPage() {
   const { data: session, status } = useSession();
   const isAdmin =
     status === 'authenticated' &&
-    session?.user?.email?.toLowerCase() === ADMIN_EMAIL.toLowerCase();
+    (session?.user as any)?.phone === ADMIN_PHONE;
 
   const [season, setSeason] = useState<number>(USE_WEEKLY_FROM_SEASON);
   const [week, setWeek] = useState<number>(1);

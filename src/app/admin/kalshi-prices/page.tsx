@@ -26,7 +26,6 @@ interface PricePoint {
 }
 
 // ── Constants ─────────────────��────────────────────────────────────────────────
-const ADMIN_EMAIL = 'asweinrich@gmail.com';
 const PT_ZONE = 'America/Los_Angeles'; // handles PST/PDT automatically
 
 const CONTESTANT_COLORS = [
@@ -78,7 +77,7 @@ export default function KalshiPricesPage() {
 
   const isAdmin =
     status === 'authenticated' &&
-    session?.user?.email?.toLowerCase() === ADMIN_EMAIL.toLowerCase();
+    (session?.user as any)?.phone === process.env.NEXT_PUBLIC_ADMIN_PHONE
 
   const [allData, setAllData] = useState<Record<string, PricePoint[]>>({});
   const [contestants, setContestants] = useState<string[]>([]);

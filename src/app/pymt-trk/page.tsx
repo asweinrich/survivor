@@ -32,7 +32,7 @@ export default function ManagePayments() {
     if (status === 'loading') return; // Wait for session to load
     if (
       status === 'unauthenticated' ||
-      (status === 'authenticated' && session?.user?.email?.toLowerCase() !== 'asweinrich@gmail.com')
+      (status === 'authenticated' && (session?.user as any)?.phone !== process.env.NEXT_PUBLIC_ADMIN_PHONE)
     ) {
       router.replace('/');
     }
@@ -44,7 +44,7 @@ export default function ManagePayments() {
     async function fetchPlayerTribes() {
       setLoading(true);
       try {
-        const res = await fetch('/api/player-tribes/50');
+        const res = await fetch('/api/player-tribes/51');
         const data = await res.json();
 
         // Ensure that 'paid' is always either true or false

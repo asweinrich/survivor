@@ -60,7 +60,7 @@ export default function DashboardPage() {
       setPickemLoading(true);
       try {
         // Use current season or allow user to select
-        const season = 50; // or your logic
+        const season = 51; // or your logic
         const [leaderboardRes, tribeDetailsRes] = await Promise.all([
           fetch(`/api/pickem-leaderboard?season=${season}`),
           fetch(`/api/pickem-tribe-details?season=${season}`),

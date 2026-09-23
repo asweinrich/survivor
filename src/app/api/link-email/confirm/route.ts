@@ -44,15 +44,15 @@ export async function POST(req: Request) {
         data: { playerId: newPlayer.id },
       }),
       prisma.player.update({
+        where: { id: oldPlayer.id },
+        data: { playerTribes: [], email: null },
+      }),
+      prisma.player.update({
         where: { id: newPlayer.id },
         data: {
           playerTribes: Array.from(new Set([...newPlayer.playerTribes, ...oldPlayer.playerTribes])),
           email: oldPlayer.email,
         },
-      }),
-      prisma.player.update({
-        where: { id: oldPlayer.id },
-        data: { playerTribes: [], email: null },
       }),
     ]);
 

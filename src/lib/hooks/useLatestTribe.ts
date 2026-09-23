@@ -21,7 +21,7 @@ export function useLatestTribe(userPhone?: string | null) {
 
     (async () => {
       try {
-        const res = await fetch(`/api/latest-tribe?email=${encodeURIComponent(userEmail)}`, {
+        const res = await fetch(`/api/latest-tribe?phone=${encodeURIComponent(userPhone)}`, {
           signal: ac.signal,
         });
         if (!res.ok) return;

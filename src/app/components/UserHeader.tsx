@@ -52,8 +52,8 @@ export default function UserHeader({ userEmail, userPhone, tribeCount }: Props) 
       const res = await fetch('/api/update-display-name', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: userEmail, name: editValue.trim() }),
-      });
+        body: JSON.stringify({ email: userEmail || undefined, phone: userPhone || undefined, name: editValue.trim() }),
+       });
 
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));

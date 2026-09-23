@@ -3,6 +3,7 @@ import { prisma } from '@/lib/prisma';
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
+  const email = searchParams.get('email');
   const phone = searchParams.get('phone');
 
   if (!email && !phone) {

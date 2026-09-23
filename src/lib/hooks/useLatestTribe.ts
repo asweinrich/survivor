@@ -33,7 +33,7 @@ export function useLatestTribe(userPhone?: string | null) {
     })();
 
     return () => ac.abort();
-  }, [userEmail]);
+  }, [userPhone]);
 
   return data;
 }

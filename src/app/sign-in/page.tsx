@@ -107,7 +107,7 @@ export default function SignInPage() {
       </div>
 
       <div className="flex flex-col w-full text-center text-base text-red-400 lowercase tracking-wider leading-tight mb-2">
-        You will not be able to sign in via phone until you have drafter a tribe first. 
+        You will not be able to sign in via phone until you have drafted a tribe for season 51. 
       </div>
 
       {!otpSent ? (

@@ -29,7 +29,7 @@ export default function RootLayout({
         <meta property="og:title" content="Survivor Fantasy App" />
       </head>
       <body
-        className={`antialiased bg-stone-900 pb-24`}
+        className={`antialiased bg-stone-900 pb-36`}
       >
         <SessionProvider>
           <SeasonProvider>

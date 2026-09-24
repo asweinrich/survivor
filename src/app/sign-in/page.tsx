@@ -106,6 +106,10 @@ export default function SignInPage() {
         )}
       </div>
 
+      <div className="flex flex-col w-full text-center text-base text-red-400 lowercase tracking-wider leading-tight mb-2">
+        You will not be able to sign in via phone until you have drafter a tribe first. 
+      </div>
+
       {!otpSent ? (
         <form onSubmit={handleSendCode} className="flex flex-col gap-3 w-full p-3 text-2xl">
           <div className="w-full text-center text-lg lowercase tracking-wider leading-tight mb-6">
@@ -190,8 +194,8 @@ export default function SignInPage() {
         </form>
       )}
 
-      <div className="w-full mt-6 border-t border-stone-700 pt-4 text-center text-sm text-stone-400 lowercase tracking-wider leading-tight">
-        Played Survivor Fantasy before with an email address? You won't see those past tribes when you sign in. But don't worry! You can link your past tribes to your Season 51 account after drafting your Season 51 tribe. Look for the option on your dashboard.
+      <div className="w-full mt-6 border-t border-stone-700 pt-4 text-center text-sm text-stone-300 lowercase tracking-wider leading-tight">
+        Played Survivor Fantasy in the past and logged in with an email address? You won't see those past tribes when you sign in. But don't worry! You can link your past tribes to your Season 51 account after drafting your Season 51 tribe. Look for the option on your dashboard.
       </div>
     </div>
   );

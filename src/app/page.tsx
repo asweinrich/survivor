@@ -8,7 +8,7 @@ const HomePage = () => {
   const [countdown, setCountdown] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
 
 
-  const season = 50;
+  const season = 51;
 
   useEffect(() => {
     const targetDate = new Date("2026-09-23T17:00:00-07:00"); // PST (UTC-8)
@@ -69,7 +69,7 @@ const HomePage = () => {
         <span className=""><a target="_blank" href="https://chat.whatsapp.com/FpRMxQLhp0U848l309PL1T" className="text-emerald-500 hover:text-emerald-700 underline">Join the WhatsApp group</a> to meet your competition and to get the best Survivor Fantasy experience - come say hi!</span>
       </div>
 
-      {<div className="text-center py-3 px-4 mt-3 mx-3 rounded-xl">
+      {/*<div className="text-center py-3 px-4 mt-3 mx-3 rounded-xl">
         <h2 className="text-2xl uppercase text-stone-300 mb-4">Season 51 Starts In...</h2>
         <div className="flex flex-row  max-w-96 justify-center items-center space-x-6 lowercase tracking-wider bg-stone-800 border border-stone-700 mx-auto p-4 rounded-xl">
           <div className="text-center">
@@ -90,7 +90,7 @@ const HomePage = () => {
           </div>
         </div>
       </div>}
-      
+      */}
 
 
 

@@ -58,6 +58,15 @@
       "recapTemplate": "{name} found a hidden immunity idol!",
       "recapTemplatePlural": "{name} found {count} hidden immunity idols!"
     },
+    {          
+      "name": "Shot in the Dark: SAFE",
+      "description": "Contestants facing certain elimination may play their Shot in the Dark for a 1 in 6 shot at safety. If the result is SAFE, they have defied the odds to gain immunity and survive another day, not to mention it't just about the coolest thing someone can do in this game.",
+      "points": 100,
+      "schemaKey": "yesShotInDark",
+      "type": "count",
+      "recapTemplate": "{name} played their Shot in the Dark... successfully!!",
+      "recapTemplatePlural": "{name} played their shot in the dark {count} times."
+    },
     {
       "name": "Reward Challenge",
       "description": "Going on a reward provides resources, morale boosts, and key bonding opportunities, though it is not directly related to survival. Winning a reward challenge doesn't necessarily mean points here. *A contestant must go on the reward in order to score these points!*",
@@ -112,10 +121,19 @@
       "recapTemplate": "{name} had a confessional.",
       "recapTemplatePlural": "{name} had {count} confessionals."
     },
+    {          
+      "name": "Shot in the Dark: NOT SAFE",
+      "description": "Contestants facing certain elimination may play their Shot in the Dark for a 1 in 6 shot at safety. If the result is NOT SAFE, their attempt failed and they remain in danger of elimination.",
+      "points": -25,
+      "schemaKey": "noShotInDark",
+      "type": "count",
+      "recapTemplate": "{name} played their Shot in the Dark... unsuccessfully.",
+      "recapTemplatePlural": "{name} played their shot in the dark {count} times."
+    },
     {
       "name": "Lost or Stolen Vote",
       "description": "Contestants can lose their vote through a Journey or beware advantage, or have it blocked or stolen by another contestant. They lose their power to send somebody else home and become a target themselves. Castaways will NOT lose points if they lose their vote and have it restored before their next Tribal Council AND the end of the episode. Castaways who are exiled are already penalized and will NOT lose points for not being able to vote.",
-      "points": -25,
+      "points": -50,
       "schemaKey": "lostVote",
       "type": "count",
       "recapTemplate": "{name} lost their vote.",
@@ -124,7 +142,7 @@
     {
       "name": "Exiled",
       "description": "Getting sent to Exile Island (or something similar) removes a contestant from the game and leaves them without resources or shelter. It's the worst thing that can happen aside from getting voted out. Contestants will be docked points for each episode where they are sent to or in exile and don't get out. Contestants will still lose points if they go to and come back from exile in the same episode.",
-      "points": -50,
+      "points": -75,
       "schemaKey": "exiled",
       "type": "count",
       "recapTemplate": "{name} was exiled.",
@@ -133,7 +151,7 @@
     {
       "name": "Voted Out",
       "description": "Getting voted out means your game is over and you did not win. ...Unless? 👀 No, but for real, if a contestant gets voted out they lose 75 points.",
-      "points": -75,
+      "points": -100,
       "schemaKey": "votedOut",
       "type": "count",
       "recapTemplate": "{name} got snuffed.",

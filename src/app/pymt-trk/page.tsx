@@ -30,17 +30,18 @@ export default function ManagePayments() {
   // Restrict access: only asweinrich@gmail.com can view
   useEffect(() => {
     if (status === 'loading') return; // Wait for session to load
-    if (
-      status === 'unauthenticated' ||
-      (status === 'authenticated' && (session?.user as any)?.phone !== process.env.NEXT_PUBLIC_ADMIN_PHONE)
-    ) {
-      router.replace('/');
-    }
+    // TEMP: gating disabled locally for pre-draft prep
+    // if (
+    //   status === 'unauthenticated' ||
+    //   (status === 'authenticated' && (session?.user as any)?.phone !== process.env.NEXT_PUBLIC_ADMIN_PHONE)
+    // ) {
+    //   router.replace('/');
+    // }
   }, [session, status, router]);
 
   // Fetch the list of player tribes on mount
   useEffect(() => {
-    if (status !== 'authenticated' || session?.user?.email?.toLowerCase() !== 'asweinrich@gmail.com') return;
+    //if (status !== 'authenticated' || session?.user?.email?.toLowerCase() !== 'asweinrich@gmail.com') return;
     async function fetchPlayerTribes() {
       setLoading(true);
       try {
@@ -115,13 +116,14 @@ export default function ManagePayments() {
   };
 
   // Don't render until authenticated and correct user
-  if (
-    status === 'loading' ||
-    status === 'unauthenticated' ||
-    (status === 'authenticated' && session?.user?.email?.toLowerCase() !== 'asweinrich@gmail.com')
-  ) {
-    return null;
-  }
+  // TEMP: gating disabled locally for pre-draft prep
+  // if (
+  //   status === 'loading' ||
+  //   status === 'unauthenticated' ||
+  //   (status === 'authenticated' && (session?.user as any)?.phone !== process.env.NEXT_PUBLIC_ADMIN_PHONE)
+  // ) {
+  //   return null;
+  // }
 
   return (
     <div className="min-h-screen bg-stone-900 text-stone-200 p-0">

@@ -238,16 +238,13 @@ export default function AdminWeeklyScoringPage() {
       });
 
       // Status snapshot for this week (0 points, just tracks voteOutOrder per week)
-      // Only write it the week the status actually changes vs. what's currently saved on Contestant,
-      // so it doesn't get re-recorded on every subsequent week's submission.
       sortedContestants.forEach((c) => {
         const st = statusEntries[c.id] || { inPlay: c.inPlay, voteOutOrder: c.voteOutOrder ?? null };
-        const previousVoteOutOrder = c.voteOutOrder ?? null;
         const nextVoteOutOrder = st.voteOutOrder ?? null;
 
-        if (nextVoteOutOrder === previousVoteOutOrder) return; // no change this week, skip
+        if (nextVoteOutOrder === null) return; // nothing entered for this contestant, skip
 
-        const statusValue = nextVoteOutOrder != null ? Number(nextVoteOutOrder) : 0;
+        const statusValue = Number(nextVoteOutOrder);
         payloads.push({
           contestantId: c.id,
           season,

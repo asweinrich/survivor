@@ -714,15 +714,9 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
                         Episode {week}
                       </div>
 
-                      {statusEvent && (
-                        <div className="px-5 mb-3 text-center">
-                          <div className="text-stone-100 text-sm font-inter leading-tight">
-                            {buildStatusSentence(statusEvent.value)}
-                          </div>
-                        </div>
-                      )}
+                      
 
-                      <div className="px-5 flex flex-col gap-1.5">
+                      <div className="px-5 flex flex-col gap-2 mb-0">
                         {scoreEvents.map((ev, idx) => {
                           const sentence = buildRecapSentence(ev);
                           if (!sentence) return null;
@@ -744,6 +738,14 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
                           );
                         })}
                       </div>
+
+                      {statusEvent && (
+                        <div className="px-5 text-center my-4">
+                          <div className="text-stone-100 italic text-sm font-inter leading-tight">
+                            {buildStatusSentence(statusEvent.value)}
+                          </div>
+                        </div>
+                      )}
                     </div>
                   );
                 })}

@@ -126,7 +126,7 @@ export default function YourTribePage() {
               <Confetti
                 width={width}
                 height={height}
-                colors={[tribeColor, "#fc8c03", "#2bcc3e", "#ab2fed", tribeColor]}
+                colors={[tribeColor, "#6c0b96", "#ebd321", tribeColor]}
                 recycle={recycleConfetti}
                 numberOfPieces={300}
                 wind={0.01}
@@ -206,7 +206,7 @@ export default function YourTribePage() {
                     const positions = [
                       "-translate-x-[155px] translate-y-[0px] z-20 scale-85 space-y-11", // Far left
                       "-translate-x-[95px] translate-y-[10px] z-30 scale-90 space-y-11",    // Left
-                      "-translate-x-[28px] translate-y-[10px] z-40 scale-90", // Center (sole survivor)
+                      "-translate-x-[28px] -translate-y-[20px] z-40 scale-75", // Center (sole survivor)
                       "translate-x-[40px] translate-y-[10px] z-30 scale-90 space-y-11",      // Right
                       "translate-x-[100px] translate-y-[0px] z-20 scale-85 space-y-11",     // Mid-right
                       "translate-x-[155px] -translate-y-[10px] z-10 scale-75 space-y-14",     // Far right
@@ -236,14 +236,14 @@ export default function YourTribePage() {
                               <img
                                 src={`/imgs/51/full-body/${contestant.name}.png`}
                                 alt={contestant.name}
-                                className={` scale-150 mt-6 ${
+                                className={` scale-150 mt-12 ${
                                   index === 2
-                                    ? "h-[14rem] drop-shadow-[-2px_0px_10px_rgba(255,223,0,1)]"
-                                    : "h-[10rem]"
+                                    ? "h-[13rem] drop-shadow-[-2px_0px_10px_rgba(255,223,0,1)]"
+                                    : "h-[9rem]"
                                 }`}
                               />
                               <div 
-                                className="relative text-center border-2 rounded-lg border-stone-900 px-1.5 py-1 font-lostIsland tracking-wide"
+                                className="mt-3 relative text-center border-2 rounded-lg border-stone-900 px-2 py-1 font-lostIsland tracking-wide"
                                 style={{
                                   textShadow: "1px 1px 1px rgba(0, 0, 0, 1)",
                                   backgroundImage: primaryTribe
@@ -254,8 +254,8 @@ export default function YourTribePage() {
                               >
                                 
                                 <p
-                                  className={`min-w-14 text-sm uppercase ${
-                                    index === 2 ? "!text-lg" : ""
+                                  className={`min-w-14 text-lg uppercase ${
+                                    index === 2 ? "!text-3xl" : ""
                                   }`}
                                   style={{
                                     textShadow: "1px 1px 0px rgba(0, 0, 0, 1)",
@@ -266,7 +266,7 @@ export default function YourTribePage() {
                                 </p>
                               </div>
                               {index === 2 && (
-                                <p className="mt-2 px-1.5 py-1 rounded-lg bg-yellow-800 border border-stone-900 text-yellow-300 font-lostIsland tracking-wider lowercase max-w-18 wrap text-center leading-none">Predicted Winner</p>
+                                <p className="mt-4 px-1.5 py-1 rounded-lg bg-yellow-800 border border-stone-900 text-yellow-300 font-lostIsland tracking-wider lowercase max-w-18 wrap text-center leading-none">Predicted Winner</p>
                               )}
                             </div>
                           );

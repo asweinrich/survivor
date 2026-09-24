@@ -14,7 +14,7 @@ import {
   UserGroupIcon as UserGroupIconSolid,
   TrophyIcon as TrophyIconSolid,
   CursorArrowRaysIcon as CursorArrowRaysIconSolid,
-  // SparklesIcon as SparklesIconSolid, // used by the Draft tab — re-enable when draft is live
+  SparklesIcon as SparklesIconSolid, // used by the Draft tab — re-enable when draft is live
 } from '@heroicons/react/24/solid';
 import { useLatestTribe } from '@/lib/hooks/useLatestTribe';
 
@@ -37,22 +37,20 @@ export default function AppTabBar() {
 
   return (
     <>
-      {/*
-      // Draft-open banner — enable this when the draft window is active.
-      // Sits directly above the floating tab bar, full-width-ish, all-orange, encourages drafting.
-      <div className="fixed bottom-[5.5rem] inset-x-0 z-40 flex justify-center px-4 pointer-events-none">
+      
+      <div className="fixed bottom-[6rem] inset-x-0 z-40 flex justify-center px-4 pointer-events-none">
         <Link
           href="/draft"
-          className="pointer-events-auto w-full max-w-md sm:max-w-lg flex items-center justify-center gap-2
+          className="pointer-events-auto tracking-wider border border-stone-950 w-full max-w-md sm:max-w-lg flex items-center justify-center gap-2
                      px-4 py-3 rounded-full bg-gradient-to-tr from-orange-500 to-orange-700 text-white
                      shadow-[0_8px_24px_rgba(234,88,12,0.5)] hover:from-orange-600 hover:to-orange-800
                      transition-colors duration-150"
         >
-          <SparklesIconSolid className="w-5 h-5" />
-          <span className="text-sm uppercase tracking-wide font-lostIsland">Drafting is open — build your tribe!</span>
+          <SparklesIconSolid className="w-6 h-6" />
+          <span className="text-lg uppercase tracking-wide font-lostIsland">Draft your tribe!</span>
         </Link>
       </div>
-      */}
+      
 
       <nav
         className="fixed bottom-0 inset-x-0 z-40 flex justify-center px-4 pointer-events-none

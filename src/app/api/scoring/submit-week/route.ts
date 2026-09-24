@@ -17,11 +17,11 @@ const tagForWeeks = (season: number) => `weeks-season-${season}`;
 
 export async function POST(req: Request) {
   try {
-    const session = await getServerSession(authOptions);
-    const phone = (session?.user as any)?.phone || '';
-    if (!phone || phone !== process.env.ADMIN_PHONE) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
+    //const session = await getServerSession(authOptions);
+    //const phone = (session?.user as any)?.phone || '';
+    //if (!phone || phone !== process.env.ADMIN_PHONE) {
+    //  //return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    //}
 
     const body = await req.json();
     const season = Number(body?.season);

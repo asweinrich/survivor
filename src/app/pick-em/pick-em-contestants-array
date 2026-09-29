@@ -1,52 +1,69 @@
 
-Who will win the first Immunity Challenge of the Episode?
+What tribe will win the Tribal Immunity Challenge? 
 
-We'll almost certainly get 2 Immunity Challenges this episode. Who will win the first one? 
+Select the tribe you think will finish first in the tribal immunity challenge this week. If there are two immunity challenges, the pick em applies to the first challenge only. 
 
 
 [
   {
     "id": 0,
-    "type": "contestant",
-    "value": 43,
-    "pointValue": 1800
+    "type": "tribe",
+    "value": 19,
+    "pointValue": 400
   },
   {
     "id": 1,
-    "type": "contestant",
-    "value": 48,
-    "pointValue": 1200
-  },
-  {
-    "id": 2,
-    "type": "contestant",
-    "value": 51,
-    "pointValue": 1200
-  },
-  {
-    "id": 3,
-    "type": "contestant",
-    "value": 56,
-    "pointValue": 1200
-  },
-  {
-    "id": 4,
-    "type": "contestant",
-    "value": 59,
-    "pointValue": 2000
+    "type": "tribe",
+    "value": 20,
+    "pointValue": 400
   }
 ]
 
 
 
+Will Brady get pulled from the game? 
+
+It looks like big dumb boy Brady chops his hand with the axe. Will he get pulled from the game? This hits if Brady leaves the game this episode in any way besides getting voted out. 
+
+[
+  {
+    "id": 0,
+    "type": "boolean",
+    "label": "Yes",
+    "value": "TRUE",
+    "pointValue": 300
+  },
+  {
+    "id": 1,
+    "type": "boolean",
+    "label": "No",
+    "value": "FALSE",
+    "pointValue": 400
+  }
+]
 
 
 
+Will a hidden immunity idol be found?
 
+A contestant must possess the actual hidden immunity idol, not a clue or hint for it, for this pick to hit. 
 
-
-
-
+[
+  {
+    "id": 0,
+    "type": "boolean",
+    "label": "Yes",
+    "value": "TRUE",
+    "pointValue": 300
+  },
+  {
+    "id": 1,
+    "type": "boolean",
+    "label": "No",
+    "value": "FALSE",
+    "pointValue": 300
+  }
+]
 
 
 
@@ -208,92 +225,7 @@ Last episode, public voting opened up for the SIA fan favorite. All contestants 
     "pointValue": 4000
   }
 ]
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Who will be the first Jury member to speak at the final tribal council?
-
-OUT OF THE JURY MEMBERS LISTED HERE, who will be the first to speak to/address the top 3 contestants? Please note, 2 more contestants will join the jury prior to the final tribal council, they will not count for this pick em! Listed Jury members only.  
-
-
-[
-  {
-    "id": 0,
-    "type": "contestant",
-    "value": 39,
-    "pointValue": 1500
-  },
-  {
-    "id": 1,
-    "type": "contestant",
-    "value": 40,
-    "pointValue": 1500
-  },
-  {
-    "id": 2,
-    "type": "contestant",
-    "value": 41,
-    "pointValue": 1500
-  },
-  {
-    "id": 3,
-    "type": "contestant",
-    "value": 42,
-    "pointValue": 1500
-  },
-  {
-    "id": 4,
-    "type": "contestant",
-    "value": 44,
-    "pointValue": 1500
-  },
-  {
-    "id": 5,
-    "type": "contestant",
-    "value": 45,
-    "pointValue": 1500
-  },
-  {
-    "id": 6,
-    "type": "contestant",
-    "value": 47,
-    "pointValue": 1500
-  },
-  {
-    "id": 7,
-    "type": "contestant",
-    "value": 49,
-    "pointValue": 1500
-  },
-  {
-    "id": 8,
-    "type": "contestant",
-    "value": 50,
-    "pointValue": 1500
-  }
-]
-
+ 
 
 
 

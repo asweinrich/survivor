@@ -337,15 +337,17 @@ export default function WeeklyPickEms() {
     }
   }
 
-  const tribeId = playerTribes.find(pt => pt.playerId === (players.find(p => p.email?.toLowerCase() === userEmail?.toLowerCase())?.id) && String(pt.season) === String(season))?.id;
-  const tribe = playerTribes.find(
-    pt =>
-      pt.playerId === (
-        players.find(p => p.email?.toLowerCase() === userEmail?.toLowerCase())?.id
-      ) &&
-      String(pt.season) === String(season)
-  );
-  const isUserSubmitted = tribe ? submittedSet.has(tribe.id) : false;
+  const sessionPlayerId = Number((session?.user as any)?.playerId)
+  const tribe = Number.isFinite(sessionPlayerId)
+    ? playerTribes.find(
+        (pt) =>
+          Number(pt.playerId) === sessionPlayerId &&
+          String(pt.season) === String(season)
+      )
+    : undefined
+
+   const tribeId = tribe?.id
+   const isUserSubmitted = tribe ? submittedSet.has(tribe.id) : false
 
   useEffect(() => {
     if (tribeId && submittedSet.has(tribeId) && !tribeSummaries[tribeId]) {

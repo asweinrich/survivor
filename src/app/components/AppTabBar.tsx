@@ -38,7 +38,7 @@ export default function AppTabBar() {
   return (
     <>
       
-      <div className="fixed bottom-[6rem] inset-x-0 z-40 flex justify-center px-4 pointer-events-none">
+      {/*<div className="fixed bottom-[6rem] inset-x-0 z-40 flex justify-center px-4 pointer-events-none">
         <Link
           href="/draft"
           className="pointer-events-auto tracking-wider border border-stone-950 w-full max-w-md sm:max-w-lg flex items-center justify-center gap-2
@@ -49,7 +49,7 @@ export default function AppTabBar() {
           <SparklesIconSolid className="w-6 h-6" />
           <span className="text-lg uppercase tracking-wide font-lostIsland">Draft your tribe!</span>
         </Link>
-      </div>
+      </div>*/}
       
 
       <nav

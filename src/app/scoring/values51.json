@@ -73,7 +73,7 @@
       "points": 75,
       "schemaKey": "rewards",
       "type": "count",
-      "recapTemplate": "{name} went on a reward.",
+      "recapTemplate": "{name} won reward!",
       "recapTemplatePlural": "{name} went on {count} rewards!"
     },
     {

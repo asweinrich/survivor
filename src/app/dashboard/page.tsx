@@ -231,7 +231,8 @@ export default function DashboardPage() {
   }, [playerTribes, pickemLeaderboard, userPhone]);
 
   const WEEK_QUESTION_MATRIX = [
-    { week: 2, numQuestions: 3 }
+    { week: 2, numQuestions: 3 },
+    { week: 3, numQuestions: 4 }
     // Add more weeks as needed
   ];
 

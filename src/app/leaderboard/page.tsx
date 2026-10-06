@@ -54,7 +54,7 @@ export default function Leaderboard() {
 
   const [prevContestants, setPrevContestants] = useState<Contestant[]>([]);
 
-  const CURRENT_WEEK = 2;     
+  const CURRENT_WEEK = 3;     
   const ACTIVE_SEASON = '51';    // update this each week as Season 51 progresses
 
   async function fetchPickemTribeDetails(season: string) {

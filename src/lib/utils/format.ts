@@ -3,7 +3,8 @@ import {
   VOTEOUT_SECOND_PLACE,
   VOTEOUT_SOLE_SURVIVOR,
   VOTEOUT_THIRD_PLACE,
-  VOTEOUT_MEDICAL
+  VOTEOUT_MEDICAL,
+  VOTEOUT_QUIT
 } from "../constants";
 
 /** 1st, 2nd, 3rd, 4th ... */
@@ -23,5 +24,6 @@ export function formatVotedOutOrder(v: number): string {
   if (v === VOTEOUT_THIRD_PLACE)   return "3rd Place";
   if (v === VOTEOUT_LOST_FIRE)     return "Lost Fire Making";
   if (v === VOTEOUT_MEDICAL)       return "Medically Removed";
+  if (v === VOTEOUT_QUIT)          return "Straight Up Quit";
   return `${getOrdinalSuffix(v)} person voted out`;
 }

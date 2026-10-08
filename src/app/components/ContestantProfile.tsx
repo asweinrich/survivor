@@ -331,6 +331,7 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
     if (votedOutOrder === 901) return '3rd Place';
     if (votedOutOrder === 600) return 'Lost Fire Making';
     if (votedOutOrder === 700) return 'Medically Removed';
+    if (votedOutOrder === 400) return 'Straight Up Quit';
     return `${getOrdinalSuffix(votedOutOrder)} person voted out`;
   }
 
@@ -455,6 +456,7 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
     if (voteOutOrder === 901) return `${name} finished in third place.`;
     if (voteOutOrder === 600) return `${name} lost the fire-making challenge and was eliminated.`;
     if (voteOutOrder === 700) return `${name} was medically evacuated from the game.`;
+    if (voteOutOrder === 400) return `${name} just straight up quit the game.`;
     if (voteOutOrder > 0 && voteOutOrder < 900) {
       return `${name} was the ${getOrdinalSuffix(voteOutOrder)} person voted out.`;
     }

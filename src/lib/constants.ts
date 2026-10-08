@@ -4,3 +4,5 @@ export const VOTEOUT_SECOND_PLACE  = 902;
 export const VOTEOUT_THIRD_PLACE   = 901;
 export const VOTEOUT_LOST_FIRE     = 600;
 export const VOTEOUT_MEDICAL       = 700;
+export const VOTEOUT_QUIT	       = 400;
+

@@ -1,0 +1,104 @@
+[
+  {
+    "id": 0,
+    "type": "contestant",
+    "value": 79,
+    "pointValue": 1000
+  },
+  {
+    "id": 1,
+    "type": "contestant",
+    "value": 80,
+    "pointValue": 1000
+  },
+  {
+    "id": 2,
+    "type": "contestant",
+    "value": 81,
+    "pointValue": 1000
+  },
+  {
+    "id": 3,
+    "type": "contestant",
+    "value": 82,
+    "pointValue": 1000
+  },
+  {
+    "id": 4,
+    "type": "contestant",
+    "value": 84,
+    "pointValue": 1000
+  },
+  {
+    "id": 5,
+    "type": "contestant",
+    "value": 85,
+    "pointValue": 1000
+  },
+  {
+    "id": 6,
+    "type": "contestant",
+    "value": 87,
+    "pointValue": 1000
+  },
+  {
+    "id": 7,
+    "type": "contestant",
+    "value": 88,
+    "pointValue": 1000
+  },
+  {
+    "id": 8,
+    "type": "contestant",
+    "value": 89,
+    "pointValue": 1000
+  },
+  {
+    "id": 9,
+    "type": "contestant",
+    "value": 90,
+    "pointValue": 1000
+  },
+  {
+    "id": 10,
+    "type": "contestant",
+    "value": 91,
+    "pointValue": 1000
+  },
+  {
+    "id": 11,
+    "type": "contestant",
+    "value": 92,
+    "pointValue": 1000
+  },
+  {
+    "id": 12,
+    "type": "contestant",
+    "value": 94,
+    "pointValue": 1000
+  },
+  {
+    "id": 13,
+    "type": "contestant",
+    "value": 95,
+    "pointValue": 1000
+  },
+  {
+    "id": 14,
+    "type": "contestant",
+    "value": 97,
+    "pointValue": 1000
+  },
+  {
+    "id": 15,
+    "type": "contestant",
+    "value": 98,
+    "pointValue": 1000
+  },
+  {
+    "id": 16,
+    "type": "contestant",
+    "value": 99,
+    "pointValue": 1000
+  }
+]

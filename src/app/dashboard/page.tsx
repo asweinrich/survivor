@@ -232,7 +232,8 @@ export default function DashboardPage() {
 
   const WEEK_QUESTION_MATRIX = [
     { week: 2, numQuestions: 3 },
-    { week: 3, numQuestions: 4 }
+    { week: 3, numQuestions: 4 },
+    { week: 4, numQuestions: 3 }
     // Add more weeks as needed
   ];
 

@@ -709,11 +709,20 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
                   const scoreEvents = events
                     .filter((e) => e.category !== 'statusEvent')
                     .sort((a, b) => b.points - a.points);
+                  const weekPointsTotal = events.reduce((sum, ev) => sum + Number(ev?.points ?? 0), 0)
+                  const weeklyTotalIsNegative = weekPointsTotal < 0;
+
 
                   return (
-                    <div key={week} className="border-b border-stone-600 py-5">
-                      <div className="px-5 mb-3 w-full text-center text-orange-400/90 uppercase text-base font-medium tracking-wider font-inter">
-                        Episode {week}
+                    <div key={week} className="border-b-2 border-stone-600 py-5">
+                      <div className="px-5 mb-4 w-3/4 mx-auto text-center text-orange-400/90 uppercase text-base font-medium tracking-wider font-inter pb-4 border-b-2 border-orange-400">
+                        Episode {week} &nbsp; &nbsp; 
+                        <span 
+                          className={`px-2 py-1.5 rounded-lg border ${ weeklyTotalIsNegative ? 'border-red-500 text-red-400 bg-red-400/20' : 'border-green-500 text-green-400 bg-green-400/20'}`}
+                          style={{
+                            textShadow: '2px 2px 0px rgba(0,0,0,1)',
+                          }}
+                        >{weekPointsTotal > 0 ? '+' : ''}{weekPointsTotal} pts</span>
                       </div>
 
                       

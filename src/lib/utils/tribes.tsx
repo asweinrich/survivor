@@ -43,6 +43,27 @@ export function TribeBadges({ tribeIds, tribes }: { tribeIds?: number | number[]
   );
 }
 
+export function SmallTribeBadges({ tribeIds, tribes }: { tribeIds?: number | number[]; tribes: Tribe[] }) {
+  const tribe = getLastTribe(tribeIds, tribes);
+  if (!tribe) return null;
+
+  return (
+    <span className="inline-flex flex-wrap gap-1">
+      <span
+        key={tribe.id}
+        className="inline-block border border-black px-2 p-0.5 text-xl tracking-wider rounded-lg uppercase font-lostIsland"
+        style={{
+          backgroundColor: hexToRgba(tribe.color, 0.8),
+          color: 'white',
+          textShadow: '2px 2px 0px rgba(0,0,0,1)',
+        }}
+      >
+        {tribe.name}
+      </span>
+    </span>
+  );
+}
+
 export function LargeTribeBadges({ tribeIds, tribes }: { tribeIds?: number | number[]; tribes: Tribe[] }) {
   const tribe = getLastTribe(tribeIds, tribes);
   if (!tribe) return null;

@@ -25,7 +25,7 @@ import { useSeason } from '../../context/SeasonContext'
 import { useSeasonData } from '@/lib/hooks/useSeasonData'
 import { hexToRgba } from '@/lib/utils/color'
 import type { Tribe, Contestant, PlayerTribe, PickEmScoreBreakdown } from '@/lib/types'
-import { LargeTribeBadges, TribeBadges } from '@/lib/utils/tribes'
+import { LargeTribeBadges, TribeBadges, SmallTribeBadges } from '@/lib/utils/tribes'
 import { rankAndScorePlayerTribes } from '@/lib/utils/score'
 import { ScoringSummary } from './ScoringSummary';
 import { PendingSummary } from './PendingSummary';
@@ -37,7 +37,7 @@ const PICKEM_MIN_SEASON = 49;
 // ---- Page ------------------------------------------------------------
 export default function WeeklyPickEms() {
   const { season } = useSeason()
-  const [week, setWeek] = useState<number>(4)
+  const [week, setWeek] = useState<number>(5)
   const [expandedTribes, setExpandedTribes] = useState<number[]>([])
   const [submittedSet, setSubmittedSet] = useState<Set<number>>(new Set())
   const [lockAt, setLockAt] = useState<Date | null>(null)
@@ -990,70 +990,67 @@ export default function WeeklyPickEms() {
                             if (marketType === 'contestant') {
                               const tribeList = (tribes as Tribe[]) || []
                               const tribeById = new Map<number, Tribe>(tribeList.map((t) => [t.id, t]))
+
                               const optionsAug = (mkt.options || []).map((opt) => {
                                 const c: Contestant | undefined = contestantMap[Number(opt.value)]
                                 const name = c?.name ?? opt.label
                                 const img = c?.img ?? 'placeholder'
                                 const first = firstName(name)
-                                const tribeIdsRaw: any = (c as any)?.tribeIds ?? (c as any)?.tribes ?? ((c as any)?.tribeId != null ? [(c as any).tribeId] : [])
-                                const tribeIds: number[] = Array.isArray(tribeIdsRaw) ? tribeIdsRaw.map((t: any) => Number(t)).filter((n: any) => Number.isFinite(n)) : []
+                                const tribeIdsRaw: any =
+                                  (c as any)?.tribeIds ??
+                                  (c as any)?.tribes ??
+                                  ((c as any)?.tribeId != null ? [(c as any).tribeId] : [])
+                                const tribeIds: number[] = Array.isArray(tribeIdsRaw)
+                                  ? tribeIdsRaw.map((t: any) => Number(t)).filter((n: any) => Number.isFinite(n))
+                                  : []
                                 const primaryTribeId: number | null = tribeIds.length ? tribeIds[tribeIds.length - 1] : null
-                                return { opt, c, name, img, first, tribeIds, primaryTribeId }
+                                const tribe = primaryTribeId != null ? tribeById.get(primaryTribeId) : undefined
+                                return { opt, name, img, first, tribe, tribeName: tribe?.name ?? 'ZZZ', primaryTribeId }
                               })
-                              const byTribe = new Map<number | null, typeof optionsAug>()
-                              optionsAug.forEach((item) => {
-                                const key = item.primaryTribeId
-                                const arr = byTribe.get(key) || ([] as any)
-                                arr.push(item)
-                                byTribe.set(key, arr)
-                              })
-                              const groupKeys = Array.from(byTribe.keys()).sort((a, b) => {
-                                const ta = a != null ? (tribeById.get(a)?.name ?? '') : 'ZZZ'
-                                const tb = b != null ? (tribeById.get(b)?.name ?? '') : 'ZZZ'
-                                return ta.localeCompare(tb)
-                              })
-                              groupKeys.forEach((key) => byTribe.get(key)!.sort((x, y) => x.first.localeCompare(y.first)))
+
+                              // One flat list, ordered by tribe then first name
+                              optionsAug.sort((a, b) => a.tribeName.localeCompare(b.tribeName) || a.first.localeCompare(b.first))
+
                               return (
-                                <div className="space-y-4">
-                                  {groupKeys.map((groupId) => {
-                                    const arr = byTribe.get(groupId)!
-                                    const tribeBadge = groupId != null ? (
-                                      <LargeTribeBadges tribeIds={[groupId]} tribes={tribeList} />
-                                    ) : (
-                                      <span className="text-stone-400 text-sm">Unassigned tribe</span>
-                                    )
+                                <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
+                                  {optionsAug.map(({ opt, name, img, primaryTribeId }) => {
+                                    const selected = selections[mkt.id] === opt.id
+                                    const isInactive = opt.pointValue === 0
                                     return (
-                                      <div key={groupId ?? 'unassigned'}>
-                                        <div className="mb-2 flex items-center justify-start">{tribeBadge}</div>
-                                        <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
-                                          {arr.map(({ opt, name, img }) => {
-                                            const selected = selections[mkt.id] === opt.id
-                                            const isInactive = opt.pointValue === 0
-                                            return (
-                                              <button 
-                                                key={opt.id} 
-                                                type="button" 
-                                                disabled={locked || isInactive} 
-                                                onClick={() => !isInactive && handleSelect(mkt.id, opt.id)}
-                                                className={`${baseBtn} ${selected ? activeBtn : idleBtn} ${isInactive ? 'opacity-60 cursor-not-allowed' : ''}`}
-                                                title={isInactive ? 'This option is not available this week' : undefined}
-                                              >
-                                                <img src={`/imgs/${img}.png`} alt={name} className="h-22 w-22 object-cover rounded-full border-2 p-1 border-stone-500" />
-                                                <div className="mt-1.5 flex flex-col items-center">
-                                                  <div className="text-xl uppercase text-stone-200">{firstName(name)}</div>
-                                                </div>
-                                                {opt.pointValue != null && (
-                                                  <div className="text-lg">
-                                                    <span className="text-green-400">+{opt.pointValue}</span>
-                                                    <span className="text-stone-500 mx-2">|</span>
-                                                    <span className="text-red-400">-50</span>
-                                                  </div>
-                                                )}
-                                              </button>
-                                            )
-                                          })}
+                                      <button
+                                        key={opt.id}
+                                        type="button"
+                                        disabled={locked || isInactive}
+                                        onClick={() => !isInactive && handleSelect(mkt.id, opt.id)}
+                                        className={`${baseBtn} ${selected ? activeBtn : idleBtn} ${isInactive ? 'opacity-60 cursor-not-allowed' : ''}`}
+                                        title={isInactive ? 'This option is not available this week' : undefined}
+                                      >
+                                        <div className="relative w-fit mx-auto">
+                                          <img
+                                            src={`/imgs/${img}.png`}
+                                            alt={name}
+                                            className="h-22 w-22 object-cover rounded-full border-2 p-1 border-stone-500"
+                                          />
+
+                                          {primaryTribeId != null && (
+                                            <div className="absolute bottom-0 -right-1 scale-[0.72] origin-bottom-right pointer-events-none">
+                                              <SmallTribeBadges tribeIds={[primaryTribeId]} tribes={tribeList} />
+                                            </div>
+                                          )}
                                         </div>
-                                      </div>
+
+                                        <div className="mt-1.5 flex flex-col items-center">
+                                          <div className="text-xl uppercase text-stone-200">{firstName(name)}</div>
+                                        </div>
+
+                                        {opt.pointValue != null && (
+                                          <div className="text-lg">
+                                            <span className="text-green-400">+{opt.pointValue}</span>
+                                            <span className="text-stone-500 mx-2">|</span>
+                                            <span className="text-red-400">-50</span>
+                                          </div>
+                                        )}
+                                      </button>
                                     )
                                   })}
                                 </div>

@@ -332,6 +332,7 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
     if (votedOutOrder === 600) return 'Lost Fire Making';
     if (votedOutOrder === 700) return 'Medically Removed';
     if (votedOutOrder === 400) return 'Straight Up Quit';
+    if (votedOutOrder === 500) return 'Lost the Coin Flip';
     return `${getOrdinalSuffix(votedOutOrder)} person voted out`;
   }
 

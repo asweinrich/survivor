@@ -457,6 +457,7 @@ export default function ContestantProfile({ contestantId }: { contestantId: numb
     if (voteOutOrder === 600) return `${name} lost the fire-making challenge and was eliminated.`;
     if (voteOutOrder === 700) return `${name} was medically evacuated from the game.`;
     if (voteOutOrder === 400) return `${name} just straight up quit the game.`;
+    if (voteOutOrder === 500) return `${name} lost the million-dollar coin flip.`;
     if (voteOutOrder > 0 && voteOutOrder < 900) {
       return `${name} was the ${getOrdinalSuffix(voteOutOrder)} person voted out.`;
     }
